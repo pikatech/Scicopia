@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="static/css/pure-min.css">
+  <link type="text/css" rel="stylesheet" href="static/css/base.css">
+  <link type="text/css" rel="stylesheet" href="static/css/search.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <script src="static/js/queries.js" type="text/javascript" defer></script> 
+  <title>Search demo</title>
+</head>
+<body>
+  <div id="content">
+    <div id="logoArea"><img height="105" width="400" src="static/images/logo.svg" alt="Scicopia - search Science" onError="this.onerror=null;this.src='static/images/fallback/logo400.png';"></div>
+    <div class="searchArea">
+      <form method="POST" id="search">
+        {{ form.hidden_tag() }}
+        {{ form.name.label }}
+        <span id="query">
+        {{ form.name(id="queryInputField", placeholder="reinforcement learning author:Schulman", autofocus=True) }}
+        </span>
+        <span id="queryButton">
+        {{ form.submit(value="") }}
+        </span>
+      </form>
+    </div>
+    <div id="results">
+      <div id="hitstats"></div>
+      {% if query %}
+        <p>Query: {{ query }}</p><br>
+        {% if hits %}
+          <ol>
+          {% for hit in hits %}
+            <li>{{ hit }}</li>
+          {% endfor %}
+          </ol>
+        {% else %}
+          <p>Search returned no results.</p>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+<script>  let xhr = new XMLHttpRequest();
+  xhr.open("GET", "/total");
+  xhr.responseType = "json";
+  console.log('gijdhdf');
+
+  xhr.onload = function() {
+    let elem = document.getElementById("hitstats");
+    console.log("onload");
+    let json = xhr.response;
+    let totalhits = document.createElement('p');
+    totalhits.textContent = json['total'];
+    console.log(json['total']);
+    elem.appendChild(totalhits);
+  }
+
+  xhr.send("");
+</script>
+</body>
+</html>

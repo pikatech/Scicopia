@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="static/css/pure-min.css">
+  <link type="text/css" rel="stylesheet" href="static/css/base.css">
+  <link type="text/css" rel="stylesheet" href="static/css/search.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <title>Search demo</title>
+</head>
+<body>
+  <div id="content">
+    <div id="logoArea"><img height="105" width="400" src="static/images/logo.svg" alt="Scicopia - search Science" onError="this.onerror=null;this.src='static/images/fallback/logo400.png';"></div>
+    <div class="searchArea">
+      <form method="POST" id="search">
+        {{ form.hidden_tag() }}
+        {{ form.name.label }}
+        <span id="query">
+        {{ form.name(id="searchInputField", placeholder="reinforcement learning author:Schulman", autofocus=True) }}
+        </span>
+        <span id="queryButton">
+        {{ form.submit(value="") }}
+        </span>
+      </form>
+    </div>
+    <div id="searchPanelDescription">
+      <p>Need help? Click here!</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+#content {
+  max-width: 42em;
+  min-width: 33%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#logoArea {
+  margin-top: 6.25em;
+  text-align: center;
+}
+
+.searchArea {
+  margin-top: 3.125em;
+}
+
+#searchPanelDescription {
+  font-size: .75em;
+  color: #a0a0a0;
+}
+
+#results {
+  font-size: .875em;
+  color: #000;
+}

@@ -1,0 +1,43 @@
+form#search {
+  overflow: hidden;
+  width: 100%;
+}
+
+.searchArea {
+  display: table;
+  width: 100%;
+}
+
+#query {
+  display: table-cell;
+  width: 100%;
+}
+
+#queryButton {
+  display: table-cell;
+}
+
+input[type="text"] {
+  width: inherit;
+  height: calc(2em + 1px);
+  margin: 0;
+  font: inherit;
+  border: thin solid #768daa;
+  vertical-align: bottom;
+}
+
+input[type="submit"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: calc(2rem + 1px);
+  height: calc(2rem + 1px);
+  border: 0px none;
+  cursor: pointer;
+  margin: 0;
+  background-color: #768daa;
+  background-image: url(../images/search.svg);
+  background-size: 1.5em 1.5em;
+  background-repeat: no-repeat;
+  background-position: center;
+  vertical-align: bottom;
+}
