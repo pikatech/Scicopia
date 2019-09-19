@@ -33,7 +33,10 @@
         <div id="results">
           <ol>
           {% for hit in hits %}
-            <li class="hit"><a href="/page/{{ hit.id }}">{{ hit.title }}</a></li>
+            <li class="hit"><a href="/page/{{ hit.id }}">{{ hit.title }}</a>
+              {% if 'author' in hit %} <br><p>{{ hit.author }}</p>{% endif %}
+              {% if 'abstract' in hit %} <br><p>{{ hit.abstract }}</p>{% endif %}
+            </li>
           {% endfor %}
           </ol>
         </div>
@@ -41,6 +44,17 @@
         <p>Search returned no results.</p>
       {% endif %}
     {% endif %}
+  <div id=nav>
+  <form action="/backwards" method="post">
+    <button class=pagination {% if _from == 0 %}} disabled {% endif %}>&lt;</button>
+  </form>
+  <p class="rubber"></p>
+  <p>{{ _from + 1}} - {{ _to }}</p>
+  <p class="rubber"></p>
+  <form action="/forwards" method="post">
+    <button class=pagination>&gt;</button>
+  </form>
+  </div>
   </div>
 </body>
 </html>

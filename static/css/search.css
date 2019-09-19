@@ -76,3 +76,11 @@ select {
 li:nth-child(even) {
   background: #eef;
 }
+
+#nav {
+  display: flex;
+}
+
+#nav form{
+  display: inherit;
+}

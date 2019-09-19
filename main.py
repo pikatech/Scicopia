@@ -5,7 +5,7 @@ Created on Thu Sep 12 18:33:56 2019
 
 @author: tech
 """
-from elasticsearch_dsl.query import Ids, Match, MultiMatch
+from elasticsearch_dsl.query import Ids, MultiMatch
 from elasticsearch_dsl import connections, Search
 
 from flask import Flask, render_template, session, redirect, url_for, jsonify
@@ -23,6 +23,7 @@ app.config['SECRET_KEY'] = 'hard to guess string'
 class NameForm(FlaskForm):
     name = StringField('What is your query?', validators=[DataRequired()])
     submit = SubmitField('Submit')
+    
 
 class SortForm(FlaskForm):
     order = SelectField(label='Sort order', choices=[("desc", "newest first"),
@@ -37,12 +38,21 @@ def index():
         prepared_search = prepared_search.query(MultiMatch(query=form.name.data))
         hits = []
         results = prepared_search.execute()
-        # from_hit = 10
-        # to_hit = 20
+        session['from_hit'] = 0
+        session['to_hit'] = 10
 #       results = prepared_search[from_hit:to_hit].execute()
         if results.hits.total.value != 0:
             for r in results:
-                hits.append({"title": r.title, "id": r.meta.id})
+                hit = {'id': r.meta.id}
+                if 'title' in r:
+                    hit['title'] = r.title
+                if 'author' in r:
+                    hit['author'] = " and ".join(r.author)
+                if 'abstract' in r:
+                    hit['abstract'] = r.abstract if len(r.abstract) < 200 else r.abstract[0:197] + "..."
+#                if 'year' in r:
+#                    hit['year'] = r.year
+                hits.append(hit)
 
         session['hits'] = hits
         session['time'] = str(results.took)
@@ -64,9 +74,22 @@ def page():
     prepared_search = search.query(Ids(values=id))
     results = prepared_search.execute()
     return jsonify({"total": str(results.hits.total.value)})
-    if results.hits.total.value != 0:
-        for r in results:
-            hits.append(r.title)
+
+
+@app.route('/forwards', methods=['GET', 'POST'])
+def forwards():
+    session['from_hit'] += 10
+    session['to_hit'] += 10
+    execute_query(session['query'])
+    return redirect(url_for('results'))
+
+
+@app.route('/backwards', methods=['GET', 'POST'])
+def backwards():
+    session['from_hit'] -= 10
+    session['to_hit'] -= 10
+    execute_query(session['query'])
+    return redirect(url_for('results'))
 
 
 @app.route('/results', methods=['GET', 'POST'])
@@ -75,24 +98,36 @@ def results():
     sort_form = SortForm()
     if form.validate_on_submit():
         session['query'] = form.name.data
-        prepared_search = search.sort({"year": {"order": "desc"}})
-        prepared_search = prepared_search.query(MultiMatch(query=form.name.data))
-        hits = []
-        results = prepared_search.execute()
-        # from_hit = 10
-        # to_hit = 20
-#       results = prepared_search[from_hit:to_hit].execute()
-        if results.hits.total.value != 0:
-            for r in results:
-                hits.append(r.title)
-
-        session['hits'] = hits
-        session['time'] = str(results.took)
-        session['total_hits'] = str(results.hits.total.value)
+        execute_query(form.name.data)
         return redirect(url_for('results'))
     else:
         form.name.data = session['query']
     return render_template('results.html', form=form, query=session.get('query'),
                            hits=session.get('hits'), time=session.get('time'),
                            total_hits=session.get('total_hits'),
+                           _from=session['from_hit'], _to=session['to_hit'],
                            sort_form=sort_form)
+
+
+def execute_query(data):
+    session['query'] = data
+    prepared_search = search.sort({"year": {"order": "desc"}})
+    prepared_search = prepared_search.query(MultiMatch(query=data))
+    hits = []
+    from_hit = session['from_hit']
+    to_hit = session['to_hit']
+    results = prepared_search[from_hit:to_hit].execute()
+    if results.hits.total.value != 0:
+        for r in results:
+            hit = {'id': r.meta.id}
+            if 'title' in r:
+                hit['title'] = r.title
+            if 'author' in r:
+                hit['author'] = " and ".join(r.author)
+            if 'abstract' in r:
+                hit['abstract'] = r.abstract if len(r.abstract) < 200 else r.abstract[0:197] + "..."
+            hits.append(hit)
+
+    session['hits'] = hits
+    session['time'] = str(results.took)
+    session['total_hits'] = str(results.hits.total.value)
