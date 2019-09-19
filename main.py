@@ -5,7 +5,7 @@ Created on Thu Sep 12 18:33:56 2019
 
 @author: tech
 """
-from elasticsearch_dsl.query import MultiMatch
+from elasticsearch_dsl.query import Ids, Match, MultiMatch
 from elasticsearch_dsl import connections, Search
 
 from flask import Flask, render_template, session, redirect, url_for, jsonify
@@ -42,7 +42,7 @@ def index():
 #       results = prepared_search[from_hit:to_hit].execute()
         if results.hits.total.value != 0:
             for r in results:
-                hits.append(r.title)
+                hits.append({"title": r.title, "id": r.meta.id})
 
         session['hits'] = hits
         session['time'] = str(results.took)
@@ -57,6 +57,16 @@ def total():
     prepared_search = search.query(MultiMatch(query=session['query']))
     results = prepared_search.execute()
     return jsonify({"total": str(results.hits.total.value)})
+
+
+@app.route('/page/{id}', methods=['GET', 'POST'])
+def page():
+    prepared_search = search.query(Ids(values=id))
+    results = prepared_search.execute()
+    return jsonify({"total": str(results.hits.total.value)})
+    if results.hits.total.value != 0:
+        for r in results:
+            hits.append(r.title)
 
 
 @app.route('/results', methods=['GET', 'POST'])

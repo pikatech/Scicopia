@@ -33,7 +33,7 @@
         <div id="results">
           <ol>
           {% for hit in hits %}
-            <li class="hit">{{ hit }}</li>
+            <li class="hit"><a href="/page/{{ hit.id }}">{{ hit.title }}</a></li>
           {% endfor %}
           </ol>
         </div>

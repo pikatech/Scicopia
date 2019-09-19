@@ -63,6 +63,16 @@ select {
   border-style: solid;
 }
 
+#results a{
+  text-decoration: none;
+  color: #000;
+}
+
+#results a:hover{
+  text-decoration: underline;
+  color: #3c7ccc;
+}
+
 li:nth-child(even) {
   background: #eef;
 }
