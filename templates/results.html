@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="static/css/pure-min.css">
   <link type="text/css" rel="stylesheet" href="static/css/base.css">
@@ -16,47 +16,31 @@
     <div class="searchArea">
       <form method="POST" id="search">
         {{ form.hidden_tag() }}
-        {{ form.name.label }}
-        <span id="query">
+        <!--{{ form.name.label }} -->
         {{ form.name(id="queryInputField", placeholder="reinforcement learning author:Schulman", autofocus=True) }}
-        </span>
-        <span id="queryButton">
         {{ form.submit(value="") }}
-        </span>
       </form>
+      <img src="static/images/help.svg" id="helpIcon" alt="Need help? Click here!">
     </div>
-    <div id="results">
-      <div id="hitstats"></div>
-      {% if query %}
-        <p>Query: {{ query }}</p><br>
-        {% if hits %}
+      <div id="hitstats">
+        <p>Search order:</p>
+        {{ sort_form.hidden_tag() }}{{ sort_form.order(id="sortForm") }}
+        <p>Total hits: {{ total_hits }}</p><p class="rubber"></p>
+        <p>Search took: {{ time }} ms</p>
+    </div>
+    {% if query %}
+      {% if hits %}
+        <div id="results">
           <ol>
           {% for hit in hits %}
-            <li>{{ hit }}</li>
+            <li class="hit">{{ hit }}</li>
           {% endfor %}
           </ol>
-        {% else %}
-          <p>Search returned no results.</p>
-        {% endif %}
+        </div>
+      {% else %}
+        <p>Search returned no results.</p>
       {% endif %}
-    </div>
+    {% endif %}
   </div>
-<script>  let xhr = new XMLHttpRequest();
-  xhr.open("GET", "/total");
-  xhr.responseType = "json";
-  console.log('gijdhdf');
-
-  xhr.onload = function() {
-    let elem = document.getElementById("hitstats");
-    console.log("onload");
-    let json = xhr.response;
-    let totalhits = document.createElement('p');
-    totalhits.textContent = json['total'];
-    console.log(json['total']);
-    elem.appendChild(totalhits);
-  }
-
-  xhr.send("");
-</script>
 </body>
 </html>

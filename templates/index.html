@@ -15,14 +15,11 @@
     <div class="searchArea">
       <form method="POST" id="search">
         {{ form.hidden_tag() }}
-        {{ form.name.label }}
-        <span id="query">
-        {{ form.name(id="searchInputField", placeholder="reinforcement learning author:Schulman", autofocus=True) }}
-        </span>
-        <span id="queryButton">
+        <!--{{ form.name.label }} -->
+        {{ form.name(id="queryInputField", placeholder="reinforcement learning author:Schulman", autofocus=True) }}
         {{ form.submit(value="") }}
-        </span>
       </form>
+      <img src="static/images/help.svg" id="helpIcon" alt="Need help? Click here!">
     </div>
     <div id="searchPanelDescription">
       <p>Need help? Click here!</p>

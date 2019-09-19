@@ -10,7 +10,7 @@ from elasticsearch_dsl import connections, Search
 
 from flask import Flask, render_template, session, redirect, url_for, jsonify
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import DataRequired
 
 conn = connections.create_connection(hosts=['localhost'])
@@ -24,12 +24,17 @@ class NameForm(FlaskForm):
     name = StringField('What is your query?', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
+class SortForm(FlaskForm):
+    order = SelectField(label='Sort order', choices=[("desc", "newest first"),
+                                                     ("asc", "oldest first")])
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = NameForm()
     if form.validate_on_submit():
         session['query'] = form.name.data
-        prepared_search = search.query(MultiMatch(query=form.name.data))
+        prepared_search = search.sort({"year": {"order": "desc"}})
+        prepared_search = prepared_search.query(MultiMatch(query=form.name.data))
         hits = []
         results = prepared_search.execute()
         # from_hit = 10
@@ -38,7 +43,10 @@ def index():
         if results.hits.total.value != 0:
             for r in results:
                 hits.append(r.title)
+
         session['hits'] = hits
+        session['time'] = str(results.took)
+        session['total_hits'] = str(results.hits.total.value)
         return redirect(url_for('results'))
     return render_template('index.html', form=form, query=session.get('query'),
                            hits=session.get('hits'))
@@ -54,9 +62,11 @@ def total():
 @app.route('/results', methods=['GET', 'POST'])
 def results():
     form = NameForm()
+    sort_form = SortForm()
     if form.validate_on_submit():
         session['query'] = form.name.data
-        prepared_search = search.query(MultiMatch(query=form.name.data))
+        prepared_search = search.sort({"year": {"order": "desc"}})
+        prepared_search = prepared_search.query(MultiMatch(query=form.name.data))
         hits = []
         results = prepared_search.execute()
         # from_hit = 10
@@ -65,9 +75,14 @@ def results():
         if results.hits.total.value != 0:
             for r in results:
                 hits.append(r.title)
+
         session['hits'] = hits
+        session['time'] = str(results.took)
+        session['total_hits'] = str(results.hits.total.value)
         return redirect(url_for('results'))
     else:
         form.name.data = session['query']
     return render_template('results.html', form=form, query=session.get('query'),
-                           hits=session.get('hits'))
+                           hits=session.get('hits'), time=session.get('time'),
+                           total_hits=session.get('total_hits'),
+                           sort_form=sort_form)
