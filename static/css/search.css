@@ -25,7 +25,7 @@ input[type="text"] {
   padding-left: .2em;
 }
 
-input[type="submit"] {
+#submit {
   -webkit-appearance: none;
   appearance: none;
   width: calc(2rem + 1px);
@@ -71,6 +71,10 @@ select {
 #results a:hover{
   text-decoration: underline;
   color: #3c7ccc;
+}
+
+li {
+  margin-right: 1em;
 }
 
 li:nth-child(even) {

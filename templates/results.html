@@ -31,11 +31,11 @@
     {% if query %}
       {% if hits %}
         <div id="results">
-          <ol>
+          <ol start="{{ _from + 1 }}">
           {% for hit in hits %}
             <li class="hit"><a href="/page/{{ hit.id }}">{{ hit.title }}</a>
-              {% if 'author' in hit %} <br><p>{{ hit.author }}</p>{% endif %}
-              {% if 'abstract' in hit %} <br><p>{{ hit.abstract }}</p>{% endif %}
+              {% if 'author' in hit %}<br><p>{{ hit.author }}</p>{% endif %}
+              {% if 'abstract' in hit %}<p>{{ hit.abstract }}</p>{% endif %}
             </li>
           {% endfor %}
           </ol>
@@ -45,15 +45,25 @@
       {% endif %}
     {% endif %}
   <div id=nav>
-  <form action="/backwards" method="post">
-    <button class=pagination {% if _from == 0 %}} disabled {% endif %}>&lt;</button>
-  </form>
-  <p class="rubber"></p>
-  <p>{{ _from + 1}} - {{ _to }}</p>
-  <p class="rubber"></p>
-  <form action="/forwards" method="post">
-    <button class=pagination>&gt;</button>
-  </form>
+    <form action="/backwards" method="post">
+      {{ backwards.hidden_tag() }}
+      {% if _from == 0 %}
+        {{ backwards.button(value="<", id="backwards", disabled=True) }}
+      {% else %}
+        {{ backwards.button(value="<", id="backwards") }}
+      {% endif %}
+    </form>
+    <p class="rubber"></p>
+    <p>{{ _from + 1}} - {{ _to }}</p>
+    <p class="rubber"></p>
+    <form action="/forwards" method="post">
+      {{ forwards.hidden_tag() }}
+      {% if _to == total_hits %}
+        {{ forwards.button(value=">", id="forwards", disabled=True) }}
+      {% else %}
+        {{ forwards.button(value=">", id="forwards") }}
+      {% endif %}
+    </form>
   </div>
   </div>
 </body>
