@@ -75,11 +75,70 @@ def total():
     return jsonify({"total": str(results.hits.total.value)})
 
 
-@app.route('/page/{id}', methods=['GET', 'POST'])
-def page():
-    prepared_search = search.query(Ids(values=id))
-    results = prepared_search.execute()
-    return jsonify({"total": str(results.hits.total.value)})
+@app.route('/page/<id>', methods=['GET', 'POST'])
+def page(id):
+    form = NameForm()
+    pdf = PageButton()
+    if form.validate_on_submit(): # wird suchbutton geklickt wird neue suche gespeichert
+        session['query'] = form.name.data
+        session['from_hit'] = 0
+        session['to_hit'] = 10
+        return redirect(url_for('results'))
+    else: # andernfalls wird seite angezeigt
+        prepared_search = search.query(Ids(values=id))
+        results = prepared_search.execute()
+        for r in results:
+            #TODO: anpassung zum auslesen aller und abhängig vom typ nötig
+            # hit = r # reihenfolge von hinzufügen in datenbank bestimmt
+            # zeigt auch entrytype an, falls dieser vorhanden
+            hit = {'id': r.meta.id} # wollen wir das wirklich anzeigen?
+            if 'entrytype' in r:
+                hit['entrytype'] = r.entrytype
+            if 'author' in r: # festgelegte Reihenfolge und Felder, aber aufwändiger
+                hit['author'] = " and ".join(r.author)
+            if 'editor' in r:
+                hit['editor'] = " and ".join(r.editor)
+            if 'publisher' in r:
+                hit['publisher'] = r.publisher
+            if 'institution' in r:
+                hit['institution'] = r.institution
+            if 'title' in r:
+                hit['title'] = r.title
+            if 'title_suggest' in r:
+                hit['title_suggest'] = r.title_suggest
+            if 'booktitle' in r:
+                hit['booktitle'] = r.booktitle
+            if 'abstract' in r:
+                hit['abstract'] = r.abstract
+            if 'keywords' in r:
+                hit['keywords'] = r.keywords
+            if 'auto_tags' in r:
+                hit['auto_tags'] = r.auto_tags
+            if 'year' in r:
+                hit['year'] = r.year
+            if 'pages' in r:
+                hit['pages'] = r.pages
+            if 'journal' in r:
+                hit['journal'] = r.journal
+            if 'volume' in r:
+                hit['volume'] = r.volume
+            if 'number' in r:
+                hit['number'] = r.number
+            if 'doi' in r:
+                hit['doi'] = r.doi
+            if 'cited_by' in r:
+                hit['cited_by'] = r.cited_by
+            if 'citing' in r:
+                hit['citing'] = r.citing
+            if 'created_at' in r:
+                hit['created_at'] = r.created_at
+        try:
+            db[collection][id]
+            pdfexists = True
+        except DocumentNotFoundError:
+            pdfexists = False
+        return render_template('page.html', form=form, hit=hit,pdfexists=pdfexists,pdf=pdf)
+    # es wird alles angezeigt, was als hit übergeben wird, mit entry: davor
 
 
 @app.route('/forwards', methods=['GET', 'POST'])
