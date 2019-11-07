@@ -5,20 +5,44 @@ Created on Thu Sep 12 18:33:56 2019
 
 @author: tech
 """
+import json
+from os.path import exists
+import sys
+
 from elasticsearch_dsl.query import Ids, MultiMatch
 from elasticsearch_dsl import connections, Search
 
 from flask import Flask, render_template, g, session, redirect, url_for, jsonify
 from flask_wtf import FlaskForm
+from pyArango.connection import Connection
+from pyArango.theExceptions import DocumentNotFoundError
 from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import DataRequired
+
+CONFIG = 'config.json'
 
 conn = connections.create_connection(hosts=['localhost'])
 search = Search(using=conn)
 search = search.index('library')
 
+if exists(CONFIG):
+    with open(CONFIG) as config:
+        conf = json.load(config)
+else:
+    print("Could not find configuration file {0}.".format(CONFIG))
+    sys.exit(1)
+
+username = conf['username']
+password = conf['password']
+secret = conf['secret_key']
+database = conf['database']
+collection = conf['collection']
+
+arangoconn = Connection(username = username, password = password)
+db = arangoconn[database]
+
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'hard to guess string'
+app.config['SECRET_KEY'] = secret
 
 class NameForm(FlaskForm):
     name = StringField('What is your query?', validators=[DataRequired()])
