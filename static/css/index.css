@@ -5,8 +5,13 @@
   margin-right: auto;
 }
 
-#logoArea {
+#indexLogo {
   margin-top: 6.25em;
+  text-align: center;
+}
+
+#resultLogo {
+  margin-top: 3.25em;
   text-align: center;
 }
 
