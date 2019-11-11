@@ -5,6 +5,7 @@ Created on Thu Sep 12 18:33:56 2019
 
 @author: tech
 """
+from collections import namedtuple
 import json
 from os.path import exists
 import sys
@@ -19,30 +20,38 @@ from pyArango.theExceptions import DocumentNotFoundError
 from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import DataRequired
 
+Config = namedtuple('Config', ['username', 'password', 'secret', 'hosts',
+                               'index', 'database', 'collection'])
 CONFIG = 'config.json'
 
-conn = connections.create_connection(hosts=['localhost'])
+def read_config():
+    if exists(CONFIG):
+        with open(CONFIG) as config:
+            conf = json.load(config)
+    else:
+        print("Could not find configuration file {0}.".format(CONFIG))
+        sys.exit(1)
+    
+    return Config(
+        username = conf['username'],
+        password = conf['password'],
+        secret = conf['secret_key'],
+        hosts = conf['es_hosts'],
+        index = conf['index'],
+        database = conf['database'],
+        collection = conf['collection']
+    )
+    
+config = read_config()
+conn = connections.create_connection(hosts=config.hosts)
 search = Search(using=conn)
 search = search.index('library')
 
-if exists(CONFIG):
-    with open(CONFIG) as config:
-        conf = json.load(config)
-else:
-    print("Could not find configuration file {0}.".format(CONFIG))
-    sys.exit(1)
-
-username = conf['username']
-password = conf['password']
-secret = conf['secret_key']
-database = conf['database']
-collection = conf['collection']
-
-arangoconn = Connection(username = username, password = password)
-db = arangoconn[database]
+arangoconn = Connection(username = config.username, password = config.password)
+db = arangoconn[config.database]
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = secret
+app.config['SECRET_KEY'] = config.secret
 
 class NameForm(FlaskForm):
     name = StringField('What is your query?', validators=[DataRequired()])
@@ -91,7 +100,7 @@ def page(id):
             abort(404)
         hit = results.hits[0]
         try:
-            db[collection][id]
+            db[config.collection][id]
             pdfexists = True
         except DocumentNotFoundError:
             pdfexists = False
