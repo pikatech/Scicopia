@@ -14,9 +14,13 @@ import os
 
 import time
 
+import pke
+import string
+from nltk.corpus import stopwords
+
 from datetime import datetime
-from elasticsearch_dsl import Document, Date, Completion, Keyword, Text, \
-Short, connections
+from elasticsearch_dsl import (Document, Date, Completion, Keyword, Text,
+                               Short, connections)
 
 from pyArango.connection import Connection
 from pyArango.theExceptions import CreationError
@@ -119,6 +123,8 @@ def parse(entry):
             if field[0] == 'cited-by':
                 doc.cited_by = field[1]
             else:
+                if field[0] == 'abstract':
+                    doc.auto_tags = auto_tag(field[1])
                 doc[fieldname] = field[1]
     for item in entry.persons.items():
         persons = []
@@ -146,3 +152,21 @@ def pdf(key, file):
         except CreationError as c:
             logging.warning('{}: {}\n'.format(key, c))
         # speichern der base64 in arango
+
+
+def auto_tag(input):
+    '''
+    Extract keyphrases from text via pke (Python Keyphrase Extraction toolkit)
+    '''
+    extractor = pke.unsupervised.MultipartiteRank()
+    extractor.load_document(input=input, encoding="utf-8")
+    pos = {'NOUN', 'PROPN', 'ADJ'}
+    stoplist = list(string.punctuation)
+    stoplist += ['-lrb-', '-rrb-', '-lcb-', '-rcb-', '-lsb-', '-rsb-']
+    stoplist += stopwords.words('english')
+    extractor.candidate_selection(pos=pos, stoplist=stoplist)
+    extractor.candidate_weighting(alpha=1.1,
+                              threshold=0.74,
+                              method='average')
+    keyphrases = extractor.get_n_best(n=10)
+    return [key[0] for key in keyphrases]
