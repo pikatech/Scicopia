@@ -10,7 +10,8 @@ import base64
 from elasticsearch_dsl.query import Ids, MultiMatch
 from elasticsearch_dsl import connections, Search
 
-from flask import Flask, render_template, g, session, redirect, url_for, jsonify, abort
+from flask import (Flask, render_template, g, session, redirect, url_for,
+                   make_response, jsonify, abort)
 from flask_wtf import FlaskForm
 from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError
@@ -105,8 +106,11 @@ def backwards():
 def pdf(id): #TODO: downloadaufruf der pdf
     coll = db[config.collection]
     data = coll[id]["data"]
-    data = base64.b64decode(data).decode('latin-1')
-    return data
+    data = base64.b64decode(data)
+    response = make_response(data)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % (id)
+    return response
 
 
 @app.route('/results', methods=['GET', 'POST'])
