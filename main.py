@@ -5,10 +5,7 @@ Created on Thu Sep 12 18:33:56 2019
 
 @author: tech
 """
-from collections import namedtuple
-import json
-from os.path import exists
-import sys
+import base64
 
 from elasticsearch_dsl.query import Ids, MultiMatch
 from elasticsearch_dsl import connections, Search
@@ -20,28 +17,8 @@ from pyArango.theExceptions import DocumentNotFoundError
 from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import DataRequired
 
-Config = namedtuple('Config', ['username', 'password', 'secret', 'hosts',
-                               'index', 'database', 'collection'])
-CONFIG = 'config.json'
+from config import read_config
 
-def read_config():
-    if exists(CONFIG):
-        with open(CONFIG) as config:
-            conf = json.load(config)
-    else:
-        print("Could not find configuration file {0}.".format(CONFIG))
-        sys.exit(1)
-    
-    return Config(
-        username = conf['username'],
-        password = conf['password'],
-        secret = conf['secret_key'],
-        hosts = conf['es_hosts'],
-        index = conf['index'],
-        database = conf['database'],
-        collection = conf['collection']
-    )
-    
 config = read_config()
 conn = connections.create_connection(hosts=config.hosts)
 search = Search(using=conn)
@@ -122,6 +99,14 @@ def backwards():
     session['to_hit'] -= 10
     execute_query(session['query'])
     return redirect(url_for('results'))
+
+
+@app.route('/pdf/<id>', methods=['GET', 'POST'])
+def pdf(id): #TODO: downloadaufruf der pdf
+    coll = db[config.collection]
+    data = coll[id]["data"]
+    data = base64.b64decode(data).decode('latin-1')
+    return data
 
 
 @app.route('/results', methods=['GET', 'POST'])
