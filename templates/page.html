@@ -26,20 +26,17 @@
     </div>
     <div id="ausgabe"><p>
       {% if hit.entrytype == "inproceedings" %}
-        {% if "author" in hit %} {{ hit.author|join(" and ") }}<br>{% endif %}
         {% if "title" in hit %}<i>{{ hit.title }}</i><br>{% endif %}
+        {% if "author" in hit %} {{ hit.author|join(" and ") }}<br>{% endif %}
         {% if "booktitle" in hit %}
-          {{ hit.booktitle }}
-          {% if "year" in hit %}
-             ,{{ hit.year }}
-          {% endif %}
+          {{ hit.booktitle }}{% if "year" in hit %}, {{ hit.year }}{% endif %}
         {% else %}
           {% if "year" in hit %}
             {{ hit.year }}
           {% endif %}
         {% endif %}
       </p>
-      {% if "abstract" in hit %}<p>{{ hit.abstract }}</p>{% endif %}
+      {% if "abstract" in hit %}<p><b>Abstract:</b><br>{{ hit.abstract }}</p>{% endif %}
       {% else %}
         {% for entry in hit %}
           <p>{{entry}}: {{ hit[entry] }}</p>
