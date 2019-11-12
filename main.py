@@ -121,6 +121,8 @@ def results():
     sort_form = SortForm()
     if form.validate_on_submit():
         session['query'] = form.name.data
+        session['from_hit'] = 0
+        session['to_hit'] = 10
         return redirect(url_for('results'))
     else:
         form.name.data = session['query']
@@ -153,4 +155,4 @@ def execute_query(data):
 
     g.hits = hits
     session['time'] = str(results.took)
-    session['total_hits'] = str(results.hits.total.value)
+    session['total_hits'] = results.hits.total.value

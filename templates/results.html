@@ -46,27 +46,29 @@
         <p>Search returned no results.</p>
       {% endif %}
     {% endif %}
-  <div id=nav>
-    <form action="/backwards" method="post">
-      {{ backwards.hidden_tag() }}
-      {% if _from == 0 %}
-        {{ backwards.button(value="<", id="backwards", disabled=True) }}
-      {% else %}
-        {{ backwards.button(value="<", id="backwards") }}
-      {% endif %}
-    </form>
-    <p class="rubber"></p>
-    <p>{{ _from + 1}} - {{ _to }}</p>
-    <p class="rubber"></p>
-    <form action="/forwards" method="post">
-      {{ forwards.hidden_tag() }}
-      {% if _to == total_hits %}
-        {{ forwards.button(value=">", id="forwards", disabled=True) }}
-      {% else %}
-        {{ forwards.button(value=">", id="forwards") }}
-      {% endif %}
-    </form>
-  </div>
+  {% if hits %}
+    <div id=nav>
+      <form action="/backwards" method="post">
+        {{ backwards.hidden_tag() }}
+        {% if _from == 0 %}
+          {{ backwards.button(value="<", id="backwards", disabled=True) }}
+        {% else %}
+          {{ backwards.button(value="<", id="backwards") }}
+        {% endif %}
+      </form>
+      <p class="rubber"></p>
+      <p>{{ _from + 1}} - {% if _to >= total_hits %}{{ total_hits }}{% else %}{{ _to }}{% endif %}</p>
+      <p class="rubber"></p>
+      <form action="/forwards" method="post">
+        {{ forwards.hidden_tag() }}
+        {% if _to >= total_hits %}
+          {{ forwards.button(value=">", id="forwards", disabled=True) }}
+        {% else %}
+          {{ forwards.button(value=">", id="forwards") }}
+        {% endif %}
+      </form>
+    </div>
+  {% endif %}
   </div>
 </body>
 </html>
