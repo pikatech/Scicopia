@@ -6,6 +6,7 @@ Created on Thu Sep 12 18:33:56 2019
 @author: tech
 """
 import base64
+import re
 
 from elasticsearch_dsl.query import Ids, MultiMatch
 from elasticsearch_dsl import connections, Search
@@ -30,6 +31,8 @@ db = arangoconn[config.database]
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = config.secret
+
+url_matcher = re.compile(r'https?://\w+(\.\w+)+(/\w+)+([-.,_]\w+)*(#\w+)?')
 
 class NameForm(FlaskForm):
     name = StringField('What is your query?', validators=[DataRequired()])
@@ -150,7 +153,13 @@ def execute_query(data):
             if 'author' in r:
                 hit['author'] = " and ".join(r.author)
             if 'abstract' in r:
-                hit['abstract'] = r.abstract
+                match = url_matcher.search(r.abstract)
+                if match is None:
+                    hit['abstract'] = r.abstract
+                # This will only match the first hit
+                else:
+                    hit['abstract'] = ('%s<a href="%s">%s</a>%s') % (r.abstract[:match.start()],
+                       match.group(0), match.group(0), r.abstract[match.end():])
             hits.append(hit)
 
     g.hits = hits
