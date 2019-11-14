@@ -1,0 +1,9 @@
+{
+ "username": "username",
+ "password": "password",
+ "es_hosts": ["es_host1", "es_host2"],
+ "index" : "index",
+ "database": "database",
+ "collection": "collection",
+ "secret_key": "topsecret" 
+}
