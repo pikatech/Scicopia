@@ -4,7 +4,9 @@ from os.path import exists
 import sys
 
 Config = namedtuple('Config', ['username', 'password', 'secret', 'hosts',
-                               'index', 'database', 'collection'])
+                               'index', 'database', 'collection',
+                               'usercollection', 'mailusername',
+                               'mailpassword'])
 CONFIG = 'config.json'
 
 def read_config():
@@ -22,6 +24,9 @@ def read_config():
         hosts = conf['es_hosts'],
         index = conf['index'],
         database = conf['database'],
-        collection = conf['collection']
+        collection = conf['collection'],
+        usercollection = conf['usercollection'],
+        mailusername = conf['mailusername'],
+        mailpassword = conf['mailpassword']
     )
 

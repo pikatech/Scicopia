@@ -1,3 +1,8 @@
+{% extends "base.html" %}
+
+{% block title %}Scicopia{% endblock %}
+
+{% block page_content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,6 +45,13 @@
           {% endfor %}
           </ol>
         </div>
+        <div id="tagss">
+          <ol>
+          {% for tag in tags %}
+            <p><a href="/tags/{{ tag.name }}"{% if tag.mark == True %} style='color: red'{% else %} style='color: black'{% endif %}> {{ tag.name }} ({{ tag.nr }})</a></p>
+          {% endfor %}
+          </ol>
+        </div>
       {% else %}
         <p>Search returned no results.</p>
       {% endif %}
@@ -70,3 +82,4 @@
   </div>
 </body>
 </html>
+{% endblock %}

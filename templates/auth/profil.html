@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Scicopia - Confirm your account{% endblock %}
+
+{% block page_content %}
+<div class="last-search">
+    <p><b>Last Search:</b><br>
+    {% for entry in lastsearch %}
+    <li><a href="/oldsearch/{{ entry }}">{{ entry }}</a></li></p>
+    {% endfor %}
+</div>
+<div class="settings">
+    <p><b>Settings:</b><br>
+    <li><a href="{{ url_for('change_password') }}">Change Password</a></li>
+    <li><a href="{{ url_for('change_username_request') }}">Change Username</a></li>
+    <li><a href="{{ url_for('change_email_request') }}">Change Email</a></li></p>
+</div>
+{% endblock %}

@@ -1,3 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}Scicopia{% endblock %}
+
+
+{% block page_content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,7 +60,7 @@
     </div>
     <div id="navi">
         {% if pdfexists %}
-            <form action="/pdf/{{ hit.meta.id }}" method="post">
+            <form action="/pdf/{{ hit.meta.id }}" method="post" target="_blank">
                 {{ pdf.hidden_tag() }}
                 {{ pdf.button(value="pdf", id="pdf") }}
             </form>
@@ -63,3 +69,4 @@
   </div>
 </body>
 </html>
+{% endblock %}
