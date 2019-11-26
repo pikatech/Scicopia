@@ -1,0 +1,62 @@
+ [KProcessing |######################          | 146/207Traceback (most recent call last):
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\site-packages\urllib3\connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\site-packages\urllib3\util\connection.py", line 57, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\socket.py", line 748, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\site-packages\elasticsearch\connection\http_urllib3.py", line 233, in perform_request
+    method, url, body, retries=Retry(False), headers=request_headers, **kw
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\site-packages\urllib3\connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\site-packages\urllib3\util\retry.py", line 344, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\site-packages\urllib3\packages\six.py", line 686, in reraise
+    raise value
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\site-packages\urllib3\connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\site-packages\urllib3\connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\http\client.py", line 1229, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\http\client.py", line 1275, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\http\client.py", line 1224, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\http\client.py", line 1016, in _send_output
+    self.send(msg)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\http\client.py", line 956, in send
+    self.connect()
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\site-packages\urllib3\connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\site-packages\urllib3\connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x0000024ED0211F28>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\User\Desktop\Hiwi\Git\Scicopia\elasticdoc.py", line 190, in <module>
+    bib(dir)
+  File "C:\Users\User\Desktop\Hiwi\Git\Scicopia\elasticdoc.py", line 104, in bib
+    parse(entry, bibfile[:bibfile.rindex(".")]+".pdf" )
+  File "C:\Users\User\Desktop\Hiwi\Git\Scicopia\elasticdoc.py", line 149, in parse
+    doc.save()
+  File "C:\Users\User\Desktop\Hiwi\Git\Scicopia\elasticdoc.py", line 81, in save
+    return super().save(** kwargs)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\site-packages\elasticsearch_dsl\document.py", line 448, in save
+    **doc_meta
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\site-packages\elasticsearch\client\utils.py", line 84, in _wrapped
+    return func(*args, params=params, **kwargs)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\site-packages\elasticsearch\client\__init__.py", line 364, in index
+    "POST", _make_path(index, doc_type, id), params=params, body=body
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\site-packages\elasticsearch\transport.py", line 350, in perform_request
+    timeout=timeout,
+  File "C:\Users\User\AppData\Local\Programs\Python\Python37\lib\site-packages\elasticsearch\connection\http_urllib3.py", line 245, in perform_request
+    raise ConnectionError("N/A", str(e), e)
+elasticsearch.exceptions.ConnectionError: ConnectionError(<urllib3.connection.HTTPConnection object at 0x0000024ED0211F28>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed) caused by: NewConnectionError(<urllib3.connection.HTTPConnection object at 0x0000024ED0211F28>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed)

@@ -11,8 +11,10 @@ import base64
 import glob
 import logging
 import os
+from progress.bar import Bar
 
 import time
+import base64
 
 import pke
 import string
@@ -38,11 +40,11 @@ if arangoconn.hasDatabase(config.database):
 else:
     db = arangoconn.createDatabase(name = config.database) 
 if db.hasCollection(config.collection):
-    pdfc = db[config.collection]
+    coll = db[config.collection]
 else:
-    pdfc = db.createCollection(name = config.collection)
+    coll = db.createCollection(name = config.collection)
 # verbindung zu arango
-
+index = config.index
 allowed = {'author', 'editor', 'publisher', 'institution', 'title',
         'booktitle', 'abstract', 'keywords', 'year', 'pages', 'journal',
         'volume', 'number', 'doi', 'cited-by', 'citing'}
@@ -59,8 +61,8 @@ class Bibdoc(Document):
     title_suggest = Completion()
     booktitle = Text()
     abstract = Text()
-    keywords = Text()
-    auto_tags = Text()
+    keywords = Keyword()
+    auto_tags = Keyword()
     year = Short()
     pages = Keyword()
     journal = Text()
@@ -72,7 +74,7 @@ class Bibdoc(Document):
     created_at = Date()
 
     class Index:
-        name = 'library'
+        name = index
 
     def save(self, ** kwargs):
         self.created_at = datetime.now()
@@ -81,11 +83,12 @@ class Bibdoc(Document):
 
 def bib(dir):
     bibfiles = glob.glob(dir + "*.bib", recursive=True)
+    print("files geholt")
     Bibdoc.init()
-    # es = Elasticsearch(hosts=['localhost'])
+    print("bib initialisiert")
 
-    pair = {}
     start = time.time()
+    bar = Bar('Bibfiles', max=len(bibfiles))
     for bibfile in bibfiles:
         file_stats = os.stat(bibfile)
         if file_stats.st_size == 0:
@@ -94,38 +97,41 @@ def bib(dir):
         try:
             bib_data = parse_file(bibfile)
             if len(bib_data.entries) > 1:
-                # was ist falls bib data mehrere einträge enthält?
-                # titel findet sich nicht unbedingt 1:1 in pdf name
-                continue
-            for entry in bib_data.entries.itervalues():
-                    key = parse(entry)
-                    pair[key] = bibfile[:bibfile.rindex(".")]+".pdf" 
-                    # funktioniert nur, wenn bib name und pdf name gleich sind
+                for entry in bib_data.entries.itervalues():
+                    parse(entry)
+            else:
+                for entry in bib_data.entries.itervalues():
+                    parse(entry, bibfile[:bibfile.rindex(".")]+".pdf" )
         except PybtexError as p:
             logging.error('{}: {}\n'.format(bibfile, p))
-    ende = time.time()
-    print('{:5.3f}s'.format(ende-start))
-
-    start = time.time()
-    for key in pair:
-        pdf(key, pair[key])
+        bar.next()
+    bar.finish()
     ende = time.time()
     print('{:5.3f}s'.format(ende-start))
 
 
-def parse(entry):
+def parse(entry, file = None):
+    doca = coll.createDocument()
     doc = Bibdoc(meta = {'id': entry.key})
+    doca._key = entry.key
     doc.entrytype = entry.type
+    doca['entrytype'] = entry.type
     for field in entry.fields.items():
         fieldname = field[0].lower()
         if fieldname in allowed:
             # Non-standard field in personal library
             if field[0] == 'cited-by':
                 doc.cited_by = field[1]
+                doca['cited_by'] = field[1]
             else:
                 if field[0] == 'abstract':
-                    doc.auto_tags = auto_tag(field[1])
+                    keyphrases, words, meta = auto_tag(field[1])
+                    doc.auto_tags = keyphrases
+                    doca['auto_tags'] = keyphrases
+                    doca['words'] = words
+                    doca['meta'] = meta
                 doc[fieldname] = field[1]
+                doca[fieldname] = field[1]
     for item in entry.persons.items():
         persons = []
         for person in item[1]:
@@ -137,21 +143,24 @@ def parse(entry):
             names.extend(person.last_names)
             persons.append(' '.join(names))
         doc[item[0]] = persons
+        doca[item[0]] = persons
+    doca['pdf'] = pdf(file)
     doc.save()
-    return entry.key
+    doca.save()
 
 
-def pdf(key, file):
-    with open(file, 'rb') as f:
-        data = base64.b64encode(f.read()) # umwandeln der pdf zu base64
-        doc = pdfc.createDocument()
-        doc._key = key # key ist schlüssel der dazugehörigen bib data
-        doc["data"] = data.decode()
-        try:
-            doc.save()
-        except CreationError as c:
-            logging.warning('{}: {}\n'.format(key, c))
-        # speichern der base64 in arango
+def pdf(file):
+    if file is None:
+        return None
+    try:
+        with open(file, 'rb') as f:
+            data = base64.b64encode(f.read()) # umwandeln der pdf zu base64
+            data = data.decode()
+            if data == "":
+                data = None
+    except FileNotFoundError as c:
+        logging.warning('Keine entsprechende Pdf vorhanden {}\n'.format(file))
+    return data
 
 
 def auto_tag(input):
@@ -160,6 +169,9 @@ def auto_tag(input):
     '''
     extractor = pke.unsupervised.MultipartiteRank()
     extractor.load_document(input=input, encoding="utf-8")
+    sentences = extractor.sentences
+    words = [sentence.words for sentence in sentences]
+    meta = [sentence.meta for sentence in sentences]
     pos = {'NOUN', 'PROPN', 'ADJ'}
     stoplist = list(string.punctuation)
     stoplist += ['-lrb-', '-rrb-', '-lcb-', '-rcb-', '-lsb-', '-rsb-']
@@ -169,4 +181,9 @@ def auto_tag(input):
                               threshold=0.74,
                               method='average')
     keyphrases = extractor.get_n_best(n=10)
-    return [key[0] for key in keyphrases]
+    return [key[0] for key in keyphrases], words, meta
+
+#nich mit comitten, nur zum testen
+if __name__ == '__main__':
+    dir = ""#"../../Elasticsearch/NAACL2019/"
+    bib(dir)
