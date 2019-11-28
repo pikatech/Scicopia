@@ -89,13 +89,13 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Register')
 
     def validate_username(self, field):
-        aql = "FOR x IN user FILTER x.username == '"+field.data.lower()+"' RETURN x._key"
+        aql = "FOR x IN'" + config.usercollection + "'FILTER x.username == '" + field.data.lower() + "' RETURN x._key"
         queryResult = db.AQLQuery(aql, rawResults=True, batchSize=1)
         if queryResult:
             raise ValidationError('Username already in use.')
 
     def validate_email(self, field):
-        aql = "FOR x IN user FILTER x.email == '"+field.data.lower()+"' RETURN x._key"
+        aql = "FOR x IN'" + config.usercollection + "'FILTER x.email == '"+field.data.lower()+"' RETURN x._key"
         queryResult = db.AQLQuery(aql, rawResults=True, batchSize=1)
         if queryResult:
             raise ValidationError('Email already registered.')
@@ -107,7 +107,7 @@ class ChangeUsernameForm(FlaskForm):
     submit = SubmitField('Update Username')
 
     def validate_username(self, field):
-        aql = "FOR x IN user FILTER x.username == '"+field.data.lower()+"' RETURN x._key"
+        aql = "FOR x IN'" + config.usercollection + "'FILTER x.username == '"+field.data.lower()+"' RETURN x._key"
         queryResult = db.AQLQuery(aql, rawResults=True, batchSize=1)
         if queryResult:
             raise ValidationError('Username already in use.')
@@ -142,7 +142,7 @@ class ChangeEmailForm(FlaskForm):
     submit = SubmitField('Update Email Address')
 
     def validate_email(self, field):
-        aql = "FOR x IN user FILTER x.email == '"+field.data.lower()+"' RETURN x._key"
+        aql = "FOR x IN'" + config.usercollection + "'FILTER x.email == '"+field.data.lower()+"' RETURN x._key"
         queryResult = db.AQLQuery(aql, rawResults=True, batchSize=1)
         if queryResult:
             raise ValidationError('Email already registered.')
@@ -306,13 +306,13 @@ def execute_query(data):
 
 
 def add_search(data):
-    search = db['user'][session['user']]['lastsearch']
+    search = db[config.usercollection][session['user']]['lastsearch']
     if data in search:
         search.remove(data)
     search.append(data)
     if len(search) >= 6:
         search = search[1:]
-    doc = db['user'][session['user']]
+    doc = db[config.usercollection][session['user']]
     doc['lastsearch'] = search
     doc.save()
 
@@ -322,7 +322,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         username = form.user.data
-        aql = "FOR x IN user FILTER x.username == '"+username+"' RETURN x._key"
+        aql = "FOR x IN'" + config.usercollection + "'FILTER x.username == '"+username+"' RETURN x._key"
         queryResult = db.AQLQuery(aql, rawResults=True, batchSize=1)
         if queryResult and verify_password(queryResult[0], form.password.data):
             session['user'] = queryResult[0]
@@ -335,14 +335,14 @@ def login():
     return render_template('auth/login.html', form=form)
 
 def verify_password(user, password):
-    return check_password_hash(db["user"][user]['password_hash'], password)
+    return check_password_hash(db[config.usercollection][user]['password_hash'], password)
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        doc = db["user"].createDocument()
+        doc = db[config.usercollection].createDocument()
         doc['username'] = form.username.data
         doc['email'] = form.email.data.lower()
         doc['password_hash'] = generate_password_hash(form.password.data)
@@ -351,7 +351,7 @@ def register():
         doc.save()
         token = generate_confirmation_token(doc._key)
         send_email(doc['email'], 'Confirm Your Account',
-                   'auth/email/confirm', user=db['user'][doc._key]['username'], token=token)
+                   'auth/email/confirm', user=db[config.usercollection][doc._key]['username'], token=token)
         flash('A confirmation email has been sent to you by email.')
         return redirect(url_for('login'))
     return render_template('auth/register.html', form=form)
@@ -368,7 +368,7 @@ def logout():
 @app.route('/profil', methods=['GET', 'POST'])
 def profil():
     if session['user'] is not None:
-        lastsearch=db['user'][session['user']]['lastsearch']
+        lastsearch=db[config.usercollection][session['user']]['lastsearch']
         return render_template("auth/profil.html", lastsearch=lastsearch)
     session['next'] = '/profil'
     return redirect(url_for('login'))
@@ -381,7 +381,7 @@ def change_password():
         form = ChangePasswordForm()
         if form.validate_on_submit():
             if verify_password(session['user'], form.old_password.data):
-                doc = db['user'][session['user']]
+                doc = db[config.usercollection][session['user']]
                 doc['password_hash'] = generate_password_hash(form.password.data)
                 doc.save()
                 flash('Your password has been updated.')
@@ -399,14 +399,14 @@ def password_reset_request():
         return redirect(url_for('index'))
     form = PasswordResetRequestForm()
     if form.validate_on_submit():
-        aql = "FOR x IN user FILTER x.email == '"+form.email.data.lower()+"' RETURN x._key"
+        aql = "FOR x IN'" + config.usercollection + "'FILTER x.email == '"+form.email.data.lower()+"' RETURN x._key"
         queryResult = db.AQLQuery(aql, rawResults=True, batchSize=1)
         if queryResult:
             user = queryResult[0]
             token = generate_confirmation_token(user)
-            send_email(db['user'][user]['email'], 'Reset Your Password',
+            send_email(db[config.usercollection][user]['email'], 'Reset Your Password',
                        'auth/email/reset_password',
-                       user=db['user'][user]['username'], token=token)
+                       user=db[config.usercollection][user]['username'], token=token)
             flash('An email with instructions to reset your password has been '
                   'sent to you.')
         else:
@@ -438,14 +438,14 @@ def reset_password(token, new_password):
     except:
         return False
     try:
-        user = db["user"][data.get('confirm')]
+        doc = db[config.usercollection][data.get('confirm')]
         userexists = True
     except DocumentNotFoundError:
         userexists = False
     if not userexists:
         return False
-    user['password_hash'] = generate_password_hash(new_password)
-    user.save()
+    doc['password_hash'] = generate_password_hash(new_password)
+    doc.save()
     return True
 
 
@@ -455,7 +455,7 @@ def change_username_request():
         form = ChangeUsernameForm()
         if form.validate_on_submit():
             if verify_password(session['user'], form.password.data):
-                doc = db['user'][session['user']]
+                doc = db[config.usercollection][session['user']]
                 doc['username'] = form.username.data
                 doc.save()
                 flash('Your username has been updated.')
@@ -474,14 +474,14 @@ def change_email_request():
         if form.validate_on_submit():
             if verify_password(session['user'], form.password.data):
                 new_email = form.email.data.lower()
-                doc = db["user"][session['user']]
+                doc = db[config.usercollection][session['user']]
                 doc['email'] = new_email
                 doc['confirmed'] = False
                 doc.save()
                 token = generate_confirmation_token(session['user'])
                 send_email(new_email, 'Confirm your email address',
                         'auth/email/change_email',
-                        user=db['user'][session['user']]['username'], token=token)
+                        user=db[config.usercollection][session['user']]['username'], token=token)
                 flash('Your email adress has been updated.')
                 flash('An email with instructions to confirm your new email '
                     'address has been sent to you.')
@@ -512,7 +512,7 @@ def confirm(token):
     if not 'user' in session:
         session['user'] = None
     if session['user'] is not None:
-        if db["user"][session['user']]['confirmed']:
+        if db[config.usercollection][session['user']]['confirmed']:
             return redirect(url_for('index'))
         if confirm_u(session['user'], token):
             flash('You have confirmed your account. Thanks!')
@@ -525,17 +525,17 @@ def confirm(token):
 
 @app.route('/unconfirmed')
 def unconfirmed():
-    if db['user'][session['user']]['confirmed']:
+    if db[config.usercollection][session['user']]['confirmed']:
         return redirect(url_for('index'))
-    return render_template('auth/unconfirmed.html', user=db['user'][session['user']]['username'])
+    return render_template('auth/unconfirmed.html', user=db[config.usercollection][session['user']]['username'])
 
 
 @app.route('/confirm')
 def resend_confirmation():
     if session['user'] is not None:
         token = generate_confirmation_token(session['user'])
-        send_email(db["user"][session['user']]['email'], 'Confirm Your Account',
-                'auth/email/confirm', user=db['user'][session['user']]['username'], token=token)
+        send_email(db[config.usercollection][session['user']]['email'], 'Confirm Your Account',
+                'auth/email/confirm', user=db[config.usercollection][session['user']]['username'], token=token)
         flash('A new confirmation email has been sent to you by email.')
         return redirect(url_for('index'))
     session['next'] = '/confirm'
@@ -555,7 +555,7 @@ def confirm_u(user, token):
         return False
     if data.get('confirm') != user:
         return False
-    doc = db["user"][user]
+    doc = db[config.usercollection][user]
     doc['confirmed'] = True
     doc.save()
     return True
