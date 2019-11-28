@@ -1,20 +1,16 @@
 {% extends "base.html" %}
 
-{% block title %}Scicopia{% endblock %}
-
-{% block page_content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% block head %}
+  {{ super() }}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="static/css/pure-min.css">
   <link type="text/css" rel="stylesheet" href="static/css/base.css">
   <link type="text/css" rel="stylesheet" href="static/css/search.css">
   <link rel="stylesheet" href="static/css/index.css">
-  <title>Search demo</title>
-</head>
-<body>
+{% endblock %}
+
+{% block page_content %}
   <div id="content">
     <div id="indexLogo"><img height="105" width="400" src="static/images/logo.svg" alt="Scicopia - search Science" onError="this.onerror=null;this.src='static/images/fallback/logo400.png';"></div>
     <div class="searchArea">
@@ -30,6 +26,4 @@
       <p>Need help? Click here!</p>
     </div>
   </div>
-</body>
-</html>
 {% endblock %}
