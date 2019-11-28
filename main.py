@@ -89,13 +89,13 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Register')
 
     def validate_username(self, field):
-        aql = "FOR x IN'" + config.usercollection + "'FILTER x.username == '" + field.data.lower() + "' RETURN x._key"
+        aql = "FOR x IN %s FILTER x.username == '%s' RETURN x._key" % (config.usercollection, field.data.lower())
         queryResult = db.AQLQuery(aql, rawResults=True, batchSize=1)
         if queryResult:
             raise ValidationError('Username already in use.')
 
     def validate_email(self, field):
-        aql = "FOR x IN'" + config.usercollection + "'FILTER x.email == '"+field.data.lower()+"' RETURN x._key"
+        aql = "FOR x IN %s FILTER x.username == '%s' RETURN x._key" % (config.usercollection, field.data.lower())
         queryResult = db.AQLQuery(aql, rawResults=True, batchSize=1)
         if queryResult:
             raise ValidationError('Email already registered.')
@@ -107,7 +107,7 @@ class ChangeUsernameForm(FlaskForm):
     submit = SubmitField('Update Username')
 
     def validate_username(self, field):
-        aql = "FOR x IN'" + config.usercollection + "'FILTER x.username == '"+field.data.lower()+"' RETURN x._key"
+        aql = "FOR x IN %s FILTER x.username == '%s' RETURN x._key" % (config.usercollection, field.data.lower())
         queryResult = db.AQLQuery(aql, rawResults=True, batchSize=1)
         if queryResult:
             raise ValidationError('Username already in use.')
@@ -142,7 +142,7 @@ class ChangeEmailForm(FlaskForm):
     submit = SubmitField('Update Email Address')
 
     def validate_email(self, field):
-        aql = "FOR x IN'" + config.usercollection + "'FILTER x.email == '"+field.data.lower()+"' RETURN x._key"
+        aql = "FOR x IN %s FILTER x.username == '%s' RETURN x._key" % (config.usercollection, field.data.lower())
         queryResult = db.AQLQuery(aql, rawResults=True, batchSize=1)
         if queryResult:
             raise ValidationError('Email already registered.')
@@ -322,7 +322,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         username = form.user.data
-        aql = "FOR x IN'" + config.usercollection + "'FILTER x.username == '"+username+"' RETURN x._key"
+        aql = "FOR x IN %s FILTER x.username == '%s' RETURN x._key" % (config.usercollection, username)
         queryResult = db.AQLQuery(aql, rawResults=True, batchSize=1)
         if queryResult and verify_password(queryResult[0], form.password.data):
             session['user'] = queryResult[0]
@@ -399,7 +399,7 @@ def password_reset_request():
         return redirect(url_for('index'))
     form = PasswordResetRequestForm()
     if form.validate_on_submit():
-        aql = "FOR x IN'" + config.usercollection + "'FILTER x.email == '"+form.email.data.lower()+"' RETURN x._key"
+        aql = "FOR x IN %s FILTER x.email == '%s' RETURN x._key" % (config.usercollection, form.email.data.lower())
         queryResult = db.AQLQuery(aql, rawResults=True, batchSize=1)
         if queryResult:
             user = queryResult[0]
