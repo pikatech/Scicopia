@@ -5,5 +5,7 @@ elasticsearch-dsl>=7.0.0
 pyArango
 git+https://github.com/boudinfl/pke.git@master
 nltk
-pytest
+pybtex
 pylatexenc
+pytest
+progress
