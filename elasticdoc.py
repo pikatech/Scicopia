@@ -12,9 +12,7 @@ import glob
 import logging
 import os
 from progress.bar import Bar
-
 import time
-import base64
 
 import pke
 import string
@@ -25,7 +23,6 @@ from elasticsearch_dsl import (Document, Date, Completion, Keyword, Text,
                                Short, connections)
 
 from pyArango.connection import Connection
-from pyArango.theExceptions import CreationError
 
 from pybtex.database import parse_file
 from pybtex.exceptions import PybtexError
