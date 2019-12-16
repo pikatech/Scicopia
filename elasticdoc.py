@@ -78,8 +78,9 @@ class Bibdoc(Document):
         return super().save(** kwargs)
 
 
-def bib(dir):
-    bibfiles = glob.glob(dir + "*.bib", recursive=True)
+def bib(path):
+    path = path if path.endswith(os.path.sep) else path + os.path.sep
+    bibfiles = glob.glob(path + "*.bib", recursive=True)
     print("files geholt")
     Bibdoc.init()
     print("bib initialisiert")
@@ -182,5 +183,5 @@ def auto_tag(input):
 
 #nich mit comitten, nur zum testen
 if __name__ == '__main__':
-    dir = ""#"../../Elasticsearch/NAACL2019/"
-    bib(dir)
+    path = ""#"../../Elasticsearch/NAACL2019/"
+    bib(path)
