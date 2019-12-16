@@ -1,5 +1,7 @@
 Flask
 Flask-WTF
+Flask-Bootstrap
+Flask-Mail
 elasticsearch>=7.0.2
 elasticsearch-dsl>=7.0.0
 pyArango
