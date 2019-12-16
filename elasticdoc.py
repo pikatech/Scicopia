@@ -80,17 +80,17 @@ class Bibdoc(Document):
 
 def bib(path):
     path = path if path.endswith(os.path.sep) else path + os.path.sep
-    bibfiles = glob.glob(path + "*.bib", recursive=True)
-    print("files geholt")
+    bibfiles = glob.glob(f'{path}*.bib', recursive=True)
+    print(f'{len(bibfiles)} Dateien gefunden')
     Bibdoc.init()
-    print("bib initialisiert")
+    print('Index initialisiert')
 
     start = time.time()
     bar = Bar('Bibfiles', max=len(bibfiles))
     for bibfile in bibfiles:
         file_stats = os.stat(bibfile)
         if file_stats.st_size == 0:
-            logging.warning('{} is empty\n'.format(bibfile))
+            logging.warning(f'{bibfile} is empty\n')
             continue
         try:
             bib_data = parse_file(bibfile)
@@ -99,9 +99,9 @@ def bib(path):
                     parse(entry)
             else:
                 for entry in bib_data.entries.itervalues():
-                    parse(entry, bibfile[:bibfile.rindex(".")]+".pdf" )
+                    parse(entry, f'{bibfile[:bibfile.rindex(".")]}.pdf')
         except PybtexError as p:
-            logging.error('{}: {}\n'.format(bibfile, p))
+            logging.error(f'{bibfile}: {p}\n')
         bar.next()
     bar.finish()
     ende = time.time()
@@ -154,10 +154,10 @@ def pdf(file):
         with open(file, 'rb') as f:
             data = base64.b64encode(f.read()) # umwandeln der pdf zu base64
             data = data.decode()
-            if data == "":
+            if data == '':
                 data = None
-    except FileNotFoundError as c:
-        logging.warning('Keine entsprechende Pdf vorhanden {}\n'.format(file))
+    except FileNotFoundError:
+        logging.warning(f'Keine entsprechende Pdf vorhanden: {file}\n')
     return data
 
 
