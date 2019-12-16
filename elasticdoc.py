@@ -81,9 +81,9 @@ class Bibdoc(Document):
 def bib(path):
     path = path if path.endswith(os.path.sep) else path + os.path.sep
     bibfiles = glob.glob(f'{path}*.bib', recursive=True)
-    print(f'{len(bibfiles)} Dateien gefunden')
+    logging.info(f'{len(bibfiles)} Dateien gefunden')
     Bibdoc.init()
-    print('Index initialisiert')
+    logging.info('Index initialisiert')
 
     start = time.time()
     bar = Bar('Bibfiles', max=len(bibfiles))
@@ -105,7 +105,7 @@ def bib(path):
         bar.next()
     bar.finish()
     ende = time.time()
-    print('{:5.3f}s'.format(ende-start))
+    logging.info('{:5.3f}s'.format(ende-start))
 
 
 def parse(entry, file = None):
