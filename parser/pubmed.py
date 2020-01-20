@@ -14,7 +14,7 @@ from typing import Dict, List
 from xml.etree.ElementTree import iterparse, Element
 
 
-def extract_abstract(abstract: Element) -> List[str]:
+def extract_abstract(abstract: Element) -> str:
     parts = abstract.findall('AbstractText')
     text = []
     for part in parts:
@@ -26,7 +26,7 @@ def extract_abstract(abstract: Element) -> List[str]:
             text.append(part.attrib['Label'] + ': ' + "".join(part.itertext()))
         else:
             text.append("".join(part.itertext()))
-    return text
+    return '\n'.join(text)
 
 
 def extract_authors(authors: Element) -> List[str]:
