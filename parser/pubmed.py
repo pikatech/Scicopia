@@ -121,7 +121,7 @@ def parse(source) -> Dict[str, str]:
             authors = elem.find('.//AuthorList')
             # List of authors is optional
             if authors is not None:
-                article['authors'] = extract_authors(authors)
+                article['author'] = extract_authors(authors)
 
             journal = elem.find('.//Journal')
             # journal entry is mandatory
