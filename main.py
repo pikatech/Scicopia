@@ -95,7 +95,7 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Username already in use.')
 
     def validate_email(self, field):
-        aql = "FOR x IN %s FILTER x.username == '%s' RETURN x._key" % (config.usercollection, field.data.lower())
+        aql = "FOR x IN %s FILTER x.email == '%s' RETURN x._key" % (config.usercollection, field.data.lower())
         queryResult = db.AQLQuery(aql, rawResults=True, batchSize=1)
         if queryResult:
             raise ValidationError('Email already registered.')
@@ -142,7 +142,7 @@ class ChangeEmailForm(FlaskForm):
     submit = SubmitField('Update Email Address')
 
     def validate_email(self, field):
-        aql = "FOR x IN %s FILTER x.username == '%s' RETURN x._key" % (config.usercollection, field.data.lower())
+        aql = "FOR x IN %s FILTER x.email == '%s' RETURN x._key" % (config.usercollection, field.data.lower())
         queryResult = db.AQLQuery(aql, rawResults=True, batchSize=1)
         if queryResult:
             raise ValidationError('Email already registered.')
@@ -182,12 +182,12 @@ def page(id):
         prepared_search = search.query(Ids(values=id))
         results = prepared_search.execute()
         if len(results.hits) == 0:
-            abort(404) # Macht aus den Fehler 500 ein Fehler 404
+            abort(404) # change error 500 to error 404
         hit = results.hits[0]
-        try:
-            db[config.collection][id]
+        data = db[config.collection][id]['pdf']
+        if data:
             pdfexists = True
-        except DocumentNotFoundError:
+        else:
             pdfexists = False
         return render_template('page.html', form=form, hit=hit, pdfexists=pdfexists, pdf=pdf)
 
@@ -211,7 +211,7 @@ def backwards():
 @app.route('/pdf/<id>', methods=['GET', 'POST'])
 def pdf(id):
     coll = db[config.collection]
-    data = coll[id]["data"] #! data in pdf umbennen, da später auch die bibdaten in arango sind
+    data = coll[id]["pdf"]
     data = base64.b64decode(data)
     response = make_response(data)
     response.headers['Content-Type'] = 'application/pdf'
@@ -246,16 +246,15 @@ def results():
 
 @app.route('/tags/<tag>')
 def tags(tag):
-    #mach was auch immer beim anklicken eines tags geschehen soll
-    # TODO: hinzufügen des tags zur suche
+    # TODO: add tags to search
     for d in session["tags"]:
         if d['name'] == tag:
             if d['mark'] == False:
                 d.update({'mark':True})
-                flash('%s hinzugefügt'%(tag))
+                flash('%s add'%(tag))
             else:
                 d.update({'mark':False})
-                flash('%s entfernt' %(tag))
+                flash('%s remove' %(tag))
             break
     return redirect(url_for('results'))
 
