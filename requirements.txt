@@ -11,3 +11,4 @@ pybtex
 pylatexenc
 pytest
 progress
+zstandard
