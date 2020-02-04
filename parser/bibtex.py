@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# Encoding: utf-8
+
 import logging
 from typing import Dict
 
@@ -9,8 +12,7 @@ allowed = {'author', 'editor', 'publisher', 'institution', 'title',
         'volume', 'number', 'doi', 'cited-by', 'citing'}
 
 
-
-def bib(bibfile) -> Dict[str, str]:
+def parse(source: str) -> Dict[str, str]:
     bib_format = 'bibtex'
     try:
         bib_data = parse_file(bibfile, bib_format)
