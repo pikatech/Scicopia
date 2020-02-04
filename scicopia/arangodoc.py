@@ -20,9 +20,9 @@ import zipfile
 import gzip
 import bz2
 
-from bib_parse import bib
-from pubmed import parse as pubmed
-from arxivparser import parse as arxiv
+from parser.bibtex import parse as bib
+from parser.pubmed import parse as pubmed
+from parser.arxiv import parse as arxiv
 # from parser.grobid_parse import grobid
 
 import pke
@@ -33,16 +33,19 @@ from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError, CreationError
 from config import read_config
     
-config = read_config()
-arangoconn = Connection(username = config.username, password = config.password)
-if arangoconn.hasDatabase(config.database):
-    db = arangoconn[config.database]
-else:
-    db = arangoconn.createDatabase(name = config.database) 
-if db.hasCollection(config.collection):
-    coll = db[config.collection]
-else:
-    coll = db.createCollection(name = config.collection)
+
+def setup():
+    config = read_config()
+    arangoconn = Connection(username = config.username, password = config.password)
+    if arangoconn.hasDatabase(config.database):
+        db = arangoconn[config.database]
+    else:
+        db = arangoconn.createDatabase(name = config.database) 
+    if db.hasCollection(config.collection):
+        collection = db[config.collection]
+    else:
+        collection = db.createCollection(name = config.collection)
+    return collection
 
 
 # def dezip(file, zip):
@@ -91,6 +94,7 @@ def auto_tag(input):
     return [key[0] for key in keyphrases], words, meta
 
 def main(typ, path = '', pdf = False, recursive = False, zip = None, update = False):
+    collection = setup()
     path = path if path.endswith(os.path.sep) else path + os.path.sep
     typedict = defaultdict(lambda:'.xml')
     typedict['bib'] = '.bib'
@@ -109,12 +113,12 @@ def main(typ, path = '', pdf = False, recursive = False, zip = None, update = Fa
             for entry in fundict[typ](data):
                 if update:
                     try:
-                        doc = coll[entry['id']]
+                        doc = collection[entry['id']]
                     except DocumentNotFoundError:
-                        doc = coll.createDocument()
+                        doc = collection.createDocument()
                         doc._key = entry['id']
                 else:
-                    doc = coll.createDocument()
+                    doc = collection.createDocument()
                     doc._key = entry['id']
                 for field in entry:
                     if field == 'id':
