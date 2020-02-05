@@ -32,7 +32,7 @@ from nltk.corpus import stopwords
 from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError, CreationError
 from config import read_config
-    
+
 
 def setup():
     config = read_config()
@@ -109,7 +109,7 @@ def main(typ, path = '', pdf = False, recursive = False, zip = None, update = Fa
     bar = Bar('files', max=len(files))
     for file in files:
         first = True
-        with opendict[zip](file, 'r', encoding='utf-8') as data:
+        with opendict[zip](file, 'rt', encoding='utf-8') as data:
             for entry in fundict[typ](data):
                 if update:
                     try:
