@@ -103,7 +103,7 @@ def auto_tag(input):
     keyphrases = extractor.get_n_best(n=10)
     return [key[0] for key in keyphrases], words, meta
 
-def main(doc_format, path = '', pdf = False, recursive = False, zip = None, update = False):
+def main(doc_format, path = '', pdf = False, recursive = False, compression = None, update = False):
     collection = setup()
     path = path if path.endswith(os.path.sep) else path + os.path.sep
     typedict = defaultdict(lambda:'.xml')
@@ -114,12 +114,12 @@ def main(doc_format, path = '', pdf = False, recursive = False, zip = None, upda
     opendict = defaultdict(lambda:open)
     opendict.update({'gzip':gzip.open,'bzip':bz2.open})
     f = f'**{os.path.sep}' if recursive else ''
-    files = glob.glob(f'{path}{f}*{typedict[doc_format]}{zipdict[zip]}', recursive = recursive)
-    logging.info(f'{len(files)} {typedict[doc_format]}{zipdict[zip]}-files found')
+    files = glob.glob(f'{path}{f}*{typedict[doc_format]}{zipdict[compression]}', recursive = recursive)
+    logging.info(f'{len(files)} {typedict[doc_format]}{zipdict[compression]}-files found')
     bar = Bar('files', max=len(files))
     for file in files:
         first = True
-        with opendict[zip](file, 'rt', encoding='utf-8') as data:
+        with opendict[compression](file, 'rt', encoding='utf-8') as data:
             for entry in fundict[doc_format](data):
                 create_id(entry, doc_format)
                 if update:
@@ -163,8 +163,8 @@ if __name__ == '__main__':
     parser.add_argument('--path', help='Path to the directory', default='')
     parser.add_argument('--pdf', help='Search and Save PDFs of the bib Data', action='store_true')
     parser.add_argument('--recursive', help='Searching of Subdirectory', action='store_true')
-    parser.add_argument('--zip', choices=['zip', 'gzip', 'zstd', 'bzip2'], help='Archive?', default=None)
+    parser.add_argument('--compression', choices=['zip', 'gzip', 'zstd', 'bzip2'], help='Archive?', default=None)
     parser.add_argument('--update', help='update arango if true', action='store_true')
 
     args = parser.parse_args()
-    main(args.type, args.path, args.pdf, args.recursive, args.zip, args.update)
+    main(args.type, args.path, args.pdf, args.recursive, args.compression, args.update)
