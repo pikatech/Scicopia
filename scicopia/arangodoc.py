@@ -35,10 +35,10 @@ from pyArango.theExceptions import DocumentNotFoundError, CreationError
 from config import read_config
 
 
-def create_id(doc: Dict, format: str) -> None:
-    if format == 'pubmed':
+def create_id(doc: Dict, doc_format: str) -> None:
+    if doc_format == 'pubmed':
         doc['id'] = f'PMID{doc["PMID"]}'
-    elif format == 'arxiv':
+    elif doc_format == 'arxiv':
         doc['id'] = f'arXiv{doc["id"]}'
 #   elif format == 'bibtex':
 #       pass
@@ -103,7 +103,7 @@ def auto_tag(input):
     keyphrases = extractor.get_n_best(n=10)
     return [key[0] for key in keyphrases], words, meta
 
-def main(typ, path = '', pdf = False, recursive = False, zip = None, update = False):
+def main(doc_format, path = '', pdf = False, recursive = False, zip = None, update = False):
     collection = setup()
     path = path if path.endswith(os.path.sep) else path + os.path.sep
     typedict = defaultdict(lambda:'.xml')
@@ -114,14 +114,14 @@ def main(typ, path = '', pdf = False, recursive = False, zip = None, update = Fa
     opendict = defaultdict(lambda:open)
     opendict.update({'gzip':gzip.open,'bzip':bz2.open})
     f = f'**{os.path.sep}' if recursive else ''
-    files = glob.glob(f'{path}{f}*{typedict[typ]}{zipdict[zip]}', recursive = recursive)
-    logging.info(f'{len(files)} {typedict[typ]}{zipdict[zip]}-files found')
+    files = glob.glob(f'{path}{f}*{typedict[doc_format]}{zipdict[zip]}', recursive = recursive)
+    logging.info(f'{len(files)} {typedict[doc_format]}{zipdict[zip]}-files found')
     bar = Bar('files', max=len(files))
     for file in files:
         first = True
         with opendict[zip](file, 'rt', encoding='utf-8') as data:
-            for entry in fundict[typ](data):
-                create_id(entry, typ)
+            for entry in fundict[doc_format](data):
+                create_id(entry, doc_format)
                 if update:
                     try:
                         doc = collection[entry['id']]
