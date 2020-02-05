@@ -162,8 +162,8 @@ if __name__ == '__main__':
     parser.add_argument('type', choices=['bib', 'pubmed', 'arxiv', 'grobid'], help='Type of the Data')
     parser.add_argument('--path', help='Path to the directory', default='')
     parser.add_argument('--pdf', help='Search and Save PDFs of the bib Data', action='store_true')
-    parser.add_argument('--recursive', help='Searching of Subdirectory', action='store_true')
-    parser.add_argument('--compression', choices=['zip', 'gzip', 'zstd', 'bzip2'], help='Archive?', default=None)
+    parser.add_argument('-r', '--recursive', help='Searching of Subdirectory', action='store_true')
+    parser.add_argument('-c', '--compression', choices=['zip', 'gzip', 'zstd', 'bzip2'], help='Archive?', default=None)
     parser.add_argument('--update', help='update arango if true', action='store_true')
 
     args = parser.parse_args()
