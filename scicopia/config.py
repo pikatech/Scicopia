@@ -1,13 +1,13 @@
 from collections import namedtuple
 import json
-from os.path import exists
+from os.path import exists, join
 import sys
 
 Config = namedtuple('Config', ['username', 'password', 'secret', 'hosts',
                                'index', 'database', 'collection',
                                'usercollection', 'mailusername',
                                'mailpassword'])
-CONFIG = 'config.json'
+CONFIG = join('..', 'config.json')
 
 def read_config():
     if exists(CONFIG):
