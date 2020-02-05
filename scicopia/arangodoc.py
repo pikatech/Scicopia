@@ -13,6 +13,7 @@ import os
 import argparse
 import base64
 from collections import defaultdict
+from typing import Dict
 from progress.bar import Bar
 
 # import zstandard as zstd
@@ -32,6 +33,15 @@ from nltk.corpus import stopwords
 from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError, CreationError
 from config import read_config
+
+
+def create_id(doc: Dict, format: str) -> None:
+    if format == 'pubmed':
+        doc['id'] = f'PMID{doc["PMID"]}'
+    elif format == 'arxiv':
+        doc['id'] = f'arXiv{doc["id"]}'
+#   elif format == 'bibtex':
+#       pass
 
 
 def setup():
@@ -111,6 +121,7 @@ def main(typ, path = '', pdf = False, recursive = False, zip = None, update = Fa
         first = True
         with opendict[zip](file, 'rt', encoding='utf-8') as data:
             for entry in fundict[typ](data):
+                create_id(entry, typ)
                 if update:
                     try:
                         doc = collection[entry['id']]
