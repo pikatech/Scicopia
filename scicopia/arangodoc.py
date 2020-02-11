@@ -38,8 +38,8 @@ from config import read_config
 def create_id(doc: Dict, doc_format: str) -> None:
     if doc_format == 'pubmed':
         doc['id'] = f'PMID{doc["PMID"]}'
-    elif doc_format == 'arxiv':
-        doc['id'] = f'arXiv{doc["id"]}'
+#   elif doc_format == 'arxiv':
+#       pass
 #   elif format == 'bibtex':
 #       pass
 
