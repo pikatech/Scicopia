@@ -117,7 +117,7 @@ def pdfsave(file):
 def auto_tag(input):
     '''
     Extract keyphrases from text via pke (Python Keyphrase Extraction toolkit)
-    '''f
+    '''
     extractor = pke.unsupervised.MultipartiteRank()
     extractor.load_document(input=input, encoding="utf-8")
     sentences = extractor.sentences
