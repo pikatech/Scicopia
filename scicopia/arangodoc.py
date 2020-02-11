@@ -19,7 +19,6 @@ from progress.bar import Bar
 
 import bz2
 import gzip
-import zipfile
 import zstandard as zstd
 
 from parser.bibtex import parse as bib
