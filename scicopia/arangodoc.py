@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -8,18 +7,20 @@ Created on Tue Aug 27 16:18:45 2019
 """
 
 import glob
+from io import BufferedReader, TextIOWrapper
 import logging
 import os
 import argparse
 import base64
+from contextlib import contextmanager
 from collections import defaultdict
 from typing import Dict
 from progress.bar import Bar
 
-# import zstandard as zstd
-import zipfile
-import gzip
 import bz2
+import gzip
+import zipfile
+import zstandard as zstd
 
 from parser.bibtex import parse as bib
 from parser.pubmed import parse as pubmed
@@ -42,6 +43,36 @@ def create_id(doc: Dict, doc_format: str) -> None:
         doc['id'] = f'arXiv{doc["id"]}'
 #   elif format == 'bibtex':
 #       pass
+
+
+@contextmanager
+def zstd_open(filename: str, mode: str = 'rb', encoding: str = 'utf-8') -> BufferedReader:
+    '''
+    This is an auxilliary function to provide an open() function which supports
+    readline(), as ZstdDecompressor and the object produced by
+    ZstdDecompressor.stream_reader() don't have one.'
+
+    Parameters
+    ----------
+    filename : str
+        DESCRIPTION.
+    mode : str, optional
+        This parameter only exists to keep compatibility with other open()
+        functions and will be ignored. Interally, the mode is always 'rb'.
+        The default is 'rb'.
+    encoding : str, optional
+        The name of the encoding used in the file. The default is 'utf-8'.
+
+    Yields
+    ------
+    BufferedReader
+        DESCRIPTION.
+
+    '''
+    dctx = zstd.ZstdDecompressor()
+    with open(filename, mode='rb') as fh:
+        with dctx.stream_reader(fh) as reader:
+            yield TextIOWrapper(BufferedReader(reader, 32768), encoding=encoding)
 
 
 def setup():
@@ -86,7 +117,7 @@ def pdfsave(file):
 def auto_tag(input):
     '''
     Extract keyphrases from text via pke (Python Keyphrase Extraction toolkit)
-    '''
+    '''f
     extractor = pke.unsupervised.MultipartiteRank()
     extractor.load_document(input=input, encoding="utf-8")
     sentences = extractor.sentences
@@ -112,7 +143,7 @@ def main(doc_format, path = '', pdf = False, recursive = False, compression = No
     zipdict.update({'gzip':'.gz', 'bzip2':'.bz2','zstd':'.zstd','zip':'.zip'})
     fundict = {'bib':bib, 'pubmed':pubmed, 'arxiv':arxiv}#, 'grobid':grobid}
     opendict = defaultdict(lambda:open)
-    opendict.update({'gzip':gzip.open,'bzip':bz2.open})
+    opendict.update({'gzip':gzip.open, 'bzip':bz2.open, 'zstd':zstd_open})
     f = f'**{os.path.sep}' if recursive else ''
     files = glob.glob(f'{path}{f}*{typedict[doc_format]}{zipdict[compression]}', recursive = recursive)
     logging.info(f'{len(files)} {typedict[doc_format]}{zipdict[compression]}-files found')
