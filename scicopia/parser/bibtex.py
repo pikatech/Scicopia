@@ -4,7 +4,6 @@
 import logging
 from typing import Dict
 
-# from pybtex.database import parse_stream
 from pybtex.database.input.bibtex import Parser
 from pybtex.exceptions import PybtexError
 
