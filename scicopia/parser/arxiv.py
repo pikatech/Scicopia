@@ -2,11 +2,9 @@
 # Encoding: utf-8
 
 import xml.etree.ElementTree as ET
-from typing import Dict
-import glob
 import re
 import logging
-import zstandard as zstd
+from typing import Dict
 
 date_pattern = re.compile(r'(\d{4})-\d{2}-\d{2}', re.ASCII)
 
@@ -26,7 +24,7 @@ TITLE = f'{METADATA}{DC}/{{http://purl.org/dc/elements/1.1/}}title'
 DESC = f'{METADATA}{DC}/{{http://purl.org/dc/elements/1.1/}}description'
 METAID = f'{METADATA}{DC}/{{http://purl.org/dc/elements/1.1/}}identifier'
 
-def parse(source: str) -> Dict[str, str] :
+def parse(source) -> Dict[str, str] :
     context = ET.iterparse(source, events=("start", "end"))
     # turn it into an iterator
     context = iter(context)
@@ -80,7 +78,7 @@ def parse(source: str) -> Dict[str, str] :
                 doc['subject'] = subject
             else:
                 logging.warning(f'Record {id} doesn\'t contain any subjects')
-            description = tuple(x.text for x in elem.findall(DESC))
+            description = '\n'.join(x.text for x in elem.findall(DESC))
             if description:
                 doc['abstract'] = description
             else:
