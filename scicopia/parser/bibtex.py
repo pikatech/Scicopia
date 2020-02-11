@@ -4,7 +4,8 @@
 import logging
 from typing import Dict
 
-from pybtex.database import parse_file
+# from pybtex.database import parse_stream
+from pybtex.database.input.bibtex import Parser
 from pybtex.exceptions import PybtexError
 
 allowed = {'author', 'editor', 'publisher', 'institution', 'title',
@@ -12,10 +13,10 @@ allowed = {'author', 'editor', 'publisher', 'institution', 'title',
         'volume', 'number', 'doi', 'cited-by', 'citing'}
 
 
-def parse(source: str) -> Dict[str, str]:
-    bib_format = 'bibtex'
+def parse(source) -> Dict[str, str]:
     try:
-        bib_data = parse_file(bibfile, bib_format)
+        parser = Parser()
+        bib_data = parser.parse_stream(source)
         for entry in bib_data.entries.itervalues():
             datadict = dict()
             datadict['id'] = entry.key
