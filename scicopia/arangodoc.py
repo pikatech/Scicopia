@@ -21,14 +21,13 @@ import bz2
 import gzip
 import zstandard as zstd
 
-from parser.bibtex import parse as bib
-from parser.pubmed import parse as pubmed
-from parser.arxiv import parse as arxiv
+from bibtex import parse as bib
+from pubmed import parse as pubmed
+from arxiv import parse as arxiv
+# from parser.bibtex import parse as bib
+# from parser.pubmed import parse as pubmed
+# from parser.arxiv import parse as arxiv
 # from parser.grobid_parse import grobid
-
-import pke
-import string
-from nltk.corpus import stopwords
 
 from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError, CreationError
@@ -87,22 +86,6 @@ def setup():
         collection = db.createCollection(name = config.collection)
     return collection
 
-
-# def dezip(file, zip):
-    # ! zstd und zip als spezialfall erstmal zurück stellen
-    # elif zip == 'zstd':
-    #     with open(file, 'rb') as f:
-    #         dctx = zstd.ZstdDecompressor()
-    #         return dctx.stream_reader(f)
-    # elif zip == 'zip':
-    #     files = glob.glob(f'{path}**.zip', recursive = recursive)
-    #     for file in files:
-    #         with zipfile.ZipFile(files, 'r') as zip_ref:
-    #             zip_ref.extractall('extract')
-    #     # schreibt alle dateien in den neuen extract ordner
-    #     # alternativ f'{path}/extract', jenachdem ob es im programmordner oder dataordner sein soll
-    #     loggin.info('Files are extracted to extract in current direction')
-
 def pdfsave(file):
     file = f'{file[:file.rindex(".")]}.pdf' # muss ich noch verbessern
     try:
@@ -112,26 +95,6 @@ def pdfsave(file):
     except FileNotFoundError:
         data = ''
     return data
-
-def auto_tag(input):
-    '''
-    Extract keyphrases from text via pke (Python Keyphrase Extraction toolkit)
-    '''
-    extractor = pke.unsupervised.MultipartiteRank()
-    extractor.load_document(input=input, encoding="utf-8")
-    sentences = extractor.sentences
-    words = [sentence.words for sentence in sentences]
-    meta = [sentence.meta for sentence in sentences]
-    pos = {'NOUN', 'PROPN', 'ADJ'}
-    stoplist = list(string.punctuation)
-    stoplist += ['-lrb-', '-rrb-', '-lcb-', '-rcb-', '-lsb-', '-rsb-']
-    stoplist += stopwords.words('english')
-    extractor.candidate_selection(pos=pos, stoplist=stoplist)
-    extractor.candidate_weighting(alpha=1.1,
-                              threshold=0.74,
-                              method='average')
-    keyphrases = extractor.get_n_best(n=10)
-    return [key[0] for key in keyphrases], words, meta
 
 def main(doc_format, path = '', pdf = False, recursive = False, compression = None, update = False):
     collection = setup()
@@ -164,14 +127,7 @@ def main(doc_format, path = '', pdf = False, recursive = False, compression = No
                 for field in entry:
                     if field == 'id':
                         continue
-                    elif field == 'abstract':
-                        keyphrases, words, meta = auto_tag(entry[field])
-                        doc[field] = entry[field]
-                        doc['auto_tags'] = keyphrases
-                        doc['words'] = words
-                        doc['meta'] = meta
-                    else:
-                        doc[field] = entry[field]
+                    doc[field] = entry[field]
                 if pdf:
                     data = pdfsave(file)
                     if data:
