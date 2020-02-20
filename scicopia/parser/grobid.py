@@ -153,13 +153,3 @@ def parse(filename: TextIOBase) -> Dict:
         bib['fulltext'] = text
     
     return bib
-
-
-PATH = '/home/tech/Dokumente/AquaDiva/xml-0.5.6/'
-files = glob.glob(f'{PATH}*.tei.xml')
-content = [None] * len(files)
-for i,f in enumerate(files):
-    with open(f, 'rt') as doc:
-        content[i] = parse(doc)
-        if not ('title' in content[i] or 'doi' in content[i]):
-            logging.warning(f'Cannot identify document {f}')
