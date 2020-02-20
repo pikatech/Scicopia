@@ -80,7 +80,7 @@ def parse(source) -> Dict[str, str] :
                 logging.warning(f'Record {id} doesn\'t contain any subjects')
             description = '\n'.join(x.text for x in elem.findall(DESC))
             if description:
-                doc['abstract'] = description
+                doc['abstract'] = description.strip()
             else:
                 logging.warning(f'Record {id} doesn\'t contain any description')
             meta_id = tuple(x.text for x in elem.findall(METAID))
