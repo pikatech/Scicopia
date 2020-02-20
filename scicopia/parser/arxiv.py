@@ -59,7 +59,7 @@ def parse(source) -> Dict[str, str] :
                 logging.warning(f'Record {id} doesn\'t contain a date')
                 continue
             # zero or more setSpec elements
-            setSpec = frozenset(x.text for x in elem.findall(SETSPEC))
+            setSpec = set(x.text for x in elem.findall(SETSPEC))
             doc['setSpec'] = setSpec
             title = elem.find(TITLE)
             if title is not None:
@@ -73,7 +73,7 @@ def parse(source) -> Dict[str, str] :
                 doc['author'] = author
             else:
                 logging.warning(f'Record {id} doesn\'t contain any authors')
-            subject = frozenset(x.text for x in elem.findall(SUBJECT))
+            subject = set(x.text for x in elem.findall(SUBJECT))
             if subject:
                 doc['subject'] = subject
             else:
