@@ -27,7 +27,7 @@ from arxiv import parse as arxiv
 # from parser.bibtex import parse as bib
 # from parser.pubmed import parse as pubmed
 # from parser.arxiv import parse as arxiv
-# from parser.grobid_parse import grobid
+from grobid import parse as grobid
 
 from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError, CreationError
@@ -103,7 +103,7 @@ def main(doc_format, path = '', pdf = False, recursive = False, compression = No
     typedict['bib'] = '.bib'
     zipdict = defaultdict(lambda:'')
     zipdict.update({'gzip':'.gz', 'bzip2':'.bz2','zstd':'.zstd','zip':'.zip'})
-    fundict = {'bib':bib, 'pubmed':pubmed, 'arxiv':arxiv}#, 'grobid':grobid}
+    fundict = {'bib': bib, 'pubmed': pubmed, 'arxiv': arxiv, 'grobid': grobid}
     opendict = defaultdict(lambda:open)
     opendict.update({'gzip':gzip.open, 'bzip':bz2.open, 'zstd':zstd_open})
     f = f'**{os.path.sep}' if recursive else ''
