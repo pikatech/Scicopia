@@ -21,9 +21,12 @@ import bz2
 import gzip
 import zstandard as zstd
 
-from parser.bibtex import parse as bib
-from parser.pubmed import parse as pubmed
-from parser.arxiv import parse as arxiv
+from bibtex import parse as bib
+from pubmed import parse as pubmed
+from arxiv import parse as arxiv
+# from parser.bibtex import parse as bib
+# from parser.pubmed import parse as pubmed
+# from parser.arxiv import parse as arxiv
 # from parser.grobid_parse import grobid
 
 from pyArango.connection import Connection
@@ -83,22 +86,6 @@ def setup():
         collection = db.createCollection(name = config.collection)
     return collection
 
-
-# def dezip(file, zip):
-    # ! zstd und zip als spezialfall erstmal zurück stellen
-    # elif zip == 'zstd':
-    #     with open(file, 'rb') as f:
-    #         dctx = zstd.ZstdDecompressor()
-    #         return dctx.stream_reader(f)
-    # elif zip == 'zip':
-    #     files = glob.glob(f'{path}**.zip', recursive = recursive)
-    #     for file in files:
-    #         with zipfile.ZipFile(files, 'r') as zip_ref:
-    #             zip_ref.extractall('extract')
-    #     # schreibt alle dateien in den neuen extract ordner
-    #     # alternativ f'{path}/extract', jenachdem ob es im programmordner oder dataordner sein soll
-    #     loggin.info('Files are extracted to extract in current direction')
-
 def pdfsave(file):
     file = f'{file[:file.rindex(".")]}.pdf' # muss ich noch verbessern
     try:
@@ -108,7 +95,6 @@ def pdfsave(file):
     except FileNotFoundError:
         data = ''
     return data
-
 
 def main(doc_format, path = '', pdf = False, recursive = False, compression = None, update = False):
     collection = setup()
@@ -141,8 +127,7 @@ def main(doc_format, path = '', pdf = False, recursive = False, compression = No
                 for field in entry:
                     if field == 'id':
                         continue
-                    else:
-                        doc[field] = entry[field]
+                    doc[field] = entry[field]
                 if pdf:
                     data = pdfsave(file)
                     if data:
@@ -169,3 +154,4 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     main(args.type, args.path, args.pdf, args.recursive, args.compression, args.update)
+
