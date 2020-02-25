@@ -21,13 +21,10 @@ import bz2
 import gzip
 import zstandard as zstd
 
-from bibtex import parse as bib
-from pubmed import parse as pubmed
-from arxiv import parse as arxiv
-# from parser.bibtex import parse as bib
-# from parser.pubmed import parse as pubmed
-# from parser.arxiv import parse as arxiv
-from grobid import parse as grobid
+from parser.bibtex import parse as bib
+from parser.pubmed import parse as pubmed
+from parser.arxiv import parse as arxiv
+from parser.grobid import parse as grobid
 
 from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError, CreationError
@@ -75,15 +72,22 @@ def zstd_open(filename: str, mode: str = 'rb', encoding: str = 'utf-8') -> Buffe
 
 def setup():
     config = read_config()
-    arangoconn = Connection(username = config.username, password = config.password)
-    if arangoconn.hasDatabase(config.database):
-        db = arangoconn[config.database]
+    if 'arango_url' in config:
+        arangoconn = Connection(arangoURL = config['arango_url'],
+                                username = config['username'],
+                                password = config['password'])
     else:
-        db = arangoconn.createDatabase(name = config.database) 
-    if db.hasCollection(config.collection):
-        collection = db[config.collection]
+        arangoconn = Connection(username = config['username'],
+                                password = config['password'])
+        
+    if arangoconn.hasDatabase(config['database']):
+        db = arangoconn[config['database']]
     else:
-        collection = db.createCollection(name = config.collection)
+        db = arangoconn.createDatabase(name = config['database']) 
+    if db.hasCollection(config['collection']):
+        collection = db[config['collection']]
+    else:
+        collection = db.createCollection(name = config['collection'])
     return collection
 
 def pdfsave(file):
@@ -124,6 +128,7 @@ def main(doc_format, path = '', pdf = False, recursive = False, compression = No
                 else:
                     doc = collection.createDocument()
                     doc._key = entry['id']
+                    print(entry['id'])
                 for field in entry:
                     if field == 'id':
                         continue
