@@ -2,7 +2,8 @@ import json
 from os.path import exists, join
 import sys
 
-CONFIG = join('..', 'config.json')
+CONFIG = join("..", "config.json")
+
 
 def read_config():
     if exists(CONFIG):
@@ -11,5 +12,5 @@ def read_config():
     else:
         print("Could not find configuration file {0}.".format(CONFIG))
         sys.exit(1)
-    
+
     return conf
