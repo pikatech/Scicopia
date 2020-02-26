@@ -28,7 +28,7 @@ from parser.arxiv import parse as arxiv
 from parser.grobid import parse as grobid
 
 from pyArango.connection import Connection
-from pyArango.theExceptions import DocumentNotFoundError, CreationError, UpdateError
+from pyArango.theExceptions import DocumentNotFoundError, UpdateError
 from config import read_config
 
 # See: https://www.arangodb.com/docs/stable/data-modeling-naming-conventions-document-keys.html
