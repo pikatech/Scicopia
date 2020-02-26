@@ -14,7 +14,7 @@ import base64
 import os
 import re
 from contextlib import contextmanager
-from collections import defaultdict
+from collections import defaultdict, deque
 from typing import Dict
 from progress.bar import Bar
 
@@ -27,8 +27,9 @@ from parser.pubmed import parse as pubmed
 from parser.arxiv import parse as arxiv
 from parser.grobid import parse as grobid
 
+from pyArango.collection import Collection
 from pyArango.connection import Connection
-from pyArango.theExceptions import DocumentNotFoundError, CreationError
+from pyArango.theExceptions import DocumentNotFoundError, UpdateError
 from config import read_config
 
 # See: https://www.arangodb.com/docs/stable/data-modeling-naming-conventions-document-keys.html
@@ -78,7 +79,7 @@ def zstd_open(
             yield TextIOWrapper(BufferedReader(reader, 32768), encoding=encoding)
 
 
-def setup():
+def setup() -> Collection:
     config = read_config()
     if "arango_url" in config:
         arangoconn = Connection(
@@ -102,19 +103,25 @@ def setup():
     return collection
 
 
-def pdfsave(file):
+def pdfsave(file: str) -> bytes:
     file = f'{file[:file.rindex(".")]}.pdf'  # muss ich noch verbessern
     try:
         with open(file, "rb") as f:
             data = base64.b64encode(f.read())
             data = data.decode()
     except FileNotFoundError:
-        data = ""
+        data = b""
     return data
 
 
 def main(
-    doc_format, path="", pdf=False, recursive=False, compression=None, update=False
+    doc_format: str,
+    path: str = "",
+    pdf: bool = False,
+    recursive: bool = False,
+    compression: str = "none",
+    update: bool = False,
+    batch_size: int = 1000,
 ):
     collection = setup()
     path = path if path.endswith(os.path.sep) else path + os.path.sep
@@ -136,7 +143,7 @@ def main(
     for file in files:
         first = True
         with opendict[compression](file, "rt", encoding="utf-8") as data:
-            docs = [None] * 100
+            docs = deque(maxlen=batch_size)
             for entry in fundict[doc_format](data):
                 create_id(entry, doc_format)
                 if update:
@@ -162,12 +169,23 @@ def main(
                         if first:
                             logging.warning(f"No PDF found for {file}\n")
                             first = False
+                docs.append(doc)
+                if len(docs) == docs.maxlen:
+                    try:
+                        collection.bulkSave(docs, details=True)
+                    except UpdateError as e:
+                        logging.error(e.message)
+                        logging.error(e.errors)
+                    finally:
+                        docs.clear()
+            if len(docs) != 0:
                 try:
-                    doc.save()
-                except CreationError:
-                    logging.warning(
-                        f'Key {entry["id"]} already exists. To update the Data use --update\n'
-                    )
+                    collection.bulkSave(docs, details=True)
+                except UpdateError as e:
+                    logging.error(e.message)
+                    logging.error(e.errors)
+                finally:
+                    docs.clear()
         bar.next()
     bar.finish()
 
@@ -189,9 +207,20 @@ if __name__ == "__main__":
         "--compression",
         choices=["zip", "gzip", "zstd", "bzip2"],
         help="Archive?",
-        default=None,
+        default="none",
+    )
+    parser.add_argument(
+        "--batch", type=int, help="Batch size of bulk import", default=1000,
     )
     parser.add_argument("--update", help="update arango if true", action="store_true")
 
     args = parser.parse_args()
-    main(args.type, args.path, args.pdf, args.recursive, args.compression, args.update)
+    main(
+        args.type,
+        args.path,
+        args.pdf,
+        args.recursive,
+        args.compression,
+        args.update,
+        args.batch,
+    )
