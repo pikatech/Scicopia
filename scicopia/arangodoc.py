@@ -115,7 +115,7 @@ def pdfsave(file):
 
 def main(
     doc_format, path="", pdf=False, recursive=False, compression=None, update=False,
-    batch_size: int=100
+    batch_size: int=1000
 ):
     collection = setup()
     path = path if path.endswith(os.path.sep) else path + os.path.sep
@@ -203,7 +203,14 @@ if __name__ == "__main__":
         help="Archive?",
         default=None,
     )
+    parser.add_argument(
+        "--batch",
+        type=int,
+        help="Batch size of bulk import",
+        default=1000,
+    )
     parser.add_argument("--update", help="update arango if true", action="store_true")
 
     args = parser.parse_args()
-    main(args.type, args.path, args.pdf, args.recursive, args.compression, args.update)
+    main(args.type, args.path, args.pdf, args.recursive, args.compression, args.update,
+         args.batch)
