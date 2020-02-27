@@ -30,6 +30,20 @@ def extract_abstract(abstract: Element) -> str:
 
 
 def extract_authors(authors: Element) -> List[str]:
+    """
+    Extract the list of authors from an AuthorList node.
+
+    Parameters
+    ----------
+    authors : Element
+        An AuthorList XML node element.
+
+    Returns
+    -------
+    List[str]
+        A list of authors including their fore names (or initials), last names and suffixes.
+
+    """
     # <!ELEMENT	Author (((LastName, ForeName?, Initials?, Suffix?) |
     #                    CollectiveName),
     #                   Identifier*, AffiliationInfo*) >
