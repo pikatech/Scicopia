@@ -139,7 +139,7 @@ def main(
     logging.info(
         f"{len(files)} {typedict[doc_format]}{zipdict[compression]}-files found"
     )
-    bar = Bar("files", max=len(files))
+    progress = Bar("files", max=len(files))
     for file in files:
         first = True
         with opendict[compression](file, "rt", encoding="utf-8") as data:
@@ -186,8 +186,8 @@ def main(
                     logging.error(e.errors)
                 finally:
                     docs.clear()
-        bar.next()
-    bar.finish()
+        progress.next()
+    progress.finish()
 
 
 if __name__ == "__main__":
