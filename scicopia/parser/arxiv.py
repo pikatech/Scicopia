@@ -27,7 +27,7 @@ METAID = f"{METADATA}{DC}/{{http://purl.org/dc/elements/1.1/}}identifier"
 
 
 def parse(source: TextIOBase) -> Dict[str, str]:
-    '''
+    """
     Extracts information out of arXiv documents that were harvested using the
     Open Archives Initiative Protocol for Metadata Harvesting (OAI-MPH).
 
@@ -43,7 +43,7 @@ def parse(source: TextIOBase) -> Dict[str, str]:
         A collection of document ID, date, year, authors, title, abstract and category.
         The field meta_id might contain several of (one each): DOI, url or citation.
 
-    '''
+    """
     context = ET.iterparse(source, events=("start", "end"))
     # turn it into an iterator
     context = iter(context)
