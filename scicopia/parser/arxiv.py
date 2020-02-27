@@ -52,9 +52,9 @@ def parse(source: TextIOBase) -> Dict[str, str]:
 
     for event, elem in context:
         if event == "end" and elem.tag == RECORD:
-            id = elem.find(HEADERID)
-            if id is not None:
-                id = id.text
+            doc_id = elem.find(HEADERID)
+            if doc_id is not None:
+                doc_id = doc_id.text
             else:
                 logging.warning(f"Found record without ID in file {source}")
                 continue
@@ -66,7 +66,7 @@ def parse(source: TextIOBase) -> Dict[str, str]:
                 logging.info(f"Record {id} has been deleted")
                 continue
             doc = dict()
-            doc["id"] = id
+            doc["id"] = doc_id
             date = elem.find(HEADERDATE)
             if date is not None:
                 date = date.text
