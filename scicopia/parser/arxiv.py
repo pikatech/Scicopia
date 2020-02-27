@@ -108,3 +108,4 @@ def parse(source: TextIOBase) -> Dict[str, str]:
             if meta_id:
                 doc["meta_id"] = meta_id
             yield doc
+            root.clear()
