@@ -16,36 +16,50 @@ from config import read_config
 from progress.bar import Bar
 
 config = read_config()
-conn = connections.create_connection(hosts=config.hosts)
-arangoconn = Connection(username=config.username, password=config.password)
-if arangoconn.hasDatabase(config.database):
-    db = arangoconn[config.database]
-else:
-    logging.error(f"Database {config.database} not found.")
-if db.hasCollection(config.collection):
-    coll = db[config.collection]
-else:
-    logging.error(f"Collection {config.collection} not found.")
+def setup():
+    conn = connections.create_connection(hosts=config["es_hosts"])
+    if "arango_url" in config:
+        arangoconn = Connection(
+            arangoURL=config["arango_url"],
+            username=config["username"],
+            password=config["password"],
+        )
+    else:
+        arangoconn = Connection(
+            username=config["username"], password=config["password"]
+        )
 
-allowed = {
-    "author",
-    "editor",
-    "publisher",
-    "institution",
-    "title",
-    "booktitle",
-    "abstract",
-    "keywords",
-    "auto_tags",
-    "year",
-    "pages",
-    "journal",
-    "volume",
-    "number",
-    "doi",
-    "cited_by",
-    "citing",
-}
+    if arangoconn.hasDatabase(config["database"]):
+        db = arangoconn[config["database"]]
+    else:
+        logging.error(f"Database {config['database']} not found.")
+
+    if db.hasCollection(config["collection"]):
+        coll = db[config["collection"]]
+    else:
+        logging.error(f"Collection {config['collection']} not found.")
+
+    allowed = {
+        "author",
+        "editor",
+        "publisher",
+        "institution",
+        "title",
+        "booktitle",
+        "abstract",
+        "keywords",
+        "auto_tags",
+        "year",
+        "pages",
+        "journal",
+        "volume",
+        "number",
+        "doi",
+        "cited_by",
+        "citing",
+    }
+    return coll, db, config["collection"], allowed
+
 # Used to declare the structure of documents and to
 # initialize the Elasticsearch index with the correct data types
 class Bibdoc(Document):
@@ -71,7 +85,7 @@ class Bibdoc(Document):
     created_at = Date()
 
     class Index:
-        name = config.index
+        name = config["index"]
 
     def save(self, **kwargs):
         self.created_at = datetime.now()
@@ -79,14 +93,18 @@ class Bibdoc(Document):
 
 
 def main():
+    collection , db, collectionName, allowed = setup()
     Bibdoc.init()
-    queryResult = coll.fetchAll()
-    bar = Bar("entries", max=len(queryResult))
-    for entry in queryResult:
-        doc = Bibdoc(meta={"id": entry._key})
+    aql = f"FOR x IN {collectionName}  RETURN x._key"
+    query = db.AQLQuery(aql, rawResults=True, batchSize=10)
+    # cursor error with higher batchSize, reason not found
+    bar = Bar("entries", max=collection.count())
+    for key in query:
+        doc = Bibdoc(meta={"id": key})
+        arangodoc = collection[key]
         for field in allowed:
             try:
-                doc[field] = entry[field]
+                doc[field] = arangodoc[field]
             except DocumentNotFoundError as ignore:
                 pass
         doc.save()
