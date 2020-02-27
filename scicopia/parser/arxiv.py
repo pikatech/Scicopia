@@ -65,7 +65,7 @@ def parse(source) -> Dict[str, str]:
             title = elem.find(TITLE)
             if title is not None:
                 title = title.text
-                doc["title"] = title
+                doc["title"] = title.replace("\n", " ")
             else:
                 logging.warning(f"Record {id} doesn't contain a title")
                 continue
