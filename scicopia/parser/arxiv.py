@@ -56,14 +56,14 @@ def parse(source: TextIOBase) -> Dict[str, str]:
             if doc_id is not None:
                 doc_id = doc_id.text
             else:
-                logging.warning(f"Found record without ID in file {source}")
+                logging.warning("Found record without ID in file %s", source)
                 continue
             # An optional status attribute with a value of deleted
             # indicates the withdrawal of availability of the specified
             # metadata format for the item, dependent on the repository
             # support for deletions.
-            if elem.find(HEADER + "[@status='deleted']") is not None:
-                logging.info(f"Record {id} has been deleted")
+            if elem.find(f"{HEADER}[@status='deleted']") is not None:
+                logging.info("Record %s has been deleted", doc_id)
                 continue
             doc = dict()
             doc["id"] = doc_id
@@ -75,7 +75,7 @@ def parse(source: TextIOBase) -> Dict[str, str]:
                 if not match is None:
                     doc["year"] = match.group(1)
             else:
-                logging.warning(f"Record {id} doesn't contain a date")
+                logging.warning("Record %s doesn't contain a date", doc_id)
                 continue
             # zero or more setSpec elements
             set_spec = set(x.text for x in elem.findall(SETSPEC))
@@ -85,25 +85,25 @@ def parse(source: TextIOBase) -> Dict[str, str]:
                 title = title.text
                 doc["title"] = title.replace("\n", " ")
             else:
-                logging.warning(f"Record {id} doesn't contain a title")
+                logging.warning("Record %s doesn't contain a title", doc_id)
                 continue
             author = tuple(x.text for x in elem.findall(CREATOR))
             if author:
                 doc["author"] = author
             else:
-                logging.warning(f"Record {id} doesn't contain any authors")
+                logging.warning("Record %s doesn't contain any authors", doc_id)
             subject = set(x.text for x in elem.findall(SUBJECT))
             if subject:
                 doc["subject"] = subject
             else:
-                logging.warning(f"Record {id} doesn't contain any subjects")
+                logging.warning("Record %s doesn't contain any subjects", doc_id)
             description = "\n".join(
                 x.text.replace("\n", " ") for x in elem.findall(DESC)
             )
             if description:
                 doc["abstract"] = description.strip()
             else:
-                logging.warning(f"Record {id} doesn't contain any description")
+                logging.warning("Record %s doesn't contain any description", doc_id)
             meta_id = tuple(x.text for x in elem.findall(METAID))
             if meta_id:
                 doc["meta_id"] = meta_id
