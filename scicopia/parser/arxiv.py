@@ -7,7 +7,7 @@ import re
 import logging
 from typing import Dict
 
-date_pattern = re.compile(r"(\d{4})-\d{2}-\d{2}", re.ASCII)
+DATE_PATTERN = re.compile(r"(\d{4})-\d{2}-\d{2}", re.ASCII)
 
 DC = "/{http://www.openarchives.org/OAI/2.0/oai_dc/}dc"
 OAI = "{http://www.openarchives.org/OAI/2.0/}"
@@ -71,15 +71,15 @@ def parse(source: TextIOBase) -> Dict[str, str]:
             if date is not None:
                 date = date.text
                 doc["date"] = date
-                match = date_pattern.match(date)
+                match = DATE_PATTERN.match(date)
                 if not match is None:
                     doc["year"] = match.group(1)
             else:
                 logging.warning(f"Record {id} doesn't contain a date")
                 continue
             # zero or more setSpec elements
-            setSpec = set(x.text for x in elem.findall(SETSPEC))
-            doc["setSpec"] = setSpec
+            set_spec = set(x.text for x in elem.findall(SETSPEC))
+            doc["setSpec"] = set_spec
             title = elem.find(TITLE)
             if title is not None:
                 title = title.text
