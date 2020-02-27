@@ -46,7 +46,7 @@ from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
-from config import read_config
+from .config import read_config
 
 config = read_config()
 conn = connections.create_connection(hosts=config["es_hosts"])
