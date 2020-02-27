@@ -21,9 +21,9 @@ def extract_abstract(abstract: Element) -> str:
         # Handle marked up text
         for tag in iter(part):
             if tag.text:
-                tag.text = "<" + tag.tag + ">" + tag.text + "<" + tag.tag + ">"
+                tag.text = f"<{tag.tag}>{tag.text}<{tag.tag}>"
         if "Label" in part.attrib:
-            text.append(part.attrib["Label"] + ": " + "".join(part.itertext()))
+            text.append(f"{part.attrib['Label']}: {''.join(part.itertext())}")
         else:
             text.append("".join(part.itertext()))
     return "\n".join(text)
@@ -73,7 +73,7 @@ def extract_mesh_headings(mesh_headings: Element, pmid: str) -> List[str]:
     for heading in headings:
         name = heading.find("DescriptorName")
         if name is None:
-            logging.warning(f"Article {pmid} is missing a descriptor name")
+            logging.warning("Article %s is missing a descriptor name", pmid)
         else:
             name = name.text
             headingList.append(name)
@@ -133,7 +133,7 @@ def parse(source) -> Dict[str, str]:
                 continue
             pmid = pmid.text
             article["PMID"] = pmid
-            article["url"] = "https://www.ncbi.nlm.nih.gov/pubmed/" + pmid
+            article["url"] = f"https://www.ncbi.nlm.nih.gov/pubmed/{pmid}"
             title = elem.find(".//ArticleTitle")
             if title is None:
                 logging.warning("Article %s should have had a title", pmid)
@@ -142,7 +142,7 @@ def parse(source) -> Dict[str, str]:
             # Handle marked up text
             for tag in iter(title):
                 if tag.text:
-                    tag.text = "<" + tag.tag + ">" + tag.text + "<" + tag.tag + ">"
+                    tag.text = f"<{tag.tag}>{tag.text}<{tag.tag}>"
             article["title"] = "".join(title.itertext())
 
             abstract = elem.find(".//Abstract")
