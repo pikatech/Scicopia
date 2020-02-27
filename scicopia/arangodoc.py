@@ -137,7 +137,7 @@ def main(
         f"{path}{f}*{typedict[doc_format]}{zipdict[compression]}", recursive=recursive
     )
     logging.info(
-        f"{len(files)} {typedict[doc_format]}{zipdict[compression]}-files found"
+        "%d %s%s-files found", len(files), typedict[doc_format], zipdict[compression]
     )
     progress = Bar("files", max=len(files))
     for file in files:
@@ -167,7 +167,7 @@ def main(
                         doc["pdf"] = data
                     else:
                         if first:
-                            logging.warning(f"No PDF found for {file}\n")
+                            logging.warning("No PDF found for %s", file)
                             first = False
                 docs.append(doc)
                 if len(docs) == docs.maxlen:
