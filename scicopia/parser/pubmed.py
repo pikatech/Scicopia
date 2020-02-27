@@ -34,7 +34,7 @@ def extract_authors(authors: Element) -> List[str]:
     #                    CollectiveName),
     #                   Identifier*, AffiliationInfo*) >
     team = authors.findall("Author")
-    authorList = []
+    author_list = []
     for author in team:
         if "ValidYN" in author.attrib and author.attrib["ValidYN"] == "N":
             continue
@@ -45,7 +45,7 @@ def extract_authors(authors: Element) -> List[str]:
         if forename is None:
             # Check for non-existing and also empty elements
             # e.g. <Initials/>
-            authorList.append(
+            author_list.append(
                 " ".join(
                     x.text
                     for x in [initials, lastname, suffix]
@@ -53,7 +53,7 @@ def extract_authors(authors: Element) -> List[str]:
                 )
             )
         else:
-            authorList.append(
+            author_list.append(
                 " ".join(
                     x.text
                     for x in [forename, lastname, suffix]
@@ -61,23 +61,23 @@ def extract_authors(authors: Element) -> List[str]:
                 )
             )
     if "CompleteYN" in author.attrib and author.attrib["CompleteYN"] == "N":
-        authorList.append("et al.")
-    return authorList
+        author_list.append("et al.")
+    return author_list
 
 
 def extract_mesh_headings(mesh_headings: Element, pmid: str) -> List[str]:
     # <!ELEMENT	MeshHeadingList (MeshHeading+)>
     # <!ELEMENT	MeshHeading (DescriptorName, QualifierName*)>
     headings = mesh_headings.findall("MeshHeading")
-    headingList = []
+    heading_list = []
     for heading in headings:
         name = heading.find("DescriptorName")
         if name is None:
             logging.warning("Article %s is missing a descriptor name", pmid)
         else:
             name = name.text
-            headingList.append(name)
-    return headingList
+            heading_list.append(name)
+    return heading_list
 
 
 def extract_journaldata(journal: Element, pmid: str) -> Dict[str, str]:
