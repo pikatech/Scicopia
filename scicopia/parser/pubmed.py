@@ -9,8 +9,9 @@ Main function is parse(source).
 #                  Abstract?,AuthorList?, Language+, DataBankList?, GrantList?,
 #                  PublicationTypeList, VernacularTitle?, ArticleDate*) >
 
+from io import TextIOWrapper
 import logging
-from typing import Dict, List
+from typing import Any, Dict, Generator, List, Union
 from xml.etree.ElementTree import iterparse, Element
 
 
@@ -131,7 +132,9 @@ def extract_journaldata(journal: Element, pmid: str) -> Dict[str, str]:
     return data
 
 
-def parse(source) -> Dict[str, str]:
+def parse(
+    source: TextIOWrapper,
+) -> Generator[Dict[str, Union[str, List[str]]], Any, None]:
     context = iterparse(source, events=("start", "end"))
     # turn it into an iterator
     context = iter(context)
@@ -181,5 +184,5 @@ def parse(source) -> Dict[str, str]:
             if mesh_headings is not None:
                 article["mesh"] = extract_mesh_headings(mesh_headings, pmid)
 
-            yield article
             root.clear()
+            yield article

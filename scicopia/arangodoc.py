@@ -7,7 +7,7 @@ Created on Tue Aug 27 16:18:45 2019
 """
 
 import glob
-from io import BufferedReader, TextIOWrapper
+from io import TextIOWrapper
 import logging
 import argparse
 import base64
@@ -15,7 +15,7 @@ import os
 import re
 from contextlib import contextmanager
 from collections import defaultdict, deque
-from typing import Dict
+from typing import Dict, Generator
 from progress.bar import Bar
 
 import bz2
@@ -50,7 +50,7 @@ def create_id(doc: Dict, doc_format: str) -> None:
 @contextmanager
 def zstd_open(
     filename: str, mode: str = "rb", encoding: str = "utf-8"
-) -> BufferedReader:
+) -> Generator[TextIOWrapper, None, None]:
     """
     This is an auxilliary function to provide an open() function which supports
     readline(), as ZstdDecompressor and the object produced by
@@ -69,14 +69,14 @@ def zstd_open(
 
     Yields
     ------
-    BufferedReader
+    TextIOWrapper
         DESCRIPTION.
 
     """
     dctx = zstd.ZstdDecompressor()
     with open(filename, mode="rb") as fh:
         with dctx.stream_reader(fh) as reader:
-            yield TextIOWrapper(BufferedReader(reader, 32768), encoding=encoding)
+            yield TextIOWrapper(reader, encoding=encoding)
 
 
 def setup() -> Collection:
@@ -103,14 +103,14 @@ def setup() -> Collection:
     return collection
 
 
-def pdfsave(file: str) -> bytes:
+def pdfsave(file: str) -> str:
     file = f'{file[:file.rindex(".")]}.pdf'  # muss ich noch verbessern
     try:
         with open(file, "rb") as f:
             data = base64.b64encode(f.read())
             data = data.decode()
     except FileNotFoundError:
-        data = b""
+        data = ""
     return data
 
 
