@@ -113,6 +113,33 @@ def pdfsave(file: str) -> bytes:
         data = b""
     return data
 
+def handleBulkError(e, docs, collection):
+    errors = e.errors
+    errordocs=[]
+    # list of docs with same key as a saved document
+    for error in errors["details"]:
+        if 'unique constraint violated' in error:
+            pos = error[12:error.index(":")]
+            errordocs.append(docs[int(pos)])
+    # remove double in same batch
+    # searching for better solution
+    for doc in errordocs:
+        for docc in errordocs:
+            if doc == docc:
+                continue
+            elif doc["PMID"] == docc["PMID"]:
+                if doc["Version"] >= docc["Version"]:
+                    errordocs.remove(docc)
+                else:
+                    errordocs.remove(doc)
+                    break
+    # save newest version
+    for doc in errordocs:
+        # load saved document
+        arangodoc = collection[doc._key]
+        if doc["Version"] > arangodoc["Version"]:
+            arangodoc.delete()
+            doc.save()
 
 def main(
     doc_format: str,
@@ -174,16 +201,14 @@ def main(
                     try:
                         collection.bulkSave(docs, details=True)
                     except UpdateError as e:
-                        logging.error(e.message)
-                        logging.error(e.errors)
+                        handleBulkError(e, docs, collection)
                     finally:
                         docs.clear()
             if len(docs) != 0:
                 try:
                     collection.bulkSave(docs, details=True)
                 except UpdateError as e:
-                    logging.error(e.message)
-                    logging.error(e.errors)
+                    handleBulkError(e, docs, collection)
                 finally:
                     docs.clear()
         bar.next()

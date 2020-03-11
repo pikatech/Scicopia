@@ -131,6 +131,7 @@ def parse(source) -> Dict[str, str]:
             if pmid is None:
                 logging.warning("Article without PMID occurred. Skipped.")
                 continue
+            article["Version"]=pmid.attrib
             pmid = pmid.text
             article["PMID"] = pmid
             article["url"] = "https://www.ncbi.nlm.nih.gov/pubmed/" + pmid
