@@ -1,8 +1,9 @@
 #!/usr/bin/python
 # Encoding: utf-8
 
+from io import TextIOWrapper
 import logging
-from typing import Dict
+from typing import Any, Dict, Generator, List, Union
 
 from pybtex.database.input.bibtex import Parser
 from pybtex.exceptions import PybtexError
@@ -27,7 +28,9 @@ allowed = {
 }
 
 
-def parse(source) -> Dict[str, str]:
+def parse(
+    source: TextIOWrapper,
+) -> Generator[Dict[str, Union[str, List[str]]], Any, None]:
     try:
         parser = Parser()
         bib_data = parser.parse_stream(source)

@@ -9,8 +9,9 @@ Main function is parse(source).
 #                  Abstract?,AuthorList?, Language+, DataBankList?, GrantList?,
 #                  PublicationTypeList, VernacularTitle?, ArticleDate*) >
 
+from io import TextIOWrapper
 import logging
-from typing import Dict, List
+from typing import Any, Dict, Generator, List, Union
 from xml.etree.ElementTree import iterparse, Element
 
 
@@ -21,20 +22,34 @@ def extract_abstract(abstract: Element) -> str:
         # Handle marked up text
         for tag in iter(part):
             if tag.text:
-                tag.text = "<" + tag.tag + ">" + tag.text + "<" + tag.tag + ">"
+                tag.text = f"<{tag.tag}>{tag.text}<{tag.tag}>"
         if "Label" in part.attrib:
-            text.append(part.attrib["Label"] + ": " + "".join(part.itertext()))
+            text.append(f"{part.attrib['Label']}: {''.join(part.itertext())}")
         else:
             text.append("".join(part.itertext()))
     return "\n".join(text)
 
 
 def extract_authors(authors: Element) -> List[str]:
+    """
+    Extract the list of authors from an AuthorList node.
+
+    Parameters
+    ----------
+    authors : Element
+        An AuthorList XML node element.
+
+    Returns
+    -------
+    List[str]
+        A list of authors including their fore names (or initials), last names and suffixes.
+
+    """
     # <!ELEMENT	Author (((LastName, ForeName?, Initials?, Suffix?) |
     #                    CollectiveName),
     #                   Identifier*, AffiliationInfo*) >
     team = authors.findall("Author")
-    authorList = []
+    author_list = []
     for author in team:
         if "ValidYN" in author.attrib and author.attrib["ValidYN"] == "N":
             continue
@@ -45,7 +60,7 @@ def extract_authors(authors: Element) -> List[str]:
         if forename is None:
             # Check for non-existing and also empty elements
             # e.g. <Initials/>
-            authorList.append(
+            author_list.append(
                 " ".join(
                     x.text
                     for x in [initials, lastname, suffix]
@@ -53,7 +68,7 @@ def extract_authors(authors: Element) -> List[str]:
                 )
             )
         else:
-            authorList.append(
+            author_list.append(
                 " ".join(
                     x.text
                     for x in [forename, lastname, suffix]
@@ -61,23 +76,23 @@ def extract_authors(authors: Element) -> List[str]:
                 )
             )
     if "CompleteYN" in author.attrib and author.attrib["CompleteYN"] == "N":
-        authorList.append("et al.")
-    return authorList
+        author_list.append("et al.")
+    return author_list
 
 
 def extract_mesh_headings(mesh_headings: Element, pmid: str) -> List[str]:
     # <!ELEMENT	MeshHeadingList (MeshHeading+)>
     # <!ELEMENT	MeshHeading (DescriptorName, QualifierName*)>
     headings = mesh_headings.findall("MeshHeading")
-    headingList = []
+    heading_list = []
     for heading in headings:
         name = heading.find("DescriptorName")
         if name is None:
-            logging.warning(f"Article {pmid} is missing a descriptor name")
+            logging.warning("Article %s is missing a descriptor name", pmid)
         else:
             name = name.text
-            headingList.append(name)
-    return headingList
+            heading_list.append(name)
+    return heading_list
 
 
 def extract_journaldata(journal: Element, pmid: str) -> Dict[str, str]:
@@ -117,7 +132,9 @@ def extract_journaldata(journal: Element, pmid: str) -> Dict[str, str]:
     return data
 
 
-def parse(source) -> Dict[str, str]:
+def parse(
+    source: TextIOWrapper,
+) -> Generator[Dict[str, Union[str, List[str]]], Any, None]:
     context = iterparse(source, events=("start", "end"))
     # turn it into an iterator
     context = iter(context)
@@ -134,7 +151,7 @@ def parse(source) -> Dict[str, str]:
             article["Version"]=pmid.attrib
             pmid = pmid.text
             article["PMID"] = pmid
-            article["url"] = "https://www.ncbi.nlm.nih.gov/pubmed/" + pmid
+            article["url"] = f"https://www.ncbi.nlm.nih.gov/pubmed/{pmid}"
             title = elem.find(".//ArticleTitle")
             if title is None:
                 logging.warning("Article %s should have had a title", pmid)
@@ -143,7 +160,7 @@ def parse(source) -> Dict[str, str]:
             # Handle marked up text
             for tag in iter(title):
                 if tag.text:
-                    tag.text = "<" + tag.tag + ">" + tag.text + "<" + tag.tag + ">"
+                    tag.text = f"<{tag.tag}>{tag.text}<{tag.tag}>"
             article["title"] = "".join(title.itertext())
 
             abstract = elem.find(".//Abstract")
@@ -168,5 +185,5 @@ def parse(source) -> Dict[str, str]:
             if mesh_headings is not None:
                 article["mesh"] = extract_mesh_headings(mesh_headings, pmid)
 
-            yield article
             root.clear()
+            yield article

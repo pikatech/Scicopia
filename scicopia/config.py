@@ -1,11 +1,12 @@
 import json
 from os.path import exists, join
 import sys
+from typing import Any, Dict
 
 CONFIG = join("..", "config.json")
 
 
-def read_config():
+def read_config() -> Dict[str, Any]:
     if exists(CONFIG):
         with open(CONFIG) as config:
             conf = json.load(config)

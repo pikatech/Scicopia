@@ -9,10 +9,10 @@ It is meant to be used in conjunction with GROBID output.
 """
 
 import glob
-from io import TextIOBase
+from io import TextIOWrapper
 import logging
 import re
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Union
 import xml.etree.ElementTree as ET
 
 TEI = "{http://www.tei-c.org/ns/1.0}"
@@ -26,7 +26,7 @@ FILEDESC = f"{TEI}fileDesc"
 date_pattern = re.compile(r"(\d{4})-\d{2}-\d{2}", re.ASCII)
 
 
-def extract_text(root: ET.Element) -> List[Tuple[str, str]]:
+def extract_text(root: ET.Element) -> str:
     """
     
     root: ElementTree Element
@@ -60,7 +60,7 @@ def remove_refs(root: ET.Element) -> None:
             ref.text = ""
 
 
-def extract_title(node: ET.Element, data: dict) -> None:
+def extract_title(node: ET.Element, data: Dict) -> None:
     # Works are allowed to have multiple titles according to the TEI standard,
     # but we disregard this option here
     title = node.find(f"{TEI}title")
@@ -70,7 +70,7 @@ def extract_title(node: ET.Element, data: dict) -> None:
         logging.warning("No title!")
 
 
-def extract_authors(authors: ET.Element, data: dict) -> None:
+def extract_authors(authors: List[ET.Element], data: Dict) -> None:
     entries = []
     for author in authors:
         parts = []
@@ -128,14 +128,14 @@ def extract_bibliographic_data(node: ET.Element) -> Optional[Dict]:
     return data
 
 
-def parse(filename: TextIOBase) -> Dict:
+def parse(filename: TextIOWrapper) -> Dict[str, Union[str, List[str]]]:
     """
     Extracts bibliographic information and full text from TEI-formatted
     GROBID output.
 
     Parameters
     ----------
-    filename : File
+    filename : TextIOWrapper
         DESCRIPTION.
 
     Returns
