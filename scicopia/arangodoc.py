@@ -22,15 +22,16 @@ import bz2
 import gzip
 import zstandard as zstd
 
-from parser.bibtex import parse as bib
-from parser.pubmed import parse as pubmed
-from parser.arxiv import parse as arxiv
-from parser.grobid import parse as grobid
+from bibtex import parse as bib
+from pubmed import parse as pubmed
+from arxiv import parse as arxiv
+from grobid import parse as grobid
 
 from pyArango.collection import Collection
 from pyArango.connection import Connection
-from pyArango.theExceptions import DocumentNotFoundError, UpdateError
+from pyArango.theExceptions import DocumentNotFoundError, UpdateError, CreationError
 from config import read_config
+logging.getLogger().setLevel(logging.INFO)
 
 # See: https://www.arangodb.com/docs/stable/data-modeling-naming-conventions-document-keys.html
 not_valid = re.compile("[^-_:.@()+,=;$!*'%A-Za-z0-9]")
@@ -113,33 +114,48 @@ def pdfsave(file: str) -> str:
         data = ""
     return data
 
-def handleBulkError(e, docs, collection):
-    errors = e.errors
-    errordocs=[]
-    # list of docs with same key as a saved document
-    for error in errors["details"]:
-        if 'unique constraint violated' in error:
-            pos = error[12:error.index(":")]
-            errordocs.append(docs[int(pos)])
-    # remove double in same batch
-    # searching for better solution
-    for doc in errordocs:
-        for docc in errordocs:
-            if doc == docc:
-                continue
-            elif doc["PMID"] == docc["PMID"]:
-                if doc["Version"] >= docc["Version"]:
-                    errordocs.remove(docc)
+def handleBulkError(e, docs, collection, doc_format, update):
+    if doc_format == "pubmed":
+        errors = e.errors
+        errordocs=[]
+        # list of docs with same key as a saved document
+        for error in errors["details"]:
+            if 'unique constraint violated' in error:
+                pos = error[12:error.index(":")]
+                errordocs.append(docs[int(pos)])
+        # remove double in same batch
+        # searching for better solution
+        for doc in errordocs:
+            for docc in errordocs:
+                if doc == docc:
+                    continue
+                elif doc["PMID"] == docc["PMID"]:
+                    if doc["Version"] >= docc["Version"]:
+                        errordocs.remove(docc)
+                    else:
+                        errordocs.remove(doc)
+                        break
+        # save newest version
+        for doc in errordocs:
+            # load saved document
+            arangodoc = collection[doc._key]
+            if doc["Version"] > arangodoc["Version"]:
+                arangodoc.delete()
+                doc.save()
+    else:
+        logging.error(e.message)
+        for error in e.errors["details"]:
+            if 'unique constraint violated' in error:
+                pos = error[12:error.index(":")]
+                doc = docs[int(pos)]
+                if update:
+                    try:
+                        doc.save()
+                        logging.warning(f'Retry updating {doc._key} succesfull')
+                    except CreationError:
+                        logging.warning(f'Retry updating {doc._key} failed')
                 else:
-                    errordocs.remove(doc)
-                    break
-    # save newest version
-    for doc in errordocs:
-        # load saved document
-        arangodoc = collection[doc._key]
-        if doc["Version"] > arangodoc["Version"]:
-            arangodoc.delete()
-            doc.save()
+                    logging.warning(f'Key {doc._key} already exists. To update the Data use --update\n')
 
 def main(
     doc_format: str,
@@ -178,12 +194,12 @@ def main(
                         doc = collection[entry["id"]]
                     except DocumentNotFoundError:
                         doc = collection.createDocument()
-                        doc._key = entry["id"]
+                        # Make sure document keys are valid
+                        doc._key = re.sub(not_valid, "_", entry["id"])
                 else:
                     doc = collection.createDocument()
-                    doc_id = entry["id"]
                     # Make sure document keys are valid
-                    doc._key = re.sub(not_valid, "_", doc_id)
+                    doc._key = re.sub(not_valid, "_", entry["id"])
                 for field in entry:
                     if field == "id":
                         continue
@@ -201,14 +217,14 @@ def main(
                     try:
                         collection.bulkSave(docs, details=True)
                     except UpdateError as e:
-                        handleBulkError(e, docs, collection)
+                        handleBulkError(e, docs, collection, doc_format, update)
                     finally:
                         docs.clear()
             if len(docs) != 0:
                 try:
                     collection.bulkSave(docs, details=True)
                 except UpdateError as e:
-                    handleBulkError(e, docs, collection)
+                    handleBulkError(e, docs, collection, doc_format, update)
                 finally:
                     docs.clear()
         progress.next()
