@@ -14,8 +14,9 @@ import base64
 import os
 import re
 from contextlib import contextmanager
-from collections import defaultdict, deque
+from collections import deque
 from typing import Dict, Generator
+from exceptions import NotImplementedError
 from progress.bar import Bar
 
 import bz2
@@ -129,13 +130,12 @@ def main(
 ):
     collection = setup()
     path = path if path.endswith(os.path.sep) else path + os.path.sep
-    typedict = defaultdict(lambda: ".xml")
-    typedict["bib"] = ".bib"
-    zipdict = defaultdict(lambda: "")
-    zipdict.update({"gzip": ".gz", "bzip2": ".bz2", "zstd": ".zstd", "zip": ".zip"})
-    fundict = {"bib": bib, "pubmed": pubmed, "arxiv": arxiv, "grobid": grobid}
-    opendict = defaultdict(lambda: open)
-    opendict.update({"gzip": gzip.open, "bzip": bz2.open, "zstd": zstd_open})
+
+    fundict = {"bibtex": bib, "pubmed": pubmed, "arxiv": arxiv, "grobid": grobid}
+    typedict = {"bibtex": ".bib", "pubmed": ".xml", "arxiv": ".xml", "grobid": ".xml"}
+    zipdict = {"none": "", "gzip": ".gz", "bzip2": ".bz2", "zstd": ".zstd"}
+    opendict = {"none": open, "gzip": gzip.open, "bzip": bz2.open, "zstd": zstd_open}
+
     f = f"**{os.path.sep}" if recursive else ""
     files = glob.glob(
         f"{path}{f}*{typedict[doc_format]}{zipdict[compression]}", recursive=recursive
@@ -196,7 +196,7 @@ def main(
 
 def parallel_main(
     parallel: int,
-    cluster : str,
+    cluster: str,
     doc_format: str,
     path: str = "",
     pdf: bool = False,
@@ -205,18 +205,23 @@ def parallel_main(
     update: bool = False,
     batch_size: int = 1000,
 ):
-    pass
-    # if parallel is None:
-    #     print(cluster)
-    # if cluster is None:
-    #     if parallel <= 0:
-    #         print('The ')
-    #     if parallel > multiprocessing.cpu_count():
-    #         print(f'Number of requested CPUs surpasses CPUs on machine:{n}>{multiprocessing.cpu_count()}')
-    #     multiprocessing.cpu_count()
-    #     cluster = LocalCluster(n_workers: parallel)
-    #     client = Client(cluster)
-    #     print(parallel)
+    if parallel is None:
+        print(cluster)
+        raise NotImplementedError
+    if cluster is None:
+        if parallel <= 0:
+            print("The number of processes has to be greater than zero!")
+            return
+        if parallel > multiprocessing.cpu_count():
+            logging.warning(
+                f"Number of requested CPUs surpasses CPUs on machine: %d > %d.\nWill use all available CPUs.",
+                parallel,
+                multiprocessing.cpu_count(),
+            )
+            parallel = multiprocessing.cpu_count()
+        cluster = LocalCluster(n_workers=parallel)
+        client = Client(cluster)
+        print(parallel)
 
 
 if __name__ == "__main__":
@@ -239,12 +244,20 @@ if __name__ == "__main__":
         default="none",
     )
     parser.add_argument(
-        "--batch", type=int, help="Batch size of bulk import", default=1000,
+        "--batch", type=int, help="Batch size of bulk import", default=1000
     )
     parser.add_argument("--update", help="update arango if true", action="store_true")
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("-p", "--parallel", metavar='N', type=int, help="Distribute the computation on multiple cores")
-    group.add_argument("--cluster", type=str, help="Distribute the computation onto a cluster")
+    group.add_argument(
+        "-p",
+        "--parallel",
+        metavar="N",
+        type=int,
+        help="Distribute the computation on multiple cores",
+    )
+    group.add_argument(
+        "--cluster", type=str, help="Distribute the computation onto a cluster"
+    )
 
     args = parser.parse_args()
     if args.parallel is None and args.cluster is None:
