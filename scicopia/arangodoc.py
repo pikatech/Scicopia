@@ -131,24 +131,24 @@ def main(
     collection = setup()
     path = path if path.endswith(os.path.sep) else path + os.path.sep
 
-    fundict = {"bibtex": bib, "pubmed": pubmed, "arxiv": arxiv, "grobid": grobid}
-    typedict = {"bibtex": ".bib", "pubmed": ".xml", "arxiv": ".xml", "grobid": ".xml"}
-    zipdict = {"none": "", "gzip": ".gz", "bzip2": ".bz2", "zstd": ".zstd"}
-    opendict = {"none": open, "gzip": gzip.open, "bzip": bz2.open, "zstd": zstd_open}
+    parse_dict = {"bibtex": bib, "pubmed": pubmed, "arxiv": arxiv, "grobid": grobid}
+    ext_dict = {"bibtex": ".bib", "pubmed": ".xml", "arxiv": ".xml", "grobid": ".xml"}
+    zip_dict = {"none": "", "gzip": ".gz", "bzip2": ".bz2", "zstd": ".zstd"}
+    open_dict = {"none": open, "gzip": gzip.open, "bzip": bz2.open, "zstd": zstd_open}
 
     f = f"**{os.path.sep}" if recursive else ""
     files = glob.glob(
-        f"{path}{f}*{typedict[doc_format]}{zipdict[compression]}", recursive=recursive
+        f"{path}{f}*{ext_dict[doc_format]}{zip_dict[compression]}", recursive=recursive
     )
     logging.info(
-        "%d %s%s-files found", len(files), typedict[doc_format], zipdict[compression]
+        "%d %s%s-files found", len(files), ext_dict[doc_format], zip_dict[compression]
     )
     progress = Bar("files", max=len(files))
     for file in files:
         first = True
-        with opendict[compression](file, "rt", encoding="utf-8") as data:
+        with open_dict[compression](file, "rt", encoding="utf-8") as data:
             docs = deque(maxlen=batch_size)
-            for entry in fundict[doc_format](data):
+            for entry in parse_dict[doc_format](data):
                 create_id(entry, doc_format)
                 if update:
                     try:
