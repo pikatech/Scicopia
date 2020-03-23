@@ -22,6 +22,10 @@ import bz2
 import gzip
 import zstandard as zstd
 
+import multiprocessing
+import dask
+from dask.distributed import Client, LocalCluster
+
 from parser.bibtex import parse as bib
 from parser.pubmed import parse as pubmed
 from parser.arxiv import parse as arxiv
@@ -190,10 +194,35 @@ def main(
     progress.finish()
 
 
+def parallel_main(
+    parallel: int,
+    cluster : str,
+    doc_format: str,
+    path: str = "",
+    pdf: bool = False,
+    recursive: bool = False,
+    compression: str = "none",
+    update: bool = False,
+    batch_size: int = 1000,
+):
+    pass
+    # if parallel is None:
+    #     print(cluster)
+    # if cluster is None:
+    #     if parallel <= 0:
+    #         print('The ')
+    #     if parallel > multiprocessing.cpu_count():
+    #         print(f'Number of requested CPUs surpasses CPUs on machine:{n}>{multiprocessing.cpu_count()}')
+    #     multiprocessing.cpu_count()
+    #     cluster = LocalCluster(n_workers: parallel)
+    #     client = Client(cluster)
+    #     print(parallel)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Saves the Data in an Arangodatabase")
     parser.add_argument(
-        "type", choices=["bib", "pubmed", "arxiv", "grobid"], help="Type of the Data"
+        "type", choices=["bibtex", "pubmed", "arxiv", "grobid"], help="Type of the Data"
     )
     parser.add_argument("--path", help="Path to the directory", default="")
     parser.add_argument(
@@ -206,21 +235,37 @@ if __name__ == "__main__":
         "-c",
         "--compression",
         choices=["zip", "gzip", "zstd", "bzip2"],
-        help="Archive?",
+        help="Type of archive, if files are compressed",
         default="none",
     )
     parser.add_argument(
         "--batch", type=int, help="Batch size of bulk import", default=1000,
     )
     parser.add_argument("--update", help="update arango if true", action="store_true")
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("-p", "--parallel", metavar='N', type=int, help="Distribute the computation on multiple cores")
+    group.add_argument("--cluster", type=str, help="Distribute the computation onto a cluster")
 
     args = parser.parse_args()
-    main(
-        args.type,
-        args.path,
-        args.pdf,
-        args.recursive,
-        args.compression,
-        args.update,
-        args.batch,
-    )
+    if args.parallel is None and args.cluster is None:
+        main(
+            args.type,
+            args.path,
+            args.pdf,
+            args.recursive,
+            args.compression,
+            args.update,
+            args.batch,
+        )
+    else:
+        parallel_main(
+            args.parallel,
+            args.cluster,
+            args.type,
+            args.path,
+            args.pdf,
+            args.recursive,
+            args.compression,
+            args.update,
+            args.batch,
+        )
