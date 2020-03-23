@@ -119,6 +119,54 @@ def pdfsave(file: str) -> str:
     return data
 
 
+def import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf):
+    first = True
+    with open_func(file, "rt", encoding="utf-8") as data:
+        docs = deque(maxlen=batch_size)
+        for entry in parse(data):
+            create_id(entry, doc_format)
+            if update:
+                try:
+                    doc = collection[entry["id"]]
+                except DocumentNotFoundError:
+                    doc = collection.createDocument()
+                    doc._key = entry["id"]
+            else:
+                doc = collection.createDocument()
+                doc_id = entry["id"]
+                # Make sure document keys are valid
+                doc._key = re.sub(not_valid, "_", doc_id)
+            for field in entry:
+                if field == "id":
+                    continue
+                doc[field] = entry[field]
+            if pdf:
+                data = pdfsave(file)
+                if data:
+                    doc["pdf"] = data
+                else:
+                    if first:
+                        logging.warning("No PDF found for %s", file)
+                        first = False
+            docs.append(doc)
+            if len(docs) == docs.maxlen:
+                try:
+                    collection.bulkSave(docs, details=True)
+                except UpdateError as e:
+                    logging.error(e.message)
+                    logging.error(e.errors)
+                finally:
+                    docs.clear()
+        if len(docs) != 0:
+            try:
+                collection.bulkSave(docs, details=True)
+            except UpdateError as e:
+                logging.error(e.message)
+                logging.error(e.errors)
+            finally:
+                docs.clear()
+
+
 def main(
     doc_format: str,
     path: str = "",
@@ -143,53 +191,12 @@ def main(
     logging.info(
         "%d %s%s-files found", len(files), ext_dict[doc_format], zip_dict[compression]
     )
+    
+    open_func = open_dict[compression]
+    parse = parse_dict[doc_format]
     progress = Bar("files", max=len(files))
     for file in files:
-        first = True
-        with open_dict[compression](file, "rt", encoding="utf-8") as data:
-            docs = deque(maxlen=batch_size)
-            for entry in parse_dict[doc_format](data):
-                create_id(entry, doc_format)
-                if update:
-                    try:
-                        doc = collection[entry["id"]]
-                    except DocumentNotFoundError:
-                        doc = collection.createDocument()
-                        doc._key = entry["id"]
-                else:
-                    doc = collection.createDocument()
-                    doc_id = entry["id"]
-                    # Make sure document keys are valid
-                    doc._key = re.sub(not_valid, "_", doc_id)
-                for field in entry:
-                    if field == "id":
-                        continue
-                    doc[field] = entry[field]
-                if pdf:
-                    data = pdfsave(file)
-                    if data:
-                        doc["pdf"] = data
-                    else:
-                        if first:
-                            logging.warning("No PDF found for %s", file)
-                            first = False
-                docs.append(doc)
-                if len(docs) == docs.maxlen:
-                    try:
-                        collection.bulkSave(docs, details=True)
-                    except UpdateError as e:
-                        logging.error(e.message)
-                        logging.error(e.errors)
-                    finally:
-                        docs.clear()
-            if len(docs) != 0:
-                try:
-                    collection.bulkSave(docs, details=True)
-                except UpdateError as e:
-                    logging.error(e.message)
-                    logging.error(e.errors)
-                finally:
-                    docs.clear()
+        import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
         progress.next()
     progress.finish()
 
