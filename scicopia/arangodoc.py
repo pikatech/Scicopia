@@ -9,6 +9,7 @@ Created on Tue Aug 27 16:18:45 2019
 import glob
 from io import TextIOWrapper
 import logging
+import math
 import argparse
 import base64
 import os
@@ -122,6 +123,22 @@ def pdfsave(file: str) -> str:
     except FileNotFoundError:
         data = ""
     return data
+
+
+def parallel_import(
+    batch: str,
+    batch_size: int,
+    doc_format: str,
+    open_func: Callable,
+    parse: Callable,
+    update: bool,
+    pdf: bool,
+):
+    collection = setup()
+    for file in batch:
+        import_file(
+            file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        )
 
 
 def import_file(
@@ -247,24 +264,20 @@ def parallel_main(
         cluster = LocalCluster(n_workers=parallel)
         client = Client(cluster)
 
-        collection = setup()
-        files = locate_files(path, doc_format, recursive, compression)
+        # Just make sure the database gets prepared, no need for return value
+        setup()
 
+        files = locate_files(path, doc_format, recursive, compression)
         open_func = OPEN_DICT[compression]
         parse = PARSE_DICT[doc_format]
 
         tasks = []
-        for file in files:
+        # Split files into batches
+        factor = math.ceil(len(files) / parallel)
+        for batch in [files[i : i + factor] for i in range(0, len(files), factor)]:
             tasks.append(
-                dask.delayed(import_file)(
-                    file,
-                    collection,
-                    batch_size,
-                    doc_format,
-                    open_func,
-                    parse,
-                    update,
-                    pdf,
+                dask.delayed(parallel_import)(
+                    batch, batch_size, doc_format, open_func, parse, update, pdf
                 )
             )
         dask.compute(*tasks)
