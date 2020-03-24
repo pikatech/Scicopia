@@ -84,6 +84,12 @@ def zstd_open(
             yield TextIOWrapper(reader, encoding=encoding)
 
 
+parse_dict = {"bibtex": bib, "pubmed": pubmed, "arxiv": arxiv, "grobid": grobid}
+ext_dict = {"bibtex": ".bib", "pubmed": ".xml", "arxiv": ".xml", "grobid": ".xml"}
+zip_dict = {"none": "", "gzip": ".gz", "bzip2": ".bz2", "zstd": ".zstd"}
+open_dict = {"none": open, "gzip": gzip.open, "bzip": bz2.open, "zstd": zstd_open}
+
+
 def setup() -> Collection:
     config = read_config()
     if "arango_url" in config:
@@ -119,7 +125,9 @@ def pdfsave(file: str) -> str:
     return data
 
 
-def import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf):
+def import_file(
+    file, collection, batch_size, doc_format, open_func, parse, update, pdf
+):
     first = True
     with open_func(file, "rt", encoding="utf-8") as data:
         docs = deque(maxlen=batch_size)
@@ -179,11 +187,6 @@ def main(
     collection = setup()
     path = path if path.endswith(os.path.sep) else path + os.path.sep
 
-    parse_dict = {"bibtex": bib, "pubmed": pubmed, "arxiv": arxiv, "grobid": grobid}
-    ext_dict = {"bibtex": ".bib", "pubmed": ".xml", "arxiv": ".xml", "grobid": ".xml"}
-    zip_dict = {"none": "", "gzip": ".gz", "bzip2": ".bz2", "zstd": ".zstd"}
-    open_dict = {"none": open, "gzip": gzip.open, "bzip": bz2.open, "zstd": zstd_open}
-
     f = f"**{os.path.sep}" if recursive else ""
     files = glob.glob(
         f"{path}{f}*{ext_dict[doc_format]}{zip_dict[compression]}", recursive=recursive
@@ -191,12 +194,14 @@ def main(
     logging.info(
         "%d %s%s-files found", len(files), ext_dict[doc_format], zip_dict[compression]
     )
-    
+
     open_func = open_dict[compression]
     parse = parse_dict[doc_format]
     progress = Bar("files", max=len(files))
     for file in files:
-        import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+        import_file(
+            file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        )
         progress.next()
     progress.finish()
 
