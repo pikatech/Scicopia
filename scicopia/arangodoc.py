@@ -230,7 +230,7 @@ def parallel_main(
             return
         if parallel > multiprocessing.cpu_count():
             logging.warning(
-                f"Number of requested CPUs surpasses CPUs on machine: %d > %d.\nWill use all available CPUs.",
+                "Number of requested CPUs surpasses CPUs on machine: %d > %d.\nWill use all available CPUs.",
                 parallel,
                 multiprocessing.cpu_count(),
             )
