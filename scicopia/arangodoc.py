@@ -15,7 +15,7 @@ import os
 import re
 from contextlib import contextmanager
 from collections import deque
-from typing import Dict, Generator, List
+from typing import Callable, Dict, Generator, List
 from progress.bar import Bar
 
 import bz2
@@ -125,7 +125,14 @@ def pdfsave(file: str) -> str:
 
 
 def import_file(
-    file, collection, batch_size, doc_format, open_func, parse, update, pdf
+    file: str,
+    collection: Collection,
+    batch_size: int,
+    doc_format: str,
+    open_func: Callable,
+    parse: Callable,
+    update: bool,
+    pdf: bool,
 ):
     first = True
     with open_func(file, "rt", encoding="utf-8") as data:
@@ -174,7 +181,9 @@ def import_file(
                 docs.clear()
 
 
-def locate_files(path: str, doc_format: str, recursive: bool, compression: str) -> List[str]:
+def locate_files(
+    path: str, doc_format: str, recursive: bool, compression: str
+) -> List[str]:
     path = path if path.endswith(os.path.sep) else path + os.path.sep
 
     f = f"**{os.path.sep}" if recursive else ""
@@ -246,9 +255,18 @@ def parallel_main(
 
         tasks = []
         for file in files:
-            tasks.append(dask.delayed(import_file)(
-                file, collection, batch_size, doc_format, open_func, parse, update, pdf
-                ))
+            tasks.append(
+                dask.delayed(import_file)(
+                    file,
+                    collection,
+                    batch_size,
+                    doc_format,
+                    open_func,
+                    parse,
+                    update,
+                    pdf,
+                )
+            )
         dask.compute(*tasks)
 
 
