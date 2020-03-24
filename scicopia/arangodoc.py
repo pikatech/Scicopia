@@ -175,6 +175,19 @@ def import_file(
                 docs.clear()
 
 
+def locate_files(path: str, doc_format: str, recursive: bool, compression: str):
+    path = path if path.endswith(os.path.sep) else path + os.path.sep
+
+    f = f"**{os.path.sep}" if recursive else ""
+    files = glob.glob(
+        f"{path}{f}*{ext_dict[doc_format]}{zip_dict[compression]}", recursive=recursive
+    )
+    logging.info(
+        "%d %s%s-files found", len(files), ext_dict[doc_format], zip_dict[compression]
+    )
+    return files
+
+
 def main(
     doc_format: str,
     path: str = "",
@@ -185,15 +198,7 @@ def main(
     batch_size: int = 1000,
 ):
     collection = setup()
-    path = path if path.endswith(os.path.sep) else path + os.path.sep
-
-    f = f"**{os.path.sep}" if recursive else ""
-    files = glob.glob(
-        f"{path}{f}*{ext_dict[doc_format]}{zip_dict[compression]}", recursive=recursive
-    )
-    logging.info(
-        "%d %s%s-files found", len(files), ext_dict[doc_format], zip_dict[compression]
-    )
+    files = locate_files(path, doc_format, recursive, compression)
 
     open_func = open_dict[compression]
     parse = parse_dict[doc_format]
