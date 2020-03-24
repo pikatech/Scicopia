@@ -9,13 +9,14 @@ Created on Tue Aug 27 16:18:45 2019
 import glob
 from io import TextIOWrapper
 import logging
+import math
 import argparse
 import base64
 import os
 import re
 from contextlib import contextmanager
-from collections import defaultdict, deque
-from typing import Dict, Generator
+from collections import deque
+from typing import Callable, Dict, Generator, List
 from progress.bar import Bar
 
 import bz2
@@ -38,7 +39,7 @@ from config import read_config
 logging.getLogger().setLevel(logging.INFO)
 
 # See: https://www.arangodb.com/docs/stable/data-modeling-naming-conventions-document-keys.html
-not_valid = re.compile("[^-_:.@()+,=;$!*'%A-Za-z0-9]")
+NOT_VALID = re.compile("[^-_:.@()+,=;$!*'%A-Za-z0-9]")
 
 
 def create_id(doc: Dict, doc_format: str) -> None:
@@ -82,6 +83,12 @@ def zstd_open(
     with open(filename, mode="rb") as fh:
         with dctx.stream_reader(fh) as reader:
             yield TextIOWrapper(reader, encoding=encoding)
+
+
+PARSE_DICT = {"bibtex": bib, "pubmed": pubmed, "arxiv": arxiv, "grobid": grobid}
+EXT_DICT = {"bibtex": ".bib", "pubmed": ".xml", "arxiv": ".xml", "grobid": ".xml"}
+ZIP_DICT = {"none": "", "gzip": ".gz", "bzip2": ".bz2", "zstd": ".zstd"}
+OPEN_DICT = {"none": open, "gzip": gzip.open, "bzip": bz2.open, "zstd": zstd_open}
 
 
 def setup() -> Collection:
@@ -161,6 +168,94 @@ def handleBulkError(e, docs, collection, doc_format, update):
                 else:
                     logging.warning(f'Key {doc._key} already exists. To update the Data use --update\n')
 
+def parallel_import(
+    batch: str,
+    batch_size: int,
+    doc_format: str,
+    open_func: Callable,
+    parse: Callable,
+    update: bool,
+    pdf: bool,
+):
+    collection = setup()
+    for file in batch:
+        import_file(
+            file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        )
+
+
+def import_file(
+    file: str,
+    collection: Collection,
+    batch_size: int,
+    doc_format: str,
+    open_func: Callable,
+    parse: Callable,
+    update: bool,
+    pdf: bool,
+):
+    first = True
+    with open_func(file, "rt", encoding="utf-8") as data:
+        docs = deque(maxlen=batch_size)
+        for entry in parse(data):
+            create_id(entry, doc_format)
+            if update:
+                try:
+                    doc = collection[entry["id"]]
+                except DocumentNotFoundError:
+                    doc = collection.createDocument()
+                    doc._key = entry["id"]
+            else:
+                doc = collection.createDocument()
+                doc_id = entry["id"]
+                # Make sure document keys are valid
+                doc._key = re.sub(NOT_VALID, "_", doc_id)
+            for field in entry:
+                if field == "id":
+                    continue
+                doc[field] = entry[field]
+            if pdf:
+                data = pdfsave(file)
+                if data:
+                    doc["pdf"] = data
+                else:
+                    if first:
+                        logging.warning("No PDF found for %s", file)
+                        first = False
+            docs.append(doc)
+            if len(docs) == docs.maxlen:
+                try:
+                    collection.bulkSave(docs, details=True)
+                except UpdateError as e:
+                    logging.error(e.message)
+                    logging.error(e.errors)
+                finally:
+                    docs.clear()
+        if len(docs) != 0:
+            try:
+                collection.bulkSave(docs, details=True)
+            except UpdateError as e:
+                logging.error(e.message)
+                logging.error(e.errors)
+            finally:
+                docs.clear()
+
+
+def locate_files(
+    path: str, doc_format: str, recursive: bool, compression: str
+) -> List[str]:
+    path = path if path.endswith(os.path.sep) else path + os.path.sep
+
+    f = f"**{os.path.sep}" if recursive else ""
+    files = glob.glob(
+        f"{path}{f}*{EXT_DICT[doc_format]}{ZIP_DICT[compression]}", recursive=recursive
+    )
+    logging.info(
+        "%d %s%s-files found", len(files), EXT_DICT[doc_format], ZIP_DICT[compression]
+    )
+    return files
+
+
 def main(
     doc_format: str,
     path: str = "",
@@ -171,73 +266,22 @@ def main(
     batch_size: int = 1000,
 ):
     collection = setup()
-    path = path if path.endswith(os.path.sep) else path + os.path.sep
-    typedict = defaultdict(lambda: ".xml")
-    typedict["bib"] = ".bib"
-    zipdict = defaultdict(lambda: "")
-    zipdict.update({"gzip": ".gz", "bzip2": ".bz2", "zstd": ".zstd", "zip": ".zip"})
-    fundict = {"bib": bib, "pubmed": pubmed, "arxiv": arxiv, "grobid": grobid}
-    opendict = defaultdict(lambda: open)
-    opendict.update({"gzip": gzip.open, "bzip": bz2.open, "zstd": zstd_open})
-    f = f"**{os.path.sep}" if recursive else ""
-    files = glob.glob(
-        f"{path}{f}*{typedict[doc_format]}{zipdict[compression]}", recursive=recursive
-    )
-    logging.info(
-        "%d %s%s-files found", len(files), typedict[doc_format], zipdict[compression]
-    )
+    files = locate_files(path, doc_format, recursive, compression)
+
+    open_func = OPEN_DICT[compression]
+    parse = PARSE_DICT[doc_format]
     progress = Bar("files", max=len(files))
     for file in files:
-        first = True
-        with opendict[compression](file, "rt", encoding="utf-8") as data:
-            docs = deque(maxlen=batch_size)
-            for entry in fundict[doc_format](data):
-                create_id(entry, doc_format)
-                if update:
-                    try:
-                        doc = collection[entry["id"]]
-                    except DocumentNotFoundError:
-                        doc = collection.createDocument()
-                        # Make sure document keys are valid
-                        doc._key = re.sub(not_valid, "_", entry["id"])
-                else:
-                    doc = collection.createDocument()
-                    # Make sure document keys are valid
-                    doc._key = re.sub(not_valid, "_", entry["id"])
-                for field in entry:
-                    if field == "id":
-                        continue
-                    doc[field] = entry[field]
-                if pdf:
-                    data = pdfsave(file)
-                    if data:
-                        doc["pdf"] = data
-                    else:
-                        if first:
-                            logging.warning("No PDF found for %s", file)
-                            first = False
-                docs.append(doc)
-                if len(docs) == docs.maxlen:
-                    try:
-                        collection.bulkSave(docs, details=True)
-                    except UpdateError as e:
-                        handleBulkError(e, docs, collection, doc_format, update)
-                    finally:
-                        docs.clear()
-            if len(docs) != 0:
-                try:
-                    collection.bulkSave(docs, details=True)
-                except UpdateError as e:
-                    handleBulkError(e, docs, collection, doc_format, update)
-                finally:
-                    docs.clear()
+        import_file(
+            file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        )
         progress.next()
     progress.finish()
 
 
 def parallel_main(
     parallel: int,
-    cluster : str,
+    cluster: str,
     doc_format: str,
     path: str = "",
     pdf: bool = False,
@@ -246,67 +290,97 @@ def parallel_main(
     update: bool = False,
     batch_size: int = 1000,
 ):
-    pass
-    # if parallel is None:
-    #     print(cluster)
-    # if cluster is None:
-    #     if parallel <= 0:
-    #         print('The ')
-    #     if parallel > multiprocessing.cpu_count():
-    #         print(f'Number of requested CPUs surpasses CPUs on machine:{n}>{multiprocessing.cpu_count()}')
-    #     multiprocessing.cpu_count()
-    #     cluster = LocalCluster(n_workers: parallel)
-    #     client = Client(cluster)
-    #     print(parallel)
+    if parallel is None:
+        print(cluster)
+        raise NotImplementedError
+    if cluster is None:
+        if parallel <= 0:
+            print("The number of processes has to be greater than zero!")
+            return
+        if parallel > multiprocessing.cpu_count():
+            logging.warning(
+                "Number of requested CPUs surpasses CPUs on machine: %d > %d.\nWill use all available CPUs.",
+                parallel,
+                multiprocessing.cpu_count(),
+            )
+            parallel = multiprocessing.cpu_count()
+        cluster = LocalCluster(n_workers=parallel)
+        client = Client(cluster)
+
+        # Just make sure the database gets prepared, no need for return value
+        setup()
+
+        files = locate_files(path, doc_format, recursive, compression)
+        open_func = OPEN_DICT[compression]
+        parse = PARSE_DICT[doc_format]
+
+        tasks = []
+        # Split files into batches
+        factor = math.ceil(len(files) / parallel)
+        for batch in [files[i : i + factor] for i in range(0, len(files), factor)]:
+            tasks.append(
+                dask.delayed(parallel_import)(
+                    batch, batch_size, doc_format, open_func, parse, update, pdf
+                )
+            )
+        dask.compute(*tasks)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Saves the Data in an Arangodatabase")
-    parser.add_argument(
+    PARSER = argparse.ArgumentParser(description="Saves the Data in an Arangodatabase")
+    PARSER.add_argument(
         "type", choices=["bibtex", "pubmed", "arxiv", "grobid"], help="Type of the Data"
     )
-    parser.add_argument("--path", help="Path to the directory", default="")
-    parser.add_argument(
+    PARSER.add_argument("--path", help="Path to the directory", default="")
+    PARSER.add_argument(
         "--pdf", help="Search and Save PDFs of the bib Data", action="store_true"
     )
-    parser.add_argument(
+    PARSER.add_argument(
         "-r", "--recursive", help="Searching of Subdirectory", action="store_true"
     )
-    parser.add_argument(
+    PARSER.add_argument(
         "-c",
         "--compression",
         choices=["zip", "gzip", "zstd", "bzip2"],
         help="Type of archive, if files are compressed",
         default="none",
     )
-    parser.add_argument(
-        "--batch", type=int, help="Batch size of bulk import", default=1000,
+    PARSER.add_argument(
+        "--batch", type=int, help="Batch size of bulk import", default=1000
     )
-    parser.add_argument("--update", help="update arango if true", action="store_true")
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument("-p", "--parallel", metavar='N', type=int, help="Distribute the computation on multiple cores")
-    group.add_argument("--cluster", type=str, help="Distribute the computation onto a cluster")
+    PARSER.add_argument("--update", help="update arango if true", action="store_true")
+    GROUP = PARSER.add_mutually_exclusive_group()
+    GROUP.add_argument(
+        "-p",
+        "--parallel",
+        metavar="N",
+        type=int,
+        help="Distribute the computation on multiple cores",
+    )
+    GROUP.add_argument(
+        "--cluster", type=str, help="Distribute the computation onto a cluster"
+    )
 
-    args = parser.parse_args()
-    if args.parallel is None and args.cluster is None:
+    ARGS = PARSER.parse_args()
+    if ARGS.parallel is None and ARGS.cluster is None:
         main(
-            args.type,
-            args.path,
-            args.pdf,
-            args.recursive,
-            args.compression,
-            args.update,
-            args.batch,
+            ARGS.type,
+            ARGS.path,
+            ARGS.pdf,
+            ARGS.recursive,
+            ARGS.compression,
+            ARGS.update,
+            ARGS.batch,
         )
     else:
         parallel_main(
-            args.parallel,
-            args.cluster,
-            args.type,
-            args.path,
-            args.pdf,
-            args.recursive,
-            args.compression,
-            args.update,
-            args.batch,
+            ARGS.parallel,
+            ARGS.cluster,
+            ARGS.type,
+            ARGS.path,
+            ARGS.pdf,
+            ARGS.recursive,
+            ARGS.compression,
+            ARGS.update,
+            ARGS.batch,
         )
