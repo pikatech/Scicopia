@@ -237,7 +237,19 @@ def parallel_main(
             parallel = multiprocessing.cpu_count()
         cluster = LocalCluster(n_workers=parallel)
         client = Client(cluster)
-        print(parallel)
+        
+        collection = setup()
+        files = locate_files(path, doc_format, recursive, compression)
+
+        open_func = open_dict[compression]
+        parse = parse_dict[doc_format]
+        
+        tasks = []
+        for file in files:
+            tasks.append(dask.delayed(import_file)(
+                file, collection, batch_size, doc_format, open_func, parse, update, pdf
+                ))
+        dask.compute(*tasks)
 
 
 if __name__ == "__main__":
