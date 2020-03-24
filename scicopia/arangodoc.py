@@ -16,7 +16,6 @@ import re
 from contextlib import contextmanager
 from collections import deque
 from typing import Dict, Generator
-from exceptions import NotImplementedError
 from progress.bar import Bar
 
 import bz2
