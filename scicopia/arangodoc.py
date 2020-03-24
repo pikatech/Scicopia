@@ -15,7 +15,7 @@ import os
 import re
 from contextlib import contextmanager
 from collections import deque
-from typing import Dict, Generator
+from typing import Dict, Generator, List
 from progress.bar import Bar
 
 import bz2
@@ -37,7 +37,7 @@ from pyArango.theExceptions import DocumentNotFoundError, UpdateError
 from config import read_config
 
 # See: https://www.arangodb.com/docs/stable/data-modeling-naming-conventions-document-keys.html
-not_valid = re.compile("[^-_:.@()+,=;$!*'%A-Za-z0-9]")
+NOT_VALID = re.compile("[^-_:.@()+,=;$!*'%A-Za-z0-9]")
 
 
 def create_id(doc: Dict, doc_format: str) -> None:
@@ -83,10 +83,10 @@ def zstd_open(
             yield TextIOWrapper(reader, encoding=encoding)
 
 
-parse_dict = {"bibtex": bib, "pubmed": pubmed, "arxiv": arxiv, "grobid": grobid}
-ext_dict = {"bibtex": ".bib", "pubmed": ".xml", "arxiv": ".xml", "grobid": ".xml"}
-zip_dict = {"none": "", "gzip": ".gz", "bzip2": ".bz2", "zstd": ".zstd"}
-open_dict = {"none": open, "gzip": gzip.open, "bzip": bz2.open, "zstd": zstd_open}
+PARSE_DICT = {"bibtex": bib, "pubmed": pubmed, "arxiv": arxiv, "grobid": grobid}
+EXT_DICT = {"bibtex": ".bib", "pubmed": ".xml", "arxiv": ".xml", "grobid": ".xml"}
+ZIP_DICT = {"none": "", "gzip": ".gz", "bzip2": ".bz2", "zstd": ".zstd"}
+OPEN_DICT = {"none": open, "gzip": gzip.open, "bzip": bz2.open, "zstd": zstd_open}
 
 
 def setup() -> Collection:
@@ -142,7 +142,7 @@ def import_file(
                 doc = collection.createDocument()
                 doc_id = entry["id"]
                 # Make sure document keys are valid
-                doc._key = re.sub(not_valid, "_", doc_id)
+                doc._key = re.sub(NOT_VALID, "_", doc_id)
             for field in entry:
                 if field == "id":
                     continue
@@ -174,15 +174,15 @@ def import_file(
                 docs.clear()
 
 
-def locate_files(path: str, doc_format: str, recursive: bool, compression: str):
+def locate_files(path: str, doc_format: str, recursive: bool, compression: str) -> List[str]:
     path = path if path.endswith(os.path.sep) else path + os.path.sep
 
     f = f"**{os.path.sep}" if recursive else ""
     files = glob.glob(
-        f"{path}{f}*{ext_dict[doc_format]}{zip_dict[compression]}", recursive=recursive
+        f"{path}{f}*{EXT_DICT[doc_format]}{ZIP_DICT[compression]}", recursive=recursive
     )
     logging.info(
-        "%d %s%s-files found", len(files), ext_dict[doc_format], zip_dict[compression]
+        "%d %s%s-files found", len(files), EXT_DICT[doc_format], ZIP_DICT[compression]
     )
     return files
 
@@ -199,8 +199,8 @@ def main(
     collection = setup()
     files = locate_files(path, doc_format, recursive, compression)
 
-    open_func = open_dict[compression]
-    parse = parse_dict[doc_format]
+    open_func = OPEN_DICT[compression]
+    parse = PARSE_DICT[doc_format]
     progress = Bar("files", max=len(files))
     for file in files:
         import_file(
@@ -237,13 +237,13 @@ def parallel_main(
             parallel = multiprocessing.cpu_count()
         cluster = LocalCluster(n_workers=parallel)
         client = Client(cluster)
-        
+
         collection = setup()
         files = locate_files(path, doc_format, recursive, compression)
 
-        open_func = open_dict[compression]
-        parse = parse_dict[doc_format]
-        
+        open_func = OPEN_DICT[compression]
+        parse = PARSE_DICT[doc_format]
+
         tasks = []
         for file in files:
             tasks.append(dask.delayed(import_file)(
@@ -253,60 +253,60 @@ def parallel_main(
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Saves the Data in an Arangodatabase")
-    parser.add_argument(
+    PARSER = argparse.ArgumentParser(description="Saves the Data in an Arangodatabase")
+    PARSER.add_argument(
         "type", choices=["bibtex", "pubmed", "arxiv", "grobid"], help="Type of the Data"
     )
-    parser.add_argument("--path", help="Path to the directory", default="")
-    parser.add_argument(
+    PARSER.add_argument("--path", help="Path to the directory", default="")
+    PARSER.add_argument(
         "--pdf", help="Search and Save PDFs of the bib Data", action="store_true"
     )
-    parser.add_argument(
+    PARSER.add_argument(
         "-r", "--recursive", help="Searching of Subdirectory", action="store_true"
     )
-    parser.add_argument(
+    PARSER.add_argument(
         "-c",
         "--compression",
         choices=["zip", "gzip", "zstd", "bzip2"],
         help="Type of archive, if files are compressed",
         default="none",
     )
-    parser.add_argument(
+    PARSER.add_argument(
         "--batch", type=int, help="Batch size of bulk import", default=1000
     )
-    parser.add_argument("--update", help="update arango if true", action="store_true")
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument(
+    PARSER.add_argument("--update", help="update arango if true", action="store_true")
+    GROUP = PARSER.add_mutually_exclusive_group()
+    GROUP.add_argument(
         "-p",
         "--parallel",
         metavar="N",
         type=int,
         help="Distribute the computation on multiple cores",
     )
-    group.add_argument(
+    GROUP.add_argument(
         "--cluster", type=str, help="Distribute the computation onto a cluster"
     )
 
-    args = parser.parse_args()
-    if args.parallel is None and args.cluster is None:
+    ARGS = PARSER.parse_args()
+    if ARGS.parallel is None and ARGS.cluster is None:
         main(
-            args.type,
-            args.path,
-            args.pdf,
-            args.recursive,
-            args.compression,
-            args.update,
-            args.batch,
+            ARGS.type,
+            ARGS.path,
+            ARGS.pdf,
+            ARGS.recursive,
+            ARGS.compression,
+            ARGS.update,
+            ARGS.batch,
         )
     else:
         parallel_main(
-            args.parallel,
-            args.cluster,
-            args.type,
-            args.path,
-            args.pdf,
-            args.recursive,
-            args.compression,
-            args.update,
-            args.batch,
+            ARGS.parallel,
+            ARGS.cluster,
+            ARGS.type,
+            ARGS.path,
+            ARGS.pdf,
+            ARGS.recursive,
+            ARGS.compression,
+            ARGS.update,
+            ARGS.batch,
         )
