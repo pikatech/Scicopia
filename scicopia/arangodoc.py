@@ -27,10 +27,14 @@ import multiprocessing
 import dask
 from dask.distributed import Client, LocalCluster
 
-from parser.bibtex import parse as bib
-from parser.pubmed import parse as pubmed
-from parser.arxiv import parse as arxiv
-from parser.grobid import parse as grobid
+# from parser.bibtex import parse as bib
+# from parser.pubmed import parse as pubmed
+# from parser.arxiv import parse as arxiv
+# from parser.grobid import parse as grobid
+from bibtex import parse as bib
+from pubmed import parse as pubmed
+from arxiv import parse as arxiv
+from grobid import parse as grobid
 
 from pyArango.collection import Collection
 from pyArango.connection import Connection
@@ -125,26 +129,27 @@ def pdfsave(file: str) -> str:
         data = ""
     return data
 
-def handleBulkError(e, docs, collection, doc_format, update):
+def handleBulkError(e, docs, collection, doc_format):
     if doc_format == "pubmed":
+        logging.info(e.message)
         errors = e.errors
         errordocs=[]
         # list of docs with same key as a saved document
         for error in errors["details"]:
             if 'unique constraint violated' in error:
+                # gets number of doc in docs
+                # 12 is the start of the position in all error messages
                 pos = error[12:error.index(":")]
                 errordocs.append(docs[int(pos)])
         # remove double in same batch
         # searching for better solution
-        for doc in errordocs:
-            for docc in errordocs:
-                if doc == docc:
-                    continue
-                elif doc["PMID"] == docc["PMID"]:
-                    if doc["Version"] >= docc["Version"]:
-                        errordocs.remove(docc)
+        for i in range(0, len(errordocs)-2):
+            for j in range(i, len(errordocs)-1):
+                if errordocs[i]["PMID"] == errordocs[j]["PMID"]:
+                    if errordocs[i]["Version"] >= errordocs[j]["Version"]:
+                        errordocs.remove(errordocs[j])
                     else:
-                        errordocs.remove(doc)
+                        errordocs.remove(errordocs[i])
                         break
         # save newest version
         for doc in errordocs:
@@ -157,16 +162,11 @@ def handleBulkError(e, docs, collection, doc_format, update):
         logging.error(e.message)
         for error in e.errors["details"]:
             if 'unique constraint violated' in error:
+                # gets number of doc in docs
+                # 12 is the start of the position in all error messages
                 pos = error[12:error.index(":")]
                 doc = docs[int(pos)]
-                if update:
-                    try:
-                        doc.save()
-                        logging.warning(f'Retry updating {doc._key} succesfull')
-                    except CreationError:
-                        logging.warning(f'Retry updating {doc._key} failed')
-                else:
-                    logging.warning(f'Key {doc._key} already exists. To update the Data use --update\n')
+                logging.warning(f'Key {doc._key} already exists. To update the Data use --update\n')
 
 def parallel_import(
     batch: str,
@@ -202,14 +202,13 @@ def import_file(
             if update:
                 try:
                     doc = collection[entry["id"]]
+                    doc.delete()
                 except DocumentNotFoundError:
-                    doc = collection.createDocument()
-                    doc._key = entry["id"]
-            else:
-                doc = collection.createDocument()
-                doc_id = entry["id"]
-                # Make sure document keys are valid
-                doc._key = re.sub(NOT_VALID, "_", doc_id)
+                    pass
+            doc = collection.createDocument()
+            doc_id = entry["id"]
+            # Make sure document keys are valid
+            doc._key = re.sub(NOT_VALID, "_", doc_id)
             for field in entry:
                 if field == "id":
                     continue
@@ -227,16 +226,14 @@ def import_file(
                 try:
                     collection.bulkSave(docs, details=True)
                 except UpdateError as e:
-                    logging.error(e.message)
-                    logging.error(e.errors)
+                    handleBulkError(e, docs, collection, doc_format)
                 finally:
                     docs.clear()
         if len(docs) != 0:
             try:
                 collection.bulkSave(docs, details=True)
             except UpdateError as e:
-                logging.error(e.message)
-                logging.error(e.errors)
+                handleBulkError(e, docs, collection, doc_format)
             finally:
                 docs.clear()
 
