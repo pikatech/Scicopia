@@ -17,6 +17,7 @@ def handleField(field: Tuple, datadict: Dict):
         datadict[fieldname] = field[1]
             
 def handlePerson(item: Tuple, datadict: Dict):
+    itemname = item[0].lower()
     persons = []
     for person in item[1]:
         names = []
@@ -26,7 +27,7 @@ def handlePerson(item: Tuple, datadict: Dict):
         names.extend(person.lineage_names)
         names.extend(person.last_names)
         persons.append(" ".join(names))
-    datadict[item[0]] = persons
+    datadict[itemname] = persons
 
 def parse(
     source: TextIOWrapper,

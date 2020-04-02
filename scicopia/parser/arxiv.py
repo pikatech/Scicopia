@@ -53,7 +53,7 @@ def parse(source: TextIOWrapper) -> Generator[Dict[str, Any], Any, None]:
     for event, elem in context:
         if event == "end" and elem.tag == RECORD:
             doc_id = elem.find(HEADERID)
-            if doc_id is not None:
+            if doc_id is not None and doc_id.text is not None:
                 doc_id = doc_id.text
             else:
                 logging.warning("Found record without ID in file %s", source)
@@ -67,7 +67,7 @@ def parse(source: TextIOWrapper) -> Generator[Dict[str, Any], Any, None]:
                 continue
             doc = {"id": doc_id}
             date = elem.find(HEADERDATE)
-            if date is not None:
+            if date is not None and date.text is not None:
                 date = date.text
                 doc["date"] = date
                 match = DATE_PATTERN.match(date)
@@ -77,33 +77,36 @@ def parse(source: TextIOWrapper) -> Generator[Dict[str, Any], Any, None]:
                 logging.warning("Record %s doesn't contain a date", doc_id)
                 continue
             # zero or more setSpec elements
-            set_spec = set(x.text for x in elem.findall(SETSPEC))
+            set_spec = set(x.text for x in elem.findall(SETSPEC) if not x is None and not x.text is None)
             doc["setSpec"] = set_spec
             title = elem.find(TITLE)
-            if title is not None:
+            if title is not None and title.text is not None:
                 title = title.text
                 doc["title"] = title.replace("\n", " ")
             else:
                 logging.warning("Record %s doesn't contain a title", doc_id)
                 continue
-            author = tuple(x.text for x in elem.findall(CREATOR))
+            author = tuple(x.text for x in elem.findall(CREATOR) if not x is None and not x.text is None)
             if author:
                 doc["author"] = author
             else:
                 logging.warning("Record %s doesn't contain any authors", doc_id)
-            subject = set(x.text for x in elem.findall(SUBJECT))
+                continue
+            subject = set(x.text for x in elem.findall(SUBJECT) if not x is None and not x.text is None)
             if subject:
                 doc["subject"] = subject
             else:
                 logging.warning("Record %s doesn't contain any subjects", doc_id)
+                continue
             description = "\n".join(
-                x.text.replace("\n", " ") for x in elem.findall(DESC)
+                x.text.replace("\n", " ") for x in elem.findall(DESC) if not x is None and not x.text is None
             )
             if description:
                 doc["abstract"] = description.strip()
             else:
                 logging.warning("Record %s doesn't contain any description", doc_id)
-            meta_id = tuple(x.text for x in elem.findall(METAID))
+                continue
+            meta_id = tuple(x.text for x in elem.findall(METAID) if not x is None and not x.text is None)
             if meta_id:
                 doc["meta_id"] = meta_id
             root.clear()

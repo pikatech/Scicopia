@@ -125,6 +125,12 @@ def extract_bibliographic_data(node: ET.Element) -> Optional[Dict]:
                 elif idno.text.startswith("doi:"):
                     data["doi"] = idno.text[4:].replace(" ", "")
                     data["id"] = data["doi"]
+                elif idno.text.startswith("abs/"):
+                    data["url"] = f'https://arxiv.org/{idno.text}'
+                    data["id"] = idno.text
+                else:
+                    logging.warning(f"non standard id type {idno.text}")
+                    data["id"] = idno.text
     return data
 
 
@@ -157,4 +163,4 @@ def parse(filename: TextIOWrapper) -> Dict[str, Union[str, List[str]]]:
     if text:
         bib["fulltext"] = text
 
-    return bib
+    yield bib
