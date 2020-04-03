@@ -346,15 +346,14 @@ if __name__ == "__main__":
         "--batch", type=int, help="Batch size of bulk import", default=1000
     )
     PARSER.add_argument("--update", help="update arango if true", action="store_true")
-    GROUP = PARSER.add_mutually_exclusive_group()
-    GROUP.add_argument(
+    PARSER.add_argument(
         "-p",
         "--parallel",
         metavar="N",
         type=int,
         help="Distribute the computation on multiple cores",
     )
-    GROUP.add_argument(
+    PARSER.add_argument(
         "--cluster", type=str, help="Distribute the computation onto a cluster"
     )
 
