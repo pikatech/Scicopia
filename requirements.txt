@@ -5,6 +5,9 @@ Flask-Mail
 elasticsearch>=7.0.2
 elasticsearch-dsl>=7.1.0,<8.0.0
 pyArango
+dask
+distributed
+dask-jobqueue
 git+https://github.com/boudinfl/pke.git@943899a2fb1fe509d52883e8ca4b2edadd29fe6b
 nltk
 pybtex
