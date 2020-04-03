@@ -2,6 +2,7 @@ Flask
 Flask-WTF
 Flask-Bootstrap
 Flask-Mail
+Werkzeug==0.16.1
 elasticsearch>=7.0.2
 elasticsearch-dsl>=7.1.0,<8.0.0
 pyArango
