@@ -18,6 +18,7 @@ from contextlib import contextmanager
 from collections import deque
 from typing import Callable, Dict, Generator, List
 from progress.bar import Bar
+import yaml
 
 import bz2
 import gzip
@@ -25,7 +26,9 @@ import zstandard as zstd
 
 import multiprocessing
 import dask
+import dask.config
 from dask.distributed import Client, LocalCluster
+import dask_jobqueue
 
 # from parser.bibtex import parse as bib
 # from parser.pubmed import parse as pubmed
@@ -40,6 +43,7 @@ from pyArango.collection import Collection
 from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError, UpdateError
 from config import read_config
+
 logging.getLogger().setLevel(logging.INFO)
 
 # See: https://www.arangodb.com/docs/stable/data-modeling-naming-conventions-document-keys.html
@@ -129,22 +133,23 @@ def pdfsave(file: str) -> str:
         data = ""
     return data
 
+
 def handleBulkError(e, docs, collection, doc_format):
     if doc_format == "pubmed":
         logging.info(e.message)
         errors = e.errors
-        errordocs=[]
+        errordocs = []
         # list of docs with same key as a saved document
         for error in errors["details"]:
-            if 'unique constraint violated' in error:
+            if "unique constraint violated" in error:
                 # gets number of doc in docs
                 # 12 is the start of the position in all error messages
-                pos = error[12:error.index(":")]
+                pos = error[12 : error.index(":")]
                 errordocs.append(docs[int(pos)])
         # remove double in same batch
         # searching for better solution
-        for i in range(0, len(errordocs)-2):
-            for j in range(i, len(errordocs)-1):
+        for i in range(0, len(errordocs) - 2):
+            for j in range(i, len(errordocs) - 1):
                 if errordocs[i]["PMID"] == errordocs[j]["PMID"]:
                     if errordocs[i]["Version"] >= errordocs[j]["Version"]:
                         errordocs.remove(errordocs[j])
@@ -161,12 +166,15 @@ def handleBulkError(e, docs, collection, doc_format):
     else:
         logging.error(e.message)
         for error in e.errors["details"]:
-            if 'unique constraint violated' in error:
+            if "unique constraint violated" in error:
                 # gets number of doc in docs
                 # 12 is the start of the position in all error messages
-                pos = error[12:error.index(":")]
+                pos = error[12 : error.index(":")]
                 doc = docs[int(pos)]
-                logging.warning(f'Key {doc._key} already exists. To update the Data use --update\n')
+                logging.warning(
+                    f"Key {doc._key} already exists. To update the Data use --update\n"
+                )
+
 
 def parallel_import(
     batch: str,
@@ -287,7 +295,22 @@ def parallel_main(
     update: bool = False,
     batch_size: int = 1000,
 ):
-    if parallel is None:
+    if not cluster is None:
+        # TODO: Check, if file exists and is readable
+        with open(cluster, "rt") as config:
+            cluster = yaml.load(config, Loader=yaml.FullLoader)
+            dask.config.update(dask.config.config, cluster, priority="new")
+        if not parallel is None:
+            if parallel >= 1:
+                # TODO: Scale jobs
+                pass
+            elif parallel == 1:
+                pass
+            else:
+                logging.warning(
+                    "Argument parallel has invalid value %d. It will be ignored",
+                    parallel,
+                )
         print(cluster)
         raise NotImplementedError
     if cluster is None:
