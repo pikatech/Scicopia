@@ -16,6 +16,8 @@ from config import read_config
 from progress.bar import Bar
 
 config = read_config()
+
+
 def setup():
     conn = connections.create_connection(hosts=config["es_hosts"])
     if "arango_url" in config:
@@ -60,6 +62,7 @@ def setup():
     }
     return coll, db, config["collection"], allowed
 
+
 # Used to declare the structure of documents and to
 # initialize the Elasticsearch index with the correct data types
 class Bibdoc(Document):
@@ -93,9 +96,9 @@ class Bibdoc(Document):
 
 
 def main():
-    collection , db, collectionName, allowed = setup()
+    collection, db, collectionName, allowed = setup()
     Bibdoc.init()
-    aql = f"FOR x IN {collectionName}  RETURN x._key"
+    aql = f"FOR x IN {collectionName} RETURN x._key"
     query = db.AQLQuery(aql, rawResults=True, batchSize=10)
     # cursor error with higher batchSize, reason not found
     bar = Bar("entries", max=collection.count())
