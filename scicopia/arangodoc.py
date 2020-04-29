@@ -143,14 +143,21 @@ def handleBulkError(e, docs, collection, doc_format):
                 errordocs.append(docs[int(pos)])
         # remove double in same batch
         # searching for better solution
-        for i in range(0, len(errordocs)-2):
-            for j in range(i, len(errordocs)-1):
+        i = 0
+        while i < len(errordocs)-1:
+            j = i + 1
+            while j < len(errordocs):
                 if errordocs[i]["PMID"] == errordocs[j]["PMID"]:
                     if errordocs[i]["Version"] >= errordocs[j]["Version"]:
                         errordocs.remove(errordocs[j])
+                        j -= 1
                     else:
                         errordocs.remove(errordocs[i])
+                        j -= 1
+                        i -= 1
                         break
+                j += 1
+            i += 1
         # save newest version
         for doc in errordocs:
             # load saved document
