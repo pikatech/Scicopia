@@ -3,7 +3,7 @@ from scicopia.parser.grobid import *
 
 def test_remove_refs():
     source = "tests/data/grobid.xml"
-    with open(source) as filename:
+    with open(source, encoding='utf-8') as filename:
         xml = filename.read()
         xml = xml.replace(" <ref", "<ref")
         root = ET.fromstring(xml)
@@ -14,7 +14,7 @@ def test_remove_refs():
 def test_extract_title():
     source = ["tests/data/grobid.xml", "tests/data/grobid_error.xml", "tests/data/grobid_error2.xml"]
     for file in source:
-        with open(file) as filename:
+        with open(file, encoding='utf-8') as filename:
             xml = filename.read()
             xml = xml.replace(" <ref", "<ref")
             root = ET.fromstring(xml)
@@ -32,7 +32,7 @@ def test_extract_title():
 def test_extract_authors():
     source = ["tests/data/grobid.xml", "tests/data/grobid_error.xml"]
     for file in source:
-        with open(file) as filename:
+        with open(file, encoding='utf-8') as filename:
             xml = filename.read()
             xml = xml.replace(" <ref", "<ref")
             root = ET.fromstring(xml)
@@ -48,12 +48,12 @@ def test_extract_authors():
                 if authors:
                     extract_authors(authors, data)
                     if "author" in data:
-                        assert data["author"]== ['Alsayed Algergawy', 'Samira Babalou', 'Friederike Klan', 'Birgitta KÃ¶nig-Ries']
+                        assert data["author"]== ['Alsayed Algergawy', 'Samira Babalou', 'Friederike Klan', 'Birgitta König-Ries']
 
 def test_extract_bibliographic_data():
     source = ["tests/data/grobid.xml", "tests/data/grobid_error.xml", "tests/data/grobid_error2.xml", "tests/data/grobid_error3.xml", "tests/data/grobid_error4.xml", "tests/data/grobid_error5.xml"]
     for file in source:
-        with open(file) as filename:
+        with open(file, encoding='utf-8') as filename:
             xml = filename.read()
             xml = xml.replace(" <ref", "<ref")
             root = ET.fromstring(xml)
@@ -66,7 +66,7 @@ def test_extract_bibliographic_data():
 
                     
                 if "author" in bib:
-                    assert bib["author"]== ['Alsayed Algergawy', 'Samira Babalou', 'Friederike Klan', 'Birgitta KÃ¶nig-Ries']
+                    assert bib["author"]== ['Alsayed Algergawy', 'Samira Babalou', 'Friederike Klan', 'Birgitta König-Ries']
                 if  "title" in bib:
                     assert bib["title"]=='OAPT: A Tool for Ontology Analysis and Partitioning'
                 if  'doi' in bib:
@@ -83,7 +83,7 @@ def test_extract_bibliographic_data():
 def test_extract_text():
     source = ["tests/data/grobid.xml", "tests/data/grobid_error.xml", "tests/data/grobid_error2.xml"]
     for file in source:
-        with open(file) as filename:
+        with open(file, encoding='utf-8') as filename:
             xml = filename.read()
             xml = xml.replace(" <ref", "<ref")
             root = ET.fromstring(xml)
@@ -98,10 +98,10 @@ def test_extract_text():
 def test_parse():
     source = ["tests/data/grobid.xml", "tests/data/grobid_error.xml", "tests/data/grobid_error2.xml"]
     for file in source:
-        with open(file) as filename:
+        with open(file, encoding='utf-8') as filename:
             for bib in parse(filename):
                 if "author" in bib:
-                    assert bib["author"]== ['Alsayed Algergawy', 'Samira Babalou', 'Friederike Klan', 'Birgitta KÃ¶nig-Ries']
+                    assert bib["author"]== ['Alsayed Algergawy', 'Samira Babalou', 'Friederike Klan', 'Birgitta König-Ries']
                 if "title" in bib:
                     assert bib["title"]=='OAPT: A Tool for Ontology Analysis and Partitioning'
                 if 'doi' in bib:
