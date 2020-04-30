@@ -45,11 +45,15 @@
           {% endif %}
         {% endif %}
       </p>
-      {% if "abstract" in hit %}<p><b>Abstract:</b><br>{{ hit.abstract }}</p>{% endif %}
+      {% if "abstract" in hit %}<p><b>Abstract:</b><br>{{ hit.abstract|join(" ")  }}</p>{% endif %}
       {% if "auto_tags" in hit %}<p><b>Auto-Tags:</b><br>{{ hit.auto_tags|join(", ") }}</p>{% endif %}
       {% else %}
         {% for entry in hit %}
-          <p>{{entry}}: {{ hit[entry] }}</p>
+          {% if entry == "author" %} <b>{{entry}}:</b> {{ hit.author|join(" and ") }}<br>
+          {% elif entry == "abstract" %}<p><b>{{entry}}:</b><br>{{ hit.abstract|join(" ")  }}</p>
+          {% elif entry == "created_at" %}
+          {% else %}<p><b>{{entry}}:</b> {{ hit[entry] }}</p>
+          {% endif %}
         {% endfor %}
       {% endif %}
     </div>
