@@ -45,4 +45,4 @@ def parse(
                 handlePerson(item, datadict)
             yield datadict
     except PybtexError as p:
-        logging.error(f"{p}\n")
+        logging.error(f"In File {source.name} the Error '{p}' occurred. None of the entries have been saved.\n")

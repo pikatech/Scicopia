@@ -12,25 +12,18 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /home/kampe/Documents/AquaDiva/R
 			</appInfo>
 		</encodingDesc>
 		<fileDesc>
-			<titleStmt>
-				<title level="a" type="main">OAPT: A Tool for Ontology Analysis and Partitioning</title>
-			</titleStmt>
+			<titleStmt></titleStmt>
 			<publicationStmt>
 				<publisher/>
-				<date type="published" when="2020-02-02"></date>
+				<date type="published" when="2020"></date>
 				<availability status="unknown"><licence/></availability>
 			</publicationStmt>
 			<sourceDesc>
 				<biblStruct>
 					<analytic>
 						<author>
-							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Alsayed</forename><surname>Algergawy</surname></persName>
-							<affiliation key="aff0">
-								<orgName type="department">Institute of Computer Science</orgName>
-							</affiliation>
 						</author>
 						<author>
-							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Samira</forename><surname>Babalou</surname></persName>
 							<affiliation key="aff1">
 								<orgName type="department">Department of Computer Engineering</orgName>
 								<orgName type="institution">Friedrich Schiller University of Jena</orgName>
@@ -46,13 +39,13 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /home/kampe/Documents/AquaDiva/R
 							</affiliation>
 						</author>
 						<author>
-							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Friederike</forename><surname>Klan</surname></persName>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"></persName>
 							<affiliation key="aff0">
 								<orgName type="department">Institute of Computer Science</orgName>
 							</affiliation>
 						</author>
 						<author>
-							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Birgitta</forename><surname>König-Ries</surname></persName>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first"></forename><surname></surname></persName>
 							<affiliation key="aff0">
 								<orgName type="department">Institute of Computer Science</orgName>
 							</affiliation>
@@ -64,7 +57,8 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /home/kampe/Documents/AquaDiva/R
 							<date/>
 						</imprint>
 					</monogr>
-					<idno type="DOI">10.5441/002/edbt.2016.69</idno>
+					<idno>doi:10.5441/002/edbt.2016.69</idno>
+					<idno type="DOI">10.5441/002/edbt.2016.68</idno>
 				</biblStruct>
 			</sourceDesc>
 		</fileDesc>

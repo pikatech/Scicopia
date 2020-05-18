@@ -20,7 +20,7 @@ def test_extract_abstract():
                 if abstract is not None:
                     article["abstract"] = abstract
                     assert "abstract" in article
-                    assert article["abstract"] == "Statin intolerance" or article["abstract"] == "Statin\nintolerance"
+                    assert article["abstract"] == "Statin intolerance" or article["abstract"] == "Statin\nintolerance" or article["abstract"] == "Statin <b>intolerance<b>" or article["abstract"] == "Title: Statin intolerance" or article["abstract"] == "Title: Statin <b>intolerance<b>"
 
 def test_extract_authors():
     source = "tests/data/pubmed.xml"
@@ -40,7 +40,7 @@ def test_extract_authors():
                 authors = extract_authors(authors)
                 if authors:
                     article["author"] = authors
-                    assert article["author"] == ['Julia Schreml', 'Ioanna Gouni-Berthold'] or article["author"] == ['J Schreml', 'I Gouni-Berthold']
+                    assert article["author"] == ['Julia Schreml', 'Ioanna Gouni-Berthold'] or article["author"] == ['J Schreml', 'I Gouni-Berthold'] or article["author"] == ['Julia Schreml', 'Ioanna Gouni-Berthold', 'et al.']
 
 def test_extract_journaldata():
     source = "tests/data/pubmed.xml"
@@ -69,8 +69,14 @@ def test_extract_journaldata():
             if "issue" in article:
                 assert article["issue"] == '13'
 
+            if 'date' in article:
+                assert article['date'] == '03/03/2018'
+
             if 'year' in article:
                 assert article['year'] == '2018'
+
+            if 'month' in article:
+                assert article['month'] == 'march'
 
             if 'journal' in article:
                 assert article['journal'] == 'Current medicinal chemistry'
@@ -97,7 +103,7 @@ def test_extract_mesh_headings():
 
                     assert article["mesh"] == ['Antibodies, Monoclonal', 'Antibodies, Monoclonal, Humanized']
 
-def test_parse():
+def test_parse():  # TODO: add controll of exceptions
     source = "tests/data/pubmed.xml"
     with open(source) as data:
         for datadict in parse(data):
@@ -111,6 +117,4 @@ def test_parse():
             assert datadict["url"] == "https://www.ncbi.nlm.nih.gov/pubmed/28618900"
 
             assert "title" in datadict
-            assert datadict["title"] == "Role of Anti-PCSK9 Antibodies in the Treatment of Patients with Statin Intolerance."
-            
-
+            assert datadict["title"] == "Role of Anti-PCSK9 Antibodies in the Treatment of Patients with Statin Intolerance." or datadict["title"] == "Role of <b>Anti-PCSK9 Antibodies<b> in the Treatment of Patients with Statin Intolerance."

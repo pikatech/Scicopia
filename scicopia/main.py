@@ -220,6 +220,7 @@ def index():
         session["next"] = None
     if form.validate_on_submit():
         session["query"] = form.name.data
+        session["condition"] = [{'multi_match': {'query' : session["query"]}}]
         session["from_hit"] = 0
         session["to_hit"] = 10
         session["tags"] = []
@@ -240,8 +241,10 @@ def page(id):
     pdf = PageButton()
     if form.validate_on_submit():
         session["query"] = form.name.data
+        session["condition"] = [{'multi_match': {'query' : session["query"]}}]
         session["from_hit"] = 0
         session["to_hit"] = 10
+        session["tags"] = []
         return redirect(url_for("results"))
     else:
         prepared_search = search.query(Ids(values=id))
@@ -263,7 +266,6 @@ def page(id):
 def forwards():
     session["from_hit"] += 10
     session["to_hit"] += 10
-    execute_query(session["query"])
     return redirect(url_for("results"))
 
 
@@ -271,7 +273,6 @@ def forwards():
 def backwards():
     session["from_hit"] -= 10
     session["to_hit"] -= 10
-    execute_query(session["query"])
     return redirect(url_for("results"))
 
 
@@ -293,12 +294,14 @@ def results():
     sort_form = SortForm()
     if form.validate_on_submit():
         session["query"] = form.name.data
+        session["condition"] = [{'multi_match': {'query' : session["query"]}}]
         session["from_hit"] = 0
         session["to_hit"] = 10
+        session["tags"] = []
         return redirect(url_for("results"))
     else:
         form.name.data = session["query"]
-        execute_query(form.name.data)
+        execute_query()
         if session["user"] is not None:
             add_search(session["query"])
     return render_template(
@@ -324,10 +327,14 @@ def tags(tag):
         if d["name"] == tag:
             if d["mark"] == False:
                 d.update({"mark": True})
-                flash(f"{tag} add")
+                session["condition"].append({'multi_match': {'query' : tag, 'fields':['auto_tags']}})
+                session["from_hit"] = 0
+                session["to_hit"] = 10
             else:
                 d.update({"mark": False})
-                flash(f"{tag} remove")
+                session["condition"].remove({'multi_match': {'query' : tag, 'fields':['auto_tags']}})
+                session["from_hit"] = 0
+                session["to_hit"] = 10
             break
     return redirect(url_for("results"))
 
@@ -335,14 +342,19 @@ def tags(tag):
 @app.route("/oldsearch/<search>")
 def oldsearch(search):
     session["query"] = search
+    session["condition"] = [{'multi_match': {'query' : session["query"]}}]
     session["from_hit"] = 0
     session["to_hit"] = 10
+    session["tags"] = []
     return redirect(url_for("results"))
 
 
-def execute_query(data):
+def execute_query():
+    conditions = []
+    for condition in session["condition"]:
+        conditions.append(Q(condition))
     prepared_search = search.sort({"year": {"order": "desc"}})
-    prepared_search = prepared_search.query(MultiMatch(query=data))
+    prepared_search = prepared_search.query(Q({'bool': {'must':conditions}}))
     hits = []
     tags = []
     from_hit = session["from_hit"]
@@ -357,17 +369,24 @@ def execute_query(data):
             if "author" in r:
                 hit["author"] = " and ".join(r.author)
             if "abstract" in r:
-                match = url_matcher.search(r.abstract)
-                if match is None:
-                    hit["abstract"] = r.abstract
-                # This will only match the first hit
-                else:
-                    hit["abstract"] = (f'{r.abstract[: match.start()]}<a href="{match.group(0)}">{match.group(0)}</a>{r.abstract[match.end(): ]}')
+                abstractparts = []
+                for abstract in r.abstract:
+                    data = session["query"]
+                    if  data.lower() in abstract.lower():
+                        abstract = abstract.lower()
+                        abstract = abstract.replace(data.lower(), f"<b>{data.lower()}</b>")
+                        match = url_matcher.search(abstract)
+                        if match is None:
+                            abstractparts.append(abstract)
+                        # This will only match the first hit
+                        else:
+                            abstractparts.append(f'{abstract[: match.start()]}<a href="{match.group(0)}">{match.group(0)}</a>{abstract[match.end(): ]}')
+                hit["abstract"] = abstractparts
             hits.append(hit)
         for item in results.aggregations.by_tag.buckets:
-            tag = {"name": item.key, "nr": item.doc_count, "mark": True}
-            if not tag in session["tags"]:
-                tag.update({"mark": False})
+            tag = {"name": item.key, "nr": item.doc_count, "mark": False}
+            if next((item for item in session["tags"] if item["name"] == tag["name"] and item["mark"]), False):
+                tag.update({"mark": True})
             tags.append(tag)
 
     g.hits = hits
@@ -448,6 +467,7 @@ def logout():
 def profil():
     if session["user"] is not None:
         lastsearch = usercollection[session["user"]]["lastsearch"]
+        lastsearch.reverse()
         return render_template("auth/profil.html", lastsearch=lastsearch)
     session["next"] = "/profil"
     return redirect(url_for("login"))

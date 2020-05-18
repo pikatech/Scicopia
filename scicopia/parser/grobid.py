@@ -75,18 +75,21 @@ def extract_authors(authors: List[ET.Element], data: Dict) -> None:
     for author in authors:
         parts = []
         name = author.find(f"{TEI}persName")
-        if not name is None:
+        if name is not None:
             forenames = name.findall(f"{TEI}forename")
             for forename in forenames:
-                parts.append(forename.text)
+                if forename.text is not None:
+                    parts.append(forename.text)
             surnames = name.findall(f"{TEI}surname")
             for surname in surnames:
-                parts.append(surname.text)
+                if surname.text is not None:
+                    parts.append(surname.text)
         else:
             continue
-        entries.append(" ".join(parts))
-    data["author"] = entries
-
+        if parts:
+            entries.append(" ".join(parts))
+    if entries:
+        data["author"] = entries
 
 def extract_bibliographic_data(node: ET.Element) -> Optional[Dict]:
     """
@@ -116,20 +119,25 @@ def extract_bibliographic_data(node: ET.Element) -> Optional[Dict]:
             extract_authors(authors, data)
 
         idnos = structured_info.findall(f"{TEI}idno")
-        if idnos:
-            for idno in idnos:
-                if "type" in idno.attrib:
+        for idno in idnos:
+            print(idno.text)
+            if "type" in idno.attrib:
+                if not "id" in data:
                     data[idno.attrib["type"].lower()] = idno.text
-                    if not "id" in data:
-                        data["id"] = idno.text
-                elif idno.text.startswith("doi:"):
-                    data["doi"] = idno.text[4:].replace(" ", "")
-                    data["id"] = data["doi"]
-                elif idno.text.startswith("abs/"):
-                    data["url"] = f'https://arxiv.org/{idno.text}'
+                    print("set id type")
                     data["id"] = idno.text
-                else:
-                    logging.warning(f"non standard id type {idno.text}")
+            elif idno.text.startswith("doi:"):
+                data["doi"] = idno.text[4:].replace(" ", "")
+                print("set id doi")
+                data["id"] = data["doi"]
+            elif idno.text.startswith("abs/"):
+                data["url"] = f'https://arxiv.org/{idno.text}'
+                print("set id abs")
+                data["id"] = idno.text
+            else:
+                logging.warning(f"non standard id type {idno.text}")
+                if not "id" in data:
+                    print("set id non-type")
                     data["id"] = idno.text
     return data
 
@@ -157,10 +165,11 @@ def parse(filename: TextIOWrapper) -> Dict[str, Union[str, List[str]]]:
 
     remove_refs(root)
     biblio = root.find(f"{TEI}teiHeader/{FILEDESC}")
-    bib = extract_bibliographic_data(biblio)
+    if biblio is not None and biblio.text is not None:
+        bib = extract_bibliographic_data(biblio)
 
-    text = extract_text(root)
-    if text:
-        bib["fulltext"] = text
+        text = extract_text(root)
+        if text:
+            bib["fulltext"] = text
 
-    yield bib
+        yield bib

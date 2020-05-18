@@ -13,11 +13,11 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /home/kampe/Documents/AquaDiva/R
 		</encodingDesc>
 		<fileDesc>
 			<titleStmt>
-				<title level="a" type="main">OAPT: A Tool for Ontology Analysis and Partitioning</title>
+				<title level="a" type="main"></title>
 			</titleStmt>
 			<publicationStmt>
 				<publisher/>
-				<date type="published" when="2020-02-02"></date>
+				<date type="published"></date>
 				<availability status="unknown"><licence/></availability>
 			</publicationStmt>
 			<sourceDesc>
@@ -64,7 +64,7 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /home/kampe/Documents/AquaDiva/R
 							<date/>
 						</imprint>
 					</monogr>
-					<idno type="DOI">10.5441/002/edbt.2016.69</idno>
+					<idno>abs/10.5441/002/edbt.2016.69</idno>
 				</biblStruct>
 			</sourceDesc>
 		</fileDesc>

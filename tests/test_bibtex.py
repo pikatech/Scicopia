@@ -43,3 +43,16 @@ def test_parse():
             assert datadict["cited_by"]=="test"
             assert "author" in datadict
             assert datadict["author"]== ["Zhanming Jie", "Pengjun Xie", "Wei Lu", "Ruixue Ding", "Linlin Li"]
+
+            
+def test_parse_error(): # TODO: add controll of exceptions
+    source = "tests/data/bibtex_error.bib"
+    with open(source) as data:
+        for datadict in parse(data):
+            pass
+    # with open(source) as data:
+    #     try:
+    #         for datadict in parse(data):
+    #             pass
+    #     except SystemError as e:
+    #         assert e.args == (1,)

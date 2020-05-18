@@ -107,8 +107,18 @@ def main():
         arangodoc = collection[key]
         for field in allowed:
             try:
-                doc[field] = arangodoc[field]
-            except DocumentNotFoundError as ignore:
+                if field == "abstract":
+                    abstract_arango = arangodoc[field]
+                    abstract_elastic = []
+                    try:
+                        for pos in arangodoc["abstract_offset"]:
+                            abstract_elastic.append(abstract_arango[pos[0]:pos[1]])
+                            doc['abstract'] = abstract_elastic
+                    except TypeError:
+                        logging.warning(f"No Offset for saving Abstract in {key}.")
+                else:
+                    doc[field] = arangodoc[field]
+            except DocumentNotFoundError:
                 pass
         doc.save()
         bar.next()

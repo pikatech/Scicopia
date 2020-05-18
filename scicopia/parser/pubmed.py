@@ -23,7 +23,9 @@ def extract_abstract(abstract: Element) -> str:
             if tag.text:
                 tag.text = "<" + tag.tag + ">" + tag.text + "<" + tag.tag + ">"
         if "Label" in part.attrib:
-            text.append(part.attrib["Label"] + ": " + "".join(part.itertext()))
+            parttext = "".join(part.itertext())
+            if parttext is not "":
+                text.append(part.attrib["Label"] + ": " + parttext)
         else:
             parttext = "".join(part.itertext())
             if parttext is not "":
@@ -65,7 +67,7 @@ def extract_authors(authors: Element) -> List[str]:
                     if not x is None and not x.text is None
                 )
             )
-    if "CompleteYN" in author.attrib and author.attrib["CompleteYN"] == "N":
+    if "CompleteYN" in authors.attrib and authors.attrib["CompleteYN"] == "N":
         authorList.append("et al.")
     return authorList
 
@@ -114,7 +116,6 @@ def extract_journaldata(journal: Element, pmid: str) -> Dict[str, str]:
                 data["month"] = month.text.lower()
     else:
         logging.warning("Article %s should have had a publication date entry", pmid)
-
     title = journal.find("Title")
     if title is not None and title.text is not None:
         data["journal"] = title.text
