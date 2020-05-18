@@ -34,7 +34,7 @@ from parser.grobid import parse as grobid
 
 from pyArango.collection import Collection
 from pyArango.connection import Connection
-from pyArango.theExceptions import DocumentNotFoundError, UpdateError, CreationError
+from pyArango.theExceptions import DocumentNotFoundError, UpdateError
 from config import read_config
 logging.getLogger().setLevel(logging.INFO)
 
