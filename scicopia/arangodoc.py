@@ -311,6 +311,9 @@ def parallel_main(
         setup()
 
         files = locate_files(path, doc_format, recursive, compression)
+        if not files:
+            logging.error("No files could be found in %s", path)
+            return
         open_func = OPEN_DICT[compression]
         parse = PARSE_DICT[doc_format]
 
