@@ -99,8 +99,9 @@ def main():
     collection, db, collectionName, allowed = setup()
     Bibdoc.init()
     aql = f"FOR x IN {collectionName} RETURN x._key"
-    query = db.AQLQuery(aql, rawResults=True, batchSize=10)
-    # cursor error with higher batchSize, reason not found
+    BATCHSIZE = 10
+    TTL = BATCHSIZE * 10 # Time-to-live
+    query = db.AQLQuery(aql, rawResults=True, batchSize=10, ttl=TTL)
     bar = Bar("entries", max=collection.count())
     for key in query:
         doc = Bibdoc(meta={"id": key})
