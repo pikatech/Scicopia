@@ -88,7 +88,7 @@ def zstd_open(
 PARSE_DICT = {"bibtex": bib, "pubmed": pubmed, "arxiv": arxiv, "grobid": grobid}
 EXT_DICT = {"bibtex": ".bib", "pubmed": ".xml", "arxiv": ".xml", "grobid": ".xml"}
 ZIP_DICT = {"none": "", "gzip": ".gz", "bzip2": ".bz2", "zstd": ".zst"}
-OPEN_DICT = {"none": open, "gzip": gzip.open, "bzip": bz2.open, "zstd": zstd_open}
+OPEN_DICT = {"none": open, "gzip": gzip.open, "bzip2": bz2.open, "zstd": zstd_open}
 
 
 def setup() -> Collection:
@@ -222,7 +222,7 @@ def import_file(
                     doc["pdf"] = data
                 else:
                     if first:
-                        logging.warning("No PDF found for %s", file)
+                        logging.warning(f"No PDF found for {file}")
                         first = False
             docs.append(doc)
             if len(docs) == docs.maxlen:
@@ -267,7 +267,9 @@ def main(
 ):
     collection = setup()
     files = locate_files(path, doc_format, recursive, compression)
-
+    if not files:
+        logging.error(f"No files could be found in {path}")
+        return
     open_func = OPEN_DICT[compression]
     parse = PARSE_DICT[doc_format]
     progress = Bar("files", max=len(files))
@@ -312,7 +314,7 @@ def parallel_main(
 
         files = locate_files(path, doc_format, recursive, compression)
         if not files:
-            logging.error("No files could be found in %s", path)
+            logging.error(f"No files could be found in {path}")
             return
         open_func = OPEN_DICT[compression]
         parse = PARSE_DICT[doc_format]

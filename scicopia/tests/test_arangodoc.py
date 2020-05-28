@@ -27,7 +27,7 @@ def test_create_id():
 
 
 def test_zstd_open():
-    filename = "tests/data/2007-001.xml.zstd"
+    filename = "tests/data/2007-001.xml.zst"
     mode = "rt"
     encoding = "utf-8"
     with zstd_open(filename, mode, encoding) as data:
@@ -60,8 +60,11 @@ def test_import_file():
     db = connection()    # use a config to a test database
     col="import_file"
     if db.hasCollection(col):
-        db[col].delete()
-    collection = db.createCollection(name=col)
+        collection = db[col]
+        collection.empty()
+    else:
+        collection = db.createCollection(name=col)
+
     batch_size = 2
 
     
@@ -79,7 +82,7 @@ def test_import_file():
         except DocumentNotFoundError:
             assert 1 == 2
         assert doc["cited_by"]=="test"
-        #assert "pdf" in doc #doc["pdf"]=="" # sollte fehler geben, da pdf fehlt
+        assert doc["pdf"]==None # arangodb gibt bei nicht existierenden attribut None zurück
         
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
     # gibt loggin.error aus, da daten bereits vorhanden, aber update false
@@ -88,7 +91,7 @@ def test_import_file():
     doc._key = "Jindal2019a"
     doc["test"] = "test"
     doc.save()
-    file = "tests/data/Jindal2019a-Effective-Label-Noise"
+    file = "tests/data/Jindal2019a-Effective-Label-Noise.bib"
     update = True
     pdf = True
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
@@ -96,11 +99,21 @@ def test_import_file():
         doc = collection["Jindal2019a"]
     except DocumentNotFoundError:
         assert 1 == 2
-    assert doc["cited_by"]=="test"
     assert doc["pdf"]!=None
-   # assert "test" in doc #doc["test"]=="" # sollte fehler geben, da test fehlt
+    assert doc["test"]==None
     
-    file = "tests/data/bibtex.bib.gz"
+    file = "tests/data/Jie2019a-Better-Modeling-Incomplete.bib"
+    update = True
+    pdf = True
+    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    try:
+        doc = collection["Jie2019a"]
+    except DocumentNotFoundError:
+        assert 1 == 2
+    assert doc["pdf"]==None
+    assert doc["test"]==None
+    
+    file = "tests/data/bibtex_error.bib.gz"
     compression = "gzip"
     open_func = OPEN_DICT[compression]
     update = True
@@ -111,8 +124,7 @@ def test_import_file():
             doc = collection[key]
         except DocumentNotFoundError:
             assert 1 == 2
-        assert doc["cited_by"]=="test"
-        #assert "pdf" in doc #doc["pdf"]=="" # sollte fehler geben, da pdf fehlt
+        assert doc["pdf"]==None
     
     file = "tests/data/bibtex.bib.bz2"
     compression = "bzip2"
@@ -126,7 +138,7 @@ def test_import_file():
         except DocumentNotFoundError:
             assert 1 == 2
         assert doc["cited_by"]=="test"
-        #assert "pdf" in doc #doc["pdf"]=="" # sollte fehler geben, da pdf fehlt
+        assert doc["pdf"]==None
 
         
     
@@ -154,7 +166,7 @@ def test_import_file():
     pdf = False
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
     try:
-        doc = collection["10.5441/002/edbt.2016.69"]
+        doc = collection["10.5441_002_edbt.2016.69"]
     except DocumentNotFoundError:
         assert 1 == 2
 
@@ -178,8 +190,10 @@ def test_import_file_error():
     db = connection()    # use a config to a test database
     col="import_file_error"
     if db.hasCollection(col):
-        db[col].delete()
-    collection = db.createCollection(name=col)
+        collection = db[col]
+        collection.empty()
+    else:
+        collection = db.createCollection(name=col)
     batch_size = 2
     update = False
     pdf = False
@@ -187,23 +201,23 @@ def test_import_file_error():
     open_func = OPEN_DICT[compression]
 
     
-    file = "tests/data/bibtex.bib"
-    doc_format = "arxiv"
-    parse = PARSE_DICT[doc_format]
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    # file = "tests/data/bibtex.bib"
+    # doc_format = "arxiv"
+    # parse = PARSE_DICT[doc_format]
+    # import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
 
-    doc_format = "grobid"
-    parse = PARSE_DICT[doc_format]
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    # doc_format = "grobid"
+    # parse = PARSE_DICT[doc_format]
+    # import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
 
-    doc_format = "pubmed"
-    parse = PARSE_DICT[doc_format]
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    # doc_format = "pubmed"
+    # parse = PARSE_DICT[doc_format]
+    # import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
 
     file = "tests/data/arxiv.xml"
-    doc_format = "bibtex"
-    parse = PARSE_DICT[doc_format]
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    # doc_format = "bibtex"
+    # parse = PARSE_DICT[doc_format]
+    # import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
 
     doc_format = "grobid"
     parse = PARSE_DICT[doc_format]
@@ -214,9 +228,9 @@ def test_import_file_error():
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
 
     file = "tests/data/grobid.xml"
-    doc_format = "bibtex"
-    parse = PARSE_DICT[doc_format]
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    # doc_format = "bibtex"
+    # parse = PARSE_DICT[doc_format]
+    # import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
 
     doc_format = "arxiv"
     parse = PARSE_DICT[doc_format]
@@ -227,9 +241,9 @@ def test_import_file_error():
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
 
     file = "tests/data/pubmed.xml"
-    doc_format = "bibtex"
-    parse = PARSE_DICT[doc_format]
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    # doc_format = "bibtex"
+    # parse = PARSE_DICT[doc_format]
+    # import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
 
     doc_format = "arxiv"
     parse = PARSE_DICT[doc_format]
@@ -286,7 +300,7 @@ def test_locate_files():
     recursive = False
     compression = "zstd"
     doc_format = "pubmed"
-    control = ["./tests/data\\2007-001.xml.zstd"]
+    control = ["./tests/data\\2007-001.xml.zst"]
     files = locate_files(path, doc_format, recursive, compression)
     assert files == control
     compression = "gzip"
