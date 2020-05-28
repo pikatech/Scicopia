@@ -99,8 +99,9 @@ def main():
     collection, db, collectionName, allowed = setup()
     Bibdoc.init()
     aql = f"FOR x IN {collectionName} RETURN x._key"
-    query = db.AQLQuery(aql, rawResults=True, batchSize=10)
-    # cursor error with higher batchSize, reason not found
+    BATCHSIZE = 10
+    TTL = BATCHSIZE * 10 # Time-to-live
+    query = db.AQLQuery(aql, rawResults=True, batchSize=10, ttl=TTL)
     bar = Bar("entries", max=collection.count())
     for key in query:
         doc = Bibdoc(meta={"id": key})
@@ -110,12 +111,12 @@ def main():
                 if field == "abstract":
                     abstract_arango = arangodoc[field]
                     abstract_elastic = []
-                    try:
-                        for pos in arangodoc["abstract_offset"]:
-                            abstract_elastic.append(abstract_arango[pos[0]:pos[1]])
+                    if arangodoc["abstract_offsets"]:
+                        for start, end in arangodoc["abstract_offsets"]:
+                            abstract_elastic.append(abstract_arango[start:end])
                             doc['abstract'] = abstract_elastic
-                    except TypeError:
-                        logging.warning(f"No Offset for saving Abstract in {key}.")
+                    else:
+                        logging.warning(f"No offset for saving abstract in {key}.")
                 else:
                     doc[field] = arangodoc[field]
             except DocumentNotFoundError:
