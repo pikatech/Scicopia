@@ -1,5 +1,5 @@
 import pytest
-from scicopia.parser.grobid import *
+from scicopia.parsers.grobid import *
 
 def test_remove_refs():
     source = "tests/data/grobid.xml"
