@@ -111,11 +111,11 @@ def main():
                 if field == "abstract":
                     abstract_arango = arangodoc[field]
                     abstract_elastic = []
-                    try:
-                        for pos in arangodoc["abstract_offsets"]:
-                            abstract_elastic.append(abstract_arango[pos[0]:pos[1]])
+                    if arangodoc["abstract_offsets"]:
+                        for start, end in arangodoc["abstract_offsets"]:
+                            abstract_elastic.append(abstract_arango[start:end])
                             doc['abstract'] = abstract_elastic
-                    except TypeError:
+                    else:
                         logging.warning(f"No offset for saving abstract in {key}.")
                 else:
                     doc[field] = arangodoc[field]
