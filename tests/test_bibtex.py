@@ -1,5 +1,5 @@
 import pytest
-from scicopia.parser.bibtex import *
+from scicopia.parsers.bibtex import *
 
 def test_handleField():
     source = "tests/data/bibtex.bib"

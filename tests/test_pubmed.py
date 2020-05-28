@@ -1,5 +1,5 @@
 import pytest
-from scicopia.parser.pubmed import *
+from scicopia.parsers.pubmed import *
 
 def test_extract_abstract():
     source = "tests/data/pubmed.xml"

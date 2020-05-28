@@ -27,10 +27,10 @@ import multiprocessing
 import dask
 from dask.distributed import Client, LocalCluster
 
-from parser.bibtex import parse as bib
-from parser.pubmed import parse as pubmed
-from parser.arxiv import parse as arxiv
-from parser.grobid import parse as grobid
+from parsers.bibtex import parse as bib
+from parsers.pubmed import parse as pubmed
+from parsers.arxiv import parse as arxiv
+from parsers.grobid import parse as grobid
 
 from pyArango.collection import Collection
 from pyArango.connection import Connection
