@@ -1,5 +1,4 @@
-import pytest
-from scicopia.parsers.arxiv import *
+from parsers.arxiv import *
 
 def test_parse():
     source = "tests/data/arxiv.xml"
