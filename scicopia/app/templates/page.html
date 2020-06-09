@@ -33,8 +33,9 @@
     <div id="searchPanelDescription">
       <p>Need help? Click here!</p>
     </div>
-    <div id="ausgabe"><p>
+    <div id="ausgabe">
       {% if hit.entrytype == "inproceedings" %}
+        <p>
         {% if "title" in hit %}<i>{{ hit.title }}</i><br>{% endif %}
         {% if "author" in hit %} {{ hit.author|join(" and ") }}<br>{% endif %}
         {% if "booktitle" in hit %}
@@ -44,17 +45,18 @@
             {{ hit.year }}
           {% endif %}
         {% endif %}
-      </p>
-      {% if "abstract" in hit %}<p><b>Abstract:</b><br>{{ hit.abstract|join(" ")  }}</p>{% endif %}
-      {% if "auto_tags" in hit %}<p><b>Auto-Tags:</b><br>{{ hit.auto_tags|join(", ") }}</p>{% endif %}
+        </p>
+        {% if "abstract" in hit %}<p><b>Abstract:</b><br>{{ hit.abstract|join("\n")  }}</p><br>{% endif %}
+        {% if "auto_tags" in hit %}<p><b>Auto-Tags:</b><br>{{ hit.auto_tags|join(", ") }}</p>{% endif %}
       {% else %}
-        {% for entry in hit %}
-          {% if entry == "author" %} <b>{{entry}}:</b> {{ hit.author|join(" and ") }}<br>
-          {% elif entry == "abstract" %}<p><b>{{entry}}:</b><br>{{ hit.abstract|join(" ")  }}</p>
-          {% elif entry == "created_at" %}
-          {% else %}<p><b>{{entry}}:</b> {{ hit[entry] }}</p>
-          {% endif %}
-        {% endfor %}
+        {% if "title" in hit %} <p><b>{{ hit.title }}</b></p>{% endif %}
+        {% if "author" in hit %} <p><b>Author:</b> {{ hit.author|join(" and ") }}</p>{% endif %}
+        {% if "abstract" in hit %}<p><b>Abstract:</b> {{ hit.abstract|join(" ")  }}</p>{% endif %}
+        {% if "date" in hit %}
+          <p><b>Date:</b> {{ hit.date }}</p>
+        {% else %}
+          {% if "year" in hit %}<p><b>Year:</b> {{ hit.year }}</p>{% endif %}
+        {% endif %}
       {% endif %}
     </div>
     <div id="navi">
