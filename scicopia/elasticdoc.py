@@ -52,13 +52,12 @@ def setup():
         "keywords",
         "auto_tags",
         "year",
+        "date",
         "pages",
         "journal",
         "volume",
         "number",
         "doi",
-        "cited_by",
-        "citing",
     }
     return coll, db, config["collection"], allowed
 
