@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
-from ..flask_config import config
+from scicopia.flask_config import config
 
 bootstrap = Bootstrap()
 mail = Mail()
