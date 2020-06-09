@@ -6,3 +6,6 @@ dask-worker-space
 *.interp
 *.tokens
 
+# Coverage report
+.coverage
+htmlcov
