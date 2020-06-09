@@ -2,11 +2,7 @@ from pyArango.theExceptions import DocumentNotFoundError, CreationError
 from elasticsearch_dsl import Q
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask import (
-    g,
-    session,
-    current_app
-)
+from flask import g, session, current_app
 
 
 def execute_query():
@@ -14,7 +10,7 @@ def execute_query():
     for condition in session["condition"]:
         conditions.append(Q(condition))
     prepared_search = current_app.config["SEARCH"].sort({"year": {"order": "desc"}})
-    prepared_search = prepared_search.query(Q({'bool': {'must':conditions}}))
+    prepared_search = prepared_search.query(Q({"bool": {"must": conditions}}))
     hits = []
     tags = []
     from_hit = session["from_hit"]
@@ -35,20 +31,31 @@ def execute_query():
                     dataparts = current_app.config["NLP"](data)
                     for data in dataparts:
                         data = data.text
-                        if  data.lower() in abstract.lower() and len(data) > 1:
+                        if data.lower() in abstract.lower() and len(data) > 1:
                             abstract = abstract.lower()
-                            abstract = abstract.replace(data.lower(), f"<b>{data.lower()}</b>")
+                            abstract = abstract.replace(
+                                data.lower(), f"<b>{data.lower()}</b>"
+                            )
                             match = current_app.config["URL_MATCHER"].search(abstract)
                             if match is None:
                                 abstractparts.append(abstract)
                             # This will only match the first hit
                             else:
-                                abstractparts.append(f'{abstract[: match.start()]}<a href="{match.group(0)}">{match.group(0)}</a>{abstract[match.end(): ]}')
+                                abstractparts.append(
+                                    f'{abstract[: match.start()]}<a href="{match.group(0)}">{match.group(0)}</a>{abstract[match.end(): ]}'
+                                )
                 hit["abstract"] = abstractparts
             hits.append(hit)
         for item in results.aggregations.by_tag.buckets:
             tag = {"name": item.key, "nr": item.doc_count, "mark": False}
-            if next((item for item in session["tags"] if item["name"] == tag["name"] and item["mark"]), False):
+            if next(
+                (
+                    item
+                    for item in session["tags"]
+                    if item["name"] == tag["name"] and item["mark"]
+                ),
+                False,
+            ):
                 tag.update({"mark": True})
             tags.append(tag)
 
@@ -75,6 +82,7 @@ def verify_password(user, password):
         current_app.config["USERCOLLECTION"][user]["password_hash"], password
     )
 
+
 def reset_password(token, new_password):
     s = Serializer(current_app.config["SECRET_KEY"])
     try:
@@ -91,6 +99,7 @@ def reset_password(token, new_password):
     doc["password_hash"] = generate_password_hash(new_password)
     doc.save()
     return True
+
 
 def generate_confirmation_token(user, expiration=3600):
     s = Serializer(current_app.config["SECRET_KEY"], expiration)
