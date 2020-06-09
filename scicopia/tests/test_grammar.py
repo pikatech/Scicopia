@@ -12,17 +12,29 @@ from app.parser.ScicopiaListener import ScicopiaListener
 from app.parser.ScicopiaParser import ScicopiaParser
 
 
-class KeyPrinter(ScicopiaListener):
-    def exitKey(self, ctx):
-        print("Oh, a key!")
+class PartLogger(ScicopiaListener):
+    def __init__(self):
+        self.tokens = []
+
+    def exitQuery(self, ctx):
+        print(f"Oh, a query! {ctx.getText()}")
+
+    def exitPart(self, ctx):
+        print(f"Oh, a key! {ctx.getText()}")
+        self.tokens.append(ctx.getText())
+
+    def getParts(self):
+        return self.tokens
 
 
-def test_main():
+def test_sanity():
     input_stream = InputStream("Test me")
+    expected = ["Test", "me"]
     lexer = ScicopiaLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = ScicopiaParser(stream)
-    printer = KeyPrinter()
+    logger = PartLogger()
     tree = parser.query()
     walker = ParseTreeWalker()
-    walker.walk(printer, tree)
+    walker.walk(logger, tree)
+    assert logger.getParts() == expected
