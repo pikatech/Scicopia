@@ -21,6 +21,7 @@ def connection():
         db = arangoconn.createDatabase(name=config["database"])
     return db
 
+
 def test_create_id():
     doc = {"PMID": "12345"}
     doc_format = "pubmed"
@@ -37,6 +38,7 @@ def test_zstd_open():
         lines = data.readlines()
         assert lines[0] == '<?xml version="1.0" encoding="UTF-8"?>\n'
 
+
 def test_pdfsave():
     file = "tests/data/bibtex.bib"
     data = pdfsave(file)
@@ -46,7 +48,8 @@ def test_pdfsave():
     assert data == ""
     file = "tests/data/Jindal2019a-Effective-Label-Noise.bib"
     data = pdfsave(file)
-    assert data[:10] == "JVBERi0xLj" # sehr langer text zeugs
+    assert data[:10] == "JVBERi0xLj"  # sehr langer text zeugs
+
 
 # def test_handleBulkError():
 #     # spezialzeugs mach ma später
@@ -57,11 +60,12 @@ def test_pdfsave():
 # def test_parallel_import():
 #     parallel_import(batch, batch_size, doc_format, open_func, parse, update, pdf)
 
+
 def test_import_file():
     # eigentliches herzstück
     # greift auf bestehende (leere) arango datenbank zu
-    db = connection()    # use a config to a test database
-    col="import_file"
+    db = connection()  # use a config to a test database
+    col = "import_file"
     if db.hasCollection(col):
         collection = db[col]
         collection.empty()
@@ -70,7 +74,6 @@ def test_import_file():
 
     batch_size = 2
 
-    
     file = "tests/data/bibtex.bib"
     doc_format = "bibtex"
     compression = "none"
@@ -84,9 +87,11 @@ def test_import_file():
             doc = collection[key]
         except DocumentNotFoundError:
             assert 1 == 2
-        assert doc["cited_by"]=="test"
-        assert doc["pdf"]==None # arangodb gibt bei nicht existierenden attribut None zurück
-        
+        assert doc["cited_by"] == "test"
+        assert (
+            doc["pdf"] == None
+        )  # arangodb gibt bei nicht existierenden attribut None zurück
+
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
     # gibt loggin.error aus, da daten bereits vorhanden, aber update false
 
@@ -102,9 +107,9 @@ def test_import_file():
         doc = collection["Jindal2019a"]
     except DocumentNotFoundError:
         assert 1 == 2
-    assert doc["pdf"]!=None
-    assert doc["test"]==None
-    
+    assert doc["pdf"] != None
+    assert doc["test"] == None
+
     file = "tests/data/Jie2019a-Better-Modeling-Incomplete.bib"
     update = True
     pdf = True
@@ -113,9 +118,9 @@ def test_import_file():
         doc = collection["Jie2019a"]
     except DocumentNotFoundError:
         assert 1 == 2
-    assert doc["pdf"]==None
-    assert doc["test"]==None
-    
+    assert doc["pdf"] == None
+    assert doc["test"] == None
+
     file = "tests/data/bibtex_error.bib.gz"
     compression = "gzip"
     open_func = OPEN_DICT[compression]
@@ -127,8 +132,8 @@ def test_import_file():
             doc = collection[key]
         except DocumentNotFoundError:
             assert 1 == 2
-        assert doc["pdf"]==None
-    
+        assert doc["pdf"] == None
+
     file = "tests/data/bibtex.bib.bz2"
     compression = "bzip2"
     open_func = OPEN_DICT[compression]
@@ -140,11 +145,9 @@ def test_import_file():
             doc = collection[key]
         except DocumentNotFoundError:
             assert 1 == 2
-        assert doc["cited_by"]=="test"
-        assert doc["pdf"]==None
+        assert doc["cited_by"] == "test"
+        assert doc["pdf"] == None
 
-        
-    
     file = "tests/data/arxiv.xml"
     doc_format = "arxiv"
     compression = "none"
@@ -158,8 +161,6 @@ def test_import_file():
     except DocumentNotFoundError:
         assert 1 == 2
 
-        
-    
     file = "tests/data/grobid.xml"
     doc_format = "grobid"
     compression = "none"
@@ -173,8 +174,6 @@ def test_import_file():
     except DocumentNotFoundError:
         assert 1 == 2
 
-        
-    
     file = "tests/data/pubmed.xml"
     doc_format = "pubmed"
     compression = "none"
@@ -187,11 +186,12 @@ def test_import_file():
         doc = collection["PMID28618900"]
     except DocumentNotFoundError:
         assert 1 == 2
-        
+
+
 def test_import_file_error():
     # tests what happens if the modul is called with wrong combinations
-    db = connection()    # use a config to a test database
-    col="import_file_error"
+    db = connection()  # use a config to a test database
+    col = "import_file_error"
     if db.hasCollection(col):
         collection = db[col]
         collection.empty()
@@ -203,7 +203,6 @@ def test_import_file_error():
     compression = "none"
     open_func = OPEN_DICT[compression]
 
-    
     # file = "tests/data/bibtex.bib"
     # doc_format = "arxiv"
     # parse = PARSE_DICT[doc_format]
@@ -257,30 +256,62 @@ def test_import_file_error():
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
 
 
-
 def test_locate_files():
     path = "./tests/data"
-    
+
     compression = "none"
     doc_format = "bibtex"
     recursive = False
-    control = [join(".", "tests", "data", "bibtex.bib"), join(".", "tests", "data", "bibtex_error.bib"), join(".", "tests", "data", "Jie2019a-Better-Modeling-Incomplete.bib"), join(".", "tests", "data", "Jindal2019a-Effective-Label-Noise.bib")]
+    control = [
+        join(".", "tests", "data", "bibtex.bib"),
+        join(".", "tests", "data", "bibtex_error.bib"),
+        join(".", "tests", "data", "Jie2019a-Better-Modeling-Incomplete.bib"),
+        join(".", "tests", "data", "Jindal2019a-Effective-Label-Noise.bib"),
+    ]
     control.sort()
     files = locate_files(path, doc_format, recursive, compression)
     files.sort()
     assert files == control
     recursive = True
-    control = [join(".", "tests", "data", "bibtex.bib"), join(".", "tests", "data", "bibtex_error.bib"), join(".", "tests", "data", "Jie2019a-Better-Modeling-Incomplete.bib"), join(".", "tests", "data", "Jindal2019a-Effective-Label-Noise.bib"), join(".", "tests", "data", "test", "r1.bib"), join(".", "tests", "data", "test", "test", "r2.bib")]
+    control = [
+        join(".", "tests", "data", "bibtex.bib"),
+        join(".", "tests", "data", "bibtex_error.bib"),
+        join(".", "tests", "data", "Jie2019a-Better-Modeling-Incomplete.bib"),
+        join(".", "tests", "data", "Jindal2019a-Effective-Label-Noise.bib"),
+        join(".", "tests", "data", "test", "r1.bib"),
+        join(".", "tests", "data", "test", "test", "r2.bib"),
+    ]
     control.sort()
     files = locate_files(path, doc_format, recursive, compression)
     files.sort()
     assert files == control
-    
-    control = [join(".", "tests", "data", "arxiv.xml"), join(".", "tests", "data", "grobid.xml"), join(".", "tests", "data", "grobid_error.xml"), join(".", "tests", "data", "grobid_error2.xml"), join(".", "tests", "data", "grobid_error3.xml"), join(".", "tests", "data", "grobid_error4.xml"), join(".", "tests", "data", "grobid_error5.xml"), join(".", "tests", "data", "pubmed.xml")]
+
+    control = [
+        join(".", "tests", "data", "arxiv.xml"),
+        join(".", "tests", "data", "grobid.xml"),
+        join(".", "tests", "data", "grobid_error.xml"),
+        join(".", "tests", "data", "grobid_error2.xml"),
+        join(".", "tests", "data", "grobid_error3.xml"),
+        join(".", "tests", "data", "grobid_error4.xml"),
+        join(".", "tests", "data", "grobid_error5.xml"),
+        join(".", "tests", "data", "pubmed.xml"),
+    ]
     control.sort()
-    controlr = [join(".", "tests", "data", "arxiv.xml"), join(".", "tests", "data", "grobid.xml"), join(".", "tests", "data", "grobid_error.xml"), join(".", "tests", "data", "grobid_error2.xml"), join(".", "tests", "data", "grobid_error3.xml"), join(".", "tests", "data", "grobid_error4.xml"), join(".", "tests", "data", "grobid_error5.xml"), join(".", "tests", "data", "pubmed.xml"), join(".", "tests", "data", "test", "grobid.xml"), join(".", "tests", "data", "test", "r1.xml"), join(".", "tests", "data", "test", "test", "r2.xml")]
+    controlr = [
+        join(".", "tests", "data", "arxiv.xml"),
+        join(".", "tests", "data", "grobid.xml"),
+        join(".", "tests", "data", "grobid_error.xml"),
+        join(".", "tests", "data", "grobid_error2.xml"),
+        join(".", "tests", "data", "grobid_error3.xml"),
+        join(".", "tests", "data", "grobid_error4.xml"),
+        join(".", "tests", "data", "grobid_error5.xml"),
+        join(".", "tests", "data", "pubmed.xml"),
+        join(".", "tests", "data", "test", "grobid.xml"),
+        join(".", "tests", "data", "test", "r1.xml"),
+        join(".", "tests", "data", "test", "test", "r2.xml"),
+    ]
     controlr.sort()
-    
+
     doc_format = "arxiv"
     recursive = False
     files = locate_files(path, doc_format, recursive, compression)
@@ -290,7 +321,7 @@ def test_locate_files():
     files = locate_files(path, doc_format, recursive, compression)
     files.sort()
     assert files == controlr
-    
+
     doc_format = "grobid"
     recursive = False
     files = locate_files(path, doc_format, recursive, compression)
@@ -300,7 +331,7 @@ def test_locate_files():
     files = locate_files(path, doc_format, recursive, compression)
     files.sort()
     assert files == controlr
-    
+
     doc_format = "pubmed"
     recursive = False
     files = locate_files(path, doc_format, recursive, compression)
@@ -311,7 +342,6 @@ def test_locate_files():
     files.sort()
     assert files == controlr
 
-    
     recursive = False
     compression = "zstd"
     doc_format = "pubmed"
@@ -323,6 +353,7 @@ def test_locate_files():
     control = [join(".", "tests", "data", "bibtex_error.bib.gz")]
     files = locate_files(path, doc_format, recursive, compression)
     assert files == control
+
 
 # def test_main():
 #     main(doc_format, path, pdf, recursive, compression, update, batch_size)

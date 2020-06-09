@@ -36,5 +36,7 @@ class LatexTest(unittest.TestCase):
     def test_comments(self):
         latex = r"http://www.ncstrl.org:8900/ncstrl/servlet/search?formname=detail\&id=oai%3Ancstrlh%3Autk_cs%3Ancstrl.utk_cs%2F%2FUT-CS-94-236"
         result = LatexNodes2Text(keep_comments=True).latex_to_text(latex)
-        self.assertEqual(result, r"http://www.ncstrl.org:8900/ncstrl/servlet/search?formname=detail\&id=oai%3Ancstrlh%3Autk_cs%3Ancstrl.utk_cs%2F%2FUT-CS-94-236")
-
+        self.assertEqual(
+            result,
+            r"http://www.ncstrl.org:8900/ncstrl/servlet/search?formname=detail\&id=oai%3Ancstrlh%3Autk_cs%3Ancstrl.utk_cs%2F%2FUT-CS-94-236",
+        )
