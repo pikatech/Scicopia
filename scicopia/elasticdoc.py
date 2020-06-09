@@ -77,13 +77,12 @@ class Bibdoc(Document):
     keywords = Keyword()
     auto_tags = Keyword()
     year = Short()
+    date = Keyword()
     pages = Keyword()
     journal = Text()
     volume = Keyword()
     number = Keyword()
     doi = Keyword()
-    cited_by = Keyword(multi=True)
-    citing = Keyword(multi=True)
     created_at = Date()
 
     class Index:
