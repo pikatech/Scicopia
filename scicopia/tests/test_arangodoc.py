@@ -1,4 +1,7 @@
 from arangodoc import *
+from os.path import join
+
+
 def connection():
     config = read_config()
     if "arango_url" in config:
@@ -261,51 +264,63 @@ def test_locate_files():
     compression = "none"
     doc_format = "bibtex"
     recursive = False
-    control = ["./tests/data\\bibtex.bib", "./tests/data\\bibtex_error.bib", "./tests/data\\Jie2019a-Better-Modeling-Incomplete.bib", "./tests/data\\Jindal2019a-Effective-Label-Noise.bib"]
+    control = [join(".", "tests", "data", "bibtex.bib"), join(".", "tests", "data", "bibtex_error.bib"), join(".", "tests", "data", "Jie2019a-Better-Modeling-Incomplete.bib"), join(".", "tests", "data", "Jindal2019a-Effective-Label-Noise.bib")]
+    control.sort()
     files = locate_files(path, doc_format, recursive, compression)
+    files.sort()
     assert files == control
     recursive = True
-    control = ["./tests/data\\bibtex.bib", "./tests/data\\bibtex_error.bib", "./tests/data\\Jie2019a-Better-Modeling-Incomplete.bib", "./tests/data\\Jindal2019a-Effective-Label-Noise.bib", "./tests/data\\test\\r1.bib", "./tests/data\\test\\test\\r2.bib"]
+    control = [join(".", "tests", "data", "bibtex.bib"), join(".", "tests", "data", "bibtex_error.bib"), join(".", "tests", "data", "Jie2019a-Better-Modeling-Incomplete.bib"), join(".", "tests", "data", "Jindal2019a-Effective-Label-Noise.bib"), join(".", "tests", "data", "test", "r1.bib"), join(".", "tests", "data", "test", "test", "r2.bib")]
+    control.sort()
     files = locate_files(path, doc_format, recursive, compression)
+    files.sort()
     assert files == control
     
-    control = ["./tests/data\\arxiv.xml", "./tests/data\\grobid.xml", "./tests/data\\grobid_error.xml", "./tests/data\\grobid_error2.xml", "./tests/data\\grobid_error3.xml", "./tests/data\\grobid_error4.xml", "./tests/data\\grobid_error5.xml", "./tests/data\\pubmed.xml"]
-    controlr = ["./tests/data\\arxiv.xml", "./tests/data\\grobid.xml", "./tests/data\\grobid_error.xml", "./tests/data\\grobid_error2.xml", "./tests/data\\grobid_error3.xml", "./tests/data\\grobid_error4.xml", "./tests/data\\grobid_error5.xml", "./tests/data\\pubmed.xml", "./tests/data\\test\\grobid.xml", "./tests/data\\test\\r1.xml", "./tests/data\\test\\test\\r2.xml"]
+    control = [join(".", "tests", "data", "arxiv.xml"), join(".", "tests", "data", "grobid.xml"), join(".", "tests", "data", "grobid_error.xml"), join(".", "tests", "data", "grobid_error2.xml"), join(".", "tests", "data", "grobid_error3.xml"), join(".", "tests", "data", "grobid_error4.xml"), join(".", "tests", "data", "grobid_error5.xml"), join(".", "tests", "data", "pubmed.xml")]
+    control.sort()
+    controlr = [join(".", "tests", "data", "arxiv.xml"), join(".", "tests", "data", "grobid.xml"), join(".", "tests", "data", "grobid_error.xml"), join(".", "tests", "data", "grobid_error2.xml"), join(".", "tests", "data", "grobid_error3.xml"), join(".", "tests", "data", "grobid_error4.xml"), join(".", "tests", "data", "grobid_error5.xml"), join(".", "tests", "data", "pubmed.xml"), join(".", "tests", "data", "test", "grobid.xml"), join(".", "tests", "data", "test", "r1.xml"), join(".", "tests", "data", "test", "test", "r2.xml")]
+    controlr.sort()
     
     doc_format = "arxiv"
     recursive = False
     files = locate_files(path, doc_format, recursive, compression)
+    files.sort()
     assert files == control
     recursive = True
     files = locate_files(path, doc_format, recursive, compression)
+    files.sort()
     assert files == controlr
     
     doc_format = "grobid"
     recursive = False
     files = locate_files(path, doc_format, recursive, compression)
+    files.sort()
     assert files == control
     recursive = True
     files = locate_files(path, doc_format, recursive, compression)
+    files.sort()
     assert files == controlr
     
     doc_format = "pubmed"
     recursive = False
     files = locate_files(path, doc_format, recursive, compression)
+    files.sort()
     assert files == control
     recursive = True
     files = locate_files(path, doc_format, recursive, compression)
+    files.sort()
     assert files == controlr
 
     
     recursive = False
     compression = "zstd"
     doc_format = "pubmed"
-    control = ["./tests/data\\2007-001.xml.zst"]
+    control = [join(".", "tests", "data", "2007-001.xml.zst")]
     files = locate_files(path, doc_format, recursive, compression)
     assert files == control
     compression = "gzip"
     doc_format = "bibtex"
-    control = ["./tests/data\\bibtex_error.bib.gz"]
+    control = [join(".", "tests", "data", "bibtex_error.bib.gz")]
     files = locate_files(path, doc_format, recursive, compression)
     assert files == control
 
