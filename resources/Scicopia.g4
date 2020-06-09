@@ -1,21 +1,23 @@
 grammar Scicopia;
 
 query: part+
-     | logical+
      ;
 
-part: quotes | term | prefixed | SPECIAL ;
+part: exclude | quotes | term | prefixed | SPECIAL ;
 
-logical: NOT part
+exclude: NOT quotes
+       | NOT term
+       | NOT prefixed
+       | NOT SPECIAL
        ;
 
 quotes: '"' .*? '"'
       |  '\'' .*? '\''
       ;
 
-prefixed: ( ALPHA )+ ':' ( SPECIAL | quotes | term );
+term: CHARGED | DASH | NUM | COMPOUND | ALPHA | ABBREV | ALPHANUM | APOSTROPHE ;
 
-term: DASH | NUM | COMPOUND | ALPHA | ABBREV | ALPHANUM | charged | APOSTROPHE ;
+prefixed: ( ALPHA )+ ':' ( SPECIAL | quotes | term ) ;
 
 // internal dashes for compound words
 DASH:  ALPHA ('-' ALPHANUM )+
@@ -38,7 +40,7 @@ NOT: '-' ;
 DIGITS:   ( DIGIT )+ ;
 ALPHA:    ( LETTER )+ ;
 ABBREV:   ( LETTER )+ '.' ;
-charged:  ( ALPHANUM )+ ( '+' | '-' ) ;
+CHARGED:  ( ALPHANUM )+ ( '+' | '-' ) ;
 ALPHANUM: ( LETTER | DIGIT )+ ;
 
 LPAR: '(' ;
