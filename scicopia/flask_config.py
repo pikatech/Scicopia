@@ -20,7 +20,7 @@ class Config:
     Scicopia_MAIL_SUBJECT_PREFIX = "[Scicopia]"
     Scicopia_MAIL_SENDER = "Scicopia Admin"
 
-    URL_MATCHER = re.compile(r"https?://\w+(\.\w+)+(/\w+)+([-.,_]\w+)*(#\w+)?")
+    URL_MATCHER = re.compile(r"https?://\w+(\.\w+)+(/\w+)+([-.,_]\w+)*(#[-\w]+)?")
 
 
     language = 'en'

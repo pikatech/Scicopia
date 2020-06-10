@@ -1,8 +1,18 @@
+import re
+from typing import List
 from pyArango.theExceptions import DocumentNotFoundError, CreationError
 from elasticsearch_dsl import Q
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import g, session, current_app
+
+
+def link(texts: List[str]) -> List[str]:
+    URL_MATCHER = current_app.config["URL_MATCHER"]
+    parts = []
+    for text in texts:
+        parts.append(re.subn(URL_MATCHER, r"<a href=\g<0>>\g<0></a>", text)[0])
+    return parts
 
 
 def execute_query():
@@ -29,29 +39,10 @@ def execute_query():
             if "author" in r:
                 hit["author"] = " and ".join(r.author)
             if "highlight" in r.meta and "abstract" in r.meta.highlight:
-                hit["abstract"] = r.meta.highlight.abstract                
+                hit["abstract"] = link(r.meta.highlight.abstract)
             elif "abstract" in r:
-#                 abstractparts = []
-#                 for abstract in r.abstract:
-#                     data = session["query"]
-#                     dataparts = current_app.config["NLP"](data)
-#                     for data in dataparts:
-#                         data = data.text
-#                         if data.lower() in abstract.lower() and len(data) > 1:
-# #                            abstract = abstract.lower()
-# #                            abstract = abstract.replace(
-# #                                data.lower(), f"<b>{data.lower()}</b>"
-# #                            )
-#                             match = current_app.config["URL_MATCHER"].search(abstract)
-#                             if match is None:
-#                                 abstractparts.append(abstract)
-#                             # This will only match the first hit
-#                             else:
-#                                 abstractparts.append(
-#                                     f'{abstract[: match.start()]}<a href="{match.group(0)}">{match.group(0)}</a>{abstract[match.end(): ]}'
-#                                 )
-#                hit["abstract"] = abstractparts
-                hit["abstract"] = r.abstract
+                hit["abstract"] = link(r.abstract)
+                
             hits.append(hit)
         for item in response.aggregations.by_tag.buckets:
             tag = {"name": item.key, "nr": item.doc_count, "mark": False}
