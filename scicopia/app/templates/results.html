@@ -36,7 +36,7 @@
           {% for hit in hits %}
             <li class="hit"><a href="/page/{{ hit.id }}">Title: {{ hit.title }}</a>
               {% if 'author' in hit %}<br><p>Authors: {{ hit.author }}</p>{% endif %}
-              {% if 'abstract' in hit %}<p>Abstractparts:</p>{% for part in hit.abstract %}<p>{{ part | safe }}</p>{% endfor %}{% endif %}
+              {% if 'abstract' in hit %}<p>Hits:</p>{% for part in hit.abstract %}<p>{{ part | safe }}</p>{% endfor %}{% endif %}
             </li>
           {% endfor %}
           </ol>
