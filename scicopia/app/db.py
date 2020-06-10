@@ -11,7 +11,7 @@ def link(texts: List[str]) -> List[str]:
     URL_MATCHER = current_app.config["URL_MATCHER"]
     parts = []
     for text in texts:
-        parts.append(re.subn(URL_MATCHER, r"<a href=\g<0>>\g<0></a>", text)[0])
+        parts.append(re.subn(URL_MATCHER, r'<a href="\g<0>">\g<0></a>', text)[0])
     return parts
 
 
