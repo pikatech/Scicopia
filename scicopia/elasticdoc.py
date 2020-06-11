@@ -1,4 +1,5 @@
 # read data from arangodb and save allowed fields in elasticsearch
+import argparse
 import logging
 from datetime import datetime
 from elasticsearch_dsl import (
@@ -93,11 +94,14 @@ class Bibdoc(Document):
         return super().save(**kwargs)
 
 
-def main():
+def main(timestamp: int):
     collection, db, collectionName, allowed = setup()
     Bibdoc.init()
-    aql = f"FOR x IN {collectionName} RETURN x._key"
-    BATCHSIZE = 10
+    if timestamp != 0:
+        aql = f"FOR x IN {collectionName} FILTER x.modified_at > {timestamp} RETURN x._key"
+    else:
+        aql = f"FOR x IN {collectionName} RETURN x._key"
+    BATCHSIZE = 100
     TTL = BATCHSIZE * 10 # Time-to-live
     query = db.AQLQuery(aql, rawResults=True, batchSize=10, ttl=TTL)
     bar = Bar("entries", max=collection.count())
@@ -125,4 +129,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    PARSER = argparse.ArgumentParser(description="Imports documents from ArangoDB into Elasticsearch")
+    PARSER.add_argument("-t", "--recent", help="Documents that are more recent than this timestamp", default=0, type=int)
+    ARGS = PARSER.parse_args()
+    main(ARGS.recent)
