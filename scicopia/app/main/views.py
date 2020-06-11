@@ -131,12 +131,12 @@ def tags(tag):
         if d["name"] == tag:
             if d["mark"] == False:
                 d.update({"mark": True})
-                session["condition"].append({'multi_match': {'query' : tag, 'fields':['auto_tags']}})
+                session["condition"].append({'terms': {'auto_tags' : [tag]}})
                 session["from_hit"] = 0
                 session["to_hit"] = 10
             else:
                 d.update({"mark": False})
-                session["condition"].remove({'multi_match': {'query' : tag, 'fields':['auto_tags']}})
+                session["condition"].remove({'terms': {'auto_tags' : [tag]}})
                 session["from_hit"] = 0
                 session["to_hit"] = 10
             break
