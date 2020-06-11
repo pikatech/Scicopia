@@ -1,6 +1,6 @@
 import re
 from typing import List
-from pyArango.theExceptions import DocumentNotFoundError, CreationError
+from pyArango.theExceptions import DocumentNotFoundError
 from elasticsearch_dsl import Q
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
