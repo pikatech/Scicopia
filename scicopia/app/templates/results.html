@@ -41,7 +41,7 @@
           {% endfor %}
           </ol>
         </div>
-        <div id="tagss">
+        <div id="tags">
           <ol>
           {% for tag in tags %}
             <p><a href="/tags/{{ tag.name }}"{% if tag.mark == True %} style='color: red'{% else %} style='color: black'{% endif %}> {{ tag.name }} ({{ tag.nr }})</a></p>
