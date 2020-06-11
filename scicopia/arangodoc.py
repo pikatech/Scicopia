@@ -112,6 +112,7 @@ def setup() -> Collection:
         collection = db[config["collection"]]
     else:
         collection = db.createCollection(name=config["collection"])
+        collection.ensurePersistentIndex(["modified_at"], unique=False, sparse=False, deduplicate=False, name="Modified")
     return collection
 
 
