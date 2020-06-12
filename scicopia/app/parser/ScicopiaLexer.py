@@ -5,6 +5,7 @@ from typing.io import TextIO
 import sys
 
 
+
 def serializedATN():
     with StringIO() as buf:
         buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\2\23")
@@ -27,9 +28,9 @@ def serializedATN():
         buf.write("\u00b1\n\22\f\22\16\22\u00b4\13\22\3\23\3\23\3\24\3\24")
         buf.write("\3\25\3\25\3\26\6\26\u00bd\n\26\r\26\16\26\u00be\3\26")
         buf.write("\3\26\2\2\27\3\3\5\4\7\5\t\6\13\7\r\b\17\t\21\n\23\13")
-        buf.write("\25\f\27\r\31\16\33\17\35\20\37\21!\22#\2%\2'\2)\2+\23")
+        buf.write("\25\f\27\r\31\16\33\17\35\20\37\21!\22#\2%\2\'\2)\2+\23")
         buf.write("\3\2\7\6\2--//GGUU\4\2--//\4\2.\60aa\4\2.\61aa\5\2\13")
-        buf.write('\f\16\17""\5\u024b\2C\2\\\2c\2|\2\u00ac\2\u00ac\2\u00b7')
+        buf.write("\f\16\17\"\"\5\u024b\2C\2\\\2c\2|\2\u00ac\2\u00ac\2\u00b7")
         buf.write("\2\u00b7\2\u00bc\2\u00bc\2\u00c2\2\u00d8\2\u00da\2\u00f8")
         buf.write("\2\u00fa\2\u02c3\2\u02c8\2\u02d3\2\u02e2\2\u02e6\2\u02ee")
         buf.write("\2\u02ee\2\u02f0\2\u02f0\2\u0372\2\u0376\2\u0378\2\u0379")
@@ -295,7 +296,7 @@ def serializedATN():
         buf.write("\3\2\2\2\23\u0089\3\2\2\2\25\u008e\3\2\2\2\27\u0093\3")
         buf.write("\2\2\2\31\u009a\3\2\2\2\33\u00a2\3\2\2\2\35\u00a6\3\2")
         buf.write("\2\2\37\u00a8\3\2\2\2!\u00aa\3\2\2\2#\u00ae\3\2\2\2%\u00b5")
-        buf.write("\3\2\2\2'\u00b7\3\2\2\2)\u00b9\3\2\2\2+\u00bc\3\2\2\2")
+        buf.write("\3\2\2\2\'\u00b7\3\2\2\2)\u00b9\3\2\2\2+\u00bc\3\2\2\2")
         buf.write("-.\7$\2\2.\4\3\2\2\2/\60\7)\2\2\60\6\3\2\2\2\61\62\7<")
         buf.write("\2\2\62\b\3\2\2\2\63\66\5\25\13\2\64\65\7/\2\2\65\67\5")
         buf.write("\33\16\2\66\64\3\2\2\2\678\3\2\2\28\66\3\2\2\289\3\2\2")
@@ -334,7 +335,7 @@ def serializedATN():
         buf.write("\u00a4\u00a5\3\2\2\2\u00a5\34\3\2\2\2\u00a6\u00a7\7*\2")
         buf.write("\2\u00a7\36\3\2\2\2\u00a8\u00a9\7+\2\2\u00a9 \3\2\2\2")
         buf.write("\u00aa\u00ab\7\u232a\2\2\u00ab\u00ac\5\23\n\2\u00ac\u00ad")
-        buf.write('\7\u232a\2\2\u00ad"\3\2\2\2\u00ae\u00b2\t\7\2\2\u00af')
+        buf.write("\7\u232a\2\2\u00ad\"\3\2\2\2\u00ae\u00b2\t\7\2\2\u00af")
         buf.write("\u00b1\t\b\2\2\u00b0\u00af\3\2\2\2\u00b1\u00b4\3\2\2\2")
         buf.write("\u00b2\u00b0\3\2\2\2\u00b2\u00b3\3\2\2\2\u00b3$\3\2\2")
         buf.write("\2\u00b4\u00b2\3\2\2\2\u00b5\u00b6\t\t\2\2\u00b6&\3\2")
@@ -351,7 +352,7 @@ class ScicopiaLexer(Lexer):
 
     atn = ATNDeserializer().deserialize(serializedATN())
 
-    decisionsToDFA = [DFA(ds, i) for i, ds in enumerate(atn.decisionToState)]
+    decisionsToDFA = [ DFA(ds, i) for i, ds in enumerate(atn.decisionToState) ]
 
     T__0 = 1
     T__1 = 2
@@ -371,61 +372,30 @@ class ScicopiaLexer(Lexer):
     SPECIAL = 16
     WHITESPACE = 17
 
-    channelNames = [u"DEFAULT_TOKEN_CHANNEL", u"HIDDEN"]
+    channelNames = [ u"DEFAULT_TOKEN_CHANNEL", u"HIDDEN" ]
 
-    modeNames = ["DEFAULT_MODE"]
+    modeNames = [ "DEFAULT_MODE" ]
 
-    literalNames = ["<INVALID>", "'\"'", "'''", "':'", "'-'", "'('", "')'"]
+    literalNames = [ "<INVALID>",
+            "'\"'", "'''", "':'", "'-'", "'('", "')'" ]
 
-    symbolicNames = [
-        "<INVALID>",
-        "DASH",
-        "NUM",
-        "COMPOUND",
-        "APOSTROPHE",
-        "NOT",
-        "DIGITS",
-        "ALPHA",
-        "ABBREV",
-        "CHARGED",
-        "ALPHANUM",
-        "LPAR",
-        "RPAR",
-        "SPECIAL",
-        "WHITESPACE",
-    ]
+    symbolicNames = [ "<INVALID>",
+            "DASH", "NUM", "COMPOUND", "APOSTROPHE", "NOT", "DIGITS", "ALPHA", 
+            "ABBREV", "CHARGED", "ALPHANUM", "LPAR", "RPAR", "SPECIAL", 
+            "WHITESPACE" ]
 
-    ruleNames = [
-        "T__0",
-        "T__1",
-        "T__2",
-        "DASH",
-        "NUM",
-        "COMPOUND",
-        "APOSTROPHE",
-        "NOT",
-        "DIGITS",
-        "ALPHA",
-        "ABBREV",
-        "CHARGED",
-        "ALPHANUM",
-        "LPAR",
-        "RPAR",
-        "SPECIAL",
-        "LETTER",
-        "DIGIT",
-        "FILEPCT",
-        "PCT",
-        "WHITESPACE",
-    ]
+    ruleNames = [ "T__0", "T__1", "T__2", "DASH", "NUM", "COMPOUND", "APOSTROPHE", 
+                  "NOT", "DIGITS", "ALPHA", "ABBREV", "CHARGED", "ALPHANUM", 
+                  "LPAR", "RPAR", "SPECIAL", "LETTER", "DIGIT", "FILEPCT", 
+                  "PCT", "WHITESPACE" ]
 
     grammarFileName = "Scicopia.g4"
 
-    def __init__(self, input=None, output: TextIO = sys.stdout):
+    def __init__(self, input=None, output:TextIO = sys.stdout):
         super().__init__(input, output)
         self.checkVersion("4.8")
-        self._interp = LexerATNSimulator(
-            self, self.atn, self.decisionsToDFA, PredictionContextCache()
-        )
+        self._interp = LexerATNSimulator(self, self.atn, self.decisionsToDFA, PredictionContextCache())
         self._actions = None
         self._predicates = None
+
+

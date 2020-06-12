@@ -13,7 +13,7 @@ from flask import (
 ) 
 from . import main
 from .forms import NameForm, PageButton, SortForm
-from ..db import execute_query, add_search
+from ..db import analyze_input, execute_query, add_search
 
 
 @main.route("/", methods=["GET", "POST"])
@@ -24,7 +24,7 @@ def index():
         session["next"] = None
     if form.validate_on_submit():
         session["query"] = form.name.data
-        session["condition"] = [{'multi_match': {'query' : session["query"]}}]
+        session["condition"] = analyze_input(session["query"])
         session["from_hit"] = 0
         session["to_hit"] = 10
         session["tags"] = []
@@ -45,7 +45,7 @@ def page(id):
     pdf = PageButton()
     if form.validate_on_submit():
         session["query"] = form.name.data
-        session["condition"] = [{'multi_match': {'query' : session["query"]}}]
+        session["condition"] = analyze_input(session["query"])
         session["from_hit"] = 0
         session["to_hit"] = 10
         session["tags"] = []
@@ -98,13 +98,14 @@ def results():
     sort_form = SortForm()
     if form.validate_on_submit():
         session["query"] = form.name.data
-        session["condition"] = [{'multi_match': {'query' : session["query"]}}]
+        session["condition"] = analyze_input(session["query"])
         session["from_hit"] = 0
         session["to_hit"] = 10
         session["tags"] = []
         return redirect(url_for("main.results"))
     else:
         form.name.data = session["query"]
+        print(repr(session["condition"]))
         execute_query()
         if session["user"] is not None:
             add_search(session["query"])
@@ -131,12 +132,12 @@ def tags(tag):
         if d["name"] == tag:
             if d["mark"] == False:
                 d.update({"mark": True})
-                session["condition"].append({'terms': {'auto_tags' : [tag]}})
+                session["condition"]["must"].append({'terms': {'auto_tags' : [tag]}})
                 session["from_hit"] = 0
                 session["to_hit"] = 10
             else:
                 d.update({"mark": False})
-                session["condition"].remove({'terms': {'auto_tags' : [tag]}})
+                session["condition"]["must"].remove({'terms': {'auto_tags' : [tag]}})
                 session["from_hit"] = 0
                 session["to_hit"] = 10
             break
@@ -146,7 +147,7 @@ def tags(tag):
 @main.route("/oldsearch/<search>")
 def oldsearch(search):
     session["query"] = search
-    session["condition"] = [{'multi_match': {'query' : session["query"]}}]
+    session["condition"] = analyze_input(session["query"])
     session["from_hit"] = 0
     session["to_hit"] = 10
     session["tags"] = []

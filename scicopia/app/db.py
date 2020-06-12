@@ -1,10 +1,15 @@
 import re
-from typing import List
+from typing import List, Dict
 from pyArango.theExceptions import DocumentNotFoundError
 from elasticsearch_dsl import Q
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import g, session, current_app
+
+from antlr4 import CommonTokenStream, InputStream, ParseTreeWalker
+from .parser.ScicopiaLexer import ScicopiaLexer
+from .parser.QueryListener import QueryListener
+from .parser.ScicopiaParser import ScicopiaParser
 
 
 def link(texts: List[str]) -> List[str]:
@@ -15,12 +20,29 @@ def link(texts: List[str]) -> List[str]:
     return parts
 
 
+def analyze_input(input: str) -> Dict[str, Dict[str, str]]:
+    input_stream = InputStream(input)
+    lexer = ScicopiaLexer(input_stream)
+    stream = CommonTokenStream(lexer)
+    parser = ScicopiaParser(stream)
+    listener = QueryListener()
+    tree = parser.query()
+    walker = ParseTreeWalker()
+    walker.walk(listener, tree)
+    return listener.getQueries()
+
+
 def execute_query():
     conditions = []
-    for condition in session["condition"]:
+    restrictions = []
+    for condition in session["condition"]["must"]:
         conditions.append(Q(condition))
+    for restriction in session["condition"]["must_not"]:
+        restrictions.append(Q(condition))
     prepared_search = current_app.config["SEARCH"].sort({"year": {"order": "desc"}})
     prepared_search = prepared_search.query(Q({"bool": {"must": conditions}}))
+    if restrictions:
+        prepared_search = prepared_search.query(Q({"bool": {"must_not": conditions}}))
     prepared_search = prepared_search.highlight('abstract')
     prepared_search = prepared_search.highlight_options(pre_tags=["<b>"],
                                                         post_tags=["</b>"],
