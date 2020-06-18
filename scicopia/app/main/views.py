@@ -105,7 +105,6 @@ def results():
         return redirect(url_for("main.results"))
     else:
         form.name.data = session["query"]
-        print(repr(session["condition"]))
         execute_query()
         if session["user"] is not None:
             add_search(session["query"])
