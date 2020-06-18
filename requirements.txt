@@ -1,6 +1,6 @@
 Flask==1.1.2
 Flask-WTF>=0.14.3
-Flask-Bootstrap
+Flask-BS4==4.5.0.0
 Flask-Mail
 email-validator==1.1.1
 elasticsearch>=7.0.2
