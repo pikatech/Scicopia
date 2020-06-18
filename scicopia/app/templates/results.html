@@ -24,10 +24,10 @@
       <img src="static/images/help.svg" id="helpIcon" alt="Need help? Click here!">
     </div>
       <div id="hitstats">
-        <p>Search order:</p>
+        <span class="stat">Search order:</span>
         {{ sort_form.hidden_tag() }}{{ sort_form.order(id="sortForm") }}
-        <p>Total hits: {{ total_hits }}</p><p class="rubber"></p>
-        <p>Search took: {{ time }} ms</p>
+        <span class="stat">Total hits: {{ total_hits }}</span><span class="rubber"></span>
+        <span class="stat">Search took: {{ time }} ms</span>
     </div>
     {% if query %}
       {% if hits %}
