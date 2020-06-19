@@ -11,7 +11,8 @@
 {% endblock %}
 
 {% block page_content %}
-  <div id="content">
+  <div class="container">
+   <div class="row justify-content-md-center"><div class="col-12 col-md-10 col-lg-8">
     <div id="resultLogo"><img height="105" width="400" src="static/images/logo.svg" alt="Scicopia - search Science" onError="this.onerror=null;this.src='static/images/fallback/logo400.png';"></div>
     <div class="searchArea">
       <form method="POST" id="search">
@@ -75,5 +76,6 @@
       </form>
     </div>
   {% endif %}
+   </div></div>
   </div>
 {% endblock %}
