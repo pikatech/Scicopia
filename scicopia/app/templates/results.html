@@ -42,12 +42,12 @@
           {% endfor %}
           </dd>
         </div>
-        <div id="tags">
-          <ol>
+        <div id="tags" class="row">
+          <div class="col col-12">
           {% for tag in tags %}
-            <p><a href="/tags/{{ tag.name }}" style='color: {% if tag.mark %}red{% else %}black{% endif %}'> {{ tag.name }} ({{ tag.nr }})</a></p>
+            <a class="btn btn-outline-primary" href="/tags/{{ tag.name }}" style='color: {% if tag.mark %}red{% else %}black{% endif %}'> {{ tag.name }} ({{ tag.nr }})</a>
           {% endfor %}
-          </dd>
+          </div>
         </div>
       {% else %}
         <p>Search returned no results.</p>

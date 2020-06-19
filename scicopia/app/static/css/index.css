@@ -17,3 +17,7 @@
   font-size: .875em;
   color: #000;
 }
+
+.btn-outline-primary, .btn-outline-primary:hover, .btn-outline-primary:active, .btn-outline-primary:visited {
+    background-color: #e3f2fd !important;
+}
