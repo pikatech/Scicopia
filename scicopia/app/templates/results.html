@@ -31,12 +31,12 @@
     </div>
     {% if query %}
       {% if hits %}
-        <div id="results">
-          <ol start="{{ _from + 1 }}">
+        <div id="results" class="list-group">
+          <dd class="mb-0" start="{{ _from + 1 }}">
           {% for hit in hits %}
-            <li class="hit"><a href="/page/{{ hit.id }}">Title: {{ hit.title }}</a>
-              {% if 'author' in hit %}<br><p>Authors: {{ hit.author }}</p>{% endif %}
-              {% if 'abstract' in hit %}<p>Hits:</p>{% for part in hit.abstract %}<p>{{ part | safe }}</p>{% endfor %}{% endif %}
+            <li class="hit list-group-item border-0"><a href="/page/{{ hit.id }}"><h6>{{ hit.title }}</h6></a>
+              {% if 'author' in hit %}<p>by {{ hit.author }}</p>{% endif %}
+              {% if 'abstract' in hit %}<ul>{% for part in hit.abstract %}<li>{{ part | safe }}</li>{% endfor %}</ul>{% endif %}
             </li>
           {% endfor %}
           </ol>
@@ -46,7 +46,7 @@
           {% for tag in tags %}
             <p><a href="/tags/{{ tag.name }}" style='color: {% if tag.mark %}red{% else %}black{% endif %}'> {{ tag.name }} ({{ tag.nr }})</a></p>
           {% endfor %}
-          </ol>
+          </dd>
         </div>
       {% else %}
         <p>Search returned no results.</p>

@@ -73,11 +73,7 @@ select {
   color: #3c7ccc;
 }
 
-li {
-  margin-right: 1em;
-}
-
-li:nth-child(even) {
+dd > li:nth-child(even) {
   background: #eef;
 }
 
