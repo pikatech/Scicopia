@@ -13,7 +13,7 @@ from flask import (
 ) 
 from . import main
 from .forms import NameForm, PageButton, SortForm
-from ..db import analyze_input, execute_query, add_search
+from ..db import analyze_input, execute_query, add_search, link
 
 
 @main.route("/", methods=["GET", "POST"])
@@ -56,6 +56,8 @@ def page(id):
         if len(results.hits) == 0:
             abort(404)  # change error 500 to error 404
         hit = results.hits[0]
+        if 'abstract' in hit:
+            hit.abstract = link(hit.abstract)
         data = current_app.config["COLLECTION"][id]["pdf"]
         if data:
             pdfexists = True

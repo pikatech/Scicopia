@@ -45,12 +45,12 @@
           {% endif %}
         {% endif %}
         </p>
-        {% if "abstract" in hit %}<p><b>Abstract:</b><br>{{ hit.abstract|join("\n")  }}</p><br>{% endif %}
+        {% if "abstract" in hit %}<p><b>Abstract:</b><br>{{ hit.abstract|join("\n") | safe }}</p><br>{% endif %}
         {% if "auto_tags" in hit %}<p><b>Auto-Tags:</b><br>{{ hit.auto_tags|join(", ") }}</p>{% endif %}
       {% else %}
         {% if "title" in hit %}<h6>{{ hit.title }}</h6>{% endif %}
         {% if "author" in hit %}<p>by {{ hit.author|join(" and ") }}</p>{% endif %}
-        {% if "abstract" in hit %}<p><b>Abstract:</b> {{ hit.abstract|join(" ")  }}</p>{% endif %}
+        {% if "abstract" in hit %}<p><b>Abstract:</b> {{ hit.abstract|join(" ") | safe }}</p>{% endif %}
         {% if "date" in hit %}
           <p><b>Date:</b> {{ hit.date }}</p>
         {% else %}
