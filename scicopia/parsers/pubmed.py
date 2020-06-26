@@ -24,11 +24,11 @@ def extract_abstract(abstract: Element) -> str:
                 tag.text = "<" + tag.tag + ">" + tag.text + "<" + tag.tag + ">"
         if "Label" in part.attrib:
             parttext = "".join(part.itertext())
-            if parttext is not "":
+            if parttext != "":
                 text.append(part.attrib["Label"] + ": " + parttext)
         else:
             parttext = "".join(part.itertext())
-            if parttext is not "":
+            if parttext != "":
                 text.append(parttext)
     if text:
         return "\n".join(text)
@@ -147,8 +147,10 @@ def parse(source) -> Dict[str, str]:
             article["url"] = "https://www.ncbi.nlm.nih.gov/pubmed/" + pmid
             title = elem.find(".//ArticleTitle")
             if title is None or title.text is None:
-                logging.warning("Article %s should have had a title", pmid)
-                continue
+                title = elem.find(".//VernacularTitle")        
+                if title is None or title.text is None:
+                    logging.warning("Article %s should have had a title", pmid)
+                    continue
 
             # Handle marked up text
             for tag in iter(title):
