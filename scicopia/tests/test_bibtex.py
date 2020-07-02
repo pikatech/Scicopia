@@ -14,7 +14,7 @@ def test_handleField():
         assert datadict["year"] == "2019"
         handleField(fields[1], datadict)
         assert "publisher" in datadict
-        assert datadict["publisher"] == "Association for Computational Linguistics"
+        assert datadict["publisher"] == "Association for Lorem Ipsum"
         handleField(fields[2], datadict)
         assert "cited_by" in datadict
         assert datadict["cited_by"] == "test"
@@ -31,37 +31,31 @@ def test_handlePerson():
         handlePerson(items[0], datadict)
         assert "author" in datadict
         assert datadict["author"] == [
-            "Zhanming Jie",
-            "Pengjun Xie",
-            "Wei Lu",
-            "Ruixue Ding",
-            "Linlin Li",
+            "Lorem Ipsum",
+            "Lörem Ipßüm"
         ]
 
 
 def test_parse():
     source = "tests/data/bibtex.bib"
-    with open(source) as data:
+    with open(source, encoding="utf-8") as data:
         for datadict in parse(data):
             assert "year" in datadict
             assert datadict["year"] == "2019"
             assert "publisher" in datadict
-            assert datadict["publisher"] == "Association for Computational Linguistics"
+            assert datadict["publisher"] == "Association for Lorem Ipsum"
             assert "cited_by" in datadict
             assert datadict["cited_by"] == "test"
             assert "author" in datadict
             assert datadict["author"] == [
-                "Zhanming Jie",
-                "Pengjun Xie",
-                "Wei Lu",
-                "Ruixue Ding",
-                "Linlin Li",
+                "Lorem Ipsum",
+                "Lörem Ipßüm"
             ]
 
 
 def test_parse_error():  # TODO: add controll of exceptions
     source = "tests/data/bibtex_error.bib"
-    with open(source) as data:
+    with open(source, encoding="utf-8") as data:
         for datadict in parse(data):
             pass
     # with open(source) as data:

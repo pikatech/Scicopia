@@ -3,7 +3,7 @@
 <PubmedArticleSet>
   <PubmedArticle>
     <MedlineCitation Status="MEDLINE" Owner="NLM">
-      <PMID Version="1">28618900</PMID>
+      <PMID Version="1">121518513</PMID>
       <DateCompleted>
         <Year>2019</Year>
         <Month>02</Month>
@@ -16,7 +16,7 @@
       </DateRevised>
       <Article PubModel="Print">
         <Journal>
-          <ISSN IssnType="Electronic">1875-533X</ISSN>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
           <JournalIssue CitedMedium="Internet">
             <Volume>25</Volume>
             <Issue>13</Issue>
@@ -25,36 +25,36 @@
               <Month>March</Month>
             </PubDate>
           </JournalIssue>
-          <Title>Current medicinal chemistry</Title>
-          <ISOAbbreviation>Curr. Med. Chem.</ISOAbbreviation>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
         </Journal>
-        <ArticleTitle>Role of Anti-PCSK9 Antibodies in the Treatment of Patients with Statin Intolerance.</ArticleTitle>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
         <Pagination>
-          <MedlinePgn>1538-1548</MedlinePgn>
+          <MedlinePgn>1215-18513</MedlinePgn>
         </Pagination>
-        <ELocationID EIdType="doi" ValidYN="Y">10.2174/0929867324666170616111647</ELocationID>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
         <Abstract>
-          <AbstractText>Statin intolerance</AbstractText>
-          <CopyrightInformation>Copyright© Bentham Science Publishers; For any queries, please email at epub@benthamscience.org.</CopyrightInformation>
+          <AbstractText>Lorem ipsum</AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
         </Abstract>
         <AuthorList CompleteYN="Y">
           <Author ValidYN="Y">
-            <LastName>Schreml</LastName>
-            <ForeName>Julia</ForeName>
-            <Initials>J</Initials>
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
             <AffiliationInfo>
-              <Affiliation>Institute for Human Genetics, University of Cologne, Kerpener Str. 34, 50931, Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum.</Affiliation>
             </AffiliationInfo>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
           <Author ValidYN="Y">
-            <LastName>Gouni-Berthold</LastName>
-            <ForeName>Ioanna</ForeName>
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
             <Initials>I</Initials>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
         </AuthorList>
@@ -65,63 +65,34 @@
         </PublicationTypeList>
       </Article>
       <MedlineJournalInfo>
-        <Country>United Arab Emirates</Country>
-        <MedlineTA>Curr Med Chem</MedlineTA>
-        <NlmUniqueID>9440157</NlmUniqueID>
-        <ISSNLinking>0929-8673</ISSNLinking>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
       </MedlineJournalInfo>
       <ChemicalList>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D000911">Antibodies, Monoclonal</NameOfSubstance>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
         </Chemical>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D061067">Antibodies, Monoclonal, Humanized</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D008078">Cholesterol, LDL</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D019161">Hydroxymethylglutaryl-CoA Reductase Inhibitors</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="C472125">PCSK9 protein, human</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="D000071449">Proprotein Convertase 9</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>LKC0U3A8NJ</RegistryNumber>
-          <NameOfSubstance UI="C577155">evolocumab</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>PP0SHH6V16</RegistryNumber>
-          <NameOfSubstance UI="C571059">alirocumab</NameOfSubstance>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
         </Chemical>
       </ChemicalList>
       <CitationSubset>IM</CitationSubset>
       <MeshHeadingList>
         <MeshHeading>
-          <DescriptorName UI="D000911" MajorTopicYN="N">Antibodies, Monoclonal</DescriptorName>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
           <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
         </MeshHeading>
         <MeshHeading>
-          <DescriptorName UI="D061067" MajorTopicYN="N">Antibodies, Monoclonal, Humanized</DescriptorName>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
         </MeshHeading>
       </MeshHeadingList>
       <KeywordList Owner="NOTNLM">
-        <Keyword MajorTopicYN="N">Alirocumab</Keyword>
-        <Keyword MajorTopicYN="N">PCSK9</Keyword>
-        <Keyword MajorTopicYN="N">anti-PCSK9 antibody</Keyword>
-        <Keyword MajorTopicYN="N">evolocumab</Keyword>
-        <Keyword MajorTopicYN="N">ezetimibe</Keyword>
-        <Keyword MajorTopicYN="N">statin</Keyword>
-        <Keyword MajorTopicYN="N">statin intolerance.</Keyword>
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
       </KeywordList>
     </MedlineCitation>
     <PubmedData>
@@ -131,43 +102,12 @@
           <Month>07</Month>
           <Day>05</Day>
         </PubMedPubDate>
-        <PubMedPubDate PubStatus="revised">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>16</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="accepted">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>17</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="pubmed">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>18</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="medline">
-          <Year>2019</Year>
-          <Month>2</Month>
-          <Day>8</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="entrez">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>17</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
       </History>
       <PublicationStatus>ppublish</PublicationStatus>
       <ArticleIdList>
-        <ArticleId IdType="pubmed">28618994</ArticleId>
-        <ArticleId IdType="pii">CMC-EPUB-84173</ArticleId>
-        <ArticleId IdType="doi">10.2174/0929867324666170616111647</ArticleId>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
       </ArticleIdList>
     </PubmedData>
   </PubmedArticle>
@@ -186,7 +126,7 @@
       </DateRevised>
       <Article PubModel="Print">
         <Journal>
-          <ISSN IssnType="Electronic">1875-533X</ISSN>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
           <JournalIssue CitedMedium="Internet">
             <Volume>25</Volume>
             <Issue>13</Issue>
@@ -194,36 +134,36 @@
               <Year>2018</Year>
             </PubDate>
           </JournalIssue>
-          <Title>Current medicinal chemistry</Title>
-          <ISOAbbreviation>Curr. Med. Chem.</ISOAbbreviation>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
         </Journal>
-        <ArticleTitle>Role of Anti-PCSK9 Antibodies in the Treatment of Patients with Statin Intolerance.</ArticleTitle>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
         <Pagination>
-          <MedlinePgn>1538-1548</MedlinePgn>
+          <MedlinePgn>1215-18513</MedlinePgn>
         </Pagination>
-        <ELocationID EIdType="doi" ValidYN="Y">10.2174/0929867324666170616111647</ELocationID>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
         <Abstract>
-          <AbstractText>Statin intolerance</AbstractText>
-          <CopyrightInformation>Copyright© Bentham Science Publishers; For any queries, please email at epub@benthamscience.org.</CopyrightInformation>
+          <AbstractText>Lorem ipsum</AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
         </Abstract>
         <AuthorList CompleteYN="Y">
           <Author ValidYN="Y">
-            <LastName>Schreml</LastName>
-            <ForeName>Julia</ForeName>
-            <Initials>J</Initials>
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
             <AffiliationInfo>
-              <Affiliation>Institute for Human Genetics, University of Cologne, Kerpener Str. 34, 50931, Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum.</Affiliation>
             </AffiliationInfo>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
           <Author ValidYN="Y">
-            <LastName>Gouni-Berthold</LastName>
-            <ForeName>Ioanna</ForeName>
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
             <Initials>I</Initials>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
         </AuthorList>
@@ -234,63 +174,34 @@
         </PublicationTypeList>
       </Article>
       <MedlineJournalInfo>
-        <Country>United Arab Emirates</Country>
-        <MedlineTA>Curr Med Chem</MedlineTA>
-        <NlmUniqueID>9440157</NlmUniqueID>
-        <ISSNLinking>0929-8673</ISSNLinking>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
       </MedlineJournalInfo>
       <ChemicalList>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D000911">Antibodies, Monoclonal</NameOfSubstance>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
         </Chemical>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D061067">Antibodies, Monoclonal, Humanized</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D008078">Cholesterol, LDL</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D019161">Hydroxymethylglutaryl-CoA Reductase Inhibitors</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="C472125">PCSK9 protein, human</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="D000071449">Proprotein Convertase 9</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>LKC0U3A8NJ</RegistryNumber>
-          <NameOfSubstance UI="C577155">evolocumab</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>PP0SHH6V16</RegistryNumber>
-          <NameOfSubstance UI="C571059">alirocumab</NameOfSubstance>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
         </Chemical>
       </ChemicalList>
       <CitationSubset>IM</CitationSubset>
       <MeshHeadingList>
         <MeshHeading>
-          <DescriptorName UI="D000911" MajorTopicYN="N">Antibodies, Monoclonal</DescriptorName>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
           <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
         </MeshHeading>
         <MeshHeading>
-          <DescriptorName UI="D061067" MajorTopicYN="N">Antibodies, Monoclonal, Humanized</DescriptorName>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
         </MeshHeading>
       </MeshHeadingList>
       <KeywordList Owner="NOTNLM">
-        <Keyword MajorTopicYN="N">Alirocumab</Keyword>
-        <Keyword MajorTopicYN="N">PCSK9</Keyword>
-        <Keyword MajorTopicYN="N">anti-PCSK9 antibody</Keyword>
-        <Keyword MajorTopicYN="N">evolocumab</Keyword>
-        <Keyword MajorTopicYN="N">ezetimibe</Keyword>
-        <Keyword MajorTopicYN="N">statin</Keyword>
-        <Keyword MajorTopicYN="N">statin intolerance.</Keyword>
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
       </KeywordList>
     </MedlineCitation>
     <PubmedData>
@@ -300,43 +211,12 @@
           <Month>07</Month>
           <Day>05</Day>
         </PubMedPubDate>
-        <PubMedPubDate PubStatus="revised">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>16</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="accepted">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>17</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="pubmed">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>18</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="medline">
-          <Year>2019</Year>
-          <Month>2</Month>
-          <Day>8</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="entrez">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>17</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
       </History>
       <PublicationStatus>ppublish</PublicationStatus>
       <ArticleIdList>
-        <ArticleId IdType="pubmed">28618994</ArticleId>
-        <ArticleId IdType="pii">CMC-EPUB-84173</ArticleId>
-        <ArticleId IdType="doi">10.2174/0929867324666170616111647</ArticleId>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
       </ArticleIdList>
     </PubmedData>
   </PubmedArticle>
@@ -356,7 +236,7 @@
       </DateRevised>
       <Article PubModel="Print">
         <Journal>
-          <ISSN IssnType="Electronic">1875-533X</ISSN>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
           <JournalIssue CitedMedium="Internet">
             <Volume>25</Volume>
             <Issue>13</Issue>
@@ -364,36 +244,36 @@
               <Year>2018</Year>
             </PubDate>
           </JournalIssue>
-          <Title>Current medicinal chemistry</Title>
-          <ISOAbbreviation>Curr. Med. Chem.</ISOAbbreviation>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
         </Journal>
-        <ArticleTitle>Role of Anti-PCSK9 Antibodies in the Treatment of Patients with Statin Intolerance.</ArticleTitle>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
         <Pagination>
-          <MedlinePgn>1538-1548</MedlinePgn>
+          <MedlinePgn>1215-18513</MedlinePgn>
         </Pagination>
-        <ELocationID EIdType="doi" ValidYN="Y">10.2174/0929867324666170616111647</ELocationID>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
         <Abstract>
-          <AbstractText>Statin intolerance</AbstractText>
-          <CopyrightInformation>Copyright© Bentham Science Publishers; For any queries, please email at epub@benthamscience.org.</CopyrightInformation>
+          <AbstractText>Lorem ipsum</AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
         </Abstract>
         <AuthorList CompleteYN="Y">
           <Author ValidYN="Y">
-            <LastName>Schreml</LastName>
-            <ForeName>Julia</ForeName>
-            <Initials>J</Initials>
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
             <AffiliationInfo>
-              <Affiliation>Institute for Human Genetics, University of Cologne, Kerpener Str. 34, 50931, Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum.</Affiliation>
             </AffiliationInfo>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
           <Author ValidYN="Y">
-            <LastName>Gouni-Berthold</LastName>
-            <ForeName>Ioanna</ForeName>
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
             <Initials>I</Initials>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
         </AuthorList>
@@ -404,63 +284,34 @@
         </PublicationTypeList>
       </Article>
       <MedlineJournalInfo>
-        <Country>United Arab Emirates</Country>
-        <MedlineTA>Curr Med Chem</MedlineTA>
-        <NlmUniqueID>9440157</NlmUniqueID>
-        <ISSNLinking>0929-8673</ISSNLinking>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
       </MedlineJournalInfo>
       <ChemicalList>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D000911">Antibodies, Monoclonal</NameOfSubstance>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
         </Chemical>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D061067">Antibodies, Monoclonal, Humanized</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D008078">Cholesterol, LDL</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D019161">Hydroxymethylglutaryl-CoA Reductase Inhibitors</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="C472125">PCSK9 protein, human</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="D000071449">Proprotein Convertase 9</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>LKC0U3A8NJ</RegistryNumber>
-          <NameOfSubstance UI="C577155">evolocumab</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>PP0SHH6V16</RegistryNumber>
-          <NameOfSubstance UI="C571059">alirocumab</NameOfSubstance>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
         </Chemical>
       </ChemicalList>
       <CitationSubset>IM</CitationSubset>
       <MeshHeadingList>
         <MeshHeading>
-          <DescriptorName UI="D000911" MajorTopicYN="N">Antibodies, Monoclonal</DescriptorName>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
           <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
         </MeshHeading>
         <MeshHeading>
-          <DescriptorName UI="D061067" MajorTopicYN="N">Antibodies, Monoclonal, Humanized</DescriptorName>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
         </MeshHeading>
       </MeshHeadingList>
       <KeywordList Owner="NOTNLM">
-        <Keyword MajorTopicYN="N">Alirocumab</Keyword>
-        <Keyword MajorTopicYN="N">PCSK9</Keyword>
-        <Keyword MajorTopicYN="N">anti-PCSK9 antibody</Keyword>
-        <Keyword MajorTopicYN="N">evolocumab</Keyword>
-        <Keyword MajorTopicYN="N">ezetimibe</Keyword>
-        <Keyword MajorTopicYN="N">statin</Keyword>
-        <Keyword MajorTopicYN="N">statin intolerance.</Keyword>
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
       </KeywordList>
     </MedlineCitation>
     <PubmedData>
@@ -470,50 +321,19 @@
           <Month>07</Month>
           <Day>05</Day>
         </PubMedPubDate>
-        <PubMedPubDate PubStatus="revised">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>16</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="accepted">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>17</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="pubmed">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>18</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="medline">
-          <Year>2019</Year>
-          <Month>2</Month>
-          <Day>8</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="entrez">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>17</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
       </History>
       <PublicationStatus>ppublish</PublicationStatus>
       <ArticleIdList>
-        <ArticleId IdType="pubmed">28618994</ArticleId>
-        <ArticleId IdType="pii">CMC-EPUB-84173</ArticleId>
-        <ArticleId IdType="doi">10.2174/0929867324666170616111647</ArticleId>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
       </ArticleIdList>
     </PubmedData>
   </PubmedArticle>
   
   <PubmedArticle>
     <MedlineCitation Status="MEDLINE" Owner="NLM">
-      <PMID>28618900</PMID>
+      <PMID>121518513</PMID>
       <DateCompleted>
         <Year>2019</Year>
         <Month>02</Month>
@@ -526,7 +346,7 @@
       </DateRevised>
       <Article PubModel="Print">
         <Journal>
-          <ISSN IssnType="Electronic">1875-533X</ISSN>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
           <JournalIssue CitedMedium="Internet">
             <Volume>25</Volume>
             <Issue>13</Issue>
@@ -534,35 +354,35 @@
               <Year>2018</Year>
             </PubDate>
           </JournalIssue>
-          <Title>Current medicinal chemistry</Title>
-          <ISOAbbreviation>Curr. Med. Chem.</ISOAbbreviation>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
         </Journal>
         <Pagination>
-          <MedlinePgn>1538-1548</MedlinePgn>
+          <MedlinePgn>1215-18513</MedlinePgn>
         </Pagination>
-        <ELocationID EIdType="doi" ValidYN="Y">10.2174/0929867324666170616111647</ELocationID>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
         <Abstract>
-          <AbstractText>Statin intolerance</AbstractText>
-          <CopyrightInformation>Copyright© Bentham Science Publishers; For any queries, please email at epub@benthamscience.org.</CopyrightInformation>
+          <AbstractText>Lorem ipsum</AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
         </Abstract>
         <AuthorList CompleteYN="Y">
           <Author ValidYN="Y">
-            <LastName>Schreml</LastName>
-            <ForeName>Julia</ForeName>
-            <Initials>J</Initials>
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
             <AffiliationInfo>
-              <Affiliation>Institute for Human Genetics, University of Cologne, Kerpener Str. 34, 50931, Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum.</Affiliation>
             </AffiliationInfo>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
           <Author ValidYN="Y">
-            <LastName>Gouni-Berthold</LastName>
-            <ForeName>Ioanna</ForeName>
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
             <Initials>I</Initials>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
         </AuthorList>
@@ -573,63 +393,34 @@
         </PublicationTypeList>
       </Article>
       <MedlineJournalInfo>
-        <Country>United Arab Emirates</Country>
-        <MedlineTA>Curr Med Chem</MedlineTA>
-        <NlmUniqueID>9440157</NlmUniqueID>
-        <ISSNLinking>0929-8673</ISSNLinking>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
       </MedlineJournalInfo>
       <ChemicalList>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D000911">Antibodies, Monoclonal</NameOfSubstance>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
         </Chemical>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D061067">Antibodies, Monoclonal, Humanized</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D008078">Cholesterol, LDL</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D019161">Hydroxymethylglutaryl-CoA Reductase Inhibitors</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="C472125">PCSK9 protein, human</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="D000071449">Proprotein Convertase 9</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>LKC0U3A8NJ</RegistryNumber>
-          <NameOfSubstance UI="C577155">evolocumab</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>PP0SHH6V16</RegistryNumber>
-          <NameOfSubstance UI="C571059">alirocumab</NameOfSubstance>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
         </Chemical>
       </ChemicalList>
       <CitationSubset>IM</CitationSubset>
       <MeshHeadingList>
         <MeshHeading>
-          <DescriptorName UI="D000911" MajorTopicYN="N">Antibodies, Monoclonal</DescriptorName>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
           <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
         </MeshHeading>
         <MeshHeading>
-          <DescriptorName UI="D061067" MajorTopicYN="N">Antibodies, Monoclonal, Humanized</DescriptorName>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
         </MeshHeading>
       </MeshHeadingList>
       <KeywordList Owner="NOTNLM">
-        <Keyword MajorTopicYN="N">Alirocumab</Keyword>
-        <Keyword MajorTopicYN="N">PCSK9</Keyword>
-        <Keyword MajorTopicYN="N">anti-PCSK9 antibody</Keyword>
-        <Keyword MajorTopicYN="N">evolocumab</Keyword>
-        <Keyword MajorTopicYN="N">ezetimibe</Keyword>
-        <Keyword MajorTopicYN="N">statin</Keyword>
-        <Keyword MajorTopicYN="N">statin intolerance.</Keyword>
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
       </KeywordList>
     </MedlineCitation>
     <PubmedData>
@@ -639,50 +430,19 @@
           <Month>07</Month>
           <Day>05</Day>
         </PubMedPubDate>
-        <PubMedPubDate PubStatus="revised">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>16</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="accepted">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>17</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="pubmed">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>18</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="medline">
-          <Year>2019</Year>
-          <Month>2</Month>
-          <Day>8</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="entrez">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>17</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
       </History>
       <PublicationStatus>ppublish</PublicationStatus>
       <ArticleIdList>
-        <ArticleId IdType="pubmed">28618994</ArticleId>
-        <ArticleId IdType="pii">CMC-EPUB-84173</ArticleId>
-        <ArticleId IdType="doi">10.2174/0929867324666170616111647</ArticleId>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
       </ArticleIdList>
     </PubmedData>
   </PubmedArticle>
   
   <PubmedArticle>
     <MedlineCitation Status="MEDLINE" Owner="NLM">
-      <PMID>28618900</PMID>
+      <PMID>121518513</PMID>
       <DateCompleted>
         <Year>2019</Year>
         <Month>02</Month>
@@ -695,7 +455,7 @@
       </DateRevised>
       <Article PubModel="Print">
         <Journal>
-          <ISSN IssnType="Electronic">1875-533X</ISSN>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
           <JournalIssue CitedMedium="Internet">
             <Volume>25</Volume>
             <Issue>13</Issue>
@@ -703,36 +463,36 @@
               <Year>2018</Year>
             </PubDate>
           </JournalIssue>
-          <Title>Current medicinal chemistry</Title>
-          <ISOAbbreviation>Curr. Med. Chem.</ISOAbbreviation>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
         </Journal>
         <ArticleTitle></ArticleTitle>
         <Pagination>
-          <MedlinePgn>1538-1548</MedlinePgn>
+          <MedlinePgn>1215-18513</MedlinePgn>
         </Pagination>
-        <ELocationID EIdType="doi" ValidYN="Y">10.2174/0929867324666170616111647</ELocationID>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
         <Abstract>
-          <AbstractText>Statin intolerance</AbstractText>
-          <CopyrightInformation>Copyright© Bentham Science Publishers; For any queries, please email at epub@benthamscience.org.</CopyrightInformation>
+          <AbstractText>Lorem ipsum</AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
         </Abstract>
         <AuthorList CompleteYN="Y">
           <Author ValidYN="Y">
-            <LastName>Schreml</LastName>
-            <ForeName>Julia</ForeName>
-            <Initials>J</Initials>
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
             <AffiliationInfo>
-              <Affiliation>Institute for Human Genetics, University of Cologne, Kerpener Str. 34, 50931, Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum.</Affiliation>
             </AffiliationInfo>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
           <Author ValidYN="Y">
-            <LastName>Gouni-Berthold</LastName>
-            <ForeName>Ioanna</ForeName>
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
             <Initials>I</Initials>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
         </AuthorList>
@@ -743,63 +503,34 @@
         </PublicationTypeList>
       </Article>
       <MedlineJournalInfo>
-        <Country>United Arab Emirates</Country>
-        <MedlineTA>Curr Med Chem</MedlineTA>
-        <NlmUniqueID>9440157</NlmUniqueID>
-        <ISSNLinking>0929-8673</ISSNLinking>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
       </MedlineJournalInfo>
       <ChemicalList>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D000911">Antibodies, Monoclonal</NameOfSubstance>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
         </Chemical>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D061067">Antibodies, Monoclonal, Humanized</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D008078">Cholesterol, LDL</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D019161">Hydroxymethylglutaryl-CoA Reductase Inhibitors</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="C472125">PCSK9 protein, human</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="D000071449">Proprotein Convertase 9</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>LKC0U3A8NJ</RegistryNumber>
-          <NameOfSubstance UI="C577155">evolocumab</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>PP0SHH6V16</RegistryNumber>
-          <NameOfSubstance UI="C571059">alirocumab</NameOfSubstance>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
         </Chemical>
       </ChemicalList>
       <CitationSubset>IM</CitationSubset>
       <MeshHeadingList>
         <MeshHeading>
-          <DescriptorName UI="D000911" MajorTopicYN="N">Antibodies, Monoclonal</DescriptorName>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
           <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
         </MeshHeading>
         <MeshHeading>
-          <DescriptorName UI="D061067" MajorTopicYN="N">Antibodies, Monoclonal, Humanized</DescriptorName>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
         </MeshHeading>
       </MeshHeadingList>
       <KeywordList Owner="NOTNLM">
-        <Keyword MajorTopicYN="N">Alirocumab</Keyword>
-        <Keyword MajorTopicYN="N">PCSK9</Keyword>
-        <Keyword MajorTopicYN="N">anti-PCSK9 antibody</Keyword>
-        <Keyword MajorTopicYN="N">evolocumab</Keyword>
-        <Keyword MajorTopicYN="N">ezetimibe</Keyword>
-        <Keyword MajorTopicYN="N">statin</Keyword>
-        <Keyword MajorTopicYN="N">statin intolerance.</Keyword>
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
       </KeywordList>
     </MedlineCitation>
     <PubmedData>
@@ -809,50 +540,19 @@
           <Month>07</Month>
           <Day>05</Day>
         </PubMedPubDate>
-        <PubMedPubDate PubStatus="revised">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>16</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="accepted">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>17</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="pubmed">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>18</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="medline">
-          <Year>2019</Year>
-          <Month>2</Month>
-          <Day>8</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="entrez">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>17</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
       </History>
       <PublicationStatus>ppublish</PublicationStatus>
       <ArticleIdList>
-        <ArticleId IdType="pubmed">28618994</ArticleId>
-        <ArticleId IdType="pii">CMC-EPUB-84173</ArticleId>
-        <ArticleId IdType="doi">10.2174/0929867324666170616111647</ArticleId>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
       </ArticleIdList>
     </PubmedData>
   </PubmedArticle>
   
   <PubmedArticle>
     <MedlineCitation Status="MEDLINE" Owner="NLM">
-      <PMID>28618900</PMID>
+      <PMID>121518513</PMID>
       <DateCompleted>
         <Year>2019</Year>
         <Month>02</Month>
@@ -864,33 +564,33 @@
         <Day>10</Day>
       </DateRevised>
       <Article PubModel="Print">
-        <ArticleTitle>Role of Anti-PCSK9 Antibodies in the Treatment of Patients with Statin Intolerance.</ArticleTitle>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
         <Pagination>
-          <MedlinePgn>1538-1548</MedlinePgn>
+          <MedlinePgn>1215-18513</MedlinePgn>
         </Pagination>
-        <ELocationID EIdType="doi" ValidYN="Y">10.2174/0929867324666170616111647</ELocationID>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
         <Abstract>
-          <AbstractText>Statin intolerance</AbstractText>
-          <CopyrightInformation>Copyright© Bentham Science Publishers; For any queries, please email at epub@benthamscience.org.</CopyrightInformation>
+          <AbstractText>Lorem ipsum</AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
         </Abstract>
         <AuthorList CompleteYN="Y">
           <Author ValidYN="Y">
-            <LastName>Schreml</LastName>
-            <ForeName>Julia</ForeName>
-            <Initials>J</Initials>
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
             <AffiliationInfo>
-              <Affiliation>Institute for Human Genetics, University of Cologne, Kerpener Str. 34, 50931, Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum.</Affiliation>
             </AffiliationInfo>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
           <Author ValidYN="Y">
-            <LastName>Gouni-Berthold</LastName>
-            <ForeName>Ioanna</ForeName>
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
             <Initials>I</Initials>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
         </AuthorList>
@@ -901,63 +601,34 @@
         </PublicationTypeList>
       </Article>
       <MedlineJournalInfo>
-        <Country>United Arab Emirates</Country>
-        <MedlineTA>Curr Med Chem</MedlineTA>
-        <NlmUniqueID>9440157</NlmUniqueID>
-        <ISSNLinking>0929-8673</ISSNLinking>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
       </MedlineJournalInfo>
       <ChemicalList>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D000911">Antibodies, Monoclonal</NameOfSubstance>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
         </Chemical>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D061067">Antibodies, Monoclonal, Humanized</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D008078">Cholesterol, LDL</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D019161">Hydroxymethylglutaryl-CoA Reductase Inhibitors</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="C472125">PCSK9 protein, human</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="D000071449">Proprotein Convertase 9</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>LKC0U3A8NJ</RegistryNumber>
-          <NameOfSubstance UI="C577155">evolocumab</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>PP0SHH6V16</RegistryNumber>
-          <NameOfSubstance UI="C571059">alirocumab</NameOfSubstance>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
         </Chemical>
       </ChemicalList>
       <CitationSubset>IM</CitationSubset>
       <MeshHeadingList>
         <MeshHeading>
-          <DescriptorName UI="D000911" MajorTopicYN="N">Antibodies, Monoclonal</DescriptorName>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
           <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
         </MeshHeading>
         <MeshHeading>
-          <DescriptorName UI="D061067" MajorTopicYN="N">Antibodies, Monoclonal, Humanized</DescriptorName>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
         </MeshHeading>
       </MeshHeadingList>
       <KeywordList Owner="NOTNLM">
-        <Keyword MajorTopicYN="N">Alirocumab</Keyword>
-        <Keyword MajorTopicYN="N">PCSK9</Keyword>
-        <Keyword MajorTopicYN="N">anti-PCSK9 antibody</Keyword>
-        <Keyword MajorTopicYN="N">evolocumab</Keyword>
-        <Keyword MajorTopicYN="N">ezetimibe</Keyword>
-        <Keyword MajorTopicYN="N">statin</Keyword>
-        <Keyword MajorTopicYN="N">statin intolerance.</Keyword>
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
       </KeywordList>
     </MedlineCitation>
     <PubmedData>
@@ -967,50 +638,19 @@
           <Month>07</Month>
           <Day>05</Day>
         </PubMedPubDate>
-        <PubMedPubDate PubStatus="revised">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>16</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="accepted">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>17</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="pubmed">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>18</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="medline">
-          <Year>2019</Year>
-          <Month>2</Month>
-          <Day>8</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="entrez">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>17</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
       </History>
       <PublicationStatus>ppublish</PublicationStatus>
       <ArticleIdList>
-        <ArticleId IdType="pubmed">28618994</ArticleId>
-        <ArticleId IdType="pii">CMC-EPUB-84173</ArticleId>
-        <ArticleId IdType="doi">10.2174/0929867324666170616111647</ArticleId>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
       </ArticleIdList>
     </PubmedData>
   </PubmedArticle>
   
   <PubmedArticle>
     <MedlineCitation Status="MEDLINE" Owner="NLM">
-      <PMID>28618900</PMID>
+      <PMID>121518513</PMID>
       <DateCompleted>
         <Year>2019</Year>
         <Month>02</Month>
@@ -1023,33 +663,33 @@
       </DateRevised>
       <Article PubModel="Print">
         <Journal></Journal>
-        <ArticleTitle>Role of Anti-PCSK9 Antibodies in the Treatment of Patients with Statin Intolerance.</ArticleTitle>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
         <Pagination>
-          <MedlinePgn>1538-1548</MedlinePgn>
+          <MedlinePgn>1215-18513</MedlinePgn>
         </Pagination>
-        <ELocationID EIdType="doi" ValidYN="Y">10.2174/0929867324666170616111647</ELocationID>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
         <Abstract>
-          <AbstractText>Statin intolerance</AbstractText>
-          <CopyrightInformation>Copyright© Bentham Science Publishers; For any queries, please email at epub@benthamscience.org.</CopyrightInformation>
+          <AbstractText>Lorem ipsum</AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
         </Abstract>
         <AuthorList CompleteYN="Y">
           <Author ValidYN="Y">
-            <LastName>Schreml</LastName>
-            <ForeName>Julia</ForeName>
-            <Initials>J</Initials>
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
             <AffiliationInfo>
-              <Affiliation>Institute for Human Genetics, University of Cologne, Kerpener Str. 34, 50931, Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum.</Affiliation>
             </AffiliationInfo>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
           <Author ValidYN="Y">
-            <LastName>Gouni-Berthold</LastName>
-            <ForeName>Ioanna</ForeName>
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
             <Initials>I</Initials>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
         </AuthorList>
@@ -1060,63 +700,34 @@
         </PublicationTypeList>
       </Article>
       <MedlineJournalInfo>
-        <Country>United Arab Emirates</Country>
-        <MedlineTA>Curr Med Chem</MedlineTA>
-        <NlmUniqueID>9440157</NlmUniqueID>
-        <ISSNLinking>0929-8673</ISSNLinking>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
       </MedlineJournalInfo>
       <ChemicalList>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D000911">Antibodies, Monoclonal</NameOfSubstance>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
         </Chemical>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D061067">Antibodies, Monoclonal, Humanized</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D008078">Cholesterol, LDL</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D019161">Hydroxymethylglutaryl-CoA Reductase Inhibitors</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="C472125">PCSK9 protein, human</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="D000071449">Proprotein Convertase 9</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>LKC0U3A8NJ</RegistryNumber>
-          <NameOfSubstance UI="C577155">evolocumab</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>PP0SHH6V16</RegistryNumber>
-          <NameOfSubstance UI="C571059">alirocumab</NameOfSubstance>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
         </Chemical>
       </ChemicalList>
       <CitationSubset>IM</CitationSubset>
       <MeshHeadingList>
         <MeshHeading>
-          <DescriptorName UI="D000911" MajorTopicYN="N">Antibodies, Monoclonal</DescriptorName>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
           <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
         </MeshHeading>
         <MeshHeading>
-          <DescriptorName UI="D061067" MajorTopicYN="N">Antibodies, Monoclonal, Humanized</DescriptorName>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
         </MeshHeading>
       </MeshHeadingList>
       <KeywordList Owner="NOTNLM">
-        <Keyword MajorTopicYN="N">Alirocumab</Keyword>
-        <Keyword MajorTopicYN="N">PCSK9</Keyword>
-        <Keyword MajorTopicYN="N">anti-PCSK9 antibody</Keyword>
-        <Keyword MajorTopicYN="N">evolocumab</Keyword>
-        <Keyword MajorTopicYN="N">ezetimibe</Keyword>
-        <Keyword MajorTopicYN="N">statin</Keyword>
-        <Keyword MajorTopicYN="N">statin intolerance.</Keyword>
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
       </KeywordList>
     </MedlineCitation>
     <PubmedData>
@@ -1126,50 +737,19 @@
           <Month>07</Month>
           <Day>05</Day>
         </PubMedPubDate>
-        <PubMedPubDate PubStatus="revised">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>16</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="accepted">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>17</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="pubmed">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>18</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="medline">
-          <Year>2019</Year>
-          <Month>2</Month>
-          <Day>8</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="entrez">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>17</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
       </History>
       <PublicationStatus>ppublish</PublicationStatus>
       <ArticleIdList>
-        <ArticleId IdType="pubmed">28618994</ArticleId>
-        <ArticleId IdType="pii">CMC-EPUB-84173</ArticleId>
-        <ArticleId IdType="doi">10.2174/0929867324666170616111647</ArticleId>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
       </ArticleIdList>
     </PubmedData>
   </PubmedArticle>
   
   <PubmedArticle>
     <MedlineCitation Status="MEDLINE" Owner="NLM">
-      <PMID>28618900</PMID>
+      <PMID>121518513</PMID>
       <DateCompleted>
         <Year>2019</Year>
         <Month>02</Month>
@@ -1182,16 +762,16 @@
       </DateRevised>
       <Article PubModel="Print">
         <Journal>
-          <ISSN IssnType="Electronic">1875-533X</ISSN>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
           <JournalIssue CitedMedium="Internet">
           </JournalIssue>
-          <ISOAbbreviation>Curr. Med. Chem.</ISOAbbreviation>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
         </Journal>
-        <ArticleTitle>Role of Anti-PCSK9 Antibodies in the Treatment of Patients with Statin Intolerance.</ArticleTitle>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
         <Pagination>
-          <MedlinePgn>1538-1548</MedlinePgn>
+          <MedlinePgn>1215-18513</MedlinePgn>
         </Pagination>
-        <ELocationID EIdType="doi" ValidYN="Y">10.2174/0929867324666170616111647</ELocationID>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
         <Language>eng</Language>
         <PublicationTypeList>
           <PublicationType UI="D016428">Journal Article</PublicationType>
@@ -1199,54 +779,25 @@
         </PublicationTypeList>
       </Article>
       <MedlineJournalInfo>
-        <Country>United Arab Emirates</Country>
-        <MedlineTA>Curr Med Chem</MedlineTA>
-        <NlmUniqueID>9440157</NlmUniqueID>
-        <ISSNLinking>0929-8673</ISSNLinking>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
       </MedlineJournalInfo>
       <ChemicalList>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D000911">Antibodies, Monoclonal</NameOfSubstance>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
         </Chemical>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D061067">Antibodies, Monoclonal, Humanized</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D008078">Cholesterol, LDL</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D019161">Hydroxymethylglutaryl-CoA Reductase Inhibitors</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="C472125">PCSK9 protein, human</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="D000071449">Proprotein Convertase 9</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>LKC0U3A8NJ</RegistryNumber>
-          <NameOfSubstance UI="C577155">evolocumab</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>PP0SHH6V16</RegistryNumber>
-          <NameOfSubstance UI="C571059">alirocumab</NameOfSubstance>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
         </Chemical>
       </ChemicalList>
       <CitationSubset>IM</CitationSubset>
       <KeywordList Owner="NOTNLM">
-        <Keyword MajorTopicYN="N">Alirocumab</Keyword>
-        <Keyword MajorTopicYN="N">PCSK9</Keyword>
-        <Keyword MajorTopicYN="N">anti-PCSK9 antibody</Keyword>
-        <Keyword MajorTopicYN="N">evolocumab</Keyword>
-        <Keyword MajorTopicYN="N">ezetimibe</Keyword>
-        <Keyword MajorTopicYN="N">statin</Keyword>
-        <Keyword MajorTopicYN="N">statin intolerance.</Keyword>
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
       </KeywordList>
     </MedlineCitation>
     <PubmedData>
@@ -1256,50 +807,19 @@
           <Month>07</Month>
           <Day>05</Day>
         </PubMedPubDate>
-        <PubMedPubDate PubStatus="revised">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>16</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="accepted">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>17</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="pubmed">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>18</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="medline">
-          <Year>2019</Year>
-          <Month>2</Month>
-          <Day>8</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="entrez">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>17</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
       </History>
       <PublicationStatus>ppublish</PublicationStatus>
       <ArticleIdList>
-        <ArticleId IdType="pubmed">28618994</ArticleId>
-        <ArticleId IdType="pii">CMC-EPUB-84173</ArticleId>
-        <ArticleId IdType="doi">10.2174/0929867324666170616111647</ArticleId>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
       </ArticleIdList>
     </PubmedData>
   </PubmedArticle>
   
   <PubmedArticle>
     <MedlineCitation Status="MEDLINE" Owner="NLM">
-      <PMID>28618900</PMID>
+      <PMID>121518513</PMID>
       <DateCompleted>
         <Year>2019</Year>
         <Month>02</Month>
@@ -1312,20 +832,20 @@
       </DateRevised>
       <Article PubModel="Print">
         <Journal>
-          <ISSN IssnType="Electronic">1875-533X</ISSN>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
           <JournalIssue CitedMedium="Internet">
             <Volume></Volume>
             <Issue></Issue>
             <PubDate></PubDate>
           </JournalIssue>
           <Title></Title>
-          <ISOAbbreviation>Curr. Med. Chem.</ISOAbbreviation>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
         </Journal>
-        <ArticleTitle>Role of Anti-PCSK9 Antibodies in the Treatment of Patients with Statin Intolerance.</ArticleTitle>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
         <Pagination>
-          <MedlinePgn>1538-1548</MedlinePgn>
+          <MedlinePgn>1215-18513</MedlinePgn>
         </Pagination>
-        <ELocationID EIdType="doi" ValidYN="Y">10.2174/0929867324666170616111647</ELocationID>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
         <Abstract></Abstract>
         <AuthorList CompleteYN="Y"></AuthorList>
         <Language>eng</Language>
@@ -1335,55 +855,26 @@
         </PublicationTypeList>
       </Article>
       <MedlineJournalInfo>
-        <Country>United Arab Emirates</Country>
-        <MedlineTA>Curr Med Chem</MedlineTA>
-        <NlmUniqueID>9440157</NlmUniqueID>
-        <ISSNLinking>0929-8673</ISSNLinking>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
       </MedlineJournalInfo>
       <ChemicalList>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D000911">Antibodies, Monoclonal</NameOfSubstance>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
         </Chemical>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D061067">Antibodies, Monoclonal, Humanized</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D008078">Cholesterol, LDL</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D019161">Hydroxymethylglutaryl-CoA Reductase Inhibitors</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="C472125">PCSK9 protein, human</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="D000071449">Proprotein Convertase 9</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>LKC0U3A8NJ</RegistryNumber>
-          <NameOfSubstance UI="C577155">evolocumab</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>PP0SHH6V16</RegistryNumber>
-          <NameOfSubstance UI="C571059">alirocumab</NameOfSubstance>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
         </Chemical>
       </ChemicalList>
       <CitationSubset>IM</CitationSubset>
       <MeshHeadingList></MeshHeadingList>
       <KeywordList Owner="NOTNLM">
-        <Keyword MajorTopicYN="N">Alirocumab</Keyword>
-        <Keyword MajorTopicYN="N">PCSK9</Keyword>
-        <Keyword MajorTopicYN="N">anti-PCSK9 antibody</Keyword>
-        <Keyword MajorTopicYN="N">evolocumab</Keyword>
-        <Keyword MajorTopicYN="N">ezetimibe</Keyword>
-        <Keyword MajorTopicYN="N">statin</Keyword>
-        <Keyword MajorTopicYN="N">statin intolerance.</Keyword>
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
       </KeywordList>
     </MedlineCitation>
     <PubmedData>
@@ -1393,50 +884,19 @@
           <Month>07</Month>
           <Day>05</Day>
         </PubMedPubDate>
-        <PubMedPubDate PubStatus="revised">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>16</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="accepted">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>17</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="pubmed">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>18</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="medline">
-          <Year>2019</Year>
-          <Month>2</Month>
-          <Day>8</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="entrez">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>17</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
       </History>
       <PublicationStatus>ppublish</PublicationStatus>
       <ArticleIdList>
-        <ArticleId IdType="pubmed">28618994</ArticleId>
-        <ArticleId IdType="pii">CMC-EPUB-84173</ArticleId>
-        <ArticleId IdType="doi">10.2174/0929867324666170616111647</ArticleId>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
       </ArticleIdList>
     </PubmedData>
   </PubmedArticle>
   
   <PubmedArticle>
     <MedlineCitation Status="MEDLINE" Owner="NLM">
-      <PMID>28618900</PMID>
+      <PMID>121518513</PMID>
       <DateCompleted>
         <Year>2019</Year>
         <Month>02</Month>
@@ -1449,7 +909,7 @@
       </DateRevised>
       <Article PubModel="Print">
         <Journal>
-          <ISSN IssnType="Electronic">1875-533X</ISSN>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
           <JournalIssue CitedMedium="Internet">
             <Volume>25</Volume>
             <Issue>13</Issue>
@@ -1458,14 +918,14 @@
               <Month></Month>
             </PubDate>
           </JournalIssue>
-          <Title>Current medicinal chemistry</Title>
-          <ISOAbbreviation>Curr. Med. Chem.</ISOAbbreviation>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
         </Journal>
-        <ArticleTitle>Role of Anti-PCSK9 Antibodies in the Treatment of Patients with Statin Intolerance.</ArticleTitle>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
         <Pagination>
-          <MedlinePgn>1538-1548</MedlinePgn>
+          <MedlinePgn>1215-18513</MedlinePgn>
         </Pagination>
-        <ELocationID EIdType="doi" ValidYN="Y">10.2174/0929867324666170616111647</ELocationID>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
         <Abstract>
           <AbstractText></AbstractText>
           <AbstractText Label="Title"></AbstractText>
@@ -1480,43 +940,19 @@
         </PublicationTypeList>
       </Article>
       <MedlineJournalInfo>
-        <Country>United Arab Emirates</Country>
-        <MedlineTA>Curr Med Chem</MedlineTA>
-        <NlmUniqueID>9440157</NlmUniqueID>
-        <ISSNLinking>0929-8673</ISSNLinking>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
       </MedlineJournalInfo>
       <ChemicalList>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D000911">Antibodies, Monoclonal</NameOfSubstance>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
         </Chemical>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D061067">Antibodies, Monoclonal, Humanized</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D008078">Cholesterol, LDL</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D019161">Hydroxymethylglutaryl-CoA Reductase Inhibitors</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="C472125">PCSK9 protein, human</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="D000071449">Proprotein Convertase 9</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>LKC0U3A8NJ</RegistryNumber>
-          <NameOfSubstance UI="C577155">evolocumab</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>PP0SHH6V16</RegistryNumber>
-          <NameOfSubstance UI="C571059">alirocumab</NameOfSubstance>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
         </Chemical>
       </ChemicalList>
       <CitationSubset>IM</CitationSubset>
@@ -1524,13 +960,8 @@
         <MeshHeading></MeshHeading>
       </MeshHeadingList>
       <KeywordList Owner="NOTNLM">
-        <Keyword MajorTopicYN="N">Alirocumab</Keyword>
-        <Keyword MajorTopicYN="N">PCSK9</Keyword>
-        <Keyword MajorTopicYN="N">anti-PCSK9 antibody</Keyword>
-        <Keyword MajorTopicYN="N">evolocumab</Keyword>
-        <Keyword MajorTopicYN="N">ezetimibe</Keyword>
-        <Keyword MajorTopicYN="N">statin</Keyword>
-        <Keyword MajorTopicYN="N">statin intolerance.</Keyword>
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
       </KeywordList>
     </MedlineCitation>
     <PubmedData>
@@ -1540,50 +971,19 @@
           <Month>07</Month>
           <Day>05</Day>
         </PubMedPubDate>
-        <PubMedPubDate PubStatus="revised">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>16</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="accepted">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>17</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="pubmed">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>18</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="medline">
-          <Year>2019</Year>
-          <Month>2</Month>
-          <Day>8</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="entrez">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>17</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
       </History>
       <PublicationStatus>ppublish</PublicationStatus>
       <ArticleIdList>
-        <ArticleId IdType="pubmed">28618994</ArticleId>
-        <ArticleId IdType="pii">CMC-EPUB-84173</ArticleId>
-        <ArticleId IdType="doi">10.2174/0929867324666170616111647</ArticleId>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
       </ArticleIdList>
     </PubmedData>
   </PubmedArticle>
   
   <PubmedArticle>
     <MedlineCitation Status="MEDLINE" Owner="NLM">
-      <PMID>28618900</PMID>
+      <PMID>121518513</PMID>
       <DateCompleted>
         <Year>2019</Year>
         <Month>02</Month>
@@ -1596,7 +996,7 @@
       </DateRevised>
       <Article PubModel="Print">
         <Journal>
-          <ISSN IssnType="Electronic">1875-533X</ISSN>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
           <JournalIssue CitedMedium="Internet">
             <Volume>25</Volume>
             <Issue>13</Issue>
@@ -1604,34 +1004,34 @@
               <Year>2018</Year>
             </PubDate>
           </JournalIssue>
-          <Title>Current medicinal chemistry</Title>
-          <ISOAbbreviation>Curr. Med. Chem.</ISOAbbreviation>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
         </Journal>
-        <ArticleTitle>Role of Anti-PCSK9 Antibodies in the Treatment of Patients with Statin Intolerance.</ArticleTitle>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
         <Pagination>
-          <MedlinePgn>1538-1548</MedlinePgn>
+          <MedlinePgn>1215-18513</MedlinePgn>
         </Pagination>
-        <ELocationID EIdType="doi" ValidYN="Y">10.2174/0929867324666170616111647</ELocationID>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
         <Abstract>
-          <CopyrightInformation>Copyright© Bentham Science Publishers; For any queries, please email at epub@benthamscience.org.</CopyrightInformation>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
         </Abstract>
         <AuthorList CompleteYN="Y">
           <Author ValidYN="Y">
-            <LastName>Schreml</LastName>
+            <LastName>Ipsum</LastName>
             <ForeName></ForeName>
-            <Initials>J</Initials>
+            <Initials>L</Initials>
             <AffiliationInfo>
-              <Affiliation>Institute for Human Genetics, University of Cologne, Kerpener Str. 34, 50931, Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum.</Affiliation>
             </AffiliationInfo>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
           <Author ValidYN="Y">
-            <LastName>Gouni-Berthold</LastName>
+            <LastName>Lörem</LastName>
             <Initials>I</Initials>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
         </AuthorList>
@@ -1642,43 +1042,19 @@
         </PublicationTypeList>
       </Article>
       <MedlineJournalInfo>
-        <Country>United Arab Emirates</Country>
-        <MedlineTA>Curr Med Chem</MedlineTA>
-        <NlmUniqueID>9440157</NlmUniqueID>
-        <ISSNLinking>0929-8673</ISSNLinking>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
       </MedlineJournalInfo>
       <ChemicalList>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D000911">Antibodies, Monoclonal</NameOfSubstance>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
         </Chemical>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D061067">Antibodies, Monoclonal, Humanized</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D008078">Cholesterol, LDL</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D019161">Hydroxymethylglutaryl-CoA Reductase Inhibitors</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="C472125">PCSK9 protein, human</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="D000071449">Proprotein Convertase 9</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>LKC0U3A8NJ</RegistryNumber>
-          <NameOfSubstance UI="C577155">evolocumab</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>PP0SHH6V16</RegistryNumber>
-          <NameOfSubstance UI="C571059">alirocumab</NameOfSubstance>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
         </Chemical>
       </ChemicalList>
       <CitationSubset>IM</CitationSubset>
@@ -1691,13 +1067,8 @@
         </MeshHeading>
       </MeshHeadingList>
       <KeywordList Owner="NOTNLM">
-        <Keyword MajorTopicYN="N">Alirocumab</Keyword>
-        <Keyword MajorTopicYN="N">PCSK9</Keyword>
-        <Keyword MajorTopicYN="N">anti-PCSK9 antibody</Keyword>
-        <Keyword MajorTopicYN="N">evolocumab</Keyword>
-        <Keyword MajorTopicYN="N">ezetimibe</Keyword>
-        <Keyword MajorTopicYN="N">statin</Keyword>
-        <Keyword MajorTopicYN="N">statin intolerance.</Keyword>
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
       </KeywordList>
     </MedlineCitation>
     <PubmedData>
@@ -1707,50 +1078,19 @@
           <Month>07</Month>
           <Day>05</Day>
         </PubMedPubDate>
-        <PubMedPubDate PubStatus="revised">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>16</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="accepted">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>17</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="pubmed">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>18</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="medline">
-          <Year>2019</Year>
-          <Month>2</Month>
-          <Day>8</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="entrez">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>17</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
       </History>
       <PublicationStatus>ppublish</PublicationStatus>
       <ArticleIdList>
-        <ArticleId IdType="pubmed">28618994</ArticleId>
-        <ArticleId IdType="pii">CMC-EPUB-84173</ArticleId>
-        <ArticleId IdType="doi">10.2174/0929867324666170616111647</ArticleId>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
       </ArticleIdList>
     </PubmedData>
   </PubmedArticle>
   
   <PubmedArticle>
     <MedlineCitation Status="MEDLINE" Owner="NLM">
-      <PMID>28618900</PMID>
+      <PMID>121518513</PMID>
       <DateCompleted>
         <Year>2019</Year>
         <Month>02</Month>
@@ -1763,7 +1103,7 @@
       </DateRevised>
       <Article PubModel="Print">
         <Journal>
-          <ISSN IssnType="Electronic">1875-533X</ISSN>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
           <JournalIssue CitedMedium="Internet">
             <Volume>25</Volume>
             <Issue>13</Issue>
@@ -1771,26 +1111,26 @@
               <Year>2018</Year>
             </PubDate>
           </JournalIssue>
-          <Title>Current medicinal chemistry</Title>
-          <ISOAbbreviation>Curr. Med. Chem.</ISOAbbreviation>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
         </Journal>
-        <ArticleTitle>Role of Anti-PCSK9 Antibodies in the Treatment of Patients with Statin Intolerance.</ArticleTitle>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
         <Pagination>
-          <MedlinePgn>1538-1548</MedlinePgn>
+          <MedlinePgn>1215-18513</MedlinePgn>
         </Pagination>
-        <ELocationID EIdType="doi" ValidYN="Y">10.2174/0929867324666170616111647</ELocationID>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
         <Abstract>
-          <AbstractText>Statin</AbstractText>
-          <AbstractText>intolerance</AbstractText>
-          <CopyrightInformation>Copyright© Bentham Science Publishers; For any queries, please email at epub@benthamscience.org.</CopyrightInformation>
+          <AbstractText>Lorem</AbstractText>
+          <AbstractText>ipsum</AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
         </Abstract>
         <AuthorList CompleteYN="Y">
           <Author ValidYN="Y">
             <AffiliationInfo>
-              <Affiliation>Institute for Human Genetics, University of Cologne, Kerpener Str. 34, 50931, Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum.</Affiliation>
             </AffiliationInfo>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
           <Author ValidYN="Y">
@@ -1798,7 +1138,7 @@
             <ForeName></ForeName>
             <Initials></Initials>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
         </AuthorList>
@@ -1809,63 +1149,34 @@
         </PublicationTypeList>
       </Article>
       <MedlineJournalInfo>
-        <Country>United Arab Emirates</Country>
-        <MedlineTA>Curr Med Chem</MedlineTA>
-        <NlmUniqueID>9440157</NlmUniqueID>
-        <ISSNLinking>0929-8673</ISSNLinking>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
       </MedlineJournalInfo>
       <ChemicalList>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D000911">Antibodies, Monoclonal</NameOfSubstance>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
         </Chemical>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D061067">Antibodies, Monoclonal, Humanized</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D008078">Cholesterol, LDL</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D019161">Hydroxymethylglutaryl-CoA Reductase Inhibitors</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="C472125">PCSK9 protein, human</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="D000071449">Proprotein Convertase 9</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>LKC0U3A8NJ</RegistryNumber>
-          <NameOfSubstance UI="C577155">evolocumab</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>PP0SHH6V16</RegistryNumber>
-          <NameOfSubstance UI="C571059">alirocumab</NameOfSubstance>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
         </Chemical>
       </ChemicalList>
       <CitationSubset>IM</CitationSubset>
       <MeshHeadingList>
         <MeshHeading>
-          <DescriptorName UI="D000911" MajorTopicYN="N">Antibodies, Monoclonal</DescriptorName>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
           <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
         </MeshHeading>
         <MeshHeading>
-          <DescriptorName UI="D061067" MajorTopicYN="N">Antibodies, Monoclonal, Humanized</DescriptorName>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
         </MeshHeading>
       </MeshHeadingList>
       <KeywordList Owner="NOTNLM">
-        <Keyword MajorTopicYN="N">Alirocumab</Keyword>
-        <Keyword MajorTopicYN="N">PCSK9</Keyword>
-        <Keyword MajorTopicYN="N">anti-PCSK9 antibody</Keyword>
-        <Keyword MajorTopicYN="N">evolocumab</Keyword>
-        <Keyword MajorTopicYN="N">ezetimibe</Keyword>
-        <Keyword MajorTopicYN="N">statin</Keyword>
-        <Keyword MajorTopicYN="N">statin intolerance.</Keyword>
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
       </KeywordList>
     </MedlineCitation>
     <PubmedData>
@@ -1875,50 +1186,19 @@
           <Month>07</Month>
           <Day>05</Day>
         </PubMedPubDate>
-        <PubMedPubDate PubStatus="revised">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>16</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="accepted">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>17</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="pubmed">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>18</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="medline">
-          <Year>2019</Year>
-          <Month>2</Month>
-          <Day>8</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="entrez">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>17</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
       </History>
       <PublicationStatus>ppublish</PublicationStatus>
       <ArticleIdList>
-        <ArticleId IdType="pubmed">28618994</ArticleId>
-        <ArticleId IdType="pii">CMC-EPUB-84173</ArticleId>
-        <ArticleId IdType="doi">10.2174/0929867324666170616111647</ArticleId>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
       </ArticleIdList>
     </PubmedData>
   </PubmedArticle>
   
   <PubmedArticle>
     <MedlineCitation Status="MEDLINE" Owner="NLM">
-      <PMID Version="1">28618900</PMID>
+      <PMID Version="1">121518513</PMID>
       <DateCompleted>
         <Year>2019</Year>
         <Month>02</Month>
@@ -1931,7 +1211,7 @@
       </DateRevised>
       <Article PubModel="Print">
         <Journal>
-          <ISSN IssnType="Electronic">1875-533X</ISSN>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
           <JournalIssue CitedMedium="Internet">
             <Volume>25</Volume>
             <Issue>13</Issue>
@@ -1939,36 +1219,36 @@
               <MedlineDate>03/03/2018</MedlineDate>
             </PubDate>
           </JournalIssue>
-          <Title>Current medicinal chemistry</Title>
-          <ISOAbbreviation>Curr. Med. Chem.</ISOAbbreviation>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
         </Journal>
-        <ArticleTitle>Role of <b>Anti-PCSK9 Antibodies</b> in the Treatment of Patients with Statin Intolerance.</ArticleTitle>
+        <ArticleTitle>Lorem ipsum <b>dolor</b> sit amet, consetetur sadipscing elitr.</ArticleTitle>
         <Pagination>
-          <MedlinePgn>1538-1548</MedlinePgn>
+          <MedlinePgn>1215-18513</MedlinePgn>
         </Pagination>
-        <ELocationID EIdType="doi" ValidYN="Y">10.2174/0929867324666170616111647</ELocationID>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
         <Abstract>
-          <AbstractText>Statin <b>intolerance</b></AbstractText>
-          <CopyrightInformation>Copyright© Bentham Science Publishers; For any queries, please email at epub@benthamscience.org.</CopyrightInformation>
+          <AbstractText>Lorem <b>ipsum</b></AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
         </Abstract>
         <AuthorList>
           <Author>
-            <LastName>Schreml</LastName>
-            <ForeName>Julia</ForeName>
-            <Initials>J</Initials>
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
             <AffiliationInfo>
-              <Affiliation>Institute for Human Genetics, University of Cologne, Kerpener Str. 34, 50931, Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum.</Affiliation>
             </AffiliationInfo>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
           <Author>
-            <LastName>Gouni-Berthold</LastName>
-            <ForeName>Ioanna</ForeName>
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
             <Initials>I</Initials>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
         </AuthorList>
@@ -1979,63 +1259,34 @@
         </PublicationTypeList>
       </Article>
       <MedlineJournalInfo>
-        <Country>United Arab Emirates</Country>
-        <MedlineTA>Curr Med Chem</MedlineTA>
-        <NlmUniqueID>9440157</NlmUniqueID>
-        <ISSNLinking>0929-8673</ISSNLinking>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
       </MedlineJournalInfo>
       <ChemicalList>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D000911">Antibodies, Monoclonal</NameOfSubstance>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
         </Chemical>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D061067">Antibodies, Monoclonal, Humanized</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D008078">Cholesterol, LDL</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D019161">Hydroxymethylglutaryl-CoA Reductase Inhibitors</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="C472125">PCSK9 protein, human</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="D000071449">Proprotein Convertase 9</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>LKC0U3A8NJ</RegistryNumber>
-          <NameOfSubstance UI="C577155">evolocumab</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>PP0SHH6V16</RegistryNumber>
-          <NameOfSubstance UI="C571059">alirocumab</NameOfSubstance>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
         </Chemical>
       </ChemicalList>
       <CitationSubset>IM</CitationSubset>
       <MeshHeadingList>
         <MeshHeading>
-          <DescriptorName UI="D000911" MajorTopicYN="N">Antibodies, Monoclonal</DescriptorName>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
           <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
         </MeshHeading>
         <MeshHeading>
-          <DescriptorName UI="D061067" MajorTopicYN="N">Antibodies, Monoclonal, Humanized</DescriptorName>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
         </MeshHeading>
       </MeshHeadingList>
       <KeywordList Owner="NOTNLM">
-        <Keyword MajorTopicYN="N">Alirocumab</Keyword>
-        <Keyword MajorTopicYN="N">PCSK9</Keyword>
-        <Keyword MajorTopicYN="N">anti-PCSK9 antibody</Keyword>
-        <Keyword MajorTopicYN="N">evolocumab</Keyword>
-        <Keyword MajorTopicYN="N">ezetimibe</Keyword>
-        <Keyword MajorTopicYN="N">statin</Keyword>
-        <Keyword MajorTopicYN="N">statin intolerance.</Keyword>
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
       </KeywordList>
     </MedlineCitation>
     <PubmedData>
@@ -2045,50 +1296,19 @@
           <Month>07</Month>
           <Day>05</Day>
         </PubMedPubDate>
-        <PubMedPubDate PubStatus="revised">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>16</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="accepted">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>17</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="pubmed">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>18</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="medline">
-          <Year>2019</Year>
-          <Month>2</Month>
-          <Day>8</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="entrez">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>17</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
       </History>
       <PublicationStatus>ppublish</PublicationStatus>
       <ArticleIdList>
-        <ArticleId IdType="pubmed">28618994</ArticleId>
-        <ArticleId IdType="pii">CMC-EPUB-84173</ArticleId>
-        <ArticleId IdType="doi">10.2174/0929867324666170616111647</ArticleId>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
       </ArticleIdList>
     </PubmedData>
   </PubmedArticle>
   
   <PubmedArticle>
     <MedlineCitation Status="MEDLINE" Owner="NLM">
-      <PMID Version="1">28618900</PMID>
+      <PMID Version="1">121518513</PMID>
       <DateCompleted>
         <Year>2019</Year>
         <Month>02</Month>
@@ -2101,7 +1321,7 @@
       </DateRevised>
       <Article PubModel="Print">
         <Journal>
-          <ISSN IssnType="Electronic">1875-533X</ISSN>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
           <JournalIssue CitedMedium="Internet">
             <Volume>25</Volume>
             <Issue>13</Issue>
@@ -2109,36 +1329,36 @@
               <MedlineDate></MedlineDate>
             </PubDate>
           </JournalIssue>
-          <Title>Current medicinal chemistry</Title>
-          <ISOAbbreviation>Curr. Med. Chem.</ISOAbbreviation>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
         </Journal>
-        <ArticleTitle>Role of Anti-PCSK9 Antibodies in the Treatment of Patients with Statin Intolerance.</ArticleTitle>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
         <Pagination>
-          <MedlinePgn>1538-1548</MedlinePgn>
+          <MedlinePgn>1215-18513</MedlinePgn>
         </Pagination>
-        <ELocationID EIdType="doi" ValidYN="Y">10.2174/0929867324666170616111647</ELocationID>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
         <Abstract>
-          <AbstractText Label = "Title">Statin intolerance</AbstractText>
-          <CopyrightInformation>Copyright© Bentham Science Publishers; For any queries, please email at epub@benthamscience.org.</CopyrightInformation>
+          <AbstractText Label = "Title">Lorem ipsum</AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
         </Abstract>
         <AuthorList CompleteYN="Y">
           <Author ValidYN="N">
-            <LastName>Schreml</LastName>
-            <ForeName>Julia</ForeName>
-            <Initials>J</Initials>
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
             <AffiliationInfo>
-              <Affiliation>Institute for Human Genetics, University of Cologne, Kerpener Str. 34, 50931, Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum.</Affiliation>
             </AffiliationInfo>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
           <Author ValidYN="N">
-            <LastName>Gouni-Berthold</LastName>
-            <ForeName>Ioanna</ForeName>
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
             <Initials>I</Initials>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
         </AuthorList>
@@ -2149,63 +1369,34 @@
         </PublicationTypeList>
       </Article>
       <MedlineJournalInfo>
-        <Country>United Arab Emirates</Country>
-        <MedlineTA>Curr Med Chem</MedlineTA>
-        <NlmUniqueID>9440157</NlmUniqueID>
-        <ISSNLinking>0929-8673</ISSNLinking>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
       </MedlineJournalInfo>
       <ChemicalList>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D000911">Antibodies, Monoclonal</NameOfSubstance>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
         </Chemical>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D061067">Antibodies, Monoclonal, Humanized</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D008078">Cholesterol, LDL</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D019161">Hydroxymethylglutaryl-CoA Reductase Inhibitors</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="C472125">PCSK9 protein, human</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="D000071449">Proprotein Convertase 9</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>LKC0U3A8NJ</RegistryNumber>
-          <NameOfSubstance UI="C577155">evolocumab</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>PP0SHH6V16</RegistryNumber>
-          <NameOfSubstance UI="C571059">alirocumab</NameOfSubstance>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
         </Chemical>
       </ChemicalList>
       <CitationSubset>IM</CitationSubset>
       <MeshHeadingList>
         <MeshHeading>
-          <DescriptorName UI="D000911" MajorTopicYN="N">Antibodies, Monoclonal</DescriptorName>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
           <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
         </MeshHeading>
         <MeshHeading>
-          <DescriptorName UI="D061067" MajorTopicYN="N">Antibodies, Monoclonal, Humanized</DescriptorName>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
         </MeshHeading>
       </MeshHeadingList>
       <KeywordList Owner="NOTNLM">
-        <Keyword MajorTopicYN="N">Alirocumab</Keyword>
-        <Keyword MajorTopicYN="N">PCSK9</Keyword>
-        <Keyword MajorTopicYN="N">anti-PCSK9 antibody</Keyword>
-        <Keyword MajorTopicYN="N">evolocumab</Keyword>
-        <Keyword MajorTopicYN="N">ezetimibe</Keyword>
-        <Keyword MajorTopicYN="N">statin</Keyword>
-        <Keyword MajorTopicYN="N">statin intolerance.</Keyword>
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
       </KeywordList>
     </MedlineCitation>
     <PubmedData>
@@ -2215,50 +1406,19 @@
           <Month>07</Month>
           <Day>05</Day>
         </PubMedPubDate>
-        <PubMedPubDate PubStatus="revised">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>16</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="accepted">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>17</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="pubmed">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>18</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="medline">
-          <Year>2019</Year>
-          <Month>2</Month>
-          <Day>8</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="entrez">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>17</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
       </History>
       <PublicationStatus>ppublish</PublicationStatus>
       <ArticleIdList>
-        <ArticleId IdType="pubmed">28618994</ArticleId>
-        <ArticleId IdType="pii">CMC-EPUB-84173</ArticleId>
-        <ArticleId IdType="doi">10.2174/0929867324666170616111647</ArticleId>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
       </ArticleIdList>
     </PubmedData>
   </PubmedArticle>
   
   <PubmedArticle>
     <MedlineCitation Status="MEDLINE" Owner="NLM">
-      <PMID Version="1">28618900</PMID>
+      <PMID Version="1">121518513</PMID>
       <DateCompleted>
         <Year>2019</Year>
         <Month>02</Month>
@@ -2271,7 +1431,7 @@
       </DateRevised>
       <Article PubModel="Print">
         <Journal>
-          <ISSN IssnType="Electronic">1875-533X</ISSN>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
           <JournalIssue CitedMedium="Internet">
             <Volume>25</Volume>
             <Issue>13</Issue>
@@ -2279,36 +1439,36 @@
               <Year>2018</Year>
             </PubDate>
           </JournalIssue>
-          <Title>Current medicinal chemistry</Title>
-          <ISOAbbreviation>Curr. Med. Chem.</ISOAbbreviation>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
         </Journal>
-        <ArticleTitle>Role of Anti-PCSK9 Antibodies in the Treatment of Patients with Statin Intolerance.</ArticleTitle>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
         <Pagination>
-          <MedlinePgn>1538-1548</MedlinePgn>
+          <MedlinePgn>1215-18513</MedlinePgn>
         </Pagination>
-        <ELocationID EIdType="doi" ValidYN="Y">10.2174/0929867324666170616111647</ELocationID>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
         <Abstract>
-          <AbstractText Label="Title">Statin <b>intolerance</b></AbstractText>
-          <CopyrightInformation>Copyright© Bentham Science Publishers; For any queries, please email at epub@benthamscience.org.</CopyrightInformation>
+          <AbstractText Label="Title">Lorem <b>ipsum</b></AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
         </Abstract>
         <AuthorList CompleteYN="N">
           <Author ValidYN="Y">
-            <LastName>Schreml</LastName>
-            <ForeName>Julia</ForeName>
-            <Initials>J</Initials>
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
             <AffiliationInfo>
-              <Affiliation>Institute for Human Genetics, University of Cologne, Kerpener Str. 34, 50931, Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum.</Affiliation>
             </AffiliationInfo>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
           <Author ValidYN="Y">
-            <LastName>Gouni-Berthold</LastName>
-            <ForeName>Ioanna</ForeName>
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
             <Initials>I</Initials>
             <AffiliationInfo>
-              <Affiliation>Polyclinic for Endocrinology, Diabetes and Preventive Medicine (PEDP), University of Cologne, Kerpener Str. 62, 50937 Cologne, Germany.</Affiliation>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
             </AffiliationInfo>
           </Author>
         </AuthorList>
@@ -2319,63 +1479,34 @@
         </PublicationTypeList>
       </Article>
       <MedlineJournalInfo>
-        <Country>United Arab Emirates</Country>
-        <MedlineTA>Curr Med Chem</MedlineTA>
-        <NlmUniqueID>9440157</NlmUniqueID>
-        <ISSNLinking>0929-8673</ISSNLinking>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
       </MedlineJournalInfo>
       <ChemicalList>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D000911">Antibodies, Monoclonal</NameOfSubstance>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
         </Chemical>
         <Chemical>
           <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D061067">Antibodies, Monoclonal, Humanized</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D008078">Cholesterol, LDL</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>0</RegistryNumber>
-          <NameOfSubstance UI="D019161">Hydroxymethylglutaryl-CoA Reductase Inhibitors</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="C472125">PCSK9 protein, human</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>EC 3.4.21.-</RegistryNumber>
-          <NameOfSubstance UI="D000071449">Proprotein Convertase 9</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>LKC0U3A8NJ</RegistryNumber>
-          <NameOfSubstance UI="C577155">evolocumab</NameOfSubstance>
-        </Chemical>
-        <Chemical>
-          <RegistryNumber>PP0SHH6V16</RegistryNumber>
-          <NameOfSubstance UI="C571059">alirocumab</NameOfSubstance>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
         </Chemical>
       </ChemicalList>
       <CitationSubset>IM</CitationSubset>
       <MeshHeadingList>
         <MeshHeading>
-          <DescriptorName UI="D000911" MajorTopicYN="N">Antibodies, Monoclonal</DescriptorName>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
           <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
         </MeshHeading>
         <MeshHeading>
-          <DescriptorName UI="D061067" MajorTopicYN="N">Antibodies, Monoclonal, Humanized</DescriptorName>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
         </MeshHeading>
       </MeshHeadingList>
       <KeywordList Owner="NOTNLM">
-        <Keyword MajorTopicYN="N">Alirocumab</Keyword>
-        <Keyword MajorTopicYN="N">PCSK9</Keyword>
-        <Keyword MajorTopicYN="N">anti-PCSK9 antibody</Keyword>
-        <Keyword MajorTopicYN="N">evolocumab</Keyword>
-        <Keyword MajorTopicYN="N">ezetimibe</Keyword>
-        <Keyword MajorTopicYN="N">statin</Keyword>
-        <Keyword MajorTopicYN="N">statin intolerance.</Keyword>
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
       </KeywordList>
     </MedlineCitation>
     <PubmedData>
@@ -2385,43 +1516,12 @@
           <Month>07</Month>
           <Day>05</Day>
         </PubMedPubDate>
-        <PubMedPubDate PubStatus="revised">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>16</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="accepted">
-          <Year>2016</Year>
-          <Month>10</Month>
-          <Day>17</Day>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="pubmed">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>18</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="medline">
-          <Year>2019</Year>
-          <Month>2</Month>
-          <Day>8</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
-        <PubMedPubDate PubStatus="entrez">
-          <Year>2017</Year>
-          <Month>6</Month>
-          <Day>17</Day>
-          <Hour>6</Hour>
-          <Minute>0</Minute>
-        </PubMedPubDate>
       </History>
       <PublicationStatus>ppublish</PublicationStatus>
       <ArticleIdList>
-        <ArticleId IdType="pubmed">28618994</ArticleId>
-        <ArticleId IdType="pii">CMC-EPUB-84173</ArticleId>
-        <ArticleId IdType="doi">10.2174/0929867324666170616111647</ArticleId>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
       </ArticleIdList>
     </PubmedData>
   </PubmedArticle>

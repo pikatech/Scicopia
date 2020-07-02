@@ -13,7 +13,7 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /home/kampe/Documents/AquaDiva/R
 		</encodingDesc>
 		<fileDesc>
 			<titleStmt>
-				<title level="a" type="main">OAPT: A Tool for Ontology Analysis and Partitioning</title>
+				<title level="a" type="main">Lorem ipsum dolor</title>
 			</titleStmt>
 			<publicationStmt>
 				<publisher/>
@@ -24,70 +24,54 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /home/kampe/Documents/AquaDiva/R
 				<biblStruct>
 					<analytic>
 						<author>
-							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Alsayed</forename><surname>Algergawy</surname></persName>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Lorem</forename><surname>Ipsum</surname></persName>
 							<affiliation key="aff0">
-								<orgName type="department">Institute of Computer Science</orgName>
+								<orgName type="department">Institute of Lorem Ipsum</orgName>
 							</affiliation>
 						</author>
 						<author>
-							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Samira</forename><surname>Babalou</surname></persName>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Lörem</forename><surname>Ipßüm</surname></persName>
 							<affiliation key="aff1">
-								<orgName type="department">Department of Computer Engineering</orgName>
-								<orgName type="institution">Friedrich Schiller University of Jena</orgName>
+								<orgName type="department">Institute of Lorem Ipsum</orgName>
+								<orgName type="institution">Lorem Ipsum University of Dolor</orgName>
 								<address>
-									<country key="DE">Germany</country>
+									<country key="DO">Dolory</country>
 								</address>
 							</affiliation>
 							<affiliation key="aff2">
-								<orgName type="institution">University of Science and Culture</orgName>
+								<orgName type="institution">University of Lorem Ipsum</orgName>
 								<address>
-									<country key="IR">Iran</country>
+									<country key="DO">Dolory</country>
 								</address>
 							</affiliation>
 						</author>
-						<author>
-							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Friederike</forename><surname>Klan</surname></persName>
-							<affiliation key="aff0">
-								<orgName type="department">Institute of Computer Science</orgName>
-							</affiliation>
-						</author>
-						<author>
-							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Birgitta</forename><surname>König-Ries</surname></persName>
-							<affiliation key="aff0">
-								<orgName type="department">Institute of Computer Science</orgName>
-							</affiliation>
-						</author>
-						<title level="a" type="main">OAPT: A Tool for Ontology Analysis and Partitioning</title>
+						<title level="a" type="main">Lorem ipsum dolor</title>
 					</analytic>
 					<monogr>
 						<imprint>
 							<date/>
 						</imprint>
 					</monogr>
-					<idno>10.5441/002/edbt.2016.69</idno>
+					<idno>121518513</idno>
 				</biblStruct>
 			</sourceDesc>
 		</fileDesc>
 		<profileDesc>
 			<textClass>
 				<keywords>
-					<term>H4 [Information Systems]: WWW</term>
-					<term>web applications; H4 [Information Systems Applications]: Data mining Keywords Semantic Web</term>
-					<term>ontology</term>
-					<term>modularization</term>
-					<term>analysis</term>
+					<term>Lorem ipsum</term>
 				</keywords>
 			</textClass>
 			<abstract>
-<div xmlns="http://www.tei-c.org/ns/1.0"><head>ABSTRACT</head><p>Ontologies are the backbone of the Semantic Web and facilitate sharing, integration, and discovery of data. However, the number of existing ontologies is vastly growing, which makes it is problematic for software developers to decide which ontology is suitable for their application. Furthermore, often, only a small part of the ontology will be relevant for a certain application. In other cases, ontologies are so large, that they have to be split up in more manageable chunks to work with them. To this end, in this demo, we present OAPT, an ontology analysis and partitioning tool. First, before a candidate input ontology is partitioned, OAPT analyzes it to determine, if this ontology is worth to be considered using a predefined set of criteria that quantify the semantic richness of the ontology. Once the ontology is investigated, we apply a seeding-based partitioning algorithm to partition it into a set of modules. Through the demonstration of OAPT we introduce the tool's capabilities and highlight its effectiveness and usability.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ABSTRACT</head><p>Lorem ipsum dolor sit amet<ref>Lorem</ref>,<ref>Lorem</ref><ref>Lorem</ref> <ref>Lorem</ref> consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p></div>
 			</abstract>
 		</profileDesc>
 	</teiHeader>
 	<text xml:lang="en">
 		<body>
-<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">INTRODUCTION</head><p>Ontologies are the backbone of the Semantic Web. By making information understandable for machines <ref type="bibr" target="#b6">[7]</ref> they enable integrating, searching, and sharing of information on the Web. The growing value of ontologies has resulted in the development of a large number of these. According to <ref type="bibr" target="#b2">[3]</ref>, at least 7000 ontologies exist on the Semantic Web, providing an unprecedented set of resources for developers of semantic applications. On the other hand, this large number of available ontologies makes it hard for software engineers to decide which ontology(ies) is (are) suitable for their needs. Even, if a developer settled on an ontology (or a set of ontologies), she is most often interested in a subset of concepts of the entire ontology, only. For example, the CHEBI ontology 1 , contains 46,477 fully annotated concepts describing chemical entities of which not all will be relevant to a specific application. Also, it might be necessary to split up large ontologies like CHEBI in more manageable chunks before feeding them to ontology matching tools or other applications.</p><p>To cope with these challenges, in this demo paper, we present OAPT, a tool for analyzing and partitioning ontologies. The tool allows the user to interactively investigate a candidate input ontology based on a predefined set of quality criteria. This will help to build trust for sharing and reusing ontologies. Once an ontology has been analyzed, the partitioning algorithm can be applied to partition the ontology into a set of disjoint modules. Our method to examine the ontology quality is based on the consistency and richness of the input ontology. First, a suitable reasoner is applied to the ontology to validate its consistency. It is clear that the way an ontology is engineered is largely based on the domain for which it is designed and modeled. Therefore, a measure for the semantic richness of an ontology should consider different aspects and its potential for knowledge representation <ref type="bibr" target="#b8">[9]</ref>. To this end, we then consider a set of structural, semantic, and syntactic metrics. The structural and syntactic criteria can be used to quantify the ontology design and its potential for knowledge representation, while the semantic-based criterion can be used to evaluate how instances are placed within the ontology.</p><p>To partition the analyzed ontology into a set of disjoint modules, we introduce a seeding-based clustering approach, called SeeCOnt. In particular, input ontologies are parsed and represented as concept graphs. A Ranker function is then used to rank ontology concepts exploiting the concept graph features. The highest ranked concepts are finally selected as cluster seeds (cluster heads). Each of these constitutes the initial concept of a resulting module. To assign the remaining concepts to their proper modules, we introduce a membership function. This reduces the complexity of the comparisons by comparing concepts with only seeds instead of all other concepts. Please note that this partitioning method is independent of the concrete application or a concrete subset of concepts a user is interested in. Rather, it relies on intrinsic ontology characteristics only. This allows, e.g., precomputation of the modules.</p><p>The rest of the paper is organized as follows. In Section 2 we present an overview of the proposed system, while in Section 3 we describe our demonstration scenario. Due to space restrictions, in this paper we provide only a glimpse of the techniques employed by OAPT. However, we refer to our full research paper <ref type="bibr" target="#b0">[1]</ref> for algorithmic details and for more elements of related work.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">INTRODUCTION</head><p>Lorem ipsum.</p></div>
 
-			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="10">.5441/002/edbt.2016.69</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="10">.121518513</note>
 		</body>
 		<back>
 			<div type="references">
@@ -96,214 +80,16 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /home/kampe/Documents/AquaDiva/R
 
 <biblStruct xml:id="b0">
 	<analytic>
-		<title level="a" type="main">SeeCOnt: A new seeding-based clustering approach for ontology matching</title>
+		<title level="a" type="main">Duis autem vel</title>
 		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Algergawy</surname></persName>
-		</author>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Babalou</surname></persName>
-		</author>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">J</forename><surname>Kargar</surname></persName>
-		</author>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><forename type="middle">H</forename><surname>Davarpanah</surname></persName>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Ipsum</surname></persName>
 		</author>
 	</analytic>
 	<monogr>
-		<title level="m">ADBIS</title>
+		<title level="m">Lorem</title>
 		<imprint>
 			<date type="published" when="2015" />
 			<biblScope unit="page" from="245" to="258" />
-		</imprint>
-	</monogr>
-</biblStruct>
-
-<biblStruct xml:id="b1">
-	<analytic>
-		<title level="a" type="main">A clustering-based approach for large-scale ontology matching</title>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Algergawy</surname></persName>
-		</author>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Massmann</surname></persName>
-		</author>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Rahm</surname></persName>
-		</author>
-	</analytic>
-	<monogr>
-		<title level="m">ADBIS</title>
-		<imprint>
-			<date type="published" when="2011" />
-			<biblScope unit="page" from="415" to="428" />
-		</imprint>
-	</monogr>
-</biblStruct>
-
-<biblStruct xml:id="b2">
-	<analytic>
-		<title level="a" type="main">Characterizing knowledge on the semantic web with watson</title>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Aquin</surname></persName>
-		</author>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Baldassarre</surname></persName>
-		</author>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Gridinoc</surname></persName>
-		</author>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Angeletou</surname></persName>
-		</author>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Sabou</surname></persName>
-		</author>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Motta</surname></persName>
-		</author>
-	</analytic>
-	<monogr>
-		<title level="m">5th International Workshop on Evaluation of Ontologies and Ontology-based Tools</title>
-		<imprint>
-			<date type="published" when="2007" />
-			<biblScope unit="page" from="1" to="10" />
-		</imprint>
-	</monogr>
-</biblStruct>
-
-<biblStruct xml:id="b3">
-	<monogr>
-		<title level="m" type="main">A set of measures of centrality based on betweenness</title>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">C</forename><surname>Freeman</surname></persName>
-		</author>
-		<imprint>
-			<date type="published" when="1997" />
-		</imprint>
-	</monogr>
-</biblStruct>
-
-<biblStruct xml:id="b4">
-	<analytic>
-		<title level="a" type="main">A method to rank nodes in an rdf graph</title>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Graves</surname></persName>
-		</author>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Adali</surname></persName>
-		</author>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Hendler</surname></persName>
-		</author>
-	</analytic>
-	<monogr>
-		<title level="m">ISWC</title>
-		<imprint>
-			<date type="published" when="2008" />
-		</imprint>
-	</monogr>
-</biblStruct>
-
-<biblStruct xml:id="b5">
-	<analytic>
-		<title level="a" type="main">Learning the k in k-means</title>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Hamerly</surname></persName>
-		</author>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Elkan</surname></persName>
-		</author>
-	</analytic>
-	<monogr>
-		<title level="m">Advances in Neural Information Processing Systems</title>
-		<imprint>
-			<date type="published" when="2003" />
-			<biblScope unit="page" from="281" to="288" />
-		</imprint>
-	</monogr>
-</biblStruct>
-
-<biblStruct xml:id="b6">
-	<analytic>
-		<title level="a" type="main">Agents and the semantic web</title>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Hendler</surname></persName>
-		</author>
-	</analytic>
-	<monogr>
-		<title level="j">IEEE Intelligent Systems Journal</title>
-		<imprint>
-			<biblScope unit="volume">16</biblScope>
-			<biblScope unit="page" from="30" to="37" />
-			<date type="published" when="2001" />
-		</imprint>
-	</monogr>
-</biblStruct>
-
-<biblStruct xml:id="b7">
-	<analytic>
-		<title level="a" type="main">Matching large ontologies: A divide-and-conquer approach</title>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><surname>Hu</surname></persName>
-		</author>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Qu</surname></persName>
-		</author>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Cheng</surname></persName>
-		</author>
-	</analytic>
-	<monogr>
-		<title level="j">Data Knowl. Eng</title>
-		<imprint>
-			<biblScope unit="volume">67</biblScope>
-			<biblScope unit="page" from="140" to="160" />
-			<date type="published" when="2008" />
-		</imprint>
-	</monogr>
-</biblStruct>
-
-<biblStruct xml:id="b8">
-	<analytic>
-		<title level="a" type="main">Ontology evaluation and ranking using OntoQA</title>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Tartir</surname></persName>
-		</author>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><forename type="middle">B</forename><surname>Arpinar</surname></persName>
-		</author>
-	</analytic>
-	<monogr>
-		<title level="m">ICSC</title>
-		<imprint>
-			<date type="published" when="2007" />
-			<biblScope unit="page" from="185" to="192" />
-		</imprint>
-	</monogr>
-</biblStruct>
-
-<biblStruct xml:id="b9">
-	<analytic>
-		<title level="a" type="main">RDF digest: Efficient summarization of RDF/S kbs</title>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Troullinou</surname></persName>
-		</author>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Kondylakis</surname></persName>
-		</author>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Daskalaki</surname></persName>
-		</author>
-		<author>
-			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Plexousakis</surname></persName>
-		</author>
-	</analytic>
-	<monogr>
-		<title level="m">ESWC</title>
-		<imprint>
-			<date type="published" when="2015" />
-			<biblScope unit="page" from="119" to="134" />
 		</imprint>
 	</monogr>
 </biblStruct>

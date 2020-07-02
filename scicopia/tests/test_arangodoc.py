@@ -30,8 +30,8 @@ def test_create_id():
     assert doc["id"] == "PMID12345"
 
 
-def test_zstd_open():
-    filename = "tests/data/2007-001.xml.zst"
+def test_zstd_open(): # TODO: make bibtex.bib.zst
+    filename = "tests/data/bibtex.bib.zst"
     mode = "rt"
     encoding = "utf-8"
     with zstd_open(filename, mode, encoding) as data:
@@ -43,12 +43,16 @@ def test_pdfsave():
     file = "tests/data/bibtex.bib"
     data = pdfsave(file)
     assert data == ""
-    file = "tests/data/Jie2019a-Better-Modeling-Incomplete.bib"
+    file = "tests/data/bibtex_error2.bib"
     data = pdfsave(file)
     assert data == ""
-    file = "tests/data/Jindal2019a-Effective-Label-Noise.bib"
+    file = "tests/data/bibtex_error.bib"
     data = pdfsave(file)
-    assert data[:10] == "JVBERi0xLj"  # sehr langer text zeugs
+    assert data[:10] == "TG9yZW0gaX"
+    # no guarantee that the file can open
+    file = "tests/data/bibtex_pdf.bib"
+    data = pdfsave(file)
+    assert data[:10] == "JVBERi0xLj"
 
 
 # def test_handleBulkError():
@@ -62,8 +66,6 @@ def test_pdfsave():
 
 
 def test_import_file():
-    # eigentliches herzstück
-    # greift auf bestehende (leere) arango datenbank zu
     db = connection()  # use a config to a test database
     col = "import_file"
     if db.hasCollection(col):
@@ -82,7 +84,7 @@ def test_import_file():
     update = False
     pdf = False
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
-    for key in ["Jie2019a", "Jie2019b", "Jie2019c"]:
+    for key in ["Ipsum2019a", "Ipsum2019b", "Ipsum2019c"]:
         try:
             doc = collection[key]
         except DocumentNotFoundError:
@@ -90,44 +92,44 @@ def test_import_file():
         assert doc["cited_by"] == "test"
         assert (
             doc["pdf"] == None
-        )  # arangodb gibt bei nicht existierenden attribut None zurück
+        )  # arangodb returns None if the attribut does not exist
 
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
-    # gibt loggin.error aus, da daten bereits vorhanden, aber update false
+    # gibt loggin.error aus, da daten bereits vorhanden, aber update false -> TODO: abfangen
 
     doc = collection.createDocument()
-    doc._key = "Jindal2019a"
+    doc._key = "PDF"
     doc["test"] = "test"
     doc.save()
-    file = "tests/data/Jindal2019a-Effective-Label-Noise.bib"
+    file = "tests/data/bibtex_pdf.bib"
     update = True
     pdf = True
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
     try:
-        doc = collection["Jindal2019a"]
+        doc = collection["PDF"]
     except DocumentNotFoundError:
         assert 1 == 2
     assert doc["pdf"] != None
     assert doc["test"] == None
 
-    file = "tests/data/Jie2019a-Better-Modeling-Incomplete.bib"
+    file = "tests/data/bibtex_error.bib"
     update = True
     pdf = True
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
     try:
-        doc = collection["Jie2019a"]
+        doc = collection["Ipsum2019a"]
     except DocumentNotFoundError:
         assert 1 == 2
     assert doc["pdf"] == None
     assert doc["test"] == None
 
-    file = "tests/data/bibtex_error.bib.gz"
+    file = "tests/data/bibtex.bib.gz"
     compression = "gzip"
     open_func = OPEN_DICT[compression]
     update = True
     pdf = True
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
-    for key in ["Jie2019a", "Jie2019b", "Jie2019c"]:
+    for key in ["Ipsum2019a", "Ipsum2019b", "Ipsum2019c"]:
         try:
             doc = collection[key]
         except DocumentNotFoundError:
@@ -140,7 +142,21 @@ def test_import_file():
     update = True
     pdf = True
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
-    for key in ["Jie2019a", "Jie2019b", "Jie2019c"]:
+    for key in ["Ipsum2019a", "Ipsum2019b", "Ipsum2019c"]:
+        try:
+            doc = collection[key]
+        except DocumentNotFoundError:
+            assert 1 == 2
+        assert doc["cited_by"] == "test"
+        assert doc["pdf"] == None
+
+    file = "tests/data/bibtex.bib.zst"
+    compression = "bzip2"
+    open_func = OPEN_DICT[compression]
+    update = True
+    pdf = True
+    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    for key in ["Ipsum2019a", "Ipsum2019b", "Ipsum2019c"]:
         try:
             doc = collection[key]
         except DocumentNotFoundError:
@@ -157,7 +173,7 @@ def test_import_file():
     pdf = False
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
     try:
-        doc = collection["oai:arXiv.org:0704.0004"]
+        doc = collection["oai:arXiv.org:121518513"]
     except DocumentNotFoundError:
         assert 1 == 2
 
@@ -170,7 +186,7 @@ def test_import_file():
     pdf = False
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
     try:
-        doc = collection["10.5441_002_edbt.2016.69"]
+        doc = collection["121518513"]
     except DocumentNotFoundError:
         assert 1 == 2
 
@@ -183,7 +199,7 @@ def test_import_file():
     pdf = False
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
     try:
-        doc = collection["PMID28618900"]
+        doc = collection["PMID121518513"]
     except DocumentNotFoundError:
         assert 1 == 2
 
@@ -265,8 +281,7 @@ def test_locate_files():
     control = [
         join(".", "tests", "data", "bibtex.bib"),
         join(".", "tests", "data", "bibtex_error.bib"),
-        join(".", "tests", "data", "Jie2019a-Better-Modeling-Incomplete.bib"),
-        join(".", "tests", "data", "Jindal2019a-Effective-Label-Noise.bib"),
+        join(".", "tests", "data", "bibtex_pdf.bib"),
     ]
     control.sort()
     files = locate_files(path, doc_format, recursive, compression)
@@ -276,8 +291,7 @@ def test_locate_files():
     control = [
         join(".", "tests", "data", "bibtex.bib"),
         join(".", "tests", "data", "bibtex_error.bib"),
-        join(".", "tests", "data", "Jie2019a-Better-Modeling-Incomplete.bib"),
-        join(".", "tests", "data", "Jindal2019a-Effective-Label-Noise.bib"),
+        join(".", "tests", "data", "bibtex_pdf.bib"),
         join(".", "tests", "data", "test", "r1.bib"),
         join(".", "tests", "data", "test", "test", "r2.bib"),
     ]
@@ -345,12 +359,17 @@ def test_locate_files():
     recursive = False
     compression = "zstd"
     doc_format = "pubmed"
-    control = [join(".", "tests", "data", "2007-001.xml.zst")]
+    control = [join(".", "tests", "data", "bibtex.bib.zst")]
     files = locate_files(path, doc_format, recursive, compression)
     assert files == control
     compression = "gzip"
     doc_format = "bibtex"
-    control = [join(".", "tests", "data", "bibtex_error.bib.gz")]
+    control = [join(".", "tests", "data", "bibtex.bib.gz")]
+    files = locate_files(path, doc_format, recursive, compression)
+    assert files == control
+    compression = "bzip2"
+    doc_format = "bibtex"
+    control = [join(".", "tests", "data", "bibtex.bib.bz2")]
     files = locate_files(path, doc_format, recursive, compression)
     assert files == control
 

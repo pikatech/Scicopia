@@ -21,11 +21,11 @@ def test_extract_abstract():
                     article["abstract"] = abstract
                     assert "abstract" in article
                     assert (
-                        article["abstract"] == "Statin intolerance"
-                        or article["abstract"] == "Statin\nintolerance"
-                        or article["abstract"] == "Statin <b>intolerance<b>"
-                        or article["abstract"] == "Title: Statin intolerance"
-                        or article["abstract"] == "Title: Statin <b>intolerance<b>"
+                        article["abstract"] == "Lorem ipsum"
+                        or article["abstract"] == "Lorem\nipsum"
+                        or article["abstract"] == "Lorem <b>ipsum<b>"
+                        or article["abstract"] == "Title: Lorem ipsum"
+                        or article["abstract"] == "Title: Lorem <b>ipsum<b>"
                     )
 
 
@@ -48,10 +48,10 @@ def test_extract_authors():
                 if authors:
                     article["author"] = authors
                     assert (
-                        article["author"] == ["Julia Schreml", "Ioanna Gouni-Berthold"]
-                        or article["author"] == ["J Schreml", "I Gouni-Berthold"]
+                        article["author"] == ["Lorem Ipsum", "Ipßüm Lörem"]
+                        or article["author"] == ["L Ipsum", "I Lörem"]
                         or article["author"]
-                        == ["Julia Schreml", "Ioanna Gouni-Berthold", "et al."]
+                        == ["Lorem Ipsum", "Ipßüm Lörem", "et al."]
                     )
 
 
@@ -92,7 +92,7 @@ def test_extract_journaldata():
                 assert article["month"] == "march"
 
             if "journal" in article:
-                assert article["journal"] == "Current medicinal chemistry"
+                assert article["journal"] == "Lorem ipsum dolor"
 
 
 def test_extract_mesh_headings():
@@ -116,8 +116,8 @@ def test_extract_mesh_headings():
                     article["mesh"] = mesh
 
                     assert article["mesh"] == [
-                        "Antibodies, Monoclonal",
-                        "Antibodies, Monoclonal, Humanized",
+                        "Lorem, Ipsum",
+                        "Lorem, Ipsum, Dolor",
                     ]
 
 
@@ -126,18 +126,18 @@ def test_parse():  # TODO: add controll of exceptions
     with open(source) as data:
         for datadict in parse(data):
             assert "PMID" in datadict
-            assert datadict["PMID"] == "28618900"
+            assert datadict["PMID"] == "121518513"
 
             assert "Version" in datadict
             assert datadict["Version"] == "1"
 
             assert "url" in datadict
-            assert datadict["url"] == "https://www.ncbi.nlm.nih.gov/pubmed/28618900"
+            assert datadict["url"] == "https://www.ncbi.nlm.nih.gov/pubmed/121518513"
 
             assert "title" in datadict
             assert (
                 datadict["title"]
-                == "Role of Anti-PCSK9 Antibodies in the Treatment of Patients with Statin Intolerance."
+                == "Lorem ipsum dolor sit amet, consetetur sadipscing elitr."
                 or datadict["title"]
-                == "Role of <b>Anti-PCSK9 Antibodies<b> in the Treatment of Patients with Statin Intolerance."
+                == "Lorem ipsum <b>dolor<b> sit amet, consetetur sadipscing elitr."
             )
