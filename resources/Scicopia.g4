@@ -15,7 +15,7 @@ quotes: '"' .*? '"'
       |  '\'' .*? '\''
       ;
 
-prefixed: ( ALPHA | '_' )+ ':' ( SPECIAL | quotes | term ) ;
+prefixed: ( ALPHA | SNAKE ) ':' ( SPECIAL | quotes | term ) ;
 
 term: CHARGED | DASH | NUM | COMPOUND | ALPHA | ABBREV | ALPHANUM | APOSTROPHE ;
 
@@ -38,6 +38,7 @@ APOSTROPHE: ALPHA ('\'' ALPHA)+ ;
 NOT: '-' ;
 
 ALPHA:    ( LETTER )+ ;
+SNAKE:    ( LETTER | '_' )+ ;
 DIGITS:   ( DIGIT )+ ;
 ABBREV:   ( LETTER )+ '.' ;
 CHARGED:  ( ALPHANUM )+ ( '+' | '-' ) ;
@@ -51,7 +52,7 @@ SPECIAL: '\u2328' DIGITS '\u2328' ;
 fragment LETTER:   [\p{L}] [\p{M}]* ;
 fragment DIGIT:    [\p{Nd}] ;
 fragment FILEPCT:  '_' | '-' | '.' | ',' ;
-fragment PCT:      '_' | '-' | '/' | '.' | ',' ;
+fragment PCT:      '-' | '/' | '.' | ',' ;
 
 WHITESPACE: [ \r\n\t\f]+ -> skip;
 
