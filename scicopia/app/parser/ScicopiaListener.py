@@ -44,21 +44,21 @@ class ScicopiaListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by ScicopiaParser#term.
-    def enterTerm(self, ctx:ScicopiaParser.TermContext):
-        pass
-
-    # Exit a parse tree produced by ScicopiaParser#term.
-    def exitTerm(self, ctx:ScicopiaParser.TermContext):
-        pass
-
-
     # Enter a parse tree produced by ScicopiaParser#prefixed.
     def enterPrefixed(self, ctx:ScicopiaParser.PrefixedContext):
         pass
 
     # Exit a parse tree produced by ScicopiaParser#prefixed.
     def exitPrefixed(self, ctx:ScicopiaParser.PrefixedContext):
+        pass
+
+
+    # Enter a parse tree produced by ScicopiaParser#term.
+    def enterTerm(self, ctx:ScicopiaParser.TermContext):
+        pass
+
+    # Exit a parse tree produced by ScicopiaParser#term.
+    def exitTerm(self, ctx:ScicopiaParser.TermContext):
         pass
 
 

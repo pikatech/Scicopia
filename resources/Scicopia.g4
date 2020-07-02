@@ -6,8 +6,8 @@ query: part+
 part: exclude | quotes | term | prefixed | SPECIAL ;
 
 exclude: NOT quotes
-       | NOT term
        | NOT prefixed
+       | NOT term
        | NOT SPECIAL
        ;
 
@@ -15,9 +15,9 @@ quotes: '"' .*? '"'
       |  '\'' .*? '\''
       ;
 
-term: CHARGED | DASH | NUM | COMPOUND | ALPHA | ABBREV | ALPHANUM | APOSTROPHE ;
+prefixed: ( ALPHA | '_' )+ ':' ( SPECIAL | quotes | term ) ;
 
-prefixed: ( SNAKE )+ ':' ( SPECIAL | quotes | term ) ;
+term: CHARGED | DASH | NUM | COMPOUND | ALPHA | ABBREV | ALPHANUM | APOSTROPHE ;
 
 // internal dashes for compound words
 DASH:  ALPHA ('-' ALPHANUM )+
@@ -37,9 +37,8 @@ APOSTROPHE: ALPHA ('\'' ALPHA)+ ;
 
 NOT: '-' ;
 
-DIGITS:   ( DIGIT )+ ;
 ALPHA:    ( LETTER )+ ;
-SNAKE:    ( ALPHA | '_' ) ;
+DIGITS:   ( DIGIT )+ ;
 ABBREV:   ( LETTER )+ '.' ;
 CHARGED:  ( ALPHANUM )+ ( '+' | '-' ) ;
 ALPHANUM: ( LETTER | DIGIT )+ ;

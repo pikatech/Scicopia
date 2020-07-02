@@ -16,26 +16,26 @@ def serializedATN():
         buf.write("\6\2\20\n\2\r\2\16\2\21\3\3\3\3\3\3\3\3\3\3\5\3\31\n\3")
         buf.write("\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4#\n\4\3\5\3\5\7\5")
         buf.write("\'\n\5\f\5\16\5*\13\5\3\5\3\5\3\5\7\5/\n\5\f\5\16\5\62")
-        buf.write("\13\5\3\5\5\5\65\n\5\3\6\3\6\3\7\6\7:\n\7\r\7\16\7;\3")
-        buf.write("\7\3\7\3\7\3\7\5\7B\n\7\3\7\4(\60\2\b\2\4\6\b\n\f\2\3")
-        buf.write("\5\2\6\t\f\f\16\20\2K\2\17\3\2\2\2\4\30\3\2\2\2\6\"\3")
-        buf.write("\2\2\2\b\64\3\2\2\2\n\66\3\2\2\2\f9\3\2\2\2\16\20\5\4")
-        buf.write("\3\2\17\16\3\2\2\2\20\21\3\2\2\2\21\17\3\2\2\2\21\22\3")
-        buf.write("\2\2\2\22\3\3\2\2\2\23\31\5\6\4\2\24\31\5\b\5\2\25\31")
-        buf.write("\5\n\6\2\26\31\5\f\7\2\27\31\7\23\2\2\30\23\3\2\2\2\30")
-        buf.write("\24\3\2\2\2\30\25\3\2\2\2\30\26\3\2\2\2\30\27\3\2\2\2")
-        buf.write("\31\5\3\2\2\2\32\33\7\n\2\2\33#\5\b\5\2\34\35\7\n\2\2")
-        buf.write("\35#\5\n\6\2\36\37\7\n\2\2\37#\5\f\7\2 !\7\n\2\2!#\7\23")
-        buf.write("\2\2\"\32\3\2\2\2\"\34\3\2\2\2\"\36\3\2\2\2\" \3\2\2\2")
-        buf.write("#\7\3\2\2\2$(\7\3\2\2%\'\13\2\2\2&%\3\2\2\2\'*\3\2\2\2")
-        buf.write("()\3\2\2\2(&\3\2\2\2)+\3\2\2\2*(\3\2\2\2+\65\7\3\2\2,")
-        buf.write("\60\7\4\2\2-/\13\2\2\2.-\3\2\2\2/\62\3\2\2\2\60\61\3\2")
-        buf.write("\2\2\60.\3\2\2\2\61\63\3\2\2\2\62\60\3\2\2\2\63\65\7\4")
-        buf.write("\2\2\64$\3\2\2\2\64,\3\2\2\2\65\t\3\2\2\2\66\67\t\2\2")
-        buf.write("\2\67\13\3\2\2\28:\7\r\2\298\3\2\2\2:;\3\2\2\2;9\3\2\2")
-        buf.write("\2;<\3\2\2\2<=\3\2\2\2=A\7\5\2\2>B\7\23\2\2?B\5\b\5\2")
-        buf.write("@B\5\n\6\2A>\3\2\2\2A?\3\2\2\2A@\3\2\2\2B\r\3\2\2\2\n")
-        buf.write("\21\30\"(\60\64;A")
+        buf.write("\13\5\3\5\5\5\65\n\5\3\6\6\68\n\6\r\6\16\69\3\6\3\6\3")
+        buf.write("\6\3\6\5\6@\n\6\3\7\3\7\3\7\4(\60\2\b\2\4\6\b\n\f\2\4")
+        buf.write("\4\2\5\5\f\f\5\2\7\n\f\f\16\20\2K\2\17\3\2\2\2\4\30\3")
+        buf.write("\2\2\2\6\"\3\2\2\2\b\64\3\2\2\2\n\67\3\2\2\2\fA\3\2\2")
+        buf.write("\2\16\20\5\4\3\2\17\16\3\2\2\2\20\21\3\2\2\2\21\17\3\2")
+        buf.write("\2\2\21\22\3\2\2\2\22\3\3\2\2\2\23\31\5\6\4\2\24\31\5")
+        buf.write("\b\5\2\25\31\5\f\7\2\26\31\5\n\6\2\27\31\7\23\2\2\30\23")
+        buf.write("\3\2\2\2\30\24\3\2\2\2\30\25\3\2\2\2\30\26\3\2\2\2\30")
+        buf.write("\27\3\2\2\2\31\5\3\2\2\2\32\33\7\13\2\2\33#\5\b\5\2\34")
+        buf.write("\35\7\13\2\2\35#\5\n\6\2\36\37\7\13\2\2\37#\5\f\7\2 !")
+        buf.write("\7\13\2\2!#\7\23\2\2\"\32\3\2\2\2\"\34\3\2\2\2\"\36\3")
+        buf.write("\2\2\2\" \3\2\2\2#\7\3\2\2\2$(\7\3\2\2%\'\13\2\2\2&%\3")
+        buf.write("\2\2\2\'*\3\2\2\2()\3\2\2\2(&\3\2\2\2)+\3\2\2\2*(\3\2")
+        buf.write("\2\2+\65\7\3\2\2,\60\7\4\2\2-/\13\2\2\2.-\3\2\2\2/\62")
+        buf.write("\3\2\2\2\60\61\3\2\2\2\60.\3\2\2\2\61\63\3\2\2\2\62\60")
+        buf.write("\3\2\2\2\63\65\7\4\2\2\64$\3\2\2\2\64,\3\2\2\2\65\t\3")
+        buf.write("\2\2\2\668\t\2\2\2\67\66\3\2\2\289\3\2\2\29\67\3\2\2\2")
+        buf.write("9:\3\2\2\2:;\3\2\2\2;?\7\6\2\2<@\7\23\2\2=@\5\b\5\2>@")
+        buf.write("\5\f\7\2?<\3\2\2\2?=\3\2\2\2?>\3\2\2\2@\13\3\2\2\2AB\t")
+        buf.write("\3\2\2B\r\3\2\2\2\n\21\30\"(\60\649?")
         return buf.getvalue()
 
 
@@ -49,37 +49,37 @@ class ScicopiaParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ "<INVALID>", "'\"'", "'''", "':'", "<INVALID>", "<INVALID>", 
-                     "<INVALID>", "<INVALID>", "'-'", "<INVALID>", "<INVALID>", 
+    literalNames = [ "<INVALID>", "'\"'", "'''", "'_'", "':'", "<INVALID>", 
+                     "<INVALID>", "<INVALID>", "<INVALID>", "'-'", "<INVALID>", 
                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                      "'('", "')'" ]
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "DASH", "NUM", "COMPOUND", "APOSTROPHE", "NOT", "DIGITS", 
-                      "ALPHA", "SNAKE", "ABBREV", "CHARGED", "ALPHANUM", 
+                      "<INVALID>", "DASH", "NUM", "COMPOUND", "APOSTROPHE", 
+                      "NOT", "ALPHA", "DIGITS", "ABBREV", "CHARGED", "ALPHANUM", 
                       "LPAR", "RPAR", "SPECIAL", "WHITESPACE" ]
 
     RULE_query = 0
     RULE_part = 1
     RULE_exclude = 2
     RULE_quotes = 3
-    RULE_term = 4
-    RULE_prefixed = 5
+    RULE_prefixed = 4
+    RULE_term = 5
 
-    ruleNames =  [ "query", "part", "exclude", "quotes", "term", "prefixed" ]
+    ruleNames =  [ "query", "part", "exclude", "quotes", "prefixed", "term" ]
 
     EOF = Token.EOF
     T__0=1
     T__1=2
     T__2=3
-    DASH=4
-    NUM=5
-    COMPOUND=6
-    APOSTROPHE=7
-    NOT=8
-    DIGITS=9
+    T__3=4
+    DASH=5
+    NUM=6
+    COMPOUND=7
+    APOSTROPHE=8
+    NOT=9
     ALPHA=10
-    SNAKE=11
+    DIGITS=11
     ABBREV=12
     CHARGED=13
     ALPHANUM=14
@@ -140,7 +140,7 @@ class ScicopiaParser ( Parser ):
                 self.state = 15 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << ScicopiaParser.T__0) | (1 << ScicopiaParser.T__1) | (1 << ScicopiaParser.DASH) | (1 << ScicopiaParser.NUM) | (1 << ScicopiaParser.COMPOUND) | (1 << ScicopiaParser.APOSTROPHE) | (1 << ScicopiaParser.NOT) | (1 << ScicopiaParser.ALPHA) | (1 << ScicopiaParser.SNAKE) | (1 << ScicopiaParser.ABBREV) | (1 << ScicopiaParser.CHARGED) | (1 << ScicopiaParser.ALPHANUM) | (1 << ScicopiaParser.SPECIAL))) != 0)):
+                if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << ScicopiaParser.T__0) | (1 << ScicopiaParser.T__1) | (1 << ScicopiaParser.T__2) | (1 << ScicopiaParser.DASH) | (1 << ScicopiaParser.NUM) | (1 << ScicopiaParser.COMPOUND) | (1 << ScicopiaParser.APOSTROPHE) | (1 << ScicopiaParser.NOT) | (1 << ScicopiaParser.ALPHA) | (1 << ScicopiaParser.ABBREV) | (1 << ScicopiaParser.CHARGED) | (1 << ScicopiaParser.ALPHANUM) | (1 << ScicopiaParser.SPECIAL))) != 0)):
                     break
 
         except RecognitionException as re:
@@ -198,34 +198,37 @@ class ScicopiaParser ( Parser ):
         try:
             self.state = 22
             self._errHandler.sync(self)
-            token = self._input.LA(1)
-            if token in [ScicopiaParser.NOT]:
+            la_ = self._interp.adaptivePredict(self._input,1,self._ctx)
+            if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 17
                 self.exclude()
                 pass
-            elif token in [ScicopiaParser.T__0, ScicopiaParser.T__1]:
+
+            elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 18
                 self.quotes()
                 pass
-            elif token in [ScicopiaParser.DASH, ScicopiaParser.NUM, ScicopiaParser.COMPOUND, ScicopiaParser.APOSTROPHE, ScicopiaParser.ALPHA, ScicopiaParser.ABBREV, ScicopiaParser.CHARGED, ScicopiaParser.ALPHANUM]:
+
+            elif la_ == 3:
                 self.enterOuterAlt(localctx, 3)
                 self.state = 19
                 self.term()
                 pass
-            elif token in [ScicopiaParser.SNAKE]:
+
+            elif la_ == 4:
                 self.enterOuterAlt(localctx, 4)
                 self.state = 20
                 self.prefixed()
                 pass
-            elif token in [ScicopiaParser.SPECIAL]:
+
+            elif la_ == 5:
                 self.enterOuterAlt(localctx, 5)
                 self.state = 21
                 self.match(ScicopiaParser.SPECIAL)
                 pass
-            else:
-                raise NoViableAltException(self)
+
 
         except RecognitionException as re:
             localctx.exception = re
@@ -249,12 +252,12 @@ class ScicopiaParser ( Parser ):
             return self.getTypedRuleContext(ScicopiaParser.QuotesContext,0)
 
 
-        def term(self):
-            return self.getTypedRuleContext(ScicopiaParser.TermContext,0)
-
-
         def prefixed(self):
             return self.getTypedRuleContext(ScicopiaParser.PrefixedContext,0)
+
+
+        def term(self):
+            return self.getTypedRuleContext(ScicopiaParser.TermContext,0)
 
 
         def SPECIAL(self):
@@ -295,7 +298,7 @@ class ScicopiaParser ( Parser ):
                 self.state = 26
                 self.match(ScicopiaParser.NOT)
                 self.state = 27
-                self.term()
+                self.prefixed()
                 pass
 
             elif la_ == 3:
@@ -303,7 +306,7 @@ class ScicopiaParser ( Parser ):
                 self.state = 28
                 self.match(ScicopiaParser.NOT)
                 self.state = 29
-                self.prefixed()
+                self.term()
                 pass
 
             elif la_ == 4:
@@ -401,6 +404,96 @@ class ScicopiaParser ( Parser ):
         return localctx
 
 
+    class PrefixedContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def SPECIAL(self):
+            return self.getToken(ScicopiaParser.SPECIAL, 0)
+
+        def quotes(self):
+            return self.getTypedRuleContext(ScicopiaParser.QuotesContext,0)
+
+
+        def term(self):
+            return self.getTypedRuleContext(ScicopiaParser.TermContext,0)
+
+
+        def ALPHA(self, i:int=None):
+            if i is None:
+                return self.getTokens(ScicopiaParser.ALPHA)
+            else:
+                return self.getToken(ScicopiaParser.ALPHA, i)
+
+        def getRuleIndex(self):
+            return ScicopiaParser.RULE_prefixed
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterPrefixed" ):
+                listener.enterPrefixed(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitPrefixed" ):
+                listener.exitPrefixed(self)
+
+
+
+
+    def prefixed(self):
+
+        localctx = ScicopiaParser.PrefixedContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 8, self.RULE_prefixed)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 53 
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while True:
+                self.state = 52
+                _la = self._input.LA(1)
+                if not(_la==ScicopiaParser.T__2 or _la==ScicopiaParser.ALPHA):
+                    self._errHandler.recoverInline(self)
+                else:
+                    self._errHandler.reportMatch(self)
+                    self.consume()
+                self.state = 55 
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                if not (_la==ScicopiaParser.T__2 or _la==ScicopiaParser.ALPHA):
+                    break
+
+            self.state = 57
+            self.match(ScicopiaParser.T__3)
+            self.state = 61
+            self._errHandler.sync(self)
+            token = self._input.LA(1)
+            if token in [ScicopiaParser.SPECIAL]:
+                self.state = 58
+                self.match(ScicopiaParser.SPECIAL)
+                pass
+            elif token in [ScicopiaParser.T__0, ScicopiaParser.T__1]:
+                self.state = 59
+                self.quotes()
+                pass
+            elif token in [ScicopiaParser.DASH, ScicopiaParser.NUM, ScicopiaParser.COMPOUND, ScicopiaParser.APOSTROPHE, ScicopiaParser.ALPHA, ScicopiaParser.ABBREV, ScicopiaParser.CHARGED, ScicopiaParser.ALPHANUM]:
+                self.state = 60
+                self.term()
+                pass
+            else:
+                raise NoViableAltException(self)
+
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
     class TermContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -448,102 +541,17 @@ class ScicopiaParser ( Parser ):
     def term(self):
 
         localctx = ScicopiaParser.TermContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 8, self.RULE_term)
+        self.enterRule(localctx, 10, self.RULE_term)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 52
+            self.state = 63
             _la = self._input.LA(1)
             if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << ScicopiaParser.DASH) | (1 << ScicopiaParser.NUM) | (1 << ScicopiaParser.COMPOUND) | (1 << ScicopiaParser.APOSTROPHE) | (1 << ScicopiaParser.ALPHA) | (1 << ScicopiaParser.ABBREV) | (1 << ScicopiaParser.CHARGED) | (1 << ScicopiaParser.ALPHANUM))) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
                 self.consume()
-        except RecognitionException as re:
-            localctx.exception = re
-            self._errHandler.reportError(self, re)
-            self._errHandler.recover(self, re)
-        finally:
-            self.exitRule()
-        return localctx
-
-
-    class PrefixedContext(ParserRuleContext):
-
-        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
-            super().__init__(parent, invokingState)
-            self.parser = parser
-
-        def SPECIAL(self):
-            return self.getToken(ScicopiaParser.SPECIAL, 0)
-
-        def quotes(self):
-            return self.getTypedRuleContext(ScicopiaParser.QuotesContext,0)
-
-
-        def term(self):
-            return self.getTypedRuleContext(ScicopiaParser.TermContext,0)
-
-
-        def SNAKE(self, i:int=None):
-            if i is None:
-                return self.getTokens(ScicopiaParser.SNAKE)
-            else:
-                return self.getToken(ScicopiaParser.SNAKE, i)
-
-        def getRuleIndex(self):
-            return ScicopiaParser.RULE_prefixed
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterPrefixed" ):
-                listener.enterPrefixed(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitPrefixed" ):
-                listener.exitPrefixed(self)
-
-
-
-
-    def prefixed(self):
-
-        localctx = ScicopiaParser.PrefixedContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 10, self.RULE_prefixed)
-        self._la = 0 # Token type
-        try:
-            self.enterOuterAlt(localctx, 1)
-            self.state = 55 
-            self._errHandler.sync(self)
-            _la = self._input.LA(1)
-            while True:
-                self.state = 54
-                self.match(ScicopiaParser.SNAKE)
-                self.state = 57 
-                self._errHandler.sync(self)
-                _la = self._input.LA(1)
-                if not (_la==ScicopiaParser.SNAKE):
-                    break
-
-            self.state = 59
-            self.match(ScicopiaParser.T__2)
-            self.state = 63
-            self._errHandler.sync(self)
-            token = self._input.LA(1)
-            if token in [ScicopiaParser.SPECIAL]:
-                self.state = 60
-                self.match(ScicopiaParser.SPECIAL)
-                pass
-            elif token in [ScicopiaParser.T__0, ScicopiaParser.T__1]:
-                self.state = 61
-                self.quotes()
-                pass
-            elif token in [ScicopiaParser.DASH, ScicopiaParser.NUM, ScicopiaParser.COMPOUND, ScicopiaParser.APOSTROPHE, ScicopiaParser.ALPHA, ScicopiaParser.ABBREV, ScicopiaParser.CHARGED, ScicopiaParser.ALPHANUM]:
-                self.state = 62
-                self.term()
-                pass
-            else:
-                raise NoViableAltException(self)
-
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
