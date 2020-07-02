@@ -17,7 +17,7 @@ quotes: '"' .*? '"'
 
 term: CHARGED | DASH | NUM | COMPOUND | ALPHA | ABBREV | ALPHANUM | APOSTROPHE ;
 
-prefixed: ( ALPHA )+ ':' ( SPECIAL | quotes | term ) ;
+prefixed: ( SNAKE )+ ':' ( SPECIAL | quotes | term ) ;
 
 // internal dashes for compound words
 DASH:  ALPHA ('-' ALPHANUM )+
@@ -39,6 +39,7 @@ NOT: '-' ;
 
 DIGITS:   ( DIGIT )+ ;
 ALPHA:    ( LETTER )+ ;
+SNAKE:    ( ALPHA | '_' ) ;
 ABBREV:   ( LETTER )+ '.' ;
 CHARGED:  ( ALPHANUM )+ ( '+' | '-' ) ;
 ALPHANUM: ( LETTER | DIGIT )+ ;
