@@ -3,7 +3,7 @@ from os.path import exists, join
 import sys
 from typing import Any, Dict
 
-CONFIG = join("..", "config.json")
+CONFIG = join("", "config.json")
 
 
 def read_config() -> Dict[str, Any]:

@@ -4,7 +4,8 @@ from pyArango.theExceptions import DocumentNotFoundError
 from elasticsearch_dsl import Q
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask import g, session, current_app
+from flask import g, session, current_app, flash
+from fastDamerauLevenshtein import damerauLevenshtein
 
 from antlr4 import CommonTokenStream, InputStream, ParseTreeWalker
 from .parser.ScicopiaLexer import ScicopiaLexer
@@ -31,18 +32,74 @@ def analyze_input(input: str) -> Dict[str, Dict[str, str]]:
     walker.walk(listener, tree)
     return listener.getQueries()
 
+def checkFields(condition, fields):
+    for typ, cond in condition.items(): # one pass
+        for field in cond: # one pass
+            field = field.lower()
+            if field in fields: # field is allowed
+                pass # change nothing
+            elif field == "query":
+                condition["multi_match"] = condition.pop(typ) # make sure type is multi_match for query
+            else:
+                found = False
+                for tag in fields:
+                    if damerauLevenshtein(field, tag, similarity=False) == 1.0:
+                        flash(f"Field '{field}' not found do you mean '{tag}'?")
+                        cond[tag] = cond.pop(field)
+                        found = True
+                if not found:
+                    flash(f"Field '{field}' not found. Field restriction removed.")
+                    cond["query"] = cond.pop(field)
+                    condition["multi_match"] = condition.pop(typ) # make sure type is multi_match for query
+            if "auto_tags" in cond:
+                if type(cond["auto_tags"]) == str:
+                    cond["auto_tags"] = [cond["auto_tags"]]
+                condition["terms"] = condition.pop(typ)
+                return condition, cond["auto_tags"][0]
+            break
+        break
+    return condition, False
+
+def newsearch():
+    query = []
+    for condition in session["condition"]["must"]:
+        for typ, cond in condition.items(): # one pass
+            for field, value in cond.items(): # one pass
+                query.append(f"{field}: '{value}'")
+    for condition in session["condition"]["must_not"]:
+        for typ, cond in condition.items(): # one pass
+            for field, value in cond.items(): # one pass
+                query.append(f"-{field}: '{value}'")
+    session["query"] = " ".join(query)
 
 def execute_query():
     conditions = []
     restrictions = []
+    # TODO: flash nur kurz (noch keine möglichkeit gefunden)
+    # TODO: was soll passieren, wenn es keine suche gibt? (in dem fall durch entfernen des autotags als einzige suche)
+    # TODO: restriction werden auch den conditions hinzugefügt -> fehler finden und beheben (entferne bisher nur symptom)
+    fields = current_app.config["FIELDS"]
     for condition in session["condition"]["must"]:
+        condition, autotag = checkFields(condition, fields)
+        if autotag:
+            session["tags"].append({"name": autotag, "mark": True})
         conditions.append(Q(condition))
     for restriction in session["condition"]["must_not"]:
-        restrictions.append(Q(condition))
+        restriction, autotag = checkFields(restriction, fields)
+        while True: # make sure the restriction is not in the conditions
+            if restriction in session["condition"]["must"]:
+                flash(f"Found {restriction} in condition and restriction, removed from condition.")
+                session["condition"]["must"].remove(restriction)
+                conditions.remove(Q(restriction))
+            else:
+                break
+        restrictions.append(Q(restriction))
+    newsearch()
     prepared_search = current_app.config["SEARCH"].sort({"year": {"order": "desc"}})
+    # TODO: add possibility for asc order
     prepared_search = prepared_search.query(Q({"bool": {"must": conditions}}))
     if restrictions:
-        prepared_search = prepared_search.query(Q({"bool": {"must_not": conditions}}))
+        prepared_search = prepared_search.query(Q({"bool": {"must_not": restrictions}}))
     prepared_search = prepared_search.highlight('abstract')
     prepared_search = prepared_search.highlight_options(pre_tags=["<b>"],
                                                         post_tags=["</b>"],

@@ -58,6 +58,7 @@ class Config:
     else:
         logging.error(f"Usercollection {USERCOLLECTIONNAME} not found.")
 
+    FIELDS = config["fields"]
 
     @staticmethod
     def init_app(app):

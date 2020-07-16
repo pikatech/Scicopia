@@ -42,24 +42,8 @@ def setup():
     else:
         logging.error(f"Collection {config['collection']} not found.")
 
-    allowed = {
-        "author",
-        "editor",
-        "publisher",
-        "institution",
-        "title",
-        "booktitle",
-        "abstract",
-        "keywords",
-        "auto_tags",
-        "year",
-        "date",
-        "pages",
-        "journal",
-        "volume",
-        "number",
-        "doi",
-    }
+    allowed = config["fields"]
+    
     return coll, db, config["collection"], allowed
 
 

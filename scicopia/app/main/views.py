@@ -106,8 +106,8 @@ def results():
         session["tags"] = []
         return redirect(url_for("main.results"))
     else:
-        form.name.data = session["query"]
         execute_query()
+        form.name.data = session["query"]
         if session["user"] is not None:
             add_search(session["query"])
     return render_template(
