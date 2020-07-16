@@ -66,10 +66,14 @@ def newsearch():
         for typ, cond in condition.items(): # one pass
             for field, value in cond.items(): # one pass
                 query.append(f"{field}: '{value}'")
+                break
+            break
     for condition in session["condition"]["must_not"]:
         for typ, cond in condition.items(): # one pass
             for field, value in cond.items(): # one pass
                 query.append(f"-{field}: '{value}'")
+                break
+            break
     session["query"] = " ".join(query)
 
 def execute_query():
