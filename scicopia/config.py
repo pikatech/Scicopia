@@ -1,9 +1,9 @@
 import json
-from os.path import exists, join
+from os.path import exists
 import sys
 from typing import Any, Dict
 
-CONFIG = join("", "config.json")
+CONFIG = "config.json"
 
 
 def read_config() -> Dict[str, Any]:
