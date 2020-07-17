@@ -98,7 +98,7 @@ def execute_query():
             else:
                 break
         restrictions.append(Q(restriction))
-    newsearch()
+    #newsearch()
     prepared_search = current_app.config["SEARCH"].sort({"year": {"order": "desc"}})
     # TODO: add possibility for asc order
     prepared_search = prepared_search.query(Q({"bool": {"must": conditions}}))
