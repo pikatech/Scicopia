@@ -13,15 +13,19 @@ import logging
 from typing import Dict, List
 from xml.etree.ElementTree import iterparse, Element
 
+from scicopia.parsers.marccode import marccode
+
+def handle_markup(element):
+    # Handle marked up text
+    for tag in iter(element):
+        if tag.text:
+            tag.text = "<" + tag.tag + ">" + tag.text + "<" + tag.tag + ">"
 
 def extract_abstract(abstract: Element) -> str:
     parts = abstract.findall("AbstractText")
     text = []
     for part in parts:
-        # Handle marked up text
-        for tag in iter(part):
-            if tag.text:
-                tag.text = "<" + tag.tag + ">" + tag.text + "<" + tag.tag + ">"
+        handle_markup(part)
         if "Label" in part.attrib:
             parttext = "".join(part.itertext())
             if parttext != "":
@@ -151,12 +155,24 @@ def parse(source) -> Dict[str, str]:
                 if title is None or title.text is None:
                     logging.warning("Article %s should have had a title", pmid)
                     continue
-
-            # Handle marked up text
-            for tag in iter(title):
-                if tag.text:
-                    tag.text = "<" + tag.tag + ">" + tag.text + "<" + tag.tag + ">"
-            article["title"] = "".join(title.itertext())
+            else:
+                handle_markup(title)
+                titletext = "".join(title.itertext())
+                if titletext != "":
+                    article["title"] = titletext
+                else:
+                    title = elem.find(".//VernacularTitle")
+                    if title is None or title.text is None:
+                        logging.warning("Article %s should have had a title", pmid)
+                        continue
+                    else:
+                        handle_markup(title)
+                        titletext = "".join(title.itertext())
+                        if titletext != "":
+                            article["title"] = titletext
+                        else:
+                            logging.warning("Article %s should have had a title", pmid)
+                            continue
 
             abstract = elem.find(".//Abstract")
             # Abstract is optional
