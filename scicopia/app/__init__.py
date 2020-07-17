@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_bs4 import Bootstrap
-from flask_mail import Mail
+from flask_mailman import Mail
 from scicopia.flask_config import config
 
 bootstrap = Bootstrap()
