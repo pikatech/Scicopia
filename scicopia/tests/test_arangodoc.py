@@ -1,17 +1,17 @@
 from os.path import join
-from scicopia.arangodoc import *
+import scicopia.arangodoc as arangodoc
 
 
 def connection():
-    config = read_config()
+    config = arangodoc.read_config()
     if "arango_url" in config:
-        arangoconn = Connection(
+        arangoconn = arangodoc.Connection(
             arangoURL=config["arango_url"],
             username=config["username"],
             password=config["password"],
         )
     else:
-        arangoconn = Connection(
+        arangoconn = arangodoc.Connection(
             username=config["username"], password=config["password"]
         )
 
@@ -25,33 +25,33 @@ def connection():
 def test_create_id():
     doc = {"PMID": "12345"}
     doc_format = "pubmed"
-    create_id(doc, doc_format)
+    arangodoc.create_id(doc, doc_format)
     assert "id" in doc
     assert doc["id"] == "PMID12345"
 
 
-def test_zstd_open(): # TODO: make bibtex.bib.zst
+def test_zstd_open():  # TODO: make bibtex.bib.zst
     filename = "scicopia/tests/data/bibtex.bib.zst"
     mode = "rt"
     encoding = "utf-8"
-    with zstd_open(filename, mode, encoding) as data:
+    with arangodoc.zstd_open(filename, mode, encoding) as data:
         lines = data.readlines()
-        assert lines[0] == '@inproceedings{Ipsum2019a,\n'
+        assert lines[0] == "@inproceedings{Ipsum2019a,\n"
 
 
 def test_pdfsave():
     file = "scicopia/tests/data/bibtex.bib"
-    data = pdfsave(file)
+    data = arangodoc.pdfsave(file)
     assert data == ""
     file = "scicopia/tests/data/bibtex_error2.bib"
-    data = pdfsave(file)
+    data = arangodoc.pdfsave(file)
     assert data == ""
     file = "scicopia/tests/data/bibtex_error.bib"
-    data = pdfsave(file)
+    data = arangodoc.pdfsave(file)
     assert data[:10] == "TG9yZW0gaX"
     # no guarantee that the file can open
     file = "scicopia/tests/data/bibtex_pdf.bib"
-    data = pdfsave(file)
+    data = arangodoc.pdfsave(file)
     assert data[:10] == "JVBERi0xLj"
 
 
@@ -79,22 +79,26 @@ def test_import_file():
     file = "scicopia/tests/data/bibtex.bib"
     doc_format = "bibtex"
     compression = "none"
-    open_func = OPEN_DICT[compression]
-    parse = PARSE_DICT[doc_format]
+    open_func = arangodoc.OPEN_DICT[compression]
+    parse = arangodoc.PARSE_DICT[doc_format]
     update = False
     pdf = False
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    arangodoc.import_file(
+        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+    )
     for key in ["Ipsum2019a", "Ipsum2019b", "Ipsum2019c"]:
         try:
             doc = collection[key]
-        except DocumentNotFoundError:
+        except arangodoc.DocumentNotFoundError:
             assert 1 == 2
         assert doc["cited_by"] == "test"
         assert (
             doc["pdf"] == None
         )  # arangodb returns None if the attribut does not exist
 
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    arangodoc.import_file(
+        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+    )
     # gibt loggin.error aus, da daten bereits vorhanden, aber update false -> TODO: abfangen
 
     doc = collection.createDocument()
@@ -104,10 +108,12 @@ def test_import_file():
     file = "scicopia/tests/data/bibtex_pdf.bib"
     update = True
     pdf = True
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    arangodoc.import_file(
+        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+    )
     try:
         doc = collection["PDF"]
-    except DocumentNotFoundError:
+    except arangodoc.DocumentNotFoundError:
         assert 1 == 2
     assert doc["pdf"] != None
     assert doc["test"] == None
@@ -115,51 +121,59 @@ def test_import_file():
     file = "scicopia/tests/data/bibtex_error.bib"
     update = True
     pdf = True
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    arangodoc.import_file(
+        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+    )
     try:
         doc = collection["Ipsum2019a"]
-    except DocumentNotFoundError:
+    except arangodoc.DocumentNotFoundError:
         assert 1 == 2
     assert doc["pdf"] == None
     assert doc["test"] == None
 
     file = "scicopia/tests/data/bibtex.bib.gz"
     compression = "gzip"
-    open_func = OPEN_DICT[compression]
+    open_func = arangodoc.OPEN_DICT[compression]
     update = True
     pdf = True
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    arangodoc.import_file(
+        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+    )
     for key in ["Ipsum2019a", "Ipsum2019b", "Ipsum2019c"]:
         try:
             doc = collection[key]
-        except DocumentNotFoundError:
+        except arangodoc.DocumentNotFoundError:
             assert 1 == 2
         assert doc["pdf"] == None
 
     file = "scicopia/tests/data/bibtex.bib.bz2"
     compression = "bzip2"
-    open_func = OPEN_DICT[compression]
+    open_func = arangodoc.OPEN_DICT[compression]
     update = True
     pdf = True
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    arangodoc.import_file(
+        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+    )
     for key in ["Ipsum2019a", "Ipsum2019b", "Ipsum2019c"]:
         try:
             doc = collection[key]
-        except DocumentNotFoundError:
+        except arangodoc.DocumentNotFoundError:
             assert 1 == 2
         assert doc["cited_by"] == "test"
         assert doc["pdf"] == None
 
     file = "scicopia/tests/data/bibtex.bib.zst"
     compression = "zstd"
-    open_func = OPEN_DICT[compression]
+    open_func = arangodoc.OPEN_DICT[compression]
     update = True
     pdf = True
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    arangodoc.import_file(
+        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+    )
     for key in ["Ipsum2019a", "Ipsum2019b", "Ipsum2019c"]:
         try:
             doc = collection[key]
-        except DocumentNotFoundError:
+        except arangodoc.DocumentNotFoundError:
             assert 1 == 2
         assert doc["cited_by"] == "test"
         assert doc["pdf"] == None
@@ -167,40 +181,46 @@ def test_import_file():
     file = "scicopia/tests/data/arxiv.xml"
     doc_format = "arxiv"
     compression = "none"
-    open_func = OPEN_DICT[compression]
-    parse = PARSE_DICT[doc_format]
+    open_func = arangodoc.OPEN_DICT[compression]
+    parse = arangodoc.PARSE_DICT[doc_format]
     update = False
     pdf = False
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    arangodoc.import_file(
+        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+    )
     try:
         doc = collection["oai:arXiv.org:121518513"]
-    except DocumentNotFoundError:
+    except arangodoc.DocumentNotFoundError:
         assert 1 == 2
 
     file = "scicopia/tests/data/grobid.xml"
     doc_format = "grobid"
     compression = "none"
-    open_func = OPEN_DICT[compression]
-    parse = PARSE_DICT[doc_format]
+    open_func = arangodoc.OPEN_DICT[compression]
+    parse = arangodoc.PARSE_DICT[doc_format]
     update = False
     pdf = False
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    arangodoc.import_file(
+        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+    )
     try:
         doc = collection["121518513"]
-    except DocumentNotFoundError:
+    except arangodoc.DocumentNotFoundError:
         assert 1 == 2
 
     file = "scicopia/tests/data/pubmed.xml"
     doc_format = "pubmed"
     compression = "none"
-    open_func = OPEN_DICT[compression]
-    parse = PARSE_DICT[doc_format]
+    open_func = arangodoc.OPEN_DICT[compression]
+    parse = arangodoc.PARSE_DICT[doc_format]
     update = False
     pdf = False
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    arangodoc.import_file(
+        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+    )
     try:
         doc = collection["PMID121518513"]
-    except DocumentNotFoundError:
+    except arangodoc.DocumentNotFoundError:
         assert 1 == 2
 
 
@@ -217,7 +237,7 @@ def test_import_file_error():
     update = False
     pdf = False
     compression = "none"
-    open_func = OPEN_DICT[compression]
+    open_func = arangodoc.OPEN_DICT[compression]
 
     # file = "tests/data/bibtex.bib"
     # doc_format = "arxiv"
@@ -238,12 +258,16 @@ def test_import_file_error():
     # import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
 
     doc_format = "grobid"
-    parse = PARSE_DICT[doc_format]
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    parse = arangodoc.PARSE_DICT[doc_format]
+    arangodoc.import_file(
+        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+    )
 
     doc_format = "pubmed"
-    parse = PARSE_DICT[doc_format]
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    parse = arangodoc.PARSE_DICT[doc_format]
+    arangodoc.import_file(
+        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+    )
 
     file = "scicopia/tests/data/grobid.xml"
     # doc_format = "bibtex"
@@ -251,12 +275,16 @@ def test_import_file_error():
     # import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
 
     doc_format = "arxiv"
-    parse = PARSE_DICT[doc_format]
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    parse = arangodoc.PARSE_DICT[doc_format]
+    arangodoc.import_file(
+        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+    )
 
     doc_format = "pubmed"
-    parse = PARSE_DICT[doc_format]
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    parse = arangodoc.PARSE_DICT[doc_format]
+    arangodoc.import_file(
+        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+    )
 
     file = "scicopia/tests/data/pubmed.xml"
     # doc_format = "bibtex"
@@ -264,15 +292,19 @@ def test_import_file_error():
     # import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
 
     doc_format = "arxiv"
-    parse = PARSE_DICT[doc_format]
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    parse = arangodoc.PARSE_DICT[doc_format]
+    arangodoc.import_file(
+        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+    )
 
     doc_format = "grobid"
-    parse = PARSE_DICT[doc_format]
-    import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    parse = arangodoc.PARSE_DICT[doc_format]
+    arangodoc.import_file(
+        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+    )
 
 
-def test_locate_files():
+def test_locate_bibtex_nonrecursive():
     path = "./scicopia/tests/data"
 
     compression = "none"
@@ -285,9 +317,17 @@ def test_locate_files():
         join(".", "scicopia", "tests", "data", "bibtex_pdf.bib"),
     ]
     control.sort()
-    files = locate_files(path, doc_format, recursive, compression)
+    files = arangodoc.locate_files(path, doc_format, recursive, compression)
     files.sort()
     assert files == control
+    recursive = True
+
+
+def test_locate_bibtex_recursive():
+    path = "./scicopia/tests/data"
+
+    compression = "none"
+    doc_format = "bibtex"
     recursive = True
     control = [
         join(".", "scicopia", "tests", "data", "bibtex.bib"),
@@ -298,10 +338,17 @@ def test_locate_files():
         join(".", "scicopia", "tests", "data", "test", "test", "r2.bib"),
     ]
     control.sort()
-    files = locate_files(path, doc_format, recursive, compression)
+    files = arangodoc.locate_files(path, doc_format, recursive, compression)
     files.sort()
     assert files == control
 
+
+def test_locate_arxiv_nonrecursive():
+    path = "./scicopia/tests/data"
+
+    compression = "none"
+    doc_format = "arxiv"
+    recursive = False
     control = [
         join(".", "scicopia", "tests", "data", "arxiv.xml"),
         join(".", "scicopia", "tests", "data", "grobid.xml"),
@@ -313,7 +360,18 @@ def test_locate_files():
         join(".", "scicopia", "tests", "data", "pubmed.xml"),
     ]
     control.sort()
-    controlr = [
+    files = arangodoc.locate_files(path, doc_format, recursive, compression)
+    files.sort()
+    assert files == control
+
+
+def test_locate_arxiv_recursive():
+    path = "./scicopia/tests/data"
+
+    compression = "none"
+    doc_format = "arxiv"
+    recursive = True
+    control = [
         join(".", "scicopia", "tests", "data", "arxiv.xml"),
         join(".", "scicopia", "tests", "data", "grobid.xml"),
         join(".", "scicopia", "tests", "data", "grobid_error.xml"),
@@ -326,53 +384,136 @@ def test_locate_files():
         join(".", "scicopia", "tests", "data", "test", "r1.xml"),
         join(".", "scicopia", "tests", "data", "test", "test", "r2.xml"),
     ]
-    controlr.sort()
-
-    doc_format = "arxiv"
-    recursive = False
-    files = locate_files(path, doc_format, recursive, compression)
+    control.sort()
+    files = arangodoc.locate_files(path, doc_format, recursive, compression)
     files.sort()
     assert files == control
-    recursive = True
-    files = locate_files(path, doc_format, recursive, compression)
-    files.sort()
-    assert files == controlr
 
+
+def test_locate_grobid_nonrecursive():
+    path = "./scicopia/tests/data"
+
+    compression = "none"
     doc_format = "grobid"
     recursive = False
-    files = locate_files(path, doc_format, recursive, compression)
+    control = [
+        join(".", "scicopia", "tests", "data", "arxiv.xml"),
+        join(".", "scicopia", "tests", "data", "grobid.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error2.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error3.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error4.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error5.xml"),
+        join(".", "scicopia", "tests", "data", "pubmed.xml"),
+    ]
+    control.sort()
+    files = arangodoc.locate_files(path, doc_format, recursive, compression)
     files.sort()
     assert files == control
-    recursive = True
-    files = locate_files(path, doc_format, recursive, compression)
-    files.sort()
-    assert files == controlr
 
+
+def test_locate_grobid_recursive():
+    path = "./scicopia/tests/data"
+
+    compression = "none"
+    doc_format = "grobid"
+    recursive = True
+    control = [
+        join(".", "scicopia", "tests", "data", "arxiv.xml"),
+        join(".", "scicopia", "tests", "data", "grobid.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error2.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error3.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error4.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error5.xml"),
+        join(".", "scicopia", "tests", "data", "pubmed.xml"),
+        join(".", "scicopia", "tests", "data", "test", "grobid.xml"),
+        join(".", "scicopia", "tests", "data", "test", "r1.xml"),
+        join(".", "scicopia", "tests", "data", "test", "test", "r2.xml"),
+    ]
+    control.sort()
+    files = arangodoc.locate_files(path, doc_format, recursive, compression)
+    files.sort()
+    assert files == control
+
+
+def test_locate_pubmed_nonrecursive():
+    path = "./scicopia/tests/data"
+
+    compression = "none"
     doc_format = "pubmed"
     recursive = False
-    files = locate_files(path, doc_format, recursive, compression)
+    control = [
+        join(".", "scicopia", "tests", "data", "arxiv.xml"),
+        join(".", "scicopia", "tests", "data", "grobid.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error2.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error3.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error4.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error5.xml"),
+        join(".", "scicopia", "tests", "data", "pubmed.xml"),
+    ]
+    control.sort()
+    files = arangodoc.locate_files(path, doc_format, recursive, compression)
     files.sort()
     assert files == control
+
+
+def test_locate_pubmed_recursive():
+    path = "./scicopia/tests/data"
+
+    compression = "none"
+    doc_format = "pubmed"
     recursive = True
-    files = locate_files(path, doc_format, recursive, compression)
+    control = [
+        join(".", "scicopia", "tests", "data", "arxiv.xml"),
+        join(".", "scicopia", "tests", "data", "grobid.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error2.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error3.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error4.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error5.xml"),
+        join(".", "scicopia", "tests", "data", "pubmed.xml"),
+        join(".", "scicopia", "tests", "data", "test", "grobid.xml"),
+        join(".", "scicopia", "tests", "data", "test", "r1.xml"),
+        join(".", "scicopia", "tests", "data", "test", "test", "r2.xml"),
+    ]
+    control.sort()
+    files = arangodoc.locate_files(path, doc_format, recursive, compression)
     files.sort()
-    assert files == controlr
+    assert files == control
+
+
+def test_locate_zstd_bibtex():
+    path = "./scicopia/tests/data"
 
     recursive = False
     compression = "zstd"
     doc_format = "bibtex"
     control = [join(".", "scicopia", "tests", "data", "bibtex.bib.zst")]
-    files = locate_files(path, doc_format, recursive, compression)
+    files = arangodoc.locate_files(path, doc_format, recursive, compression)
     assert files == control
+
+
+def test_locate_gzip_bibtex():
+    path = "./scicopia/tests/data"
+
+    recursive = False
     compression = "gzip"
     doc_format = "bibtex"
     control = [join(".", "scicopia", "tests", "data", "bibtex.bib.gz")]
-    files = locate_files(path, doc_format, recursive, compression)
+    files = arangodoc.locate_files(path, doc_format, recursive, compression)
     assert files == control
+
+
+def test_locate_bzip2_bibtex():
+    path = "./scicopia/tests/data"
+
+    recursive = False
     compression = "bzip2"
     doc_format = "bibtex"
     control = [join(".", "scicopia", "tests", "data", "bibtex.bib.bz2")]
-    files = locate_files(path, doc_format, recursive, compression)
+    files = arangodoc.locate_files(path, doc_format, recursive, compression)
     assert files == control
 
 
