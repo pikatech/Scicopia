@@ -1,8 +1,8 @@
-from parsers.arxiv import *
+from scicopia.parsers.arxiv import *
 
 
 def test_parse():
-    source = "tests/data/arxiv.xml"
+    source = "scicopia/tests/data/arxiv.xml"
     with open(source) as data:
         for datadict in parse(data):
             assert "id" in datadict

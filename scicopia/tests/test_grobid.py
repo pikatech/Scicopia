@@ -1,8 +1,8 @@
-from parsers.grobid import *
+from scicopia.parsers.grobid import *
 
 
 def test_remove_refs():
-    source = "tests/data/grobid.xml"
+    source = "scicopia/tests/data/grobid.xml"
     with open(source, encoding="utf-8") as filename:
         xml = filename.read()
         xml = xml.replace(" <ref", "<ref")
@@ -14,9 +14,9 @@ def test_remove_refs():
 
 def test_extract_title():
     source = [
-        "tests/data/grobid.xml",
-        "tests/data/grobid_error.xml",
-        "tests/data/grobid_error2.xml",
+        "scicopia/tests/data/grobid.xml",
+        "scicopia/tests/data/grobid_error.xml",
+        "scicopia/tests/data/grobid_error2.xml",
     ]
     for file in source:
         with open(file, encoding="utf-8") as filename:
@@ -39,7 +39,7 @@ def test_extract_title():
 
 
 def test_extract_authors():
-    source = ["tests/data/grobid.xml", "tests/data/grobid_error.xml"]
+    source = ["scicopia/tests/data/grobid.xml", "scicopia/tests/data/grobid_error.xml"]
     for file in source:
         with open(file, encoding="utf-8") as filename:
             xml = filename.read()
@@ -65,12 +65,12 @@ def test_extract_authors():
 
 def test_extract_bibliographic_data():
     source = [
-        "tests/data/grobid.xml",
-        "tests/data/grobid_error.xml",
-        "tests/data/grobid_error2.xml",
-        "tests/data/grobid_error3.xml",
-        "tests/data/grobid_error4.xml",
-        "tests/data/grobid_error5.xml",
+        "scicopia/tests/data/grobid.xml",
+        "scicopia/tests/data/grobid_error.xml",
+        "scicopia/tests/data/grobid_error2.xml",
+        "scicopia/tests/data/grobid_error3.xml",
+        "scicopia/tests/data/grobid_error4.xml",
+        "scicopia/tests/data/grobid_error5.xml",
     ]
     for file in source:
         with open(file, encoding="utf-8") as filename:
@@ -113,9 +113,9 @@ def test_extract_bibliographic_data():
 
 def test_extract_text():
     source = [
-        "tests/data/grobid.xml",
-        "tests/data/grobid_error.xml",
-        "tests/data/grobid_error2.xml",
+        "scicopia/tests/data/grobid.xml",
+        "scicopia/tests/data/grobid_error.xml",
+        "scicopia/tests/data/grobid_error2.xml",
     ]
     for file in source:
         with open(file, encoding="utf-8") as filename:
@@ -135,9 +135,9 @@ def test_extract_text():
 
 def test_parse():
     source = [
-        "tests/data/grobid.xml",
-        "tests/data/grobid_error.xml",
-        "tests/data/grobid_error2.xml",
+        "scicopia/tests/data/grobid.xml",
+        "scicopia/tests/data/grobid_error.xml",
+        "scicopia/tests/data/grobid_error2.xml",
     ]
     for file in source:
         with open(file, encoding="utf-8") as filename:

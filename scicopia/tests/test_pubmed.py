@@ -1,8 +1,8 @@
-from parsers.pubmed import *
+from scicopia.parsers.pubmed import *
 
 
 def test_extract_abstract():
-    source = "tests/data/pubmed.xml"
+    source = "scicopia/tests/data/pubmed.xml"
     context = iterparse(source, events=("start", "end"))
     # turn it into an iterator
     context = iter(context)
@@ -30,7 +30,7 @@ def test_extract_abstract():
 
 
 def test_extract_authors():
-    source = "tests/data/pubmed.xml"
+    source = "scicopia/tests/data/pubmed.xml"
     context = iterparse(source, events=("start", "end"))
     # turn it into an iterator
     context = iter(context)
@@ -56,7 +56,7 @@ def test_extract_authors():
 
 
 def test_extract_journaldata():
-    source = "tests/data/pubmed.xml"
+    source = "scicopia/tests/data/pubmed.xml"
     context = iterparse(source, events=("start", "end"))
     # turn it into an iterator
     context = iter(context)
@@ -96,7 +96,7 @@ def test_extract_journaldata():
 
 
 def test_extract_mesh_headings():
-    source = "tests/data/pubmed.xml"
+    source = "scicopia/tests/data/pubmed.xml"
     context = iterparse(source, events=("start", "end"))
     # turn it into an iterator
     context = iter(context)
@@ -122,7 +122,7 @@ def test_extract_mesh_headings():
 
 
 def test_parse():  # TODO: add controll of exceptions
-    source = "tests/data/pubmed.xml"
+    source = "scicopia/tests/data/pubmed.xml"
     with open(source) as data:
         for datadict in parse(data):
             assert "PMID" in datadict

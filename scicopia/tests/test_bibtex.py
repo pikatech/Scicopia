@@ -1,8 +1,8 @@
-from parsers.bibtex import *
+from scicopia.parsers.bibtex import *
 
 
 def test_handleField():
-    source = "tests/data/bibtex.bib"
+    source = "scicopia/tests/data/bibtex.bib"
     parser = Parser()
     bib_data = parser.parse_file(source)
     for entry in bib_data.entries.itervalues():
@@ -21,7 +21,7 @@ def test_handleField():
 
 
 def test_handlePerson():
-    source = "tests/data/bibtex.bib"
+    source = "scicopia/tests/data/bibtex.bib"
     parser = Parser()
     bib_data = parser.parse_file(source)
     for entry in bib_data.entries.itervalues():
@@ -37,7 +37,7 @@ def test_handlePerson():
 
 
 def test_parse():
-    source = "tests/data/bibtex.bib"
+    source = "scicopia/tests/data/bibtex.bib"
     with open(source, encoding="utf-8") as data:
         for datadict in parse(data):
             assert "year" in datadict
@@ -54,7 +54,7 @@ def test_parse():
 
 
 def test_parse_error():  # TODO: add controll of exceptions
-    source = "tests/data/bibtex_error.bib"
+    source = "scicopia/tests/data/bibtex_error.bib"
     with open(source, encoding="utf-8") as data:
         for datadict in parse(data):
             pass

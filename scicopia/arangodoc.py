@@ -27,15 +27,15 @@ import multiprocessing
 import dask
 from dask.distributed import Client, LocalCluster
 
-from parsers.bibtex import parse as bib
-from parsers.pubmed import parse as pubmed
-from parsers.arxiv import parse as arxiv
-from parsers.grobid import parse as grobid
+from scicopia.parsers.bibtex import parse as bib
+from scicopia.parsers.pubmed import parse as pubmed
+from scicopia.parsers.arxiv import parse as arxiv
+from scicopia.parsers.grobid import parse as grobid
 
 from pyArango.collection import Collection
 from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError, UpdateError
-from config import read_config
+from scicopia.config import read_config
 logging.getLogger().setLevel(logging.INFO)
 
 # See: https://www.arangodb.com/docs/stable/data-modeling-naming-conventions-document-keys.html

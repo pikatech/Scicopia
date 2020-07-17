@@ -1,5 +1,5 @@
-from arangodoc import *
 from os.path import join
+from scicopia.arangodoc import *
 
 
 def connection():
@@ -31,26 +31,26 @@ def test_create_id():
 
 
 def test_zstd_open(): # TODO: make bibtex.bib.zst
-    filename = "tests/data/bibtex.bib.zst"
+    filename = "scicopia/tests/data/bibtex.bib.zst"
     mode = "rt"
     encoding = "utf-8"
     with zstd_open(filename, mode, encoding) as data:
         lines = data.readlines()
-        assert lines[0] == '<?xml version="1.0" encoding="UTF-8"?>\n'
+        assert lines[0] == '@inproceedings{Ipsum2019a,\n'
 
 
 def test_pdfsave():
-    file = "tests/data/bibtex.bib"
+    file = "scicopia/tests/data/bibtex.bib"
     data = pdfsave(file)
     assert data == ""
-    file = "tests/data/bibtex_error2.bib"
+    file = "scicopia/tests/data/bibtex_error2.bib"
     data = pdfsave(file)
     assert data == ""
-    file = "tests/data/bibtex_error.bib"
+    file = "scicopia/tests/data/bibtex_error.bib"
     data = pdfsave(file)
     assert data[:10] == "TG9yZW0gaX"
     # no guarantee that the file can open
-    file = "tests/data/bibtex_pdf.bib"
+    file = "scicopia/tests/data/bibtex_pdf.bib"
     data = pdfsave(file)
     assert data[:10] == "JVBERi0xLj"
 
@@ -76,7 +76,7 @@ def test_import_file():
 
     batch_size = 2
 
-    file = "tests/data/bibtex.bib"
+    file = "scicopia/tests/data/bibtex.bib"
     doc_format = "bibtex"
     compression = "none"
     open_func = OPEN_DICT[compression]
@@ -101,7 +101,7 @@ def test_import_file():
     doc._key = "PDF"
     doc["test"] = "test"
     doc.save()
-    file = "tests/data/bibtex_pdf.bib"
+    file = "scicopia/tests/data/bibtex_pdf.bib"
     update = True
     pdf = True
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
@@ -112,7 +112,7 @@ def test_import_file():
     assert doc["pdf"] != None
     assert doc["test"] == None
 
-    file = "tests/data/bibtex_error.bib"
+    file = "scicopia/tests/data/bibtex_error.bib"
     update = True
     pdf = True
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
@@ -123,7 +123,7 @@ def test_import_file():
     assert doc["pdf"] == None
     assert doc["test"] == None
 
-    file = "tests/data/bibtex.bib.gz"
+    file = "scicopia/tests/data/bibtex.bib.gz"
     compression = "gzip"
     open_func = OPEN_DICT[compression]
     update = True
@@ -136,7 +136,7 @@ def test_import_file():
             assert 1 == 2
         assert doc["pdf"] == None
 
-    file = "tests/data/bibtex.bib.bz2"
+    file = "scicopia/tests/data/bibtex.bib.bz2"
     compression = "bzip2"
     open_func = OPEN_DICT[compression]
     update = True
@@ -150,8 +150,8 @@ def test_import_file():
         assert doc["cited_by"] == "test"
         assert doc["pdf"] == None
 
-    file = "tests/data/bibtex.bib.zst"
-    compression = "bzip2"
+    file = "scicopia/tests/data/bibtex.bib.zst"
+    compression = "zstd"
     open_func = OPEN_DICT[compression]
     update = True
     pdf = True
@@ -164,7 +164,7 @@ def test_import_file():
         assert doc["cited_by"] == "test"
         assert doc["pdf"] == None
 
-    file = "tests/data/arxiv.xml"
+    file = "scicopia/tests/data/arxiv.xml"
     doc_format = "arxiv"
     compression = "none"
     open_func = OPEN_DICT[compression]
@@ -177,7 +177,7 @@ def test_import_file():
     except DocumentNotFoundError:
         assert 1 == 2
 
-    file = "tests/data/grobid.xml"
+    file = "scicopia/tests/data/grobid.xml"
     doc_format = "grobid"
     compression = "none"
     open_func = OPEN_DICT[compression]
@@ -190,7 +190,7 @@ def test_import_file():
     except DocumentNotFoundError:
         assert 1 == 2
 
-    file = "tests/data/pubmed.xml"
+    file = "scicopia/tests/data/pubmed.xml"
     doc_format = "pubmed"
     compression = "none"
     open_func = OPEN_DICT[compression]
@@ -232,7 +232,7 @@ def test_import_file_error():
     # parse = PARSE_DICT[doc_format]
     # import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
 
-    file = "tests/data/arxiv.xml"
+    file = "scicopia/tests/data/arxiv.xml"
     # doc_format = "bibtex"
     # parse = PARSE_DICT[doc_format]
     # import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
@@ -245,7 +245,7 @@ def test_import_file_error():
     parse = PARSE_DICT[doc_format]
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
 
-    file = "tests/data/grobid.xml"
+    file = "scicopia/tests/data/grobid.xml"
     # doc_format = "bibtex"
     # parse = PARSE_DICT[doc_format]
     # import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
@@ -258,7 +258,7 @@ def test_import_file_error():
     parse = PARSE_DICT[doc_format]
     import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
 
-    file = "tests/data/pubmed.xml"
+    file = "scicopia/tests/data/pubmed.xml"
     # doc_format = "bibtex"
     # parse = PARSE_DICT[doc_format]
     # import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
@@ -273,15 +273,16 @@ def test_import_file_error():
 
 
 def test_locate_files():
-    path = "./tests/data"
+    path = "./scicopia/tests/data"
 
     compression = "none"
     doc_format = "bibtex"
     recursive = False
     control = [
-        join(".", "tests", "data", "bibtex.bib"),
-        join(".", "tests", "data", "bibtex_error.bib"),
-        join(".", "tests", "data", "bibtex_pdf.bib"),
+        join(".", "scicopia", "tests", "data", "bibtex.bib"),
+        join(".", "scicopia", "tests", "data", "bibtex_error.bib"),
+        join(".", "scicopia", "tests", "data", "bibtex_error2.bib"),
+        join(".", "scicopia", "tests", "data", "bibtex_pdf.bib"),
     ]
     control.sort()
     files = locate_files(path, doc_format, recursive, compression)
@@ -289,11 +290,12 @@ def test_locate_files():
     assert files == control
     recursive = True
     control = [
-        join(".", "tests", "data", "bibtex.bib"),
-        join(".", "tests", "data", "bibtex_error.bib"),
-        join(".", "tests", "data", "bibtex_pdf.bib"),
-        join(".", "tests", "data", "test", "r1.bib"),
-        join(".", "tests", "data", "test", "test", "r2.bib"),
+        join(".", "scicopia", "tests", "data", "bibtex.bib"),
+        join(".", "scicopia", "tests", "data", "bibtex_error.bib"),
+        join(".", "scicopia", "tests", "data", "bibtex_error2.bib"),
+        join(".", "scicopia", "tests", "data", "bibtex_pdf.bib"),
+        join(".", "scicopia", "tests", "data", "test", "r1.bib"),
+        join(".", "scicopia", "tests", "data", "test", "test", "r2.bib"),
     ]
     control.sort()
     files = locate_files(path, doc_format, recursive, compression)
@@ -301,28 +303,28 @@ def test_locate_files():
     assert files == control
 
     control = [
-        join(".", "tests", "data", "arxiv.xml"),
-        join(".", "tests", "data", "grobid.xml"),
-        join(".", "tests", "data", "grobid_error.xml"),
-        join(".", "tests", "data", "grobid_error2.xml"),
-        join(".", "tests", "data", "grobid_error3.xml"),
-        join(".", "tests", "data", "grobid_error4.xml"),
-        join(".", "tests", "data", "grobid_error5.xml"),
-        join(".", "tests", "data", "pubmed.xml"),
+        join(".", "scicopia", "tests", "data", "arxiv.xml"),
+        join(".", "scicopia", "tests", "data", "grobid.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error2.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error3.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error4.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error5.xml"),
+        join(".", "scicopia", "tests", "data", "pubmed.xml"),
     ]
     control.sort()
     controlr = [
-        join(".", "tests", "data", "arxiv.xml"),
-        join(".", "tests", "data", "grobid.xml"),
-        join(".", "tests", "data", "grobid_error.xml"),
-        join(".", "tests", "data", "grobid_error2.xml"),
-        join(".", "tests", "data", "grobid_error3.xml"),
-        join(".", "tests", "data", "grobid_error4.xml"),
-        join(".", "tests", "data", "grobid_error5.xml"),
-        join(".", "tests", "data", "pubmed.xml"),
-        join(".", "tests", "data", "test", "grobid.xml"),
-        join(".", "tests", "data", "test", "r1.xml"),
-        join(".", "tests", "data", "test", "test", "r2.xml"),
+        join(".", "scicopia", "tests", "data", "arxiv.xml"),
+        join(".", "scicopia", "tests", "data", "grobid.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error2.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error3.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error4.xml"),
+        join(".", "scicopia", "tests", "data", "grobid_error5.xml"),
+        join(".", "scicopia", "tests", "data", "pubmed.xml"),
+        join(".", "scicopia", "tests", "data", "test", "grobid.xml"),
+        join(".", "scicopia", "tests", "data", "test", "r1.xml"),
+        join(".", "scicopia", "tests", "data", "test", "test", "r2.xml"),
     ]
     controlr.sort()
 
@@ -358,18 +360,18 @@ def test_locate_files():
 
     recursive = False
     compression = "zstd"
-    doc_format = "pubmed"
-    control = [join(".", "tests", "data", "bibtex.bib.zst")]
+    doc_format = "bibtex"
+    control = [join(".", "scicopia", "tests", "data", "bibtex.bib.zst")]
     files = locate_files(path, doc_format, recursive, compression)
     assert files == control
     compression = "gzip"
     doc_format = "bibtex"
-    control = [join(".", "tests", "data", "bibtex.bib.gz")]
+    control = [join(".", "scicopia", "tests", "data", "bibtex.bib.gz")]
     files = locate_files(path, doc_format, recursive, compression)
     assert files == control
     compression = "bzip2"
     doc_format = "bibtex"
-    control = [join(".", "tests", "data", "bibtex.bib.bz2")]
+    control = [join(".", "scicopia", "tests", "data", "bibtex.bib.bz2")]
     files = locate_files(path, doc_format, recursive, compression)
     assert files == control
 

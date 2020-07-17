@@ -7,9 +7,9 @@ Created on Mon Jun  8 11:39:17 2020
 """
 
 from antlr4 import CommonTokenStream, InputStream, ParseTreeWalker
-from app.parser.ScicopiaLexer import ScicopiaLexer
-from app.parser.QueryListener import QueryListener
-from app.parser.ScicopiaParser import ScicopiaParser
+from scicopia.app.parser.ScicopiaLexer import ScicopiaLexer
+from scicopia.app.parser.QueryListener import QueryListener
+from scicopia.app.parser.ScicopiaParser import ScicopiaParser
 
 
 def test_sanity():
