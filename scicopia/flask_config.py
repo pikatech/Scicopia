@@ -1,5 +1,4 @@
 import logging
-import spacy
 import re
 from elasticsearch_dsl import connections, Search
 from pyArango.connection import Connection
@@ -20,10 +19,6 @@ class Config:
     Scicopia_MAIL_SENDER = "Scicopia Admin"
 
     URL_MATCHER = re.compile(r"((https?|ftp)://[^\s/$.?#].[^\s]+[^\s\.])")
-
-    language = 'en'
-    max_length = 1_000_000
-    NLP = spacy.load(language, max_length=max_length)
 
     conn = connections.create_connection(hosts=config["es_hosts"])
     search = Search(using=conn)
