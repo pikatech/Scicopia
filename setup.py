@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="scicopia",
-    version="0.0.1",
+    version="0.5.0",
     author="Pikatech",
     author_email="pikatech@mail.de",
     description="A search frontend powered by Elasticsearch and Flask.",
