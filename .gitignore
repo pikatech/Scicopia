@@ -9,3 +9,7 @@ dask-worker-space
 # Coverage report
 .coverage
 htmlcov
+
+.python-version
+.tox/
+scicopia.egg-info/
