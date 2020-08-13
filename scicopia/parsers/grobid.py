@@ -120,25 +120,30 @@ def extract_bibliographic_data(node: ET.Element) -> Optional[Dict]:
 
         idnos = structured_info.findall(f"{TEI}idno")
         for idno in idnos:
-            print(idno.text)
             if "type" in idno.attrib:
                 if not "id" in data:
                     data[idno.attrib["type"].lower()] = idno.text
-                    print("set id type")
                     data["id"] = idno.text
             elif idno.text.startswith("doi:"):
                 data["doi"] = idno.text[4:].replace(" ", "")
-                print("set id doi")
                 data["id"] = data["doi"]
             elif idno.text.startswith("abs/"):
                 data["url"] = f'https://arxiv.org/{idno.text}'
-                print("set id abs")
                 data["id"] = idno.text
             else:
                 logging.warning(f"non standard id type {idno.text}")
                 if not "id" in data:
-                    print("set id non-type")
                     data["id"] = idno.text
+        if not "id" in data:
+            if "author" in data:
+                logging.warning(f"no IDNO {data['author']}")
+                data["id"] = f"noIDNO: {data['author']}"
+            else:
+                logging.warning("no IDNO")
+                data["id"] = "noIDNO"
+    else:
+        logging.warning("no Info")
+        data["id"] = "noInfo"
     return data
 
 

@@ -71,6 +71,8 @@ def test_extract_bibliographic_data():
         "scicopia/tests/data/grobid_error3.xml",
         "scicopia/tests/data/grobid_error4.xml",
         "scicopia/tests/data/grobid_error5.xml",
+        "scicopia/tests/data/grobid_error6.xml",
+        "scicopia/tests/data/grobid_error7.xml",
     ]
     for file in source:
         with open(file, encoding="utf-8") as filename:
@@ -100,11 +102,14 @@ def test_extract_bibliographic_data():
                     assert (
                         bib["url"] == "https://arxiv.org/abs/121518513"
                     )
-                if "id" in bib:
-                    assert (
-                        bib["id"] == "121518513"
-                        or bib["id"] == "abs/121518513"
-                    )
+                assert "id" in bib
+                assert (
+                    bib["id"] == "121518513"
+                    or bib["id"] == "abs/121518513"
+                    or bib["id"] == "noIDNO: ['Lorem Ipsum', 'Lörem Ipßüm']"
+                    or bib["id"] == "noIDNO"
+                    or bib["id"] == "noInfo"
+                )
                 if "date" in bib:
                     assert bib["date"] == "2020" or bib["date"] == "2020-02-02"
                 if "year" in bib:
