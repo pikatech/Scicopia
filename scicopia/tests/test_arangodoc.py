@@ -1,4 +1,4 @@
-from os.path import join
+import os
 import scicopia.arangodoc as arangodoc
 
 
@@ -30,7 +30,7 @@ def test_create_id():
     assert doc["id"] == "PMID12345"
 
 
-def test_zstd_open():  # TODO: make bibtex.bib.zst
+def test_zstd_open():
     filename = "scicopia/tests/data/bibtex.bib.zst"
     mode = "rt"
     encoding = "utf-8"
@@ -311,10 +311,10 @@ def test_locate_bibtex_nonrecursive():
     doc_format = "bibtex"
     recursive = False
     control = [
-        join(".", "scicopia", "tests", "data", "bibtex.bib"),
-        join(".", "scicopia", "tests", "data", "bibtex_error.bib"),
-        join(".", "scicopia", "tests", "data", "bibtex_error2.bib"),
-        join(".", "scicopia", "tests", "data", "bibtex_pdf.bib"),
+        f"{path}{os.path.sep}bibtex.bib",
+        f"{path}{os.path.sep}bibtex_error.bib",
+        f"{path}{os.path.sep}bibtex_error2.bib",
+        f"{path}{os.path.sep}bibtex_pdf.bib",
     ]
     control.sort()
     files = arangodoc.locate_files(path, doc_format, recursive, compression)
@@ -330,12 +330,12 @@ def test_locate_bibtex_recursive():
     doc_format = "bibtex"
     recursive = True
     control = [
-        join(".", "scicopia", "tests", "data", "bibtex.bib"),
-        join(".", "scicopia", "tests", "data", "bibtex_error.bib"),
-        join(".", "scicopia", "tests", "data", "bibtex_error2.bib"),
-        join(".", "scicopia", "tests", "data", "bibtex_pdf.bib"),
-        join(".", "scicopia", "tests", "data", "test", "r1.bib"),
-        join(".", "scicopia", "tests", "data", "test", "test", "r2.bib"),
+        f"{path}{os.path.sep}bibtex.bib",
+        f"{path}{os.path.sep}bibtex_error.bib",
+        f"{path}{os.path.sep}bibtex_error2.bib",
+        f"{path}{os.path.sep}bibtex_pdf.bib",
+        f"{path}{os.path.sep}test{os.path.sep}r1.bib",
+        f"{path}{os.path.sep}test{os.path.sep}test{os.path.sep}r2.bib",
     ]
     control.sort()
     files = arangodoc.locate_files(path, doc_format, recursive, compression)
@@ -350,14 +350,16 @@ def test_locate_arxiv_nonrecursive():
     doc_format = "arxiv"
     recursive = False
     control = [
-        join(".", "scicopia", "tests", "data", "arxiv.xml"),
-        join(".", "scicopia", "tests", "data", "grobid.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error2.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error3.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error4.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error5.xml"),
-        join(".", "scicopia", "tests", "data", "pubmed.xml"),
+        f"{path}{os.path.sep}arxiv.xml",
+        f"{path}{os.path.sep}grobid.xml",
+        f"{path}{os.path.sep}grobid_error.xml",
+        f"{path}{os.path.sep}grobid_error2.xml",
+        f"{path}{os.path.sep}grobid_error3.xml",
+        f"{path}{os.path.sep}grobid_error4.xml",
+        f"{path}{os.path.sep}grobid_error5.xml",
+        f"{path}{os.path.sep}grobid_error6.xml",
+        f"{path}{os.path.sep}grobid_error7.xml",
+        f"{path}{os.path.sep}pubmed.xml",
     ]
     control.sort()
     files = arangodoc.locate_files(path, doc_format, recursive, compression)
@@ -372,17 +374,19 @@ def test_locate_arxiv_recursive():
     doc_format = "arxiv"
     recursive = True
     control = [
-        join(".", "scicopia", "tests", "data", "arxiv.xml"),
-        join(".", "scicopia", "tests", "data", "grobid.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error2.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error3.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error4.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error5.xml"),
-        join(".", "scicopia", "tests", "data", "pubmed.xml"),
-        join(".", "scicopia", "tests", "data", "test", "grobid.xml"),
-        join(".", "scicopia", "tests", "data", "test", "r1.xml"),
-        join(".", "scicopia", "tests", "data", "test", "test", "r2.xml"),
+        f"{path}{os.path.sep}arxiv.xml",
+        f"{path}{os.path.sep}grobid.xml",
+        f"{path}{os.path.sep}grobid_error.xml",
+        f"{path}{os.path.sep}grobid_error2.xml",
+        f"{path}{os.path.sep}grobid_error3.xml",
+        f"{path}{os.path.sep}grobid_error4.xml",
+        f"{path}{os.path.sep}grobid_error5.xml",
+        f"{path}{os.path.sep}grobid_error6.xml",
+        f"{path}{os.path.sep}grobid_error7.xml",
+        f"{path}{os.path.sep}pubmed.xml",
+        f"{path}{os.path.sep}test{os.path.sep}grobid.xml",
+        f"{path}{os.path.sep}test{os.path.sep}r1.xml",
+        f"{path}{os.path.sep}test{os.path.sep}test{os.path.sep}r2.xml",
     ]
     control.sort()
     files = arangodoc.locate_files(path, doc_format, recursive, compression)
@@ -397,14 +401,16 @@ def test_locate_grobid_nonrecursive():
     doc_format = "grobid"
     recursive = False
     control = [
-        join(".", "scicopia", "tests", "data", "arxiv.xml"),
-        join(".", "scicopia", "tests", "data", "grobid.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error2.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error3.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error4.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error5.xml"),
-        join(".", "scicopia", "tests", "data", "pubmed.xml"),
+        f"{path}{os.path.sep}arxiv.xml",
+        f"{path}{os.path.sep}grobid.xml",
+        f"{path}{os.path.sep}grobid_error.xml",
+        f"{path}{os.path.sep}grobid_error2.xml",
+        f"{path}{os.path.sep}grobid_error3.xml",
+        f"{path}{os.path.sep}grobid_error4.xml",
+        f"{path}{os.path.sep}grobid_error5.xml",
+        f"{path}{os.path.sep}grobid_error6.xml",
+        f"{path}{os.path.sep}grobid_error7.xml",
+        f"{path}{os.path.sep}pubmed.xml",
     ]
     control.sort()
     files = arangodoc.locate_files(path, doc_format, recursive, compression)
@@ -419,17 +425,19 @@ def test_locate_grobid_recursive():
     doc_format = "grobid"
     recursive = True
     control = [
-        join(".", "scicopia", "tests", "data", "arxiv.xml"),
-        join(".", "scicopia", "tests", "data", "grobid.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error2.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error3.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error4.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error5.xml"),
-        join(".", "scicopia", "tests", "data", "pubmed.xml"),
-        join(".", "scicopia", "tests", "data", "test", "grobid.xml"),
-        join(".", "scicopia", "tests", "data", "test", "r1.xml"),
-        join(".", "scicopia", "tests", "data", "test", "test", "r2.xml"),
+        f"{path}{os.path.sep}arxiv.xml",
+        f"{path}{os.path.sep}grobid.xml",
+        f"{path}{os.path.sep}grobid_error.xml",
+        f"{path}{os.path.sep}grobid_error2.xml",
+        f"{path}{os.path.sep}grobid_error3.xml",
+        f"{path}{os.path.sep}grobid_error4.xml",
+        f"{path}{os.path.sep}grobid_error5.xml",
+        f"{path}{os.path.sep}grobid_error6.xml",
+        f"{path}{os.path.sep}grobid_error7.xml",
+        f"{path}{os.path.sep}pubmed.xml",
+        f"{path}{os.path.sep}test{os.path.sep}grobid.xml",
+        f"{path}{os.path.sep}test{os.path.sep}r1.xml",
+        f"{path}{os.path.sep}test{os.path.sep}test{os.path.sep}r2.xml",
     ]
     control.sort()
     files = arangodoc.locate_files(path, doc_format, recursive, compression)
@@ -444,14 +452,16 @@ def test_locate_pubmed_nonrecursive():
     doc_format = "pubmed"
     recursive = False
     control = [
-        join(".", "scicopia", "tests", "data", "arxiv.xml"),
-        join(".", "scicopia", "tests", "data", "grobid.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error2.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error3.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error4.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error5.xml"),
-        join(".", "scicopia", "tests", "data", "pubmed.xml"),
+        f"{path}{os.path.sep}arxiv.xml",
+        f"{path}{os.path.sep}grobid.xml",
+        f"{path}{os.path.sep}grobid_error.xml",
+        f"{path}{os.path.sep}grobid_error2.xml",
+        f"{path}{os.path.sep}grobid_error3.xml",
+        f"{path}{os.path.sep}grobid_error4.xml",
+        f"{path}{os.path.sep}grobid_error5.xml",
+        f"{path}{os.path.sep}grobid_error6.xml",
+        f"{path}{os.path.sep}grobid_error7.xml",
+        f"{path}{os.path.sep}pubmed.xml",
     ]
     control.sort()
     files = arangodoc.locate_files(path, doc_format, recursive, compression)
@@ -466,17 +476,19 @@ def test_locate_pubmed_recursive():
     doc_format = "pubmed"
     recursive = True
     control = [
-        join(".", "scicopia", "tests", "data", "arxiv.xml"),
-        join(".", "scicopia", "tests", "data", "grobid.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error2.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error3.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error4.xml"),
-        join(".", "scicopia", "tests", "data", "grobid_error5.xml"),
-        join(".", "scicopia", "tests", "data", "pubmed.xml"),
-        join(".", "scicopia", "tests", "data", "test", "grobid.xml"),
-        join(".", "scicopia", "tests", "data", "test", "r1.xml"),
-        join(".", "scicopia", "tests", "data", "test", "test", "r2.xml"),
+        f"{path}{os.path.sep}arxiv.xml",
+        f"{path}{os.path.sep}grobid.xml",
+        f"{path}{os.path.sep}grobid_error.xml",
+        f"{path}{os.path.sep}grobid_error2.xml",
+        f"{path}{os.path.sep}grobid_error3.xml",
+        f"{path}{os.path.sep}grobid_error4.xml",
+        f"{path}{os.path.sep}grobid_error5.xml",
+        f"{path}{os.path.sep}grobid_error6.xml",
+        f"{path}{os.path.sep}grobid_error7.xml",
+        f"{path}{os.path.sep}pubmed.xml",
+        f"{path}{os.path.sep}test{os.path.sep}grobid.xml",
+        f"{path}{os.path.sep}test{os.path.sep}r1.xml",
+        f"{path}{os.path.sep}test{os.path.sep}test{os.path.sep}r2.xml",
     ]
     control.sort()
     files = arangodoc.locate_files(path, doc_format, recursive, compression)
@@ -490,7 +502,7 @@ def test_locate_zstd_bibtex():
     recursive = False
     compression = "zstd"
     doc_format = "bibtex"
-    control = [join(".", "scicopia", "tests", "data", "bibtex.bib.zst")]
+    control = [f"{path}{os.path.sep}bibtex.bib.zst"]
     files = arangodoc.locate_files(path, doc_format, recursive, compression)
     assert files == control
 
@@ -501,7 +513,7 @@ def test_locate_gzip_bibtex():
     recursive = False
     compression = "gzip"
     doc_format = "bibtex"
-    control = [join(".", "scicopia", "tests", "data", "bibtex.bib.gz")]
+    control = [f"{path}{os.path.sep}bibtex.bib.gz"]
     files = arangodoc.locate_files(path, doc_format, recursive, compression)
     assert files == control
 
@@ -512,7 +524,7 @@ def test_locate_bzip2_bibtex():
     recursive = False
     compression = "bzip2"
     doc_format = "bibtex"
-    control = [join(".", "scicopia", "tests", "data", "bibtex.bib.bz2")]
+    control = [f"{path}{os.path.sep}bibtex.bib.bz2"]
     files = arangodoc.locate_files(path, doc_format, recursive, compression)
     assert files == control
 
