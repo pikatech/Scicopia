@@ -176,5 +176,7 @@ def parse(filename: TextIOWrapper) -> Dict[str, Union[str, List[str]]]:
         text = extract_text(root)
         if text:
             bib["fulltext"] = text
+            if re.compile("a.?b.?s.?t.?r.?a.?c.?t(.|\n)*\n\n",re.IGNORECASE).match(text):
+                bib["abstract"] = re.sub(re.compile("a.?b.?s.?t.?r.?a.?c.?t(\.|:| |\n)*",re.IGNORECASE),"", text)
 
         yield bib
