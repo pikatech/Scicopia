@@ -43,6 +43,9 @@ def total():
 def page(id):
     form = NameForm()
     pdf = PageButton()
+    ft = PageButton()
+    if not "fulltext" in session:
+        session["fulltext"] = False
     if form.validate_on_submit():
         session["query"] = form.name.data
         session["condition"] = analyze_input(session["query"])
@@ -58,13 +61,10 @@ def page(id):
         hit = results.hits[0]
         if 'abstract' in hit:
             hit.abstract = link(hit.abstract)
-        data = current_app.config["COLLECTION"][id]["pdf"]
-        if data:
-            pdfexists = True
-        else:
-            pdfexists = False
+        pdfexists = current_app.config["COLLECTION"][id]["pdf"]
+        fulltext = current_app.config["COLLECTION"][id]["fulltext"]
         return render_template(
-            "page.html", form=form, hit=hit, pdfexists=pdfexists, pdf=pdf
+            "page.html", form=form, hit=hit, pdfexists=pdfexists, pdf=pdf, fulltext=fulltext, showfulltext=session["showfulltext"], ft = ft
         )
 
 
@@ -90,6 +90,15 @@ def pdf(id):
     response.headers["Content-Type"] = "application/pdf"
     response.headers["Content-Disposition"] = f"inline; filename={id}.pdf"
     return response
+
+
+@main.route("/fulltext/<id>", methods=["GET", "POST"])
+def fulltext(id):
+    if session["showfulltext"]:
+        session["showfulltext"] = False
+    else:
+        session["showfulltext"] = True
+    return redirect(url_for("main.page", id = id))
 
 
 @main.route("/results", methods=["GET", "POST"])

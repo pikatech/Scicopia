@@ -141,6 +141,7 @@ def execute_query():
             tags.append(tag)
 
     g.hits = hits
+    session["showfulltext"] = False
     session["tags"] = tags
     session["time"] = str(response.took)
     session["total_hits"] = response.hits.total.value

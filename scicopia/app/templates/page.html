@@ -57,6 +57,7 @@
         {% else %}
           {% if "year" in hit %}<p><b>Year:</b> {{ hit.year }}</p>{% endif %}
         {% endif %}
+        {% if "auto_tags" in hit %}<p><b>Auto-Tags:</b><br>{{ hit.auto_tags|join(", ") }}</p>{% endif %}
       {% endif %}
     </div>
     <div id="navi">
@@ -65,6 +66,13 @@
                 {{ pdf.hidden_tag() }}
                 {{ pdf.button(value="pdf", id="pdf") }}
             </form>
+        {% endif %}
+        {% if fulltext %}
+            <form action="/fulltext/{{ hit.meta.id }}">
+                {{ ft.hidden_tag() }}
+                {% if showfulltext %}{{ ft.button(value="hide fulltext", id="fulltext") }}{% else %}{{ ft.button(value="show fulltext", id="fulltext") }}{% endif %}
+            </form>
+            {% if showfulltext%}<p><b>Fulltext:</b> {{ fulltext }}</p>{% endif %}
         {% endif %}
     </div>
    </div></div>
