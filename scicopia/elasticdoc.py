@@ -15,6 +15,7 @@ from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError
 from config import read_config
 from progress.bar import Bar
+logging.getLogger().setLevel(logging.INFO)
 
 config = read_config()
 
@@ -82,34 +83,44 @@ def main(timestamp: int):
     collection, db, collectionName, allowed = setup()
     Bibdoc.init()
     if timestamp != 0:
-        aql = f"FOR x IN {collectionName} FILTER x.modified_at > {timestamp} RETURN x._key"
+        aql = f"FOR x IN {collectionName} FILTER (x.elastic == null OR x.elastic < x.modified_at) AND x.modified_at > {timestamp} RETURN x._key"
     else:
-        aql = f"FOR x IN {collectionName} RETURN x._key"
+        aql = f"FOR x IN {collectionName} FILTER (x.elastic == null OR x.elastic < x.modified_at) RETURN x._key"
     BATCHSIZE = 100
     TTL = BATCHSIZE * 10 # Time-to-live
-    query = db.AQLQuery(aql, rawResults=True, batchSize=10, ttl=TTL)
-    bar = Bar("entries", max=collection.count())
-    for key in query:
-        doc = Bibdoc(meta={"id": key})
-        arangodoc = collection[key]
-        for field in allowed:
+    query = db.AQLQuery(aql, rawResults=True, batchSize=BATCHSIZE, ttl=TTL)
+    if query:
+        logging.info(f"{collection.count()} documents in collection found. Some may already have been transferred.")
+        # TODO: search for way to get number of documents to transfer (len(query) gives min(number, batchsize))
+        bar = Bar("entries", max=collection.count())
+        for key in query:
+            doc = Bibdoc(meta={"id": key})
+            arangodoc = collection[key]
             try:
-                if field == "abstract":
-                    abstract_arango = arangodoc[field]
-                    abstract_elastic = []
-                    if arangodoc["abstract_offsets"]:
-                        for start, end in arangodoc["abstract_offsets"]:
-                            abstract_elastic.append(abstract_arango[start:end])
-                            doc['abstract'] = abstract_elastic
+                for field in allowed:
+                    if field == "abstract":
+                        abstract_arango = arangodoc[field]
+                        abstract_elastic = []
+                        if abstract_arango:
+                            if arangodoc["abstract_offsets"]:
+                                for start, end in arangodoc["abstract_offsets"]:
+                                    abstract_elastic.append(abstract_arango[start:end])
+                                    doc['abstract'] = abstract_elastic
+                            else:
+                                logging.warning(f"No offset for saving abstract in {key}.")
                     else:
-                        logging.warning(f"No offset for saving abstract in {key}.")
-                else:
-                    doc[field] = arangodoc[field]
+                        arango = arangodoc[field]
+                        if arango:
+                            doc[field] = arango
+                arangodoc["elastic"] = round(datetime.now().timestamp())
+                arangodoc.save()
             except DocumentNotFoundError:
                 pass
-        doc.save()
-        bar.next()
-    bar.finish()
+            doc.save()
+            bar.next()
+        bar.finish()
+    else:
+        logging.info("Elasticsearch is up to date")
 
 
 if __name__ == "__main__":
