@@ -18,6 +18,7 @@ from contextlib import contextmanager
 from collections import deque
 from typing import Callable, Dict, Generator, List
 from progress.bar import Bar
+from datetime import datetime
 
 import bz2
 import gzip
@@ -87,7 +88,7 @@ def zstd_open(
 
 PARSE_DICT = {"bibtex": bib, "pubmed": pubmed, "arxiv": arxiv, "grobid": grobid}
 EXT_DICT = {"bibtex": ".bib", "pubmed": ".xml", "arxiv": ".xml", "grobid": ".xml"}
-ZIP_DICT = {"none": "", "gzip": ".gz", "bzip2": ".bz2", "zstd": ".zst"}
+ZIP_DICT = {"none": "", "gzip": ".gz", "bzip2": ".bz2", "zstd": ".zstd"}
 OPEN_DICT = {"none": open, "gzip": gzip.open, "bzip2": bz2.open, "zstd": zstd_open}
 
 
@@ -203,16 +204,17 @@ def import_file(
         docs = deque(maxlen=batch_size)
         for entry in parse(data):
             create_id(entry, doc_format)
+            doc_id = re.sub(NOT_VALID, "_", entry["id"])
+            # Make sure document keys are valid
             if update:
                 try:
-                    doc = collection[entry["id"]]
+                    doc = collection[doc_id]
                     doc.delete()
                 except DocumentNotFoundError:
                     pass
             doc = collection.createDocument()
-            doc_id = entry["id"]
-            # Make sure document keys are valid
-            doc._key = re.sub(NOT_VALID, "_", doc_id)
+            doc._key = doc_id
+            doc["modified_at"] = round(datetime.now().timestamp())
             for field in entry:
                 if field == "id":
                     continue
