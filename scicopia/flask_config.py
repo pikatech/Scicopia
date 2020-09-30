@@ -51,6 +51,9 @@ class Config:
         USERCOLLECTION = DB[USERCOLLECTIONNAME]
     else:
         logging.error(f"Usercollection {USERCOLLECTIONNAME} not found.")
+        
+    NODECOLLECTIONS = config["nodecollections"]
+    EDGECOLLECTIONS = config["edgecollections"]
 
     FIELDS = config["fields"]
 
@@ -61,14 +64,17 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    TESTING = True
 
 
 class TestingConfig(Config):
+    DEBUG = False
     TESTING = True
 
 
 class ProductionConfig(Config):
-    pass
+    DEBUG = False
+    TESTING = False
 
 
 config = {
