@@ -20,7 +20,6 @@
 {% block page_content %}
   <div class="container">
    <div class="row justify-content-md-center"><div class="col-12 col-md-10 col-lg-8">
-    <div id="resultLogo"><img height="105" width="400" src="../static/images/logo.svg" alt="Scicopia - search Science" onError="this.onerror=null;this.src='../static/images/fallback/logo400.png';"></div>
     <div class="searchArea">
       <form method="POST" id="search">
         {{ form.hidden_tag() }}
@@ -33,7 +32,7 @@
     <div id="searchPanelDescription">
       <p>Need help? Click here!</p>
     </div>
-    <div id="ausgabe">
+    <div id="ausgabe" style="height: 75vh; overflow: auto">
       {% if hit.entrytype == "inproceedings" %}
         <p>
         {% if "title" in hit %}<h6>{{ hit.title }}</h6>{% endif %}
@@ -59,21 +58,19 @@
         {% endif %}
         {% if "auto_tags" in hit %}<p><b>Auto-Tags:</b><br>{{ hit.auto_tags|join(", ") }}</p>{% endif %}
       {% endif %}
-    </div>
-    <div id="navi">
-        {% if pdfexists %}
-            <form action="/pdf/{{ hit.meta.id }}" method="post" target="_blank">
-                {{ pdf.hidden_tag() }}
-                {{ pdf.button(value="pdf", id="pdf") }}
-            </form>
-        {% endif %}
-        {% if fulltext %}
-            <form action="/fulltext/{{ hit.meta.id }}">
-                {{ ft.hidden_tag() }}
-                {% if showfulltext %}{{ ft.button(value="hide fulltext", id="fulltext") }}{% else %}{{ ft.button(value="show fulltext", id="fulltext") }}{% endif %}
-            </form>
-            {% if showfulltext%}<p><b>Fulltext:</b> {{ fulltext }}</p>{% endif %}
-        {% endif %}
+      {% if pdfexists %}
+          <form action="/pdf/{{ hit.meta.id }}" method="post" target="_blank">
+              {{ pdf.hidden_tag() }}
+              {{ pdf.button(value="pdf", id="pdf") }}
+          </form>
+      {% endif %}
+      {% if fulltext %}
+          <form action="/fulltext/{{ hit.meta.id }}">
+              {{ ft.hidden_tag() }}
+              {% if showfulltext %}{{ ft.button(value="hide fulltext", id="fulltext") }}{% else %}{{ ft.button(value="show fulltext", id="fulltext") }}{% endif %}
+          </form>
+          {% if showfulltext%}<p><b>Fulltext:</b> {{ fulltext }}</p>{% endif %}
+      {% endif %}
     </div>
    </div></div>
   </div>

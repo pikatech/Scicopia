@@ -13,7 +13,6 @@
 {% block page_content %}
   <div class="container">
    <div class="row justify-content-md-center"><div class="col-12 col-md-10 col-lg-8">
-    <div id="resultLogo"><img height="105" width="400" src="static/images/logo.svg" alt="Scicopia - search Science" onError="this.onerror=null;this.src='static/images/fallback/logo400.png';"></div>
     <div class="searchArea">
       <form method="POST" id="search">
         {{ form.hidden_tag() }}
@@ -32,7 +31,7 @@
     </div>
     {% if query %}
       {% if hits %}
-        <div id="results" class="list-group">
+        <div id="results" class="list-group" style="height: 65vh; overflow: auto">
           <dd class="mb-0" start="{{ _from + 1 }}">
           {% for hit in hits %}
             <li class="hit list-group-item border-0"><a href="/page/{{ hit.id }}"><h6>{{ hit.title }}</h6></a>
