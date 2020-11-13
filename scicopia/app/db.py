@@ -47,6 +47,7 @@ def checkFields(condition, fields):
                         flash(f"Field '{field}' not found do you mean '{tag}'?")
                         cond[tag] = cond.pop(field)
                         found = True
+                        break
                 if not found:
                     flash(f"Field '{field}' not found. Field restriction removed.")
                     cond["query"] = cond.pop(field)
@@ -65,13 +66,19 @@ def newsearch():
     for condition in session["condition"]["must"]:
         for typ, cond in condition.items(): # one pass
             for field, value in cond.items(): # one pass
-                query.append(f"{field}: '{value}'")
+                if field == "auto_tags":
+                    query.append(f"{field}: '{value[0]}'")
+                else:
+                    query.append(f"{field}: '{value}'")
                 break
             break
     for condition in session["condition"]["must_not"]:
         for typ, cond in condition.items(): # one pass
             for field, value in cond.items(): # one pass
-                query.append(f"-{field}: '{value}'")
+                if field == "auto_tags":
+                    query.append(f"-{field}: '{value[0]}'")
+                else:
+                    query.append(f"-{field}: '{value}'")
                 break
             break
     session["query"] = " ".join(query)
@@ -98,7 +105,7 @@ def execute_query():
             else:
                 break
         restrictions.append(Q(restriction))
-    #newsearch()
+    newsearch()
     prepared_search = current_app.config["SEARCH"].sort({"year": {"order": "desc"}})
     # TODO: add possibility for asc order
     prepared_search = prepared_search.query(Q({"bool": {"must": conditions}}))
