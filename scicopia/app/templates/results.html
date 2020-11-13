@@ -22,12 +22,12 @@
       </form>
       <img src="static/images/help.svg" id="helpIcon" alt="Need help? Click here!">
     </div>
-      <div id="hitstats">
-        <span class="d-none d-sm-flex">Search order:</span>
-        {{ sort_form.hidden_tag() }}{{ sort_form.order(id="sortForm") }}
-        <span>Total hits: {{ total_hits }}</span><span class="rubber"></span>
-        <span class="d-flex d-sm-none">Took: {{ time }} ms</span>
-        <span class="d-none d-sm-flex">Search took: {{ time }} ms</span>
+    <div id="hitstats">
+      <span class="d-none d-sm-flex">Search order:</span>
+      {{ sort_form.hidden_tag() }}{{ sort_form.order(id="sortForm") }}
+      <span>Total hits: {{ total_hits }}</span><span class="rubber"></span>
+      <span class="d-flex d-sm-none">Took: {{ time }} ms</span>
+      <span class="d-none d-sm-flex">Search took: {{ time }} ms</span>
     </div>
     {% if query %}
       {% if hits %}
@@ -41,40 +41,38 @@
           {% endfor %}
           </dd>
         </div>
-        <div id="tags" class="row">
-          <div class="col col-12">
-          {% for tag in tags %}
-            <a class="btn btn-outline-primary" href="/tags/{{ tag.name }}" style='color: {% if tag.mark %}red{% else %}black{% endif %}'> {{ tag.name }} ({{ tag.nr }})</a>
-          {% endfor %}
-          </div>
-        </div>
       {% else %}
         <p>Search returned no results.</p>
       {% endif %}
     {% endif %}
-  {% if hits %}
-    <div id=nav>
-      <form action="/backwards" method="post">
-        {{ backwards.hidden_tag() }}
-        {% if _from == 0 %}
-          {{ backwards.button(value="<", id="backwards", disabled=True) }}
-        {% else %}
-          {{ backwards.button(value="<", id="backwards") }}
-        {% endif %}
-      </form>
-      <p class="rubber"></p>
-      <p>{{ _from + 1}} - {% if _to >= total_hits %}{{ total_hits }}{% else %}{{ _to }}{% endif %}</p>
-      <p class="rubber"></p>
-      <form action="/forwards" method="post">
-        {{ forwards.hidden_tag() }}
-        {% if _to >= total_hits %}
-          {{ forwards.button(value=">", id="forwards", disabled=True) }}
-        {% else %}
-          {{ forwards.button(value=">", id="forwards") }}
-        {% endif %}
-      </form>
-    </div>
-  {% endif %}
+    {% if hits %}
+      <div id=nav>
+        <form action="/backwards" method="post">
+          {{ backwards.hidden_tag() }}
+          {% if _from == 0 %}
+            {{ backwards.button(value="<", id="backwards", disabled=True) }}
+          {% else %}
+            {{ backwards.button(value="<", id="backwards") }}
+          {% endif %}
+        </form>
+        <p class="rubber"></p>
+        <p>{{ _from + 1}} - {% if _to >= total_hits %}{{ total_hits }}{% else %}{{ _to }}{% endif %}</p>
+        <p class="rubber"></p>
+        <form action="/forwards" method="post">
+          {{ forwards.hidden_tag() }}
+          {% if _to >= total_hits %}
+            {{ forwards.button(value=">", id="forwards", disabled=True) }}
+          {% else %}
+            {{ forwards.button(value=">", id="forwards") }}
+          {% endif %}
+        </form>
+      </div>
+    {% endif %}
+   </div>
+   <div id="tags" class="col-4 col-md-3 col-lg-2", style="margin-top: 3.125em; height: 65vh; overflow: auto">
+     {% for tag in tags %}
+       <a class="btn btn-outline-primary" href="/tags/{{ tag.name }}" style='color: {% if tag.mark %}red{% else %}black{% endif %}'> {{ tag.name }} ({{ tag.nr }})</a>
+     {% endfor %}
    </div></div>
   </div>
 {% endblock %}
