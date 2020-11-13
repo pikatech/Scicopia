@@ -15,7 +15,7 @@ from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError
 from config import read_config
 from progress.bar import Bar
-logging.getLogger().setLevel(logging.INFO)
+# logging.getLogger().setLevel(logging.INFO)
 
 config = read_config()
 
@@ -89,38 +89,41 @@ def main(timestamp: int):
     BATCHSIZE = 100
     TTL = BATCHSIZE * 10 # Time-to-live
     query = db.AQLQuery(aql, rawResults=True, batchSize=BATCHSIZE, ttl=TTL)
-    if query:
-        logging.info(f"{collection.count()} documents in collection found. Some may already have been transferred.")
-        # TODO: search for way to get number of documents to transfer (len(query) gives min(number, batchsize))
-        bar = Bar("entries", max=collection.count())
-        for key in query:
-            doc = Bibdoc(meta={"id": key})
-            arangodoc = collection[key]
-            try:
-                for field in allowed:
-                    if field == "abstract":
-                        abstract_arango = arangodoc[field]
-                        abstract_elastic = []
-                        if abstract_arango:
-                            if arangodoc["abstract_offsets"]:
-                                for start, end in arangodoc["abstract_offsets"]:
-                                    abstract_elastic.append(abstract_arango[start:end])
-                                    doc['abstract'] = abstract_elastic
-                            else:
-                                logging.warning(f"No offset for saving abstract in {key}.")
-                    else:
-                        arango = arangodoc[field]
-                        if arango:
-                            doc[field] = arango
-                arangodoc["elastic"] = round(datetime.now().timestamp())
-                arangodoc.save()
-            except DocumentNotFoundError:
-                pass
-            doc.save()
-            bar.next()
-        bar.finish()
-    else:
+    unfinished = (
+        query.response["extra"]["stats"]["scannedFull"]
+        - query.response["extra"]["stats"]["filtered"]
+    )
+    if unfinished == 0:
         logging.info("Elasticsearch is up to date")
+        return
+    logging.info(f"{unfinished} documents in found.")
+    bar = Bar("entries", max=unfinished)
+    for key in query:
+        doc = Bibdoc(meta={"id": key})
+        arangodoc = collection[key]
+        try:
+            for field in allowed:
+                if field == "abstract":
+                    abstract_arango = arangodoc[field]
+                    abstract_elastic = []
+                    if abstract_arango:
+                        if arangodoc["abstract_offsets"]:
+                            for start, end in arangodoc["abstract_offsets"]:
+                                abstract_elastic.append(abstract_arango[start:end])
+                                doc['abstract'] = abstract_elastic
+                        else:
+                            logging.warning(f"No offset for saving abstract in {key}.")
+                else:
+                    arango = arangodoc[field]
+                    if arango:
+                        doc[field] = arango
+            arangodoc["elastic"] = round(datetime.now().timestamp())
+            arangodoc.save()
+        except DocumentNotFoundError:
+            pass
+        doc.save()
+        bar.next()
+    bar.finish()
 
 
 if __name__ == "__main__":
