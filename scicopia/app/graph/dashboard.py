@@ -37,7 +37,7 @@ def create_dashboard(server):
             html.Div(
                 className = "ten columns",
                 style={"maxWidth": "50vw"},
-                children=[dcc.Graph(id="my-graph", figure=network_graph(nodedict, edges, legende))],
+                children=[dcc.Graph(id="my-graph", figure=network_graph(nodedict, edges, legende, "mark"))],
             ),
             get_checklist(legende),
             get_dropdown(legende),
@@ -62,6 +62,15 @@ def create_dashboard(server):
                         ],
                         value=[]
                     ),
+                    dcc.RadioItems(
+                        id="mode",
+                        options=[
+                            {'label': 'Mark', 'value': 'mark'},
+                            {'label': 'Path', 'value': 'path'},
+                            {'label': 'Neighbor', 'value': 'neighbor'}
+                        ],
+                        value="neighbor"
+                    ),
                 ],
             ),
             
@@ -82,13 +91,13 @@ def create_dashboard(server):
 def init_callbacks(app, nodedict, edges, legende):
     @app.callback(
         [Output('my-graph', 'figure'), Output('dropdown-container', 'children'), Output('previously-selected', 'children'), Output('previously-selected3', 'children')],
-        [Input('input', 'value'), Input('drop', 'value'),Input('check', 'value'), Input('namelist', 'value')],
+        [Input('input', 'value'), Input('drop', 'value'),Input('check', 'value'), Input('namelist', 'value'), Input('mode', 'value')],
         [State('previously-selected', 'children'), State('previously-selected2', 'children'), State('previously-selected3', 'children')]
     )
-    def update_graph(input, drop, check, value, prev_selected, prev_selected2, prev_selected3):
+    def update_graph(input, drop, check, value, mode, prev_selected, prev_selected2, prev_selected3):
         if sorted(value) == sorted(prev_selected) and sorted(prev_selected) != sorted(prev_selected2) and (input, drop, check) == prev_selected3:
-            raise PreventUpdate#return network_graph(nodedict, edges, legende, search = input, drop = drop, check = check, sonder = prev_selected2), get_dropdown(legende, value=prev_selected2), prev_selected2
-        return network_graph(nodedict, edges, legende, search = input, drop = drop, check = check, sonder = value), get_dropdown(legende, value=value), value, (input, drop, check)
+            raise PreventUpdate
+        return network_graph(nodedict, edges, legende, mode, search = input, drop = drop, check = check, marked = value), get_dropdown(legende, value=value), value, (input, drop, check)
         
     @app.callback(
         Output('namelist', 'value'),
@@ -182,7 +191,7 @@ def color(nodetype):
         return '#008888'
     return '#000000'
 
-def network_graph(nodedict, alledges, legende, search = "", drop = [], sonder = [], check = []):
+def network_graph(nodedict, alledges, legende, mode, search = "", drop = [], marked = [], check = []):
     # add nodes from nodedict dependent of check
     nodes = []
     for type, node in nodedict.items():
@@ -199,11 +208,62 @@ def network_graph(nodedict, alledges, legende, search = "", drop = [], sonder = 
     # add edges to graph  
     G.add_edges_from(edges)
 
+    if mode == "neighbor":
+    # reduce graph to neighborhood of last entry of marked
+        if len(marked) >= 1:
+            try:
+                neighbors = {n for n in G.neighbors(marked[-1])}
+                for n in neighbors:
+                    nneighbors = {n for n in G.neighbors(n)}
+                    neighbors = neighbors.union(nneighbors)
+                neighbors.add(marked[-1]) # possibility of no neighbors
+                # TODO: reduction of graph aka make new graph
+                nodes = [(node, G.nodes[node]) for node in neighbors]
+                G.clear()
+                G.add_nodes_from(nodes)
+                edges = [edge for edge in alledges if edge[0] in G.nodes and edge[1] in G.nodes]
+                G.add_edges_from(edges)
+            except:
+                pass
+
     # calculate position with layoutfunction
     # recommended to choose kamada_kawai_layout or spring_layout
     pos = nx.layout.kamada_kawai_layout(G)
     for node in G.nodes:
         G.nodes[node]['pos'] = list(pos[node])
+
+
+    path_node_trace = go.Scatter(x=[], y=[])
+    path_edge_trace = go.Scatter(x=[], y=[])
+    if mode == "path":
+    # calculate path between last 2 entrys of marked
+        if len(marked) >= 2:
+            try:
+                path = nx.shortest_path(G, source=marked[-2], target=marked[-1])
+                path_node_x = []
+                path_node_y = []
+                for node in path:
+                    x, y = G.nodes[node]['pos']
+                    path_node_x.append(x)
+                    path_node_y.append(y)
+        
+                path_node_trace = go.Scatter(
+                    x=path_node_x, y=path_node_y,
+                    mode='markers',
+                    hoverinfo='text',
+                    marker=dict(
+                        color='#808',
+                        size=12,
+                        line_width=1)
+                )
+                path_edge_trace = go.Scatter(
+                    x=path_node_x, y=path_node_y,
+                    line=dict(width=1, color='#808'),
+                    hoverinfo='text',
+                    mode='lines'
+                )
+            except:
+                pass
 
     # drawing graph
     # Create Edges
@@ -292,16 +352,16 @@ def network_graph(nodedict, alledges, legende, search = "", drop = [], sonder = 
     else:
         search_trace = go.Scatter(x=[], y=[])
 
-    if sonder:
-        sonder_x = []
-        sonder_y = []
-        for value in sonder:
+    if marked:
+        marked_x = []
+        marked_y = []
+        for value in marked:
             if value in G.nodes().keys():
                 x, y = G.nodes[value]["pos"]
-                sonder_x.append(x)
-                sonder_y.append(y)
-        sonder_trace = go.Scatter(
-            x=sonder_x, y=sonder_y,
+                marked_x.append(x)
+                marked_y.append(y)
+        marked_trace = go.Scatter(
+            x=marked_x, y=marked_y,
             mode='markers',
             hoverinfo='text',
             marker=dict(
@@ -310,14 +370,14 @@ def network_graph(nodedict, alledges, legende, search = "", drop = [], sonder = 
                 line_width=1)
         )
     else:
-        sonder_trace = go.Scatter(x=[], y=[])
+        marked_trace = go.Scatter(x=[], y=[])
 
     node_trace.text = node_text
     middle_trace.text = edge_text
 
     # Create Network Graph
 
-    fig = go.Figure(data=[edge_trace, node_trace, middle_trace, sonder_trace, search_trace],
+    fig = go.Figure(data=[edge_trace, node_trace, middle_trace, marked_trace, path_node_trace, path_edge_trace, search_trace],
                 layout=go.Layout(
                     showlegend=False,
                     hovermode='closest',
