@@ -89,22 +89,25 @@ def create_dashboard(server):
     return dash_app.server
 
 def init_callbacks(app, nodedict, edges, legende):
+    # no solution to update namecheck in neighbormode
     @app.callback(
         [Output('my-graph', 'figure'), Output('dropdown-container', 'children'), Output('previously-selected', 'children'), Output('previously-selected3', 'children')],
-        [Input('input', 'value'), Input('drop', 'value'),Input('check', 'value'), Input('namelist', 'value'), Input('mode', 'value')],
+        [Input('input', 'value'), Input('drop', 'value'), Input('check', 'value'), Input('namecheck', 'value'), Input('mode', 'value')],
         [State('previously-selected', 'children'), State('previously-selected2', 'children'), State('previously-selected3', 'children')]
     )
     def update_graph(input, drop, check, value, mode, prev_selected, prev_selected2, prev_selected3):
+        if mode == 'neighbor' and len(value) > 1:
+            value = [value[-1]]
         if sorted(value) == sorted(prev_selected) and sorted(prev_selected) != sorted(prev_selected2) and (input, drop, check) == prev_selected3:
             raise PreventUpdate
         return network_graph(nodedict, edges, legende, mode, search = input, drop = drop, check = check, marked = value), get_dropdown(legende, value=value), value, (input, drop, check)
         
     @app.callback(
-        Output('namelist', 'value'),
+        Output('namecheck', 'value'),
         [Input('namedrop', 'value')],
         [State('previously-selected', 'children'), State('previously-selected2', 'children')]
     )
-    def display_namelist(value, prev_selected, prev_selected2):
+    def display_namecheck(value, prev_selected, prev_selected2):
         if sorted(value) == sorted(prev_selected) and sorted(prev_selected) != sorted(prev_selected2):
             raise PreventUpdate
         return value
@@ -147,7 +150,7 @@ def get_checklist(legende, value=None):
                 style={"maxHeight": "400px", "maxWidth": "200px", "overflow": "auto"},
                 children=[
                     dcc.Checklist(
-                        id='namelist',
+                        id='namecheck',
                         options=[{'label': legende[i]['name'], 'value': legende[i]['id']} for i in legende],
                         value = value
                     )
@@ -217,7 +220,6 @@ def network_graph(nodedict, alledges, legende, mode, search = "", drop = [], mar
                     nneighbors = {n for n in G.neighbors(n)}
                     neighbors = neighbors.union(nneighbors)
                 neighbors.add(marked[-1]) # possibility of no neighbors
-                # TODO: reduction of graph aka make new graph
                 nodes = [(node, G.nodes[node]) for node in neighbors]
                 G.clear()
                 G.add_nodes_from(nodes)
