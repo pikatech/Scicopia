@@ -16,10 +16,10 @@ def create_dashboard(server):
     )
 
     nodes = []
+    nodedict = defaultdict(list)
     for collection in current_app.config["NODECOLLECTIONS"]:
         AQL = f"FOR x in {collection} RETURN [x.type, [x._id, x]]"
         nodes += current_app.config["DB"].AQLQuery(AQL, rawResults=True, batchSize=1000, ttl=3600)
-        nodedict = defaultdict(list)
         for entry in nodes:
             nodedict[entry[0]].append(entry[1])
 
