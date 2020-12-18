@@ -12,42 +12,46 @@ from collections import defaultdict
 def create_dashboard(server):
     dash_app = dash.Dash(
         server=server,
-        external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+        routes_pathname_prefix='/dash/'
     )
 
     nodes = []
-    for collection in current_app.config["NODECOLLECTIONS"]:
-        AQL = f"FOR x in {collection} RETURN [x.type, [x._id, x]]"
-        nodes += current_app.config["DB"].AQLQuery(AQL, rawResults=True, batchSize=1000, ttl=3600)
-        nodedict = defaultdict(list)
+    nodedict = defaultdict(list)
+    for collection in current_app.config['NODECOLLECTIONS']:
+        AQL = f'FOR x in {collection} RETURN [x.type, [x._id, x]]'
+        nodes += current_app.config['DB'].AQLQuery(AQL, rawResults=True, batchSize=1000, ttl=3600)
         for entry in nodes:
             nodedict[entry[0]].append(entry[1])
 
     edges = []
-    for collection in current_app.config["EDGECOLLECTIONS"]:
-        AQL = f"FOR x in {collection} RETURN [x._from, x._to, x]"
-        edges += current_app.config["DB"].AQLQuery(AQL, rawResults=True, batchSize=1000, ttl=3600)
+    for collection in current_app.config['EDGECOLLECTIONS']:
+        AQL = f'FOR x in {collection} RETURN [x._from, x._to, x]'
+        edges += current_app.config['DB'].AQLQuery(AQL, rawResults=True, batchSize=1000, ttl=3600)
 
     legende = {}
                          
     # Create Dash Layout
     dash_app.layout = html.Div(
-        className = "row",
         children=[
             html.Div(
-                className = "ten columns",
-                style={"maxWidth": "50vw"},
-                children=[dcc.Graph(id="my-graph", figure=network_graph(nodedict, edges, legende, "mark"))],
+                className = 'six columns',
+                children=[dcc.Graph(id='my-graph', figure=network_graph(nodedict, edges, legende, 'mark'), style={'height':'100%'})],
             ),
-            get_checklist(legende),
-            get_dropdown(legende),
             html.Div(
-                className="two columns",
+                className='two columns',
+                children=[get_checklist(legende)]
+            ),
+            html.Div(
+                className='two columns',
+                children=[get_dropdown(legende)]
+            ),
+            html.Div(
+                className='two columns',
+                
                 children=[
-                    dcc.Input(id="input", type="text", placeholder="search"),
-                    html.Div(id="output"),
+                    dcc.Input(id='input', type='search', placeholder='search', style={'minWidth':'100%', 'maxWidth':'100%'}),
                     dcc.Dropdown(
-                        id="drop",
+                        id='drop',
                         options=[
                             {'label': 'Type', 'value': 'type'},
                             {'label': 'Name', 'value': 'name'},
@@ -63,13 +67,13 @@ def create_dashboard(server):
                         value=[]
                     ),
                     dcc.RadioItems(
-                        id="mode",
+                        id='mode',
                         options=[
                             {'label': 'Mark', 'value': 'mark'},
                             {'label': 'Path', 'value': 'path'},
                             {'label': 'Neighbor', 'value': 'neighbor'}
                         ],
-                        value="neighbor"
+                        value='neighbor'
                     ),
                 ],
             ),
@@ -82,7 +86,7 @@ def create_dashboard(server):
     
     init_callbacks(dash_app, nodedict, edges, legende)
     
-    @server.route("/dash")
+    @server.route('/graph')
     def graph():
         return render_template('layout.html', footer=dash_app.index())
 
@@ -120,7 +124,7 @@ def init_callbacks(app, nodedict, edges, legende):
     def display_click_data(clickData, prev_selected):
         if clickData and 'text' in clickData['points'][0]:
             text = clickData['points'][0]['text']
-            text = text[4:text.index("<br>")]
+            text = text[4:text.index('<br>')]
             if text in legende:
                 id = legende[text]['id']
                 if id in prev_selected:
@@ -132,10 +136,10 @@ def init_callbacks(app, nodedict, edges, legende):
 def get_dropdown(legende, value=None):
     value = [] if value is None else value
     return html.Div(
-                style={"minHeight": "400px","maxHeight": "400px", "maxWidth": "200px", "minWidth": "200px", "overflow": "auto"},
+                style={'minHeight': '50vh', 'maxHeight': 'calc(100vh - 150px)', 'overflow': 'auto'},
                 children=[
                     dcc.Dropdown(
-                        id="namedrop",
+                        id='namedrop',
                         options=[{'label': legende[i]['name'], 'value': legende[i]['id']} for i in legende],
                         value = value,
                         multi=True
@@ -147,7 +151,7 @@ def get_dropdown(legende, value=None):
 def get_checklist(legende, value=None):
     value = [] if value is None else value
     return html.Div(
-                style={"maxHeight": "400px", "maxWidth": "200px", "overflow": "auto"},
+                style={'maxHeight': 'calc(100vh - 150px)', 'overflow': 'auto'},
                 children=[
                     dcc.Checklist(
                         id='namecheck',
@@ -161,40 +165,48 @@ def get_checklist(legende, value=None):
 def info(datadict):
     text = []
     for key, data in datadict.items():
-        if key == "_rev":
+        if key == '_rev':
             continue
-        if key == "_id":
+        if key == '_id':
             continue
-        if key == "pos":
+        if key == 'pos':
             continue
-        if key == "_key":
-            if not "_from" in datadict:
-                text.append(f"id: {data}")
+        if key == '_key':
+            if not '_from' in datadict:
+                text.append(f'id: {data}')
             continue
-        if key == "_from":
-            text.append(f"from: {data[data.index('/')+1:]}")
+        if key == '_from':
+            text.append(f'from: {data[data.index("/")+1:]}')
             continue
-        if key == "_to":
-            text.append(f"to: {data[data.index('/')+1:]}")
+        if key == '_to':
+            text.append(f'to: {data[data.index("/")+1:]}')
             continue
-        text.append(f"{key}: {data}")
-    text = "<br>".join(text)
+        text.append(f'{key}: {data}')
+    text = '<br>'.join(text)
     return text
 
-def color(nodetype): 
+def color(colortype): 
     # rules for the node color
-    # example, dependend on type
-    if nodetype == "root":
-        return '#000088'
-    if nodetype == "continent":
-        return '#000080'
-    if nodetype == "country":
-        return '#888800'
-    if nodetype == "capital":
-        return '#008888'
+    if colortype =='search':
+        return '#D55E00'
+    if colortype =='marked':
+        return '#56B4E9'
+    if colortype =='path':
+        return '#CC79A7'
+    if colortype =='edge':
+        return '#E69F00'
+    # example, depending on the nodetype
+    if colortype == 'root':
+        return '#221100'
+    if colortype == 'continent':
+        return '#442200'
+    if colortype == 'country':
+        return '#664400'
+    if colortype == 'capital':
+        return '#886600'
     return '#000000'
 
-def network_graph(nodedict, alledges, legende, mode, search = "", drop = [], marked = [], check = []):
+def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], marked = [], check = []):
     # add nodes from nodedict dependent of check
     nodes = []
     for type, node in nodedict.items():
@@ -211,7 +223,7 @@ def network_graph(nodedict, alledges, legende, mode, search = "", drop = [], mar
     # add edges to graph  
     G.add_edges_from(edges)
 
-    if mode == "neighbor":
+    if mode == 'neighbor':
     # reduce graph to neighborhood of last entry of marked
         if len(marked) >= 1:
             try:
@@ -237,7 +249,7 @@ def network_graph(nodedict, alledges, legende, mode, search = "", drop = [], mar
 
     path_node_trace = go.Scatter(x=[], y=[])
     path_edge_trace = go.Scatter(x=[], y=[])
-    if mode == "path":
+    if mode == 'path':
     # calculate path between last 2 entrys of marked
         if len(marked) >= 2:
             try:
@@ -254,13 +266,13 @@ def network_graph(nodedict, alledges, legende, mode, search = "", drop = [], mar
                     mode='markers',
                     hoverinfo='text',
                     marker=dict(
-                        color='#808',
+                        color=color('path'),
                         size=12,
                         line_width=1)
                 )
                 path_edge_trace = go.Scatter(
                     x=path_node_x, y=path_node_y,
-                    line=dict(width=1, color='#808'),
+                    line=dict(width=1, color=color('path')),
                     hoverinfo='text',
                     mode='lines'
                 )
@@ -290,7 +302,7 @@ def network_graph(nodedict, alledges, legende, mode, search = "", drop = [], mar
 
     edge_trace = go.Scatter(
         x=edge_x, y=edge_y,
-        line=dict(width=1, color='#080'),
+        line=dict(width=1, color=color('edge')),
         hoverinfo='text',
         mode='lines')
 
@@ -299,7 +311,7 @@ def network_graph(nodedict, alledges, legende, mode, search = "", drop = [], mar
         mode='markers',
         hoverinfo='text',
         marker=dict(
-            color='#080',
+            color=color('edge'),
             size=1,
             line_width=1)
     )
@@ -322,8 +334,8 @@ def network_graph(nodedict, alledges, legende, mode, search = "", drop = [], mar
         if search:
             if drop:
                 for att in drop:
-                    if att == "_id":
-                        search = search.replace(" ", "_")
+                    if att == '_id':
+                        search = search.replace(' ', '_')
                     if search.lower() in node[att].lower():
                         search_x.append(x)
                         search_y.append(y)
@@ -347,7 +359,7 @@ def network_graph(nodedict, alledges, legende, mode, search = "", drop = [], mar
             mode='markers',
             hoverinfo='text',
             marker=dict(
-                color='#800',
+                color=color('search'),
                 size=12,
                 line_width=1)
         )
@@ -359,7 +371,7 @@ def network_graph(nodedict, alledges, legende, mode, search = "", drop = [], mar
         marked_y = []
         for value in marked:
             if value in G.nodes().keys():
-                x, y = G.nodes[value]["pos"]
+                x, y = G.nodes[value]['pos']
                 marked_x.append(x)
                 marked_y.append(y)
         marked_trace = go.Scatter(
@@ -367,7 +379,7 @@ def network_graph(nodedict, alledges, legende, mode, search = "", drop = [], mar
             mode='markers',
             hoverinfo='text',
             marker=dict(
-                color='#080',
+                color=color('marked'),
                 size=15,
                 line_width=1)
         )
