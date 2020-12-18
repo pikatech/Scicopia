@@ -4,10 +4,10 @@
   {{ super() }}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link type="text/css" rel="stylesheet" href="static/css/base.css">
-  <link type="text/css" rel="stylesheet" href="static/css/search.css">
-  <link rel="stylesheet" href="static/css/index.css">
-  <script src="static/js/queries.js" type="text/javascript" defer></script>
+  <link type="text/css" rel="stylesheet" href="/static/css/base.css">
+  <link type="text/css" rel="stylesheet" href="/static/css/search.css">
+  <link rel="stylesheet" href="/static/css/index.css">
+  <script src="/static/js/queries.js" type="text/javascript" defer></script>
 {% endblock %}
 
 {% block page_content %}
@@ -20,7 +20,7 @@
         {{ form.name(id="queryInputField", placeholder="reinforcement learning author:Schulman", autofocus=True) }}
         {{ form.submit(value="") }}
       </form>
-      <img src="static/images/help.svg" id="helpIcon" alt="Need help? Click here!">
+      <a href="{{ url_for('main.help') }}"><img src="/static/images/help.svg" id="helpIcon" alt="Need help? Click here!"></a>
     </div>
     <div id="hitstats">
       <span class="d-none d-sm-flex">Search order:</span>
@@ -31,10 +31,10 @@
     </div>
     {% if query %}
       {% if hits %}
-        <div id="results" class="list-group" style="height: 65vh; overflow: auto">
+        <div id="results" class="list-group" style="height: calc(100vh - 263px); overflow: auto">
           <dd class="mb-0" start="{{ _from + 1 }}">
           {% for hit in hits %}
-            <li class="hit list-group-item border-0"><a href="/page/{{ hit.id }}"><h6>{{ hit.title }}</h6></a>
+            <li class="hit list-group-item border-0"><a href="/page/{{ hit.id }}"><h6>{{ hit.title | safe }}</h6></a>
               {% if 'author' in hit %}<p>by {{ hit.author }}</p>{% endif %}
               {% if 'abstract' in hit %}<ul>{% for part in hit.abstract %}<li>{{ part | safe }}</li>{% endfor %}</ul>{% endif %}
             </li>
@@ -69,7 +69,7 @@
       </div>
     {% endif %}
    </div>
-   <div id="tags" class="col-4 col-md-3 col-lg-2", style="margin-top: 3.125em; height: 65vh; overflow: auto">
+   <div id="tags" class="col-2 col-md-2 col-lg-2 col-sm-4", style="height: 65vh; overflow: auto">
      {% for tag in tags %}
        <a class="btn btn-outline-primary" href="/tags/{{ tag.name }}" style='color: {% if tag.mark %}red{% else %}black{% endif %}'> {{ tag.name }} ({{ tag.nr }})</a>
      {% endfor %}
