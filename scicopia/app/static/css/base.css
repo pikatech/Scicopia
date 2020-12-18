@@ -8,10 +8,27 @@ html {
 body {
 	margin: 0px;
 	padding: 0px;
+	padding-top: 100px;
+	padding-bottom: 44px;
 }
 
 img {
 	max-width: 100%;
+}
+
+footer {
+	position: fixed;
+	padding: 10px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: #e3f2fd;
+	border-color: #8a9da8;
+}
+
+footer p {
+	float: right;
+	margin: 0;
 }
 
 * {
