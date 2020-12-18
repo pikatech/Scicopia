@@ -4,9 +4,9 @@
   {{ super() }}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link type="text/css" rel="stylesheet" href="static/css/base.css">
-  <link type="text/css" rel="stylesheet" href="static/css/search.css">
-  <link rel="stylesheet" href="static/css/index.css">
+  <link type="text/css" rel="stylesheet" href="/static/css/base.css">
+  <link type="text/css" rel="stylesheet" href="/static/css/search.css">
+  <link rel="stylesheet" href="/static/css/index.css">
 {% endblock %}
 
 {% block page_content %}
@@ -20,10 +20,10 @@
         {{ form.name(id="queryInputField", placeholder="reinforcement learning author:Schulman", autofocus=True) }}
         {{ form.submit(value="") }}
       </form>
-      <img src="static/images/help.svg" id="helpIcon" alt="Need help? Click here!">
+      <a href="{{ url_for('main.help') }}"><img src="/static/images/help.svg" id="helpIcon" alt="Need help? Click here!"></a>
     </div>
     <div id="searchPanelDescription">
-      <p>Need help? Click here!</p>
+      <a href="{{ url_for('main.help') }}">Need help? Click here!</a>
     </div>
    </div></div>
   </div>

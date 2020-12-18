@@ -4,9 +4,9 @@
   {{ super() }}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link type="text/css" rel="stylesheet" href="../static/css/base.css">
-  <link type="text/css" rel="stylesheet" href="../static/css/search.css">
-  <link rel="stylesheet" href="../static/css/index.css">
+  <link type="text/css" rel="stylesheet" href="/static/css/base.css">
+  <link type="text/css" rel="stylesheet" href="/static/css/search.css">
+  <link rel="stylesheet" href="/static/css/index.css">
   <script>
   MathJax = {
     tex: {
@@ -27,15 +27,15 @@
         {{ form.name(id="queryInputField", placeholder="reinforcement learning author:Schulman", autofocus=True) }}
         {{ form.submit(value="") }}
       </form>
-      <img src="../static/images/help.svg" id="helpIcon" alt="Need help? Click here!">
+      <a href="{{ url_for('main.help') }}"><img src="/static/images/help.svg" id="helpIcon" alt="Need help? Click here!"></a>
     </div>
     <div id="searchPanelDescription">
-      <p>Need help? Click here!</p>
+      <a href="{{ url_for('main.help') }}">Need help? Click here!</a>
     </div>
-    <div id="ausgabe" style="height: 75vh; overflow: auto">
+    <div id="ausgabe">
       {% if hit.entrytype == "inproceedings" %}
         <p>
-        {% if "title" in hit %}<h6>{{ hit.title }}</h6>{% endif %}
+        {% if "title" in hit %}<h6>{{ hit.title | safe }}</h6>{% endif %}
         {% if "author" in hit %}<p>{{ hit.author|join(" and ") }}</p>{% endif %}
         {% if "booktitle" in hit %}
           {{ hit.booktitle }}{% if "year" in hit %}, {{ hit.year }}{% endif %}
@@ -48,7 +48,7 @@
         {% if "abstract" in hit %}<p><b>Abstract:</b><br>{{ hit.abstract|join("\n") | safe }}</p><br>{% endif %}
         {% if "auto_tags" in hit %}<p><b>Auto-Tags:</b><br>{{ hit.auto_tags|join(", ") }}</p>{% endif %}
       {% else %}
-        {% if "title" in hit %}<h6>{{ hit.title }}</h6>{% endif %}
+        {% if "title" in hit %}<h6>{{ hit.title | safe }}</h6>{% endif %}
         {% if "author" in hit %}<p>by {{ hit.author|join(" and ") }}</p>{% endif %}
         {% if "abstract" in hit %}<p><b>Abstract:</b> {{ hit.abstract|join(" ") | safe }}</p>{% endif %}
         {% if "date" in hit %}
@@ -69,7 +69,7 @@
               {{ ft.hidden_tag() }}
               {% if showfulltext %}{{ ft.button(value="hide fulltext", id="fulltext") }}{% else %}{{ ft.button(value="show fulltext", id="fulltext") }}{% endif %}
           </form>
-          {% if showfulltext%}<p><b>Fulltext:</b> {{ fulltext }}</p>{% endif %}
+          {% if showfulltext%}<p><b>Fulltext:</b> {{ fulltext | safe }}</p>{% endif %}
       {% endif %}
     </div>
    </div></div>

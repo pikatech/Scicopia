@@ -2,8 +2,18 @@
 
 {% block title %}Scicopia - Work in progress{% endblock %}
 
+
+{% block head %}
+  {{ super() }}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link type="text/css" rel="stylesheet" href="/static/css/base.css">
+  <link type="text/css" rel="stylesheet" href="/static/css/search.css">
+  <link rel="stylesheet" href="/static/css/index.css">
+{% endblock %}
+
 {% block page_content %}
-<div class="page-header">
+<div>
     <h1> Work in progress</h1>
 </div>
 {% endblock %}

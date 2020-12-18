@@ -1,4 +1,15 @@
 {% extends "base.html" %}
-{% block content %}
+
+{% block head %}
+  {{ super() }}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link type="text/css" rel="stylesheet" href="/static/css/base.css">
+  <link type="text/css" rel="stylesheet" href="/static/css/search.css">
+  <link type="text/css" rel="stylesheet" href="/static/css/graph.css">
+  <link rel="stylesheet" href="/static/css/index.css">
+{% endblock %}
+
+{% block page_content %}
     {{ footer|safe }}
-{% endblock content %}
+{% endblock%}
