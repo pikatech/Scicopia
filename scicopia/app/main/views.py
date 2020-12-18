@@ -44,8 +44,9 @@ def page(id):
     form = NameForm()
     pdf = PageButton()
     ft = PageButton()
-    if not "fulltext" in session:
-        session["fulltext"] = False
+    if not "lastpage" in session or not session["lastpage"] == id:
+        session["lastpage"] = id
+        session["showfulltext"] = False
     if form.validate_on_submit():
         session["query"] = form.name.data
         session["condition"] = analyze_input(session["query"])
@@ -57,12 +58,15 @@ def page(id):
         prepared_search = current_app.config["SEARCH"].query(Ids(values=id))
         results = prepared_search.execute()
         if len(results.hits) == 0:
-            abort(404)  # change error 500 to error 404
+            abort(404) 
         hit = results.hits[0]
         if 'abstract' in hit:
             hit.abstract = link(hit.abstract)
-        pdfexists = current_app.config["COLLECTION"][id]["pdf"]
-        fulltext = current_app.config["COLLECTION"][id]["fulltext"]
+        pdfexists = "pdf" in current_app.config["COLLECTION"][id] 
+        if session["showfulltext"]:
+            fulltext = current_app.config["COLLECTION"][id]["fulltext"]
+        else:
+            fulltext = "fulltext" in current_app.config["COLLECTION"][id]
         return render_template(
             "page.html", form=form, hit=hit, pdfexists=pdfexists, pdf=pdf, fulltext=fulltext, showfulltext=session["showfulltext"], ft = ft
         )
@@ -84,7 +88,10 @@ def backwards():
 
 @main.route("/pdf/<id>", methods=["GET", "POST"])
 def pdf(id):
-    data = current_app.config["COLLECTION"][id]["pdf"]
+    try:
+        data = current_app.config["COLLECTION"][id]["pdf"]
+    except:
+        abort(404) 
     data = base64.b64decode(data)
     response = make_response(data)
     response.headers["Content-Type"] = "application/pdf"
@@ -94,10 +101,7 @@ def pdf(id):
 
 @main.route("/fulltext/<id>", methods=["GET", "POST"])
 def fulltext(id):
-    if session["showfulltext"]:
-        session["showfulltext"] = False
-    else:
-        session["showfulltext"] = True
+    session["showfulltext"] = not session["showfulltext"]
     return redirect(url_for("main.page", id = id))
 
 
@@ -137,7 +141,6 @@ def results():
 
 @main.route("/tags/<tag>")
 def tags(tag):
-    # TODO: add tags to search
     for d in session["tags"]:
         if d["name"] == tag:
             if d["mark"] == False:
@@ -163,3 +166,10 @@ def oldsearch(search):
     session["tags"] = []
     return redirect(url_for("main.results"))
 
+@main.route("/help")
+def help():
+    return render_template("work.html")
+
+@main.route("/contact")
+def contact():
+    return render_template("work.html")
