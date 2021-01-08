@@ -69,9 +69,12 @@
       </div>
     {% endif %}
    </div>
-   <div id="tags" class="col-2 col-md-2 col-lg-2 col-sm-4", style="height: 65vh; overflow: auto">
+   <div id="tags" class="col-2 col-md-2 col-lg-2 col-sm-4", style="height: calc(100vh - 145px); overflow: auto">
+    {% if tags %}
+    <p class="col-12">auto-tags:</p>
+    {% endif %}
      {% for tag in tags %}
-       <a class="btn btn-outline-primary" href="/tags/{{ tag.name }}" style='color: {% if tag.mark %}red{% else %}black{% endif %}'> {{ tag.name }} ({{ tag.nr }})</a>
+       <a class="col-12 btn btn-outline-primary" href="/tags/{{ tag.name }}" style='color: {% if tag.mark %}red{% else %}black{% endif %}'> {{ tag.name }} ({{ tag.nr }})</a>
      {% endfor %}
    </div></div>
   </div>
