@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 
+{% block head %}
+  {{ super() }}
+  <link type="text/css" rel="stylesheet" href="/static/css/base.css">
+  <link type="text/css" rel="stylesheet" href="/static/css/search.css">
+  <link rel="stylesheet" href="/static/css/index.css">
+  <script src="/static/js/queries.js" type="text/javascript" defer></script>
+{% endblock %}
+
 {% block title %}Scicopia - Confirm your account{% endblock %}
 
 {% block page_content %}
