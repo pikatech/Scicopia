@@ -189,33 +189,35 @@ def color(colortype):
     # rules for the node color
     if colortype =='search':
         return '#D55E00'
-    if colortype =='marked':
+    elif colortype =='marked':
         return '#56B4E9'
-    if colortype =='path':
+    elif colortype =='path':
         return '#CC79A7'
-    if colortype =='edge':
+    elif colortype =='edge':
         return '#E69F00'
     # example, depending on the nodetype
-    if colortype == 'root':
+    elif colortype == 'root':
         return '#221100'
-    if colortype == 'continent':
+    elif colortype == 'continent':
         return '#442200'
-    if colortype == 'country':
+    elif colortype == 'country':
         return '#664400'
-    if colortype == 'capital':
+    elif colortype == 'capital':
         return '#886600'
-    return '#000000'
+    else:
+        return '#000000'
 
 def zpos(nodetype):
     if nodetype == 'root':
         return 1
-    if nodetype == 'continent':
+    elif nodetype == 'continent':
         return 0.75
-    if nodetype == 'country':
+    elif nodetype == 'country':
         return 0.5
-    if nodetype == 'capital':
+    elif nodetype == 'capital':
         return 0.25
-    return 0
+    else:
+        return 0
 
 
 def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], marked = [], check = []):
@@ -254,7 +256,7 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
 
     # calculate position with layoutfunction
     # recommended to choose kamada_kawai_layout or spring_layout
-    pos = nx.layout.kamada_kawai_layout(G)
+    pos = nx.layout.spring_layout(G)
     for node in G.nodes:
         G.nodes[node]['pos'] = list(pos[node])
         G.nodes[node]['pos'].append(zpos(G.nodes[node]['type']))
