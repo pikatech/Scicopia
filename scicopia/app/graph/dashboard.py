@@ -206,6 +206,18 @@ def color(colortype):
         return '#886600'
     return '#000000'
 
+def zpos(nodetype):
+    if nodetype == 'root':
+        return 1
+    if nodetype == 'continent':
+        return 0.75
+    if nodetype == 'country':
+        return 0.5
+    if nodetype == 'capital':
+        return 0.25
+    return 0
+
+
 def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], marked = [], check = []):
     # add nodes from nodedict dependent of check
     nodes = []
@@ -245,10 +257,11 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
     pos = nx.layout.kamada_kawai_layout(G)
     for node in G.nodes:
         G.nodes[node]['pos'] = list(pos[node])
+        G.nodes[node]['pos'].append(zpos(G.nodes[node]['type']))
 
 
-    path_node_trace = go.Scatter(x=[], y=[])
-    path_edge_trace = go.Scatter(x=[], y=[])
+    path_node_trace = go.Scatter3d(x=[], y=[], z=[])
+    path_edge_trace = go.Scatter3d(x=[], y=[], z=[])
     if mode == 'path':
     # calculate path between last 2 entrys of marked
         if len(marked) >= 2:
@@ -256,13 +269,15 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
                 path = nx.shortest_path(G, source=marked[-2], target=marked[-1])
                 path_node_x = []
                 path_node_y = []
+                path_node_z = []
                 for node in path:
-                    x, y = G.nodes[node]['pos']
+                    x, y, z = G.nodes[node]['pos']
                     path_node_x.append(x)
                     path_node_y.append(y)
+                    path_node_z.append(z)
         
-                path_node_trace = go.Scatter(
-                    x=path_node_x, y=path_node_y,
+                path_node_trace = go.Scatter3d(
+                    x=path_node_x, y=path_node_y, z=path_node_z,
                     mode='markers',
                     hoverinfo='text',
                     marker=dict(
@@ -270,8 +285,8 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
                         size=12,
                         line_width=1)
                 )
-                path_edge_trace = go.Scatter(
-                    x=path_node_x, y=path_node_y,
+                path_edge_trace = go.Scatter3d(
+                    x=path_node_x, y=path_node_y, z=path_node_z,
                     line=dict(width=1, color=color('path')),
                     hoverinfo='text',
                     mode='lines'
@@ -284,30 +299,36 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
 
     edge_x = []
     edge_y = []
+    edge_z = []
     middle_x = []
     middle_y = []
+    middle_z = []
     edge_text = []
     for edge in G.edges():
-        x0, y0 = G.nodes[edge[0]]['pos']
-        x1, y1 = G.nodes[edge[1]]['pos']
+        x0, y0, z0 = G.nodes[edge[0]]['pos']
+        x1, y1, z1 = G.nodes[edge[1]]['pos']
         edge_x.append(x0)
         edge_x.append(x1)
         edge_x.append(None)
         edge_y.append(y0)
         edge_y.append(y1)
         edge_y.append(None)
+        edge_z.append(z0)
+        edge_z.append(z1)
+        edge_z.append(None)
         middle_x.append((x0+x1)/2)
         middle_y.append((y0+y1)/2)
+        middle_z.append((z0+z1)/2)
         edge_text.append(info(G.edges[edge]))
 
-    edge_trace = go.Scatter(
-        x=edge_x, y=edge_y,
+    edge_trace = go.Scatter3d(
+        x=edge_x, y=edge_y, z=edge_z,
         line=dict(width=1, color=color('edge')),
         hoverinfo='text',
         mode='lines')
 
-    middle_trace = go.Scatter(
-        x=middle_x, y=middle_y,
+    middle_trace = go.Scatter3d(
+        x=middle_x, y=middle_y, z=middle_z,
         mode='markers',
         hoverinfo='text',
         marker=dict(
@@ -318,16 +339,19 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
 
     node_x = []
     node_y = []
+    node_z = []
     node_text = []
     colors = []
     if search:
         search_x = []
         search_y = []
+        search_z = []
     for node in G.nodes():
         node = G.nodes[node]
-        x, y = node['pos']
+        x, y, z = node['pos']
         node_x.append(x)
         node_y.append(y)
+        node_z.append(z)
         node_text.append(info(node))
         colors.append(color(node['type']))
         legende[node['_key']] = {'name': node['name'], 'id': node['_id']}
@@ -339,13 +363,15 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
                     if search.lower() in node[att].lower():
                         search_x.append(x)
                         search_y.append(y)
+                        search_z.append(z)
                         break
             elif search.lower() in str(node).lower():
                 search_x.append(x)
                 search_y.append(y)
+                search_z.append(z)
 
-    node_trace = go.Scatter(
-        x=node_x, y=node_y,
+    node_trace = go.Scatter3d(
+        x=node_x, y=node_y, z=node_z,
         mode='markers',
         hoverinfo='text',
         marker=dict(
@@ -354,8 +380,8 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
             line_width=1))
             
     if search:
-        search_trace = go.Scatter(
-            x=search_x, y=search_y,
+        search_trace = go.Scatter3d(
+            x=search_x, y=search_y, z=search_z,
             mode='markers',
             hoverinfo='text',
             marker=dict(
@@ -364,18 +390,20 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
                 line_width=1)
         )
     else:
-        search_trace = go.Scatter(x=[], y=[])
+        search_trace = go.Scatter3d(x=[], y=[], z=[])
 
     if marked:
         marked_x = []
         marked_y = []
+        marked_z = []
         for value in marked:
             if value in G.nodes().keys():
-                x, y = G.nodes[value]['pos']
+                x, y, z = G.nodes[value]['pos']
                 marked_x.append(x)
                 marked_y.append(y)
-        marked_trace = go.Scatter(
-            x=marked_x, y=marked_y,
+                marked_z.append(z)
+        marked_trace = go.Scatter3d(
+            x=marked_x, y=marked_y, z=marked_z,
             mode='markers',
             hoverinfo='text',
             marker=dict(
@@ -384,7 +412,7 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
                 line_width=1)
         )
     else:
-        marked_trace = go.Scatter(x=[], y=[])
+        marked_trace = go.Scatter3d(x=[], y=[], z=[])
 
     node_trace.text = node_text
     middle_trace.text = edge_text
