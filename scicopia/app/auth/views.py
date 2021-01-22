@@ -78,10 +78,13 @@ def logout():
 @auth.route("/profil", methods=["GET", "POST"])
 def profil():
     if session["user"] is not None:
-        lastsearch = current_app.config["USERCOLLECTION"][session["user"]]["lastsearch"]
-        lastsearch.reverse()
+        try:
+            lastsearch = current_app.config["USERCOLLECTION"][session["user"]]["lastsearch"]
+            lastsearch.reverse()
+        except:
+            lastsearch = None
         return render_template("auth/profil.html", lastsearch=lastsearch)
-    session["next"] = "/profil"
+    session["next"] = url_for("auth.profil")
     return redirect(url_for("auth.login"))
 
 
@@ -99,7 +102,7 @@ def change_password():
             else:
                 flash("Invalid password.")
         return render_template("auth/change_password.html", form=form)
-    session["next"] = "/change-password"
+    session["next"] = url_for("auth.change_password")
     return redirect(url_for("auth.login"))
 
 
@@ -163,7 +166,7 @@ def change_username_request():
             else:
                 flash("Invalid password.")
         return render_template("auth/change_username.html", form=form)
-    session["next"] = "/change_username"
+    session["next"] = url_for("auth.change_username_request")
     return redirect(url_for("auth.login"))
 
 
@@ -195,7 +198,7 @@ def change_email_request():
             else:
                 flash("Invalid email or password.")
         return render_template("auth/change_email.html", form=form)
-    session["next"] = "/change_email"
+    session["next"] = url_for("auth.change_email_request")
     return redirect(url_for("auth.login"))
 
 
@@ -204,12 +207,14 @@ def change_email(token):
     if not "user" in session:
         session["user"] = None
     if session["user"] is not None:
+        if current_app.config["USERCOLLECTION"][session["user"]]["confirmed"]:
+            return redirect(url_for("main.index"))
         if confirm_u(session["user"], token):
             flash("Your new email address has been confirmed.")
         else:
             flash("Invalid request.")
         return redirect(url_for("main.index"))
-    session["next"] = f"/change_email/{token}"
+    session["next"] = f"/auth/change_email/{token}"
     return redirect(url_for("auth.login"))
 
 
@@ -225,18 +230,20 @@ def confirm(token):
         else:
             flash("The confirmation link is invalid or has expired.")
         return redirect(url_for("main.index"))
-    session["next"] = f"/confirm/{token}"
+    session["next"] = f"/auth/confirm/{token}"
     return redirect(url_for("auth.login"))
 
 
 @auth.route("/unconfirmed")
 def unconfirmed():
-    if current_app.config["USERCOLLECTION"][session["user"]]["confirmed"]:
-        return redirect(url_for("main.index"))
-    return render_template(
-        "auth/unconfirmed.html",
-        user=current_app.config["USERCOLLECTION"][session["user"]]["username"],
-    )
+    if session["user"] is not None:
+        if current_app.config["USERCOLLECTION"][session["user"]]["confirmed"]:
+            return redirect(url_for("main.index"))
+        return render_template(
+            "auth/unconfirmed.html",
+            user=current_app.config["USERCOLLECTION"][session["user"]]["username"],
+        )
+    return redirect(url_for("auth.login"))
 
 
 @auth.route("/confirm")
@@ -252,5 +259,5 @@ def resend_confirmation():
         )
         flash("A new confirmation email has been sent to you by email.")
         return redirect(url_for("main.index"))
-    session["next"] = "/confirm"
+    session["next"] = url_for("auth.resend_confirmation")
     return redirect(url_for("auth.login"))
