@@ -45,7 +45,7 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField("Register")
 
     def validate_username(self, field):
-        aql = f"FOR x IN {current_app.config['USERCOLLECTIONNAME']} FILTER x.username == 'field.data.lower()' RETURN x._key"
+        aql = f"FOR x IN {current_app.config['USERCOLLECTIONNAME']} FILTER x.username == '{field.data}' RETURN x._key"
         queryResult = current_app.config['DB'].AQLQuery(aql, rawResults=True, batchSize=1)
         if queryResult:
             raise ValidationError("Username already in use.")
@@ -63,7 +63,7 @@ class ChangeUsernameForm(FlaskForm):
     submit = SubmitField("Update Username")
 
     def validate_username(self, field):
-        aql = f"FOR x IN {current_app.config['USERCOLLECTIONNAME']} FILTER x.username == '{field.data.lower()}' RETURN x._key"
+        aql = f"FOR x IN {current_app.config['USERCOLLECTIONNAME']} FILTER x.username == '{field.data}' RETURN x._key"
         queryResult = current_app.config['DB'].AQLQuery(aql, rawResults=True, batchSize=1)
         if queryResult:
             raise ValidationError("Username already in use.")
