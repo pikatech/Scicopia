@@ -15,8 +15,8 @@ class Config:
     MAIL_USE_TLS = True
     MAIL_USERNAME = config["mailusername"]
     MAIL_PASSWORD = config["mailpassword"]
-    Scicopia_MAIL_SUBJECT_PREFIX = "[Scicopia]"
-    Scicopia_MAIL_SENDER = "Scicopia Admin"
+    MAIL_SUBJECT_PREFIX = config["mailsubjectprefix"]
+    MAIL_SENDER = config["mailsender"]
 
     URL_MATCHER = re.compile(r"((https?|ftp)://[^\s/$.?#].[^\s]+[^\s\.])")
 
