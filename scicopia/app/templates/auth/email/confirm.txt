@@ -4,7 +4,7 @@ Welcome to Scicopia!
 
 To confirm your email address please click on the following link:
 
-{{ url_for('confirm', token=token, _external=True) }}
+{{ url_for('auth.confirm', token=token, _external=True) }}
 
 Sincerely,
 
