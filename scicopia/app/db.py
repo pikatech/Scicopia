@@ -39,7 +39,11 @@ def checkFields(condition, fields):
             if field in fields: # field is allowed
                 pass # change nothing
             elif field == "query":
-                condition["multi_match"] = condition.pop(typ) # make sure type is multi_match for query
+                if typ != "multi_match":
+                    newcond = condition.pop(typ) # remove old condition
+                    if typ == "match_phrase":
+                        newcond["type"] = "phrase"
+                    condition["multi_match"] = newcond # make sure type is multi_match for query
             else:
                 found = False
                 for tag in fields:
