@@ -5,8 +5,8 @@ def test_handleField():
     source = "scicopia/tests/data/bibtex.bib"
     parser = Parser()
     bib_data = parser.parse_file(source)
-    for entry in bib_data.entries.itervalues():
-        fields = entry.fields.items()
+    for entry in bib_data.entries.values():
+        fields = list(entry.fields.items())
 
         datadict = dict()
         handleField(fields[0], datadict)
@@ -24,8 +24,8 @@ def test_handlePerson():
     source = "scicopia/tests/data/bibtex.bib"
     parser = Parser()
     bib_data = parser.parse_file(source)
-    for entry in bib_data.entries.itervalues():
-        items = entry.persons.items()
+    for entry in bib_data.entries.values():
+        items = list(entry.persons.items())
 
         datadict = dict()
         handlePerson(items[0], datadict)

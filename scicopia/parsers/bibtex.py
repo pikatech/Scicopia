@@ -35,7 +35,7 @@ def parse(
     try:
         parser = Parser()
         bib_data = parser.parse_stream(source)
-        for entry in bib_data.entries.itervalues():
+        for entry in bib_data.entries.values():
             datadict = dict()
             datadict["id"] = entry.key
             datadict["entrytype"] = entry.type
