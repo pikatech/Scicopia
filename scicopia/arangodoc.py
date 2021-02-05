@@ -225,7 +225,7 @@ def import_file(
                     doc["pdf"] = data
                 else:
                     if first:
-                        logging.warning(f"No PDF found for {file}")
+                        logging.info(f"No PDF found for {file}")
                         first = False
             docs.append(doc)
             if len(docs) == docs.maxlen:
