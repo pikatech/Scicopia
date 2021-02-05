@@ -13,9 +13,11 @@ from elasticsearch_dsl import (
 )
 from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError
-from config import read_config
 from progress.bar import Bar
 # logging.getLogger().setLevel(logging.INFO)
+
+from scicopia.config import read_config
+
 
 config = read_config()
 
