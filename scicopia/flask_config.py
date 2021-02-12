@@ -40,11 +40,17 @@ class Config:
     else:
         logging.error(f"Database {config['database']} not found.")
 
-    COLLECTIONNAME = config["collection"]
+    COLLECTIONNAME = config["documentcollection"]
     if DB.hasCollection(COLLECTIONNAME):
         COLLECTION = DB[COLLECTIONNAME]
     else:
         logging.error(f"Collection {COLLECTIONNAME} not found.")
+
+    COLLECTIONNAME = config["pdfcollection"]
+    if DB.hasCollection(PDFCOLLECTIONNAME):
+        COLLECTION = DB[PDFCOLLECTIONNAME]
+    else:
+        logging.error(f"Collection {PDFCOLLECTIONNAME} not found.")
 
     USERCOLLECTIONNAME = config["usercollection"]
     if DB.hasCollection(USERCOLLECTIONNAME):
@@ -70,6 +76,7 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     DEBUG = False
     TESTING = True
+    WTF_CSRF_ENABLED = False
 
 
 class ProductionConfig(Config):
