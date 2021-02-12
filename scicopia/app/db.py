@@ -159,7 +159,12 @@ def execute_query():
 
 
 def add_search(data):
-    search = current_app.config["USERCOLLECTION"][session["user"]]["lastsearch"]
+    try:
+        search = current_app.config["USERCOLLECTION"][session["user"]]["lastsearch"]
+    except:
+        flash(f"User key {session['user']} not found, remove user from session")
+        session["user"] = None
+        return
     if data in search:
         search.remove(data)
     search.append(data)
