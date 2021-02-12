@@ -109,12 +109,18 @@ def setup() -> Collection:
         db = arangoconn[config["database"]]
     else:
         db = arangoconn.createDatabase(name=config["database"])
-    if db.hasCollection(config["collection"]):
-        collection = db[config["collection"]]
+
+    if db.hasCollection(config["documentcollection"]):
+        doccollection = db[config["documentcollection"]]
     else:
-        collection = db.createCollection(name=config["collection"])
-        collection.ensurePersistentIndex(["modified_at"], unique=False, sparse=False, deduplicate=False, name="Modified")
-    return collection
+        doccollection = db.createCollection(name=config["documentcollection"])
+        doccollection.ensurePersistentIndex(["modified_at"], unique=False, sparse=False, deduplicate=False, name="Modified")
+
+    if db.hasCollection(config["pdfcollection"]):
+        pdfcollection = db[config["pdfcollection"]]
+    else:
+        pdfcollection = db.createCollection(name=config["pdfcollection"])
+    return doccollection, pdfcollection
 
 
 def pdfsave(file: str) -> str:
@@ -128,7 +134,16 @@ def pdfsave(file: str) -> str:
     return data
 
 def handleBulkError(e, docs, collection, doc_format):
-    if doc_format == "pubmed":
+    if doc_format == "pdf":
+        logging.info(e.message)
+        for error in e.errors["details"]:
+            if 'unique constraint violated' in error:
+                # gets number of doc in docs
+                # 12 is the start of the position in all error messages
+                pos = error[12:error.index(":")]
+                doc = docs[int(pos)]
+                logging.warning(f'Key {doc._key} already exists for PDF. Update of PDFs is not supportet yet.\n')
+    elif doc_format == "pubmed":
         logging.info(e.message)
         errors = e.errors
         errordocs=[]
@@ -182,16 +197,17 @@ def parallel_import(
     update: bool,
     pdf: bool,
 ):
-    collection = setup()
+    collection, pdfcollection = setup()
     for file in batch:
         import_file(
-            file, collection, batch_size, doc_format, open_func, parse, update, pdf
+            file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
         )
 
 
 def import_file(
     file: str,
     collection: Collection,
+    pdfcollection: Collection,
     batch_size: int,
     doc_format: str,
     open_func: Callable,
@@ -202,6 +218,7 @@ def import_file(
     first = True
     with open_func(file, "rt", encoding="utf-8") as data:
         docs = deque(maxlen=batch_size)
+        pdfdocs = deque(maxlen=batch_size)
         for entry in parse(data):
             create_id(entry, doc_format)
             doc_id = re.sub(NOT_VALID, "_", entry["id"])
@@ -210,6 +227,9 @@ def import_file(
                 try:
                     doc = collection[doc_id]
                     doc.delete()
+                    # delete associated pdf?
+                    # pdfdoc = pdfcollection[doc_id]
+                    # pdfdoc.delete()
                 except DocumentNotFoundError:
                     pass
             doc = collection.createDocument()
@@ -219,15 +239,18 @@ def import_file(
                 if field == "id":
                     continue
                 doc[field] = entry[field]
+            docs.append(doc)
             if pdf:
                 data = pdfsave(file)
                 if data:
-                    doc["pdf"] = data
+                    pdfdoc = pdfcollection.createDocument()
+                    pdfdoc._key = doc_id # same id as associated document
+                    pdfdoc["pdf"] = data
+                    pdfdocs.append(pdfdoc)
                 else:
                     if first:
-                        logging.info(f"No PDF found for {file}")
+                        logging.warning(f"No PDF found for {file}")
                         first = False
-            docs.append(doc)
             if len(docs) == docs.maxlen:
                 try:
                     collection.bulkSave(docs, details=True)
@@ -235,6 +258,13 @@ def import_file(
                     handleBulkError(e, docs, collection, doc_format)
                 finally:
                     docs.clear()
+            if len(pdfdocs) == pdfdocs.maxlen:
+                try:
+                    pdfcollection.bulkSave(pdfdocs, details=True)
+                except UpdateError as e:
+                    handleBulkError(e, pdfdocs, pdfcollection, "pdf")
+                finally:
+                    pdfdocs.clear()
         if len(docs) != 0:
             try:
                 collection.bulkSave(docs, details=True)
@@ -242,6 +272,13 @@ def import_file(
                 handleBulkError(e, docs, collection, doc_format)
             finally:
                 docs.clear()
+        if len(pdfdocs) != 0:
+            try:
+                pdfcollection.bulkSave(pdfdocs, details=True)
+            except UpdateError as e:
+                handleBulkError(e, pdfdocs, pdfcollection, "pdf")
+            finally:
+                pdfdocs.clear()
 
 
 def locate_files(
@@ -268,7 +305,7 @@ def main(
     update: bool = False,
     batch_size: int = 1000,
 ):
-    collection = setup()
+    collection, pdfcollection = setup()
     files = locate_files(path, doc_format, recursive, compression)
     if not files:
         logging.error(f"No files could be found in {path}")
@@ -278,7 +315,7 @@ def main(
     progress = Bar("files", max=len(files))
     for file in files:
         import_file(
-            file, collection, batch_size, doc_format, open_func, parse, update, pdf
+            file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
         )
         progress.next()
     progress.finish()

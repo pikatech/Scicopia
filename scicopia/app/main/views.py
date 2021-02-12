@@ -18,10 +18,11 @@ from ..db import analyze_input, execute_query, add_search, link
 
 @main.route("/", methods=["GET", "POST"])
 def index():
-    form = NameForm()
     if not "user" in session:
         session["user"] = None
+    if not "next" in session:
         session["next"] = None
+    form = NameForm()
     if form.validate_on_submit():
         session["query"] = form.name.data
         session["condition"] = analyze_input(session["query"])
@@ -39,74 +40,10 @@ def total():
     return jsonify({"total": str(results.hits.total.value)})
 
 
-@main.route("/page/<id>", methods=["GET", "POST"])
-def page(id):
-    form = NameForm()
-    pdf = PageButton()
-    ft = PageButton()
-    if not "lastpage" in session or not session["lastpage"] == id:
-        session["lastpage"] = id
-        session["showfulltext"] = False
-    if form.validate_on_submit():
-        session["query"] = form.name.data
-        session["condition"] = analyze_input(session["query"])
-        session["from_hit"] = 0
-        session["to_hit"] = 10
-        session["tags"] = []
-        return redirect(url_for("main.results"))
-    else:
-        prepared_search = current_app.config["SEARCH"].query(Ids(values=id))
-        results = prepared_search.execute()
-        if len(results.hits) == 0:
-            abort(404) 
-        hit = results.hits[0]
-        if 'abstract' in hit:
-            hit.abstract = link(hit.abstract)
-        pdfexists = "pdf" in current_app.config["COLLECTION"][id] 
-        if session["showfulltext"]:
-            fulltext = current_app.config["COLLECTION"][id]["fulltext"]
-        else:
-            fulltext = "fulltext" in current_app.config["COLLECTION"][id]
-        return render_template(
-            "page.html", form=form, hit=hit, pdfexists=pdfexists, pdf=pdf, fulltext=fulltext, showfulltext=session["showfulltext"], ft = ft
-        )
-
-
-@main.route("/forwards", methods=["GET", "POST"])
-def forwards():
-    session["from_hit"] += 10
-    session["to_hit"] += 10
-    return redirect(url_for("main.results"))
-
-
-@main.route("/backwards", methods=["GET", "POST"])
-def backwards():
-    session["from_hit"] -= 10
-    session["to_hit"] -= 10
-    return redirect(url_for("main.results"))
-
-
-@main.route("/pdf/<id>", methods=["GET", "POST"])
-def pdf(id):
-    try:
-        data = current_app.config["COLLECTION"][id]["pdf"]
-    except:
-        abort(404) 
-    data = base64.b64decode(data)
-    response = make_response(data)
-    response.headers["Content-Type"] = "application/pdf"
-    response.headers["Content-Disposition"] = f"inline; filename={id}.pdf"
-    return response
-
-
-@main.route("/fulltext/<id>", methods=["GET", "POST"])
-def fulltext(id):
-    session["showfulltext"] = not session["showfulltext"]
-    return redirect(url_for("main.page", id = id))
-
-
 @main.route("/results", methods=["GET", "POST"])
 def results():
+    if not "user" in session:
+        session["user"] = None
     form = NameForm()
     backwards = PageButton()
     forwards = PageButton()
@@ -137,6 +74,72 @@ def results():
         forwards=forwards,
         sort_form=sort_form,
     )
+
+
+@main.route("/page/<id>", methods=["GET", "POST"])
+def page(id):
+    form = NameForm()
+    pdf = PageButton()
+    ft = PageButton()
+    if not "lastpage" in session or not session["lastpage"] == id:
+        session["lastpage"] = id
+        session["showfulltext"] = False
+    if form.validate_on_submit():
+        session["query"] = form.name.data
+        session["condition"] = analyze_input(session["query"])
+        session["from_hit"] = 0
+        session["to_hit"] = 10
+        session["tags"] = []
+        return redirect(url_for("main.results"))
+    else:
+        prepared_search = current_app.config["SEARCH"].query(Ids(values=id))
+        results = prepared_search.execute()
+        if len(results.hits) == 0:
+            abort(404) 
+        hit = results.hits[0]
+        if 'abstract' in hit:
+            hit.abstract = link(hit.abstract)
+        pdfexists = id in current_app.config["PDFCOLLECTION"]
+        if session["showfulltext"]:
+            fulltext = current_app.config["COLLECTION"][id]["fulltext"]
+        else:
+            fulltext = "fulltext" in current_app.config["COLLECTION"][id]
+        return render_template(
+            "page.html", form=form, hit=hit, pdfexists=pdfexists, pdf=pdf, fulltext=fulltext, showfulltext=session["showfulltext"], ft = ft
+        )
+
+
+@main.route("/forwards", methods=["GET", "POST"])
+def forwards():
+    session["from_hit"] += 10
+    session["to_hit"] += 10
+    return redirect(url_for("main.results"))
+
+
+@main.route("/backwards", methods=["GET", "POST"])
+def backwards():
+    session["from_hit"] -= 10
+    session["to_hit"] -= 10
+    return redirect(url_for("main.results"))
+
+
+@main.route("/pdf/<id>", methods=["GET", "POST"])
+def pdf(id):
+    try:
+        data = current_app.config["PDFCOLLECTION"][id]["pdf"]
+    except:
+        abort(404) 
+    data = base64.b64decode(data)
+    response = make_response(data)
+    response.headers["Content-Type"] = "application/pdf"
+    response.headers["Content-Disposition"] = f"inline; filename={id}.pdf"
+    return response
+
+
+@main.route("/fulltext/<id>", methods=["GET", "POST"])
+def fulltext(id):
+    session["showfulltext"] = not session["showfulltext"]
+    return redirect(url_for("main.page", id = id))
 
 
 @main.route("/tags/<tag>")
