@@ -46,9 +46,9 @@ class Config:
     else:
         logging.error(f"Collection {COLLECTIONNAME} not found.")
 
-    COLLECTIONNAME = config["pdfcollection"]
+    PDFCOLLECTIONNAME = config["pdfcollection"]
     if DB.hasCollection(PDFCOLLECTIONNAME):
-        COLLECTION = DB[PDFCOLLECTIONNAME]
+        PDFCOLLECTION = DB[PDFCOLLECTIONNAME]
     else:
         logging.error(f"Collection {PDFCOLLECTIONNAME} not found.")
 
