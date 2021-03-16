@@ -99,7 +99,8 @@ def page(id):
         hit = results.hits[0]
         if 'abstract' in hit:
             hit.abstract = link(hit.abstract)
-        pdfexists = id in current_app.config["PDFCOLLECTION"]
+        # PDF collection is optional
+        pdfexists = id in current_app.config["PDFCOLLECTION"] if "PDFCOLLECTION" in current_app.config else False
         if session["showfulltext"]:
             fulltext = current_app.config["COLLECTION"][id]["fulltext"]
         else:
