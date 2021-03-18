@@ -1,5 +1,7 @@
 __pycache__
+# Mypy
 .pytype
+# Dask
 dask-worker-space
 
 # ANTLR4 files
@@ -10,6 +12,12 @@ dask-worker-space
 .coverage
 htmlcov
 
+# Build environment (tox & pyenv)
 .python-version
 .tox/
 scicopia.egg-info/
+
+# KDE (Dolphin)
+.directory
+# Microsoft Visual Studio Code
+.vscode
