@@ -1,29 +1,14 @@
-from flask import (
-    current_app,
-    flash,
-    redirect,
-    render_template,
-    session,
-    url_for,
-)
-from . import auth
-from .forms import (
-    LoginForm,
-    RegistrationForm,
-    ChangePasswordForm,
-    PasswordResetRequestForm,
-    PasswordResetForm,
-    ChangeEmailForm,
-    ChangeUsernameForm
-)
+from flask import (current_app, flash, redirect, render_template, session,
+                   url_for)
+
+from ..db import (confirm_u, generate_confirmation_token,
+                  generate_password_hash, reset_password, verify_password)
 from ..email import send_email
-from ..db import (
-    verify_password,
-    generate_password_hash,
-    generate_confirmation_token,
-    reset_password,
-    confirm_u
-)
+from . import auth
+from .forms import (ChangeEmailForm, ChangePasswordForm, ChangeUsernameForm,
+                    LoginForm, PasswordResetForm, PasswordResetRequestForm,
+                    RegistrationForm)
+
 
 @auth.route("/login", methods=["GET", "POST"])
 def login():

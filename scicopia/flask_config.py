@@ -1,7 +1,9 @@
 import logging
 import re
-from elasticsearch_dsl import connections, Search
+
+from elasticsearch_dsl import Search, connections
 from pyArango.connection import Connection
+
 from .config import read_config
 
 

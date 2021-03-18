@@ -1,6 +1,6 @@
 import json
-from os.path import exists
 import sys
+from os.path import exists
 from typing import Any, Dict
 
 CONFIG = "config.json"

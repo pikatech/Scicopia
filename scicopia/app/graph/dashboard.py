@@ -1,12 +1,13 @@
+from collections import defaultdict
+
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output, State
-from dash.exceptions import PreventUpdate
 import networkx as nx
 import plotly.graph_objs as go
+from dash.dependencies import Input, Output, State
+from dash.exceptions import PreventUpdate
 from flask import current_app, render_template
-from collections import defaultdict
 
 
 def create_dashboard(server):

@@ -1,15 +1,16 @@
 import re
-from typing import List, Dict
-from pyArango.theExceptions import DocumentNotFoundError
-from elasticsearch_dsl import Q
-from werkzeug.security import generate_password_hash, check_password_hash
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask import g, session, current_app, flash
-from fastDamerauLevenshtein import damerauLevenshtein
+from typing import Dict, List
 
 from antlr4 import CommonTokenStream, InputStream, ParseTreeWalker
-from .parser.ScicopiaLexer import ScicopiaLexer
+from elasticsearch_dsl import Q
+from fastDamerauLevenshtein import damerauLevenshtein
+from flask import current_app, flash, g, session
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from pyArango.theExceptions import DocumentNotFoundError
+from werkzeug.security import check_password_hash, generate_password_hash
+
 from .parser.QueryListener import QueryListener
+from .parser.ScicopiaLexer import ScicopiaLexer
 from .parser.ScicopiaParser import ScicopiaParser
 
 

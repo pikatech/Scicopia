@@ -1,19 +1,12 @@
 import base64
+
 from elasticsearch_dsl.query import Ids, MultiMatch
-from flask import (
-    g,
-    render_template,
-    session,
-    redirect,
-    url_for,
-    make_response,
-    jsonify,
-    abort,
-    current_app
-) 
+from flask import (abort, current_app, g, jsonify, make_response, redirect,
+                   render_template, session, url_for)
+
+from ..db import add_search, analyze_input, execute_query, link
 from . import main
 from .forms import NameForm, PageButton, SortForm
-from ..db import analyze_input, execute_query, add_search, link
 
 
 @main.route("/", methods=["GET", "POST"])

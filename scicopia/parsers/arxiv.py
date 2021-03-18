@@ -1,10 +1,10 @@
 #!/usr/bin/python
 # Encoding: utf-8
 
-from io import TextIOWrapper
-import xml.etree.ElementTree as ET
-import re
 import logging
+import re
+import xml.etree.ElementTree as ET
+from io import TextIOWrapper
 from typing import Any, Dict, Generator
 
 DATE_PATTERN = re.compile(r"(\d{4})-\d{2}-\d{2}", re.ASCII)

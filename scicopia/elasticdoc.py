@@ -2,21 +2,17 @@
 import argparse
 import logging
 from datetime import datetime
-from elasticsearch_dsl import (
-    Document,
-    Date,
-    Completion,
-    Keyword,
-    Text,
-    Short,
-    connections,
-)
+
+from elasticsearch_dsl import (Completion, Date, Document, Keyword, Short,
+                               Text, connections)
+from progress.bar import Bar
 from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError
-from progress.bar import Bar
-# logging.getLogger().setLevel(logging.INFO)
 
 from scicopia.config import read_config
+
+# logging.getLogger().setLevel(logging.INFO)
+
 
 
 config = read_config()

@@ -8,6 +8,7 @@ Created on Mon Jun  8 11:39:17 2020
 
 from antlr4 import CommonTokenStream, InputStream, ParseTreeWalker
 from antlr4.tree.Trees import Trees
+
 from scicopia.app.parser.ScicopiaLexer import ScicopiaLexer
 from scicopia.app.parser.ScicopiaListener import ScicopiaListener
 from scicopia.app.parser.ScicopiaParser import ScicopiaParser

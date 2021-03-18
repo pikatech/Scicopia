@@ -6,37 +6,36 @@ Created on Tue Aug 27 16:18:45 2019
 @author: tech
 """
 
-import glob
-from io import TextIOWrapper
-import logging
-import math
 import argparse
 import base64
+import bz2
+import glob
+import gzip
+import logging
+import math
+import multiprocessing
 import os
 import re
-from contextlib import contextmanager
 from collections import deque
-from typing import Callable, Dict, Generator, List
-from progress.bar import Bar
+from contextlib import contextmanager
 from datetime import datetime
+from io import TextIOWrapper
+from typing import Callable, Dict, Generator, List
 
-import bz2
-import gzip
-import zstandard as zstd
-
-import multiprocessing
 import dask
+import zstandard as zstd
 from dask.distributed import Client, LocalCluster
-
-from scicopia.parsers.bibtex import parse as bib
-from scicopia.parsers.pubmed import parse as pubmed
-from scicopia.parsers.arxiv import parse as arxiv
-from scicopia.parsers.grobid import parse as grobid
-
+from progress.bar import Bar
 from pyArango.collection import Collection
 from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError, UpdateError
+
 from scicopia.config import read_config
+from scicopia.parsers.arxiv import parse as arxiv
+from scicopia.parsers.bibtex import parse as bib
+from scicopia.parsers.grobid import parse as grobid
+from scicopia.parsers.pubmed import parse as pubmed
+
 logging.getLogger().setLevel(logging.INFO)
 
 # See: https://www.arangodb.com/docs/stable/data-modeling-naming-conventions-document-keys.html

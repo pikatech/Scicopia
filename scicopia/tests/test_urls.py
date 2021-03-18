@@ -11,6 +11,7 @@ import os
 from scicopia.app import create_app
 from scicopia.app.db import link
 
+
 def test_link():
     app = create_app(os.getenv('FLASK_CONFIG') or 'default')
     input = ["http://www.example.com/foo links to https://www.example.com/bar"]

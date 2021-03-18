@@ -9,11 +9,11 @@ It is meant to be used in conjunction with GROBID output.
 """
 
 import glob
-from io import TextIOWrapper
 import logging
 import re
-from typing import Dict, List, Optional, Tuple, Union
 import xml.etree.ElementTree as ET
+from io import TextIOWrapper
+from typing import Dict, List, Optional, Tuple, Union
 
 TEI = "{http://www.tei-c.org/ns/1.0}"
 TEIBACK = f"{TEI}back"

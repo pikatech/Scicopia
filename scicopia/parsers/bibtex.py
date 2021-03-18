@@ -1,12 +1,13 @@
 #!/usr/bin/python
 # Encoding: utf-8
 
-from io import TextIOWrapper
 import logging
-from typing import Any, Dict, Generator, List, Union, Tuple
+from io import TextIOWrapper
+from typing import Any, Dict, Generator, List, Tuple, Union
 
 from pybtex.database.input.bibtex import Parser
 from pybtex.exceptions import PybtexError
+
 
 def handleField(field: Tuple, datadict: Dict):
     fieldname = field[0].lower()

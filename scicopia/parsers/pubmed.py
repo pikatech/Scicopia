@@ -11,9 +11,10 @@ Main function is parse(source).
 
 import logging
 from typing import Dict, List
-from xml.etree.ElementTree import iterparse, Element
+from xml.etree.ElementTree import Element, iterparse
 
 from scicopia.parsers.marccode import marccode
+
 
 def handle_markup(element):
     # Handle marked up text

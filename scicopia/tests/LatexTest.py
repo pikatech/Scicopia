@@ -1,9 +1,7 @@
 import unittest
-from pylatexenc.latex2text import (
-    LatexNodes2Text,
-    get_default_latex_context_db,
-    MacroTextSpec,
-)
+
+from pylatexenc.latex2text import (LatexNodes2Text, MacroTextSpec,
+                                   get_default_latex_context_db)
 
 
 class LatexTest(unittest.TestCase):
