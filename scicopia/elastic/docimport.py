@@ -1,4 +1,8 @@
-# read data from arangodb and save allowed fields in elasticsearch
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Read data from ArangoDB and save allowed fields in Elasticsearch
+"""
 import argparse
 import logging
 from datetime import datetime
@@ -11,11 +15,7 @@ from tqdm import tqdm
 
 from scicopia.config import read_config
 
-# logging.getLogger().setLevel(logging.INFO)
-
-
 config = read_config()
-
 
 def setup():
     conn = connections.create_connection(hosts=config["es_hosts"])
