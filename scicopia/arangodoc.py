@@ -25,10 +25,10 @@ from typing import Callable, Dict, Generator, List
 import dask
 import zstandard as zstd
 from dask.distributed import Client, LocalCluster
-from progress.bar import Bar
 from pyArango.collection import Collection
 from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError, UpdateError
+from tqdm import tqdm
 
 from scicopia.config import read_config
 from scicopia.parsers.arxiv import parse as arxiv
@@ -281,13 +281,10 @@ def main(
         return
     open_func = OPEN_DICT[compression]
     parse = PARSE_DICT[doc_format]
-    progress = Bar("files", max=len(files))
-    for file in files:
+    for file in tqdm(files):
         import_file(
             file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
         )
-        progress.next()
-    progress.finish()
 
 
 def parallel_main(

@@ -5,14 +5,13 @@ from datetime import datetime
 
 from elasticsearch_dsl import (Completion, Date, Document, Keyword, Short,
                                Text, connections)
-from progress.bar import Bar
 from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError
+from tqdm import tqdm
 
 from scicopia.config import read_config
 
 # logging.getLogger().setLevel(logging.INFO)
-
 
 
 config = read_config()
@@ -42,7 +41,7 @@ def setup():
         logging.error(f"Collection {config['collection']} not found.")
 
     allowed = config["fields"]
-    
+
     return coll, db, config["collection"], allowed
 
 
@@ -85,7 +84,7 @@ def main(timestamp: int):
     else:
         aql = f"FOR x IN {collectionName} FILTER (x.elastic == null OR x.elastic < x.modified_at) RETURN x._key"
     BATCHSIZE = 100
-    TTL = BATCHSIZE * 10 # Time-to-live
+    TTL = BATCHSIZE * 10  # Time-to-live
     query = db.AQLQuery(aql, rawResults=True, batchSize=BATCHSIZE, ttl=TTL)
     unfinished = (
         query.response["extra"]["stats"]["scannedFull"]
@@ -95,8 +94,7 @@ def main(timestamp: int):
         logging.info("Elasticsearch is up to date")
         return
     logging.info(f"{unfinished} documents in found.")
-    bar = Bar("entries", max=unfinished)
-    for key in query:
+    for key in tqdm(query):
         doc = Bibdoc(meta={"id": key})
         arangodoc = collection[key]
         try:
@@ -108,7 +106,7 @@ def main(timestamp: int):
                         if arangodoc["abstract_offsets"]:
                             for start, end in arangodoc["abstract_offsets"]:
                                 abstract_elastic.append(abstract_arango[start:end])
-                                doc['abstract'] = abstract_elastic
+                                doc["abstract"] = abstract_elastic
                         else:
                             logging.warning(f"No offset for saving abstract in {key}.")
                 else:
@@ -120,12 +118,18 @@ def main(timestamp: int):
         except DocumentNotFoundError:
             pass
         doc.save()
-        bar.next()
-    bar.finish()
 
 
 if __name__ == "__main__":
-    PARSER = argparse.ArgumentParser(description="Imports documents from ArangoDB into Elasticsearch")
-    PARSER.add_argument("-t", "--recent", help="Documents that are more recent than this timestamp", default=0, type=int)
+    PARSER = argparse.ArgumentParser(
+        description="Imports documents from ArangoDB into Elasticsearch"
+    )
+    PARSER.add_argument(
+        "-t",
+        "--recent",
+        help="Documents that are more recent than this timestamp",
+        default=0,
+        type=int,
+    )
     ARGS = PARSER.parse_args()
     main(ARGS.recent)
