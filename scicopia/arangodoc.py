@@ -35,6 +35,7 @@ from scicopia.parsers.arxiv import parse as arxiv
 from scicopia.parsers.bibtex import parse as bib
 from scicopia.parsers.grobid import parse as grobid
 from scicopia.parsers.pubmed import parse as pubmed
+from scicopia.utils.zstandard import zstd_open
 
 logging.getLogger().setLevel(logging.INFO)
 
@@ -52,37 +53,6 @@ def create_id(doc: Dict, doc_format: str) -> None:
 #   elif format == 'bibtex':
 #       pass
 
-
-@contextmanager
-def zstd_open(
-    filename: str, mode: str = "rb", encoding: str = "utf-8"
-) -> Generator[TextIOWrapper, None, None]:
-    """
-    This is an auxilliary function to provide an open() function which supports
-    readline(), as ZstdDecompressor and the object produced by
-    ZstdDecompressor.stream_reader() don't have one.'
-
-    Parameters
-    ----------
-    filename : str
-        DESCRIPTION.
-    mode : str, optional
-        This parameter only exists to keep compatibility with other open()
-        functions and will be ignored. Interally, the mode is always 'rb'.
-        The default is 'rb'.
-    encoding : str, optional
-        The name of the encoding used in the file. The default is 'utf-8'.
-
-    Yields
-    ------
-    TextIOWrapper
-        DESCRIPTION.
-
-    """
-    dctx = zstd.ZstdDecompressor()
-    with open(filename, mode="rb") as fh:
-        with dctx.stream_reader(fh) as reader:
-            yield TextIOWrapper(reader, encoding=encoding)
 
 
 PARSE_DICT = {"bibtex": bib, "pubmed": pubmed, "arxiv": arxiv, "grobid": grobid}
