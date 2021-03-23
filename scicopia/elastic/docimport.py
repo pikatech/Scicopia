@@ -7,8 +7,15 @@ import argparse
 import logging
 from datetime import datetime
 
-from elasticsearch_dsl import (Completion, Date, Document, Keyword, Short,
-                               Text, connections)
+from elasticsearch_dsl import (
+    Completion,
+    Date,
+    Document,
+    Keyword,
+    Short,
+    Text,
+    connections,
+)
 from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError
 from tqdm import tqdm
@@ -16,6 +23,7 @@ from tqdm import tqdm
 from scicopia.config import read_config
 
 config = read_config()
+
 
 def setup():
     conn = connections.create_connection(hosts=config["es_hosts"])
