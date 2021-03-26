@@ -113,7 +113,7 @@ def page(id):
         prepared_search = current_app.config["SEARCH"].query(Ids(values=id))
         results = prepared_search.execute()
         if len(results.hits) == 0:
-            abort(404) 
+            abort(404)
         hit = results.hits[0]
         if 'abstract' in hit:
             hit.abstract = link(hit.abstract)
@@ -147,7 +147,7 @@ def pdf(id):
     try:
         data = current_app.config["PDFCOLLECTION"][id]["pdf"]
     except:
-        abort(404) 
+        abort(404)
     data = base64.b64decode(data)
     response = make_response(data)
     response.headers["Content-Type"] = "application/pdf"

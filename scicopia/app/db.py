@@ -137,7 +137,7 @@ def execute_query():
                 hit["abstract"] = link(r.meta.highlight.abstract)
             elif "abstract" in r:
                 hit["abstract"] = link(r.abstract)
-                
+
             hits.append(hit)
         for item in response.aggregations.by_tag.buckets:
             tag = {"name": item.key, "nr": item.doc_count, "mark": False}

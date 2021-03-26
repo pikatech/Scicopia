@@ -16,7 +16,7 @@ def handleField(field: Tuple, datadict: Dict):
         datadict["cited_by"] = field[1]
     else:
         datadict[fieldname] = field[1]
-            
+
 def handlePerson(item: Tuple, datadict: Dict):
     itemname = item[0].lower()
     persons = []
