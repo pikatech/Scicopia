@@ -25,6 +25,7 @@ class Config:
     conn = connections.create_connection(hosts=config["es_hosts"])
     search = Search(using=conn)
     SEARCH = search.index(config["index"])
+    COMPLETION = search.index(config["suggestions"])
 
     if "arango_url" in config:
         arangoconn = Connection(

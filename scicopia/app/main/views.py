@@ -46,7 +46,7 @@ def autocomplete():
         A list of auto-completion candidates
     """
     text =  name = request.form["prefix"]
-    search = current_app.config["search"]
+    search = current_app.config["COMPLETION"]
     search = search.index("suggestions")
     search = search.suggest('auto-completion', text, completion={"field" : "keywords_suggest", "size" : 10})
     results = search.execute()
@@ -55,7 +55,8 @@ def autocomplete():
         return jsonify([])
     hits = results["suggest"]["auto-completion"][0]["options"]
     completions = [hit["text"] for hit in hits]
-    return jsonify(completions)
+    print(completions)
+    return jsonify({"completions":completions})
 
 
 @main.route("/results", methods=["GET", "POST"])
