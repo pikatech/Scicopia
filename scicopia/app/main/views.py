@@ -28,13 +28,6 @@ def index():
     return render_template("index.html", form=form)
 
 
-@main.route("/total", methods=["GET", "POST"])
-def total():
-    prepared_search = current_app.config["SEARCH"].query(MultiMatch(query=session["query"]))
-    results = prepared_search.execute()
-    return jsonify({"total": str(results.hits.total.value)})
-
-
 @main.route("/autocomplete", methods=["POST"])
 def autocomplete():
     """
