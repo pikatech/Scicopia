@@ -21,3 +21,9 @@ scicopia.egg-info/
 .directory
 # Microsoft Visual Studio Code
 .vscode
+
+# Javascript development files
+.eslintrc.json
+node_modules/
+package-lock.json
+package.json
