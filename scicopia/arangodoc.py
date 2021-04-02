@@ -25,12 +25,13 @@ from typing import Callable, Dict, Generator, List
 import dask
 import zstandard as zstd
 from dask.distributed import Client, LocalCluster
-from progress.bar import Bar
 from pyArango.collection import Collection
 from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError, UpdateError
+from tqdm import tqdm
 
 from scicopia.config import read_config
+from scicopia.exceptions import ConfigError, DBError
 from scicopia.parsers.arxiv import parse as arxiv
 from scicopia.parsers.bibtex import parse as bib
 from scicopia.parsers.grobid import parse as grobid
@@ -92,29 +93,58 @@ OPEN_DICT = {"none": open, "gzip": gzip.open, "bzip2": bz2.open, "zstd": zstd_op
 
 
 def setup() -> Collection:
-    config = read_config()
-    if "arango_url" in config:
-        arangoconn = Connection(
-            arangoURL=config["arango_url"],
-            username=config["username"],
-            password=config["password"],
-        )
-    else:
-        arangoconn = Connection(
-            username=config["username"], password=config["password"]
-        )
+    """
+    Connect to the Arango database.
 
+    Returns
+    -------
+    Collection, Collection
+        1. The ArangoDB collection that holds the scientific documents
+        2. The ArangoDB collection that holds the PDFs (if added) with keys corresponding to the scientific documents
+
+    Raises
+    ------
+    ConfigError
+        If a needed entry is missing in the config file.
+    DBError
+        If the connection to the ArangoDB server failed.
+    """
+    config = read_config()
+    if not "username" in config:
+        raise ConfigError("Setting missing in config file: 'username'.")
+    if not "password" in config:
+        raise ConfigError("Setting missing in config file: 'password'.")
+    try:
+        if "arango_url" in config:
+            arangoconn = Connection(
+                arangoURL=config["arango_url"],
+                username=config["username"],
+                password=config["password"],
+            )
+        else:
+            arangoconn = Connection(
+                username=config["username"], password=config["password"]
+            )
+    except:
+        raise DBError(f"Connection to the ArangoDB server failed.")
+
+    if not "database" in config:
+        raise ConfigError("Setting missing in config file: 'database'.")
     if arangoconn.hasDatabase(config["database"]):
         db = arangoconn[config["database"]]
     else:
         db = arangoconn.createDatabase(name=config["database"])
 
+    if not "documentcollection" in config:
+        raise ConfigError("Setting missing in config file: 'documentcollection'.")
     if db.hasCollection(config["documentcollection"]):
         doccollection = db[config["documentcollection"]]
     else:
         doccollection = db.createCollection(name=config["documentcollection"])
         doccollection.ensurePersistentIndex(["modified_at"], unique=False, sparse=False, deduplicate=False, name="Modified")
 
+    if not "pdfcollection" in config:
+        raise ConfigError("Setting missing in config file: 'pdfcollection'.")
     if db.hasCollection(config["pdfcollection"]):
         pdfcollection = db[config["pdfcollection"]]
     else:
@@ -141,7 +171,7 @@ def handleBulkError(e, docs, collection, doc_format):
                 # 12 is the start of the position in all error messages
                 pos = error[12:error.index(":")]
                 doc = docs[int(pos)]
-                logging.warning(f'Key {doc._key} already exists for PDF. Update of PDFs is not supportet yet.\n')
+                logging.warning(f"Key '{doc._key}' already exists for PDF. Update of PDFs is not supportet yet.\n")
     elif doc_format == "pubmed":
         logging.info(e.message)
         errors = e.errors
@@ -185,7 +215,7 @@ def handleBulkError(e, docs, collection, doc_format):
                 # 12 is the start of the position in all error messages
                 pos = error[12:error.index(":")]
                 doc = docs[int(pos)]
-                logging.warning(f'Key {doc._key} already exists. To update the Data use --update\n')
+                logging.warning(f"Key '{doc._key}' already exists. To update the Data use --update.\n")
 
 def parallel_import(
     batch: str,
@@ -248,7 +278,7 @@ def import_file(
                     pdfdocs.append(pdfdoc)
                 else:
                     if first:
-                        logging.warning(f"No PDF found for {file}")
+                        logging.warning(f"No PDF found for '{file}'.")
                         first = False
             if len(docs) == docs.maxlen:
                 try:
@@ -290,7 +320,7 @@ def locate_files(
         f"{path}{f}*{EXT_DICT[doc_format]}{ZIP_DICT[compression]}", recursive=recursive
     )
     logging.info(
-        "%d %s%s-files found", len(files), EXT_DICT[doc_format], ZIP_DICT[compression]
+        f"{len(files)} {EXT_DICT[doc_format]}{ZIP_DICT[compression]}-files found" 
     )
     return files
 
@@ -307,17 +337,14 @@ def main(
     collection, pdfcollection = setup()
     files = locate_files(path, doc_format, recursive, compression)
     if not files:
-        logging.error(f"No files could be found in {path}")
+        logging.error(f"No files could be found in '{path}'.")
         return
     open_func = OPEN_DICT[compression]
     parse = PARSE_DICT[doc_format]
-    progress = Bar("files", max=len(files))
-    for file in files:
+    for file in tqdm(files):
         import_file(
             file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
         )
-        progress.next()
-    progress.finish()
 
 
 def parallel_main(
@@ -353,7 +380,7 @@ def parallel_main(
 
         files = locate_files(path, doc_format, recursive, compression)
         if not files:
-            logging.error(f"No files could be found in {path}")
+            logging.error(f"No files could be found in '{path}'.")
             return
         open_func = OPEN_DICT[compression]
         parse = PARSE_DICT[doc_format]
