@@ -40,6 +40,8 @@ def setup():
     SearchError
         If the connection to the Elasticsearch server failed.
     """
+    if not "es_hosts" in config:
+        raise ConfigError("Setting missing in config file: 'es_hosts'.")
     conn = connections.create_connection(hosts=config["es_hosts"])
     if not conn.ping():
         raise SearchError("Connection to the Elasticsearch server failed")
