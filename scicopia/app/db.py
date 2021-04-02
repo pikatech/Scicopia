@@ -58,7 +58,7 @@ def checkFields(condition, fields):
                     cond["query"] = cond.pop(field)
                     condition["multi_match"] = condition.pop(typ) # make sure type is multi_match for query
             if "auto_tags" in cond:
-                if type(cond["auto_tags"]) == str:
+                if isinstance(cond["auto_tags"], str):
                     cond["auto_tags"] = [cond["auto_tags"]]
                 condition["terms"] = condition.pop(typ)
                 return condition, cond["auto_tags"][0]
