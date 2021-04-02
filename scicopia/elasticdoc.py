@@ -44,7 +44,7 @@ def setup():
         raise ConfigError("Setting missing in config file: 'es_hosts'.")
     conn = connections.create_connection(hosts=config["es_hosts"])
     if not conn.ping():
-        raise SearchError("Connection to the Elasticsearch server failed")
+        raise SearchError("Connection to the Elasticsearch server failed.")
     if not "username" in config:
         raise ConfigError("Setting missing in config file: 'username'.")
     if not "password" in config:
