@@ -21,3 +21,5 @@ scicopia.egg-info/
 .directory
 # Microsoft Visual Studio Code
 .vscode
+
+config.json
