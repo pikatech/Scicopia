@@ -147,7 +147,7 @@ def main(timestamp: int):
                                 abstract_elastic.append(abstract_arango[start:end])
                                 doc['abstract'] = abstract_elastic
                         else:
-                            logging.warning(f"No offset for saving abstract in {key}.")
+                            logging.warning(f"No offset for saving abstract in '{key}'.")
                 else:
                     arango = arangodoc[field]
                     if arango:
