@@ -20,7 +20,7 @@ from collections import deque
 from contextlib import contextmanager
 from datetime import datetime
 from io import TextIOWrapper
-from typing import Callable, Dict, Generator, List
+from typing import Callable, Dict, Generator, List, Tuple
 
 import dask
 import zstandard as zstd
@@ -62,7 +62,7 @@ ZIP_DICT = {"none": "", "gzip": ".gz", "bzip2": ".bz2", "zstd": ".zst"}
 OPEN_DICT = {"none": open, "gzip": gzip.open, "bzip2": bz2.open, "zstd": zstd_open}
 
 
-def setup() -> Collection:
+def setup() -> Tuple[Collection, Collection]:
     """
     Connect to the Arango database.
 
