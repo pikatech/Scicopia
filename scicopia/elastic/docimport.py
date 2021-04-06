@@ -21,36 +21,76 @@ from pyArango.theExceptions import DocumentNotFoundError
 from tqdm import tqdm
 
 from scicopia.config import read_config
+from scicopia.exceptions import ConfigError, DBError, SearchError
 
 config = read_config()
 
 
 def setup():
-    conn = connections.create_connection(hosts=config["es_hosts"])
-    if "arango_url" in config:
-        arangoconn = Connection(
-            arangoURL=config["arango_url"],
-            username=config["username"],
-            password=config["password"],
-        )
-    else:
-        arangoconn = Connection(
-            username=config["username"], password=config["password"]
-        )
+    """
+    Connect to the Arango database and Elasticsearch.
 
+    Returns
+    -------
+    Collection, Database, str, list
+        1. The ArangoDB collection that holds the scientific documents
+        2. The ArangoDB database that holds the collection
+        3. The name of the collection
+        4. The list of fields that are take over from ArangoDB to Elasticsearch
+
+    Raises
+    ------
+    ConfigError
+        If a needed entry is missing in the config file.
+    DBError
+        If the connection to the ArangoDB server failed or the database or the collection can not be found.
+    SearchError
+        If the connection to the Elasticsearch server failed.
+    """
+    if not "es_hosts" in config:
+        raise ConfigError("Setting missing in config file: 'es_hosts'.")
+    conn = connections.create_connection(hosts=config["es_hosts"])
+    if not conn.ping():
+        raise SearchError("Connection to the Elasticsearch server failed.")
+    if not "username" in config:
+        raise ConfigError("Setting missing in config file: 'username'.")
+    if not "password" in config:
+        raise ConfigError("Setting missing in config file: 'password'.")
+    try:
+        if "arango_url" in config:
+            arangoconn = Connection(
+                arangoURL=config["arango_url"],
+                username=config["username"],
+                password=config["password"],
+            )
+        else:
+            arangoconn = Connection(
+                username=config["username"], password=config["password"]
+            )
+    except:
+        raise DBError(f"Connection to the ArangoDB server failed.")
+
+    if not "database" in config:
+        raise ConfigError("Setting missing in config file: 'database'.")
     if arangoconn.hasDatabase(config["database"]):
         db = arangoconn[config["database"]]
     else:
-        logging.error(f"Database {config['database']} not found.")
+        raise DBError(f"Database '{config['database']}' not found.")
 
-    if db.hasCollection(config["collection"]):
-        coll = db[config["collection"]]
+    if not "documentcollection" in config:
+        raise ConfigError("Setting missing in config file: 'documentcollection'.")
+    if db.hasCollection(config["documentcollection"]):
+        coll = db[config["documentcollection"]]
     else:
-        logging.error(f"Collection {config['collection']} not found.")
+        raise DBError(f"Collection '{config['documentcollection']}' not found.")
 
+    if not "fields" in config:
+        raise ConfigError("Setting missing in config file: 'fields'.")
     allowed = config["fields"]
-
-    return coll, db, config["collection"], allowed
+    if not "index" in config:
+        raise ConfigError("Setting missing in config file: 'index'.")
+    
+    return coll, db, config["documentcollection"], allowed
 
 
 # Used to declare the structure of documents and to
@@ -116,7 +156,7 @@ def main(timestamp: int):
                                 abstract_elastic.append(abstract_arango[start:end])
                                 doc["abstract"] = abstract_elastic
                         else:
-                            logging.warning(f"No offset for saving abstract in {key}.")
+                            logging.warning(f"No offset for saving abstract in '{key}'.")
                 else:
                     arango = arangodoc[field]
                     if arango:

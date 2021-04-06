@@ -27,3 +27,6 @@ scicopia.egg-info/
 node_modules/
 package-lock.json
 package.json
+
+config.json
+email.txt

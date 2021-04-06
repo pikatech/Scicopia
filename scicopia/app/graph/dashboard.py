@@ -1,3 +1,4 @@
+import logging
 from collections import defaultdict
 
 import dash
@@ -15,19 +16,32 @@ def create_dashboard(server):
         server=server,
         routes_pathname_prefix='/dash/'
     )
+    error = False
 
     nodes = []
     nodedict = defaultdict(list)
-    for collection in current_app.config['NODECOLLECTIONS']:
-        AQL = f'FOR x in {collection} RETURN [x.type, [x._id, x]]'
-        nodes += current_app.config['DB'].AQLQuery(AQL, rawResults=True, batchSize=1000, ttl=3600)
-        for entry in nodes:
-            nodedict[entry[0]].append(entry[1])
-
     edges = []
-    for collection in current_app.config['EDGECOLLECTIONS']:
-        AQL = f'FOR x in {collection} RETURN [x._from, x._to, x]'
-        edges += current_app.config['DB'].AQLQuery(AQL, rawResults=True, batchSize=1000, ttl=3600)
+    try:
+        for collection in current_app.config['NODECOLLECTIONS']:
+            AQL = f'FOR x in {collection} RETURN [x.type, [x._id, x]]'
+            nodes += current_app.config['DB'].AQLQuery(AQL, rawResults=True, batchSize=1000, ttl=3600)
+            for entry in nodes:
+                nodedict[entry[0]].append(entry[1])
+
+        for collection in current_app.config['EDGECOLLECTIONS']:
+            AQL = f'FOR x in {collection} RETURN [x._from, x._to, x]'
+            edges += current_app.config['DB'].AQLQuery(AQL, rawResults=True, batchSize=1000, ttl=3600)
+    except:
+        error = True
+
+    if error:
+        logging.error("An Error occurred while loading the Graphdata. Maybe the defined Collections don't exist.")
+        dash_app.layout = html.Div(children=html.H1(children='Graph Not Found'))
+        @server.route('/graph')
+        def graph():
+            return render_template('nograph.html')
+
+        return dash_app.server
 
     legende = {}
                          
