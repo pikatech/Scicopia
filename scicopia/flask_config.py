@@ -44,11 +44,8 @@ class Config:
         raise SearchError("Connection to the Elasticsearch server failed.")
     search = Search(using=conn)
     SEARCH = search.index(config["index"])
-<<<<<<< HEAD
     COMPLETION = search.index(config["suggestions"])
-=======
     FIELDS = config["fields"]
->>>>>>> bbd121695cf8e2e21b57112b198775a6cb36747e
 
     if not "username" in config:
         raise ConfigError("Setting missing in config file: 'username'.")
@@ -88,8 +85,6 @@ class Config:
     PDFCOLLECTIONNAME = config["pdfcollection"]
     if DB.hasCollection(PDFCOLLECTIONNAME):
         PDFCOLLECTION = DB[PDFCOLLECTIONNAME]
-    else:
-        raise DBError(f"Collection '{PDFCOLLECTIONNAME}' not found.")
 
     if not "usercollection" in config:
         raise ConfigError("Setting missing in config file: 'usercollection'.")
@@ -97,14 +92,6 @@ class Config:
     if DB.hasCollection(USERCOLLECTIONNAME):
         USERCOLLECTION = DB[USERCOLLECTIONNAME]
     else:
-<<<<<<< HEAD
-        logging.error(f"Usercollection {USERCOLLECTIONNAME} not found.")
-
-    NODECOLLECTIONS = config["nodecollections"]
-    EDGECOLLECTIONS = config["edgecollections"]
-
-    FIELDS = config["fields"]
-=======
         USERCOLLECTION = DB.createCollection(name=config["usercollection"])
 
     if ("nodecollections" in config and "edgecollections" in config
@@ -115,7 +102,6 @@ class Config:
         DASH = True
     else:
         DASH = False
->>>>>>> bbd121695cf8e2e21b57112b198775a6cb36747e
 
     @staticmethod
     def init_app(app):
