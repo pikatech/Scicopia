@@ -19,19 +19,16 @@ import re
 from collections import deque
 from contextlib import contextmanager
 from datetime import datetime
-from io import TextIOWrapper
-from typing import Callable, Dict, Generator, List, Tuple
+from typing import Callable, Dict, List, Tuple
 
 import dask
-import zstandard as zstd
 from dask.distributed import Client, LocalCluster
 from pyArango.collection import Collection
-from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError, UpdateError
 from tqdm import tqdm
 
 from scicopia.config import read_config
-from scicopia.exceptions import ConfigError, DBError, ScicopiaException
+from scicopia.exceptions import ConfigError, ScicopiaException
 from scicopia.parsers.arxiv import parse as arxiv
 from scicopia.parsers.bibtex import parse as bib
 from scicopia.parsers.grobid import parse as grobid
