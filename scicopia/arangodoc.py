@@ -36,6 +36,7 @@ from scicopia.parsers.arxiv import parse as arxiv
 from scicopia.parsers.bibtex import parse as bib
 from scicopia.parsers.grobid import parse as grobid
 from scicopia.parsers.pubmed import parse as pubmed
+from scicopia.utils.arangodb import connect
 from scicopia.utils.zstandard import zstd_open
 
 logger = logging.getLogger("scicopia")
@@ -56,56 +57,11 @@ def create_id(doc: Dict, doc_format: str) -> None:
 #       pass
 
 
-
 PARSE_DICT = {"bibtex": bib, "pubmed": pubmed, "arxiv": arxiv, "grobid": grobid}
 EXT_DICT = {"bibtex": ".bib", "pubmed": ".xml", "arxiv": ".xml", "grobid": ".xml"}
 ZIP_DICT = {"none": "", "gzip": ".gz", "bzip2": ".bz2", "zstd": ".zst"}
 OPEN_DICT = {"none": open, "gzip": gzip.open, "bzip2": bz2.open, "zstd": zstd_open}
 
-
-def connect(config: Dict) -> Connection:
-    """
-    Connect to the ArangoDB database.
-
-    Parameters
-    ----------
-    config : Dict
-        A configuration file containing the username and password
-        necessary to connect to the database, as well as an optional
-        parameter "arango_url", which provides a URL to the database,
-        e.g. http://www.example.com:8529.
-
-    Returns
-    -------
-    Connection
-        A connection to the ArangoDB database
-
-    Raises
-    ------
-    ConfigError
-        If a required entry is missing in the config file
-    DBError
-        If the connection to the ArangoDB server failed
-    """
-    if not "username" in config:
-        raise ConfigError("Setting missing in config file: 'username'.")
-    if not "password" in config:
-        raise ConfigError("Setting missing in config file: 'password'.")
-    try:
-        if "arango_url" in config:
-            conn = Connection(
-                arangoURL=config["arango_url"],
-                username=config["username"],
-                password=config["password"],
-            )
-        else:
-            conn = Connection(
-                username=config["username"], password=config["password"]
-            )
-    except:
-        raise DBError(f"Connection to the ArangoDB server failed.")
-    else:
-        return conn
 
 def setup() -> Tuple[Collection, Collection]:
     """
@@ -143,7 +99,13 @@ def setup() -> Tuple[Collection, Collection]:
         doccollection = db[config["documentcollection"]]
     else:
         doccollection = db.createCollection(name=config["documentcollection"])
-        doccollection.ensurePersistentIndex(["modified_at"], unique=False, sparse=False, deduplicate=False, name="Modified")
+        doccollection.ensurePersistentIndex(
+            ["modified_at"],
+            unique=False,
+            sparse=False,
+            deduplicate=False,
+            name="Modified",
+        )
 
     if not "pdfcollection" in config:
         raise ConfigError("Setting missing in config file: 'pdfcollection'.")
@@ -164,31 +126,34 @@ def pdfsave(file: str) -> str:
         data = ""
     return data
 
+
 def handleBulkError(e, docs, collection, doc_format):
     if doc_format == "pdf":
         logging.info(e.message)
         for error in e.errors["details"]:
-            if 'unique constraint violated' in error:
+            if "unique constraint violated" in error:
                 # gets number of doc in docs
                 # 12 is the start of the position in all error messages
-                pos = error[12:error.index(":")]
+                pos = error[12 : error.index(":")]
                 doc = docs[int(pos)]
-                logging.warning(f"Key '{doc._key}' already exists for PDF. Update of PDFs is not supportet yet.\n")
+                logging.warning(
+                    f"Key '{doc._key}' already exists for PDF. Update of PDFs is not supportet yet.\n"
+                )
     elif doc_format == "pubmed":
         logging.info(e.message)
         errors = e.errors
-        errordocs=[]
+        errordocs = []
         # list of docs with same key as a saved document
         for error in errors["details"]:
-            if 'unique constraint violated' in error:
+            if "unique constraint violated" in error:
                 # gets number of doc in docs
                 # 12 is the start of the position in all error messages
-                pos = error[12:error.index(":")]
+                pos = error[12 : error.index(":")]
                 errordocs.append(docs[int(pos)])
         # remove double in same batch
         # searching for better solution
         i = 0
-        while i < len(errordocs)-1:
+        while i < len(errordocs) - 1:
             j = i + 1
             while j < len(errordocs):
                 if errordocs[i]["PMID"] == errordocs[j]["PMID"]:
@@ -212,12 +177,15 @@ def handleBulkError(e, docs, collection, doc_format):
     else:
         logging.error(e.message)
         for error in e.errors["details"]:
-            if 'unique constraint violated' in error:
+            if "unique constraint violated" in error:
                 # gets number of doc in docs
                 # 12 is the start of the position in all error messages
-                pos = error[12:error.index(":")]
+                pos = error[12 : error.index(":")]
                 doc = docs[int(pos)]
-                logging.warning(f"Key '{doc._key}' already exists. To update the Data use --update.\n")
+                logging.warning(
+                    f"Key '{doc._key}' already exists. To update the Data use --update.\n"
+                )
+
 
 def parallel_import(
     batch: str,
@@ -234,7 +202,15 @@ def parallel_import(
         return
     for file in batch:
         import_file(
-            file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
+            file,
+            collection,
+            pdfcollection,
+            batch_size,
+            doc_format,
+            open_func,
+            parse,
+            update,
+            pdf,
         )
 
 
@@ -278,7 +254,7 @@ def import_file(
                 data = pdfsave(file)
                 if data:
                     pdfdoc = pdfcollection.createDocument()
-                    pdfdoc._key = doc_id # same id as associated document
+                    pdfdoc._key = doc_id  # same id as associated document
                     pdfdoc["pdf"] = data
                     pdfdocs.append(pdfdoc)
                 else:
@@ -325,7 +301,7 @@ def locate_files(
         f"{path}{f}*{EXT_DICT[doc_format]}{ZIP_DICT[compression]}", recursive=recursive
     )
     logging.info(
-        f"{len(files)} {EXT_DICT[doc_format]}{ZIP_DICT[compression]}-files found" 
+        f"{len(files)} {EXT_DICT[doc_format]}{ZIP_DICT[compression]}-files found"
     )
     return files
 
@@ -351,7 +327,15 @@ def main(
     parse = PARSE_DICT[doc_format]
     for file in tqdm(files):
         import_file(
-            file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
+            file,
+            collection,
+            pdfcollection,
+            batch_size,
+            doc_format,
+            open_func,
+            parse,
+            update,
+            pdf,
         )
 
 
