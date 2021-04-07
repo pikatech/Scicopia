@@ -5,6 +5,7 @@ Read data from ArangoDB and save allowed fields in Elasticsearch
 """
 import argparse
 import logging
+import sys
 from datetime import datetime
 
 from elasticsearch_dsl import (
@@ -21,7 +22,11 @@ from pyArango.theExceptions import DocumentNotFoundError
 from tqdm import tqdm
 
 from scicopia.config import read_config
-from scicopia.exceptions import ConfigError, DBError, SearchError
+from scicopia.exceptions import ConfigError, DBError, ScicopiaException, SearchError
+from scicopia.utils.arangodb import connect
+
+logger = logging.getLogger("scicopia")
+logger.setLevel(logging.INFO)
 
 config = read_config()
 
@@ -52,23 +57,11 @@ def setup():
     conn = connections.create_connection(hosts=config["es_hosts"])
     if not conn.ping():
         raise SearchError("Connection to the Elasticsearch server failed.")
-    if not "username" in config:
-        raise ConfigError("Setting missing in config file: 'username'.")
-    if not "password" in config:
-        raise ConfigError("Setting missing in config file: 'password'.")
     try:
-        if "arango_url" in config:
-            arangoconn = Connection(
-                arangoURL=config["arango_url"],
-                username=config["username"],
-                password=config["password"],
-            )
-        else:
-            arangoconn = Connection(
-                username=config["username"], password=config["password"]
-            )
-    except:
-        raise DBError(f"Connection to the ArangoDB server failed.")
+        arangoconn = connect(config)
+    except (ConfigError, DBError) as e:
+        logger.error(e)
+        raise e
 
     if not "database" in config:
         raise ConfigError("Setting missing in config file: 'database'.")
@@ -180,4 +173,8 @@ if __name__ == "__main__":
         type=int,
     )
     ARGS = PARSER.parse_args()
-    main(ARGS.recent)
+    try:
+        main(ARGS.recent)
+    except ScicopiaException as e:
+        logger.error(e)
+        sys.exit(-1)
