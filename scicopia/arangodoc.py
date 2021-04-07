@@ -31,14 +31,15 @@ from pyArango.theExceptions import DocumentNotFoundError, UpdateError
 from tqdm import tqdm
 
 from scicopia.config import read_config
-from scicopia.exceptions import ConfigError, DBError
+from scicopia.exceptions import ConfigError, DBError, ScicopiaException
 from scicopia.parsers.arxiv import parse as arxiv
 from scicopia.parsers.bibtex import parse as bib
 from scicopia.parsers.grobid import parse as grobid
 from scicopia.parsers.pubmed import parse as pubmed
 from scicopia.utils.zstandard import zstd_open
 
-logging.getLogger().setLevel(logging.INFO)
+logger = logging.getLogger("scicopia")
+logger.setLevel(logging.INFO)
 
 # See: https://www.arangodb.com/docs/stable/data-modeling-naming-conventions-document-keys.html
 NOT_VALID = re.compile("[^-_:.@()+,=;$!*'%A-Za-z0-9]")
@@ -62,6 +63,50 @@ ZIP_DICT = {"none": "", "gzip": ".gz", "bzip2": ".bz2", "zstd": ".zst"}
 OPEN_DICT = {"none": open, "gzip": gzip.open, "bzip2": bz2.open, "zstd": zstd_open}
 
 
+def connect(config: Dict) -> Connection:
+    """
+    Connect to the ArangoDB database.
+
+    Parameters
+    ----------
+    config : Dict
+        A configuration file containing the username and password
+        necessary to connect to the database, as well as an optional
+        parameter "arango_url", which provides a URL to the database,
+        e.g. http://www.example.com:8529.
+
+    Returns
+    -------
+    Connection
+        A connection to the ArangoDB database
+
+    Raises
+    ------
+    ConfigError
+        If a required entry is missing in the config file
+    DBError
+        If the connection to the ArangoDB server failed
+    """
+    if not "username" in config:
+        raise ConfigError("Setting missing in config file: 'username'.")
+    if not "password" in config:
+        raise ConfigError("Setting missing in config file: 'password'.")
+    try:
+        if "arango_url" in config:
+            conn = Connection(
+                arangoURL=config["arango_url"],
+                username=config["username"],
+                password=config["password"],
+            )
+        else:
+            conn = Connection(
+                username=config["username"], password=config["password"]
+            )
+    except:
+        raise DBError(f"Connection to the ArangoDB server failed.")
+    else:
+        return conn
+
 def setup() -> Tuple[Collection, Collection]:
     """
     Connect to the Arango database.
@@ -70,33 +115,20 @@ def setup() -> Tuple[Collection, Collection]:
     -------
     Collection, Collection
         1. The ArangoDB collection that holds the scientific documents
-        2. The ArangoDB collection that holds the PDFs (if added) with keys corresponding to the scientific documents
+        2. The ArangoDB collection that holds the PDFs (if added) with
+           keys corresponding to the scientific documents
 
     Raises
     ------
     ConfigError
-        If a needed entry is missing in the config file.
-    DBError
-        If the connection to the ArangoDB server failed.
+        If a required entry is missing in the config file
     """
     config = read_config()
-    if not "username" in config:
-        raise ConfigError("Setting missing in config file: 'username'.")
-    if not "password" in config:
-        raise ConfigError("Setting missing in config file: 'password'.")
     try:
-        if "arango_url" in config:
-            arangoconn = Connection(
-                arangoURL=config["arango_url"],
-                username=config["username"],
-                password=config["password"],
-            )
-        else:
-            arangoconn = Connection(
-                username=config["username"], password=config["password"]
-            )
-    except:
-        raise DBError(f"Connection to the ArangoDB server failed.")
+        arangoconn = connect(config)
+    except ScicopiaException as e:
+        logger.error(e)
+        raise e
 
     if not "database" in config:
         raise ConfigError("Setting missing in config file: 'database'.")
@@ -196,7 +228,10 @@ def parallel_import(
     update: bool,
     pdf: bool,
 ):
-    collection, pdfcollection = setup()
+    try:
+        collection, pdfcollection = setup()
+    except ScicopiaException:
+        return
     for file in batch:
         import_file(
             file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
@@ -304,7 +339,10 @@ def main(
     update: bool = False,
     batch_size: int = 1000,
 ):
-    collection, pdfcollection = setup()
+    try:
+        collection, pdfcollection = setup()
+    except ScicopiaException:
+        return
     files = locate_files(path, doc_format, recursive, compression)
     if not files:
         logging.error(f"No files could be found in '{path}'.")
@@ -346,8 +384,10 @@ def parallel_main(
         client = Client(cluster)
 
         # Just make sure the database gets prepared, no need for return value
-        setup()
-
+        try:
+            setup()
+        except ScicopiaException:
+            return
         files = locate_files(path, doc_format, recursive, compression)
         if not files:
             logging.error(f"No files could be found in '{path}'.")
