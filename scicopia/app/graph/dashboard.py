@@ -10,6 +10,7 @@ from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from flask import current_app, render_template
 
+import scicopia.app.graph.customize as c
 
 def create_dashboard(server):
     dash_app = dash.Dash(
@@ -23,7 +24,7 @@ def create_dashboard(server):
     edges = []
     try:
         for collection in current_app.config['NODECOLLECTIONS']:
-            AQL = f'FOR x in {collection} RETURN [x.type, [x._id, x]]'
+            AQL = f'FOR x in {collection} RETURN [x["{c.CATEGORY}"], [x._id, x]]'
             nodes += current_app.config['DB'].AQLQuery(AQL, rawResults=True, batchSize=1000, ttl=3600)
             for entry in nodes:
                 nodedict[entry[0]].append(entry[1])
@@ -67,11 +68,7 @@ def create_dashboard(server):
                     dcc.Input(id='input', type='search', placeholder='search', style={'minWidth':'100%', 'maxWidth':'100%'}),
                     dcc.Dropdown(
                         id='drop',
-                        options=[
-                            {'label': 'Type', 'value': 'type'},
-                            {'label': 'Name', 'value': 'name'},
-                            {'label': 'ID', 'value': '_id'}
-                        ],
+                        options= c.SEARCHOPTIONS,
                         value=[],
                         multi=True
                     ),
@@ -83,12 +80,8 @@ def create_dashboard(server):
                     ),
                     dcc.RadioItems(
                         id='mode',
-                        options=[
-                            {'label': 'Mark', 'value': 'mark'},
-                            {'label': 'Path', 'value': 'path'},
-                            {'label': 'Neighbor', 'value': 'neighbor'}
-                        ],
-                        value='neighbor'
+                        options= c.MODEOPTIONS,
+                        value= c.MODEDEFAULT
                     ),
                 ],
             ),
@@ -139,7 +132,7 @@ def init_callbacks(app, nodedict, edges, legende):
     def display_click_data(clickData, prev_selected):
         if clickData and 'text' in clickData['points'][0]:
             text = clickData['points'][0]['text']
-            text = text[4:text.index('<br>')]
+            text = c.findLabel(text)
             if text in legende:
                 id = legende[text]['id']
                 if id in prev_selected:
@@ -176,64 +169,6 @@ def get_checklist(legende, value=None):
                 ],
         id='checklist-container'
     )
-
-def info(datadict):
-    text = []
-    for key, data in datadict.items():
-        if key == '_rev':
-            continue
-        if key == '_id':
-            continue
-        if key == 'pos':
-            continue
-        if key == '_key':
-            if not '_from' in datadict:
-                text.append(f'id: {data}')
-            continue
-        if key == '_from':
-            text.append(f'from: {data[data.index("/")+1:]}')
-            continue
-        if key == '_to':
-            text.append(f'to: {data[data.index("/")+1:]}')
-            continue
-        text.append(f'{key}: {data}')
-    text = '<br>'.join(text)
-    return text
-
-def color(colortype): 
-    # rules for the node color
-    if colortype =='search':
-        return '#D55E00'
-    elif colortype =='marked':
-        return '#56B4E9'
-    elif colortype =='path':
-        return '#CC79A7'
-    elif colortype =='edge':
-        return '#E69F00'
-    # example, depending on the nodetype
-    elif colortype == 'root':
-        return '#221100'
-    elif colortype == 'continent':
-        return '#442200'
-    elif colortype == 'country':
-        return '#664400'
-    elif colortype == 'capital':
-        return '#886600'
-    else:
-        return '#000000'
-
-def zpos(nodetype):
-    if nodetype == 'root':
-        return 1
-    elif nodetype == 'continent':
-        return 0.75
-    elif nodetype == 'country':
-        return 0.5
-    elif nodetype == 'capital':
-        return 0.25
-    else:
-        return 0
-
 
 def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], marked = [], check = []):
     # add nodes from nodedict dependent of check
@@ -274,7 +209,7 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
     pos = nx.layout.spring_layout(G)
     for node in G.nodes:
         G.nodes[node]['pos'] = list(pos[node])
-        G.nodes[node]['pos'].append(zpos(G.nodes[node]['type']))
+        G.nodes[node]['pos'].append(c.zpos(G.nodes[node][c.ZPOS]))
 
 
     path_node_trace = go.Scatter3d(x=[], y=[], z=[])
@@ -298,13 +233,13 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
                     mode='markers',
                     hoverinfo='text',
                     marker=dict(
-                        color=color('path'),
+                        color=c.color('path'),
                         size=12,
                         line_width=1)
                 )
                 path_edge_trace = go.Scatter3d(
                     x=path_node_x, y=path_node_y, z=path_node_z,
-                    line=dict(width=1, color=color('path')),
+                    line=dict(width=1, color=c.color('path')),
                     hoverinfo='text',
                     mode='lines'
                 )
@@ -336,11 +271,11 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
         middle_x.append((x0+x1)/2)
         middle_y.append((y0+y1)/2)
         middle_z.append((z0+z1)/2)
-        edge_text.append(info(G.edges[edge]))
+        edge_text.append(c.info(G.edges[edge]))
 
     edge_trace = go.Scatter3d(
         x=edge_x, y=edge_y, z=edge_z,
-        line=dict(width=1, color=color('edge')),
+        line=dict(width=1, color=c.color('edge')),
         hoverinfo='text',
         mode='lines')
 
@@ -349,7 +284,7 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
         mode='markers',
         hoverinfo='text',
         marker=dict(
-            color=color('edge'),
+            color=c.color('edge'),
             size=1,
             line_width=1)
     )
@@ -369,9 +304,9 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
         node_x.append(x)
         node_y.append(y)
         node_z.append(z)
-        node_text.append(info(node))
-        colors.append(color(node['type']))
-        legende[node['_key']] = {'name': node['name'], 'id': node['_id']}
+        node_text.append(c.info(node))
+        colors.append(c.color(node[c.COLOR]))
+        legende[node[c.KEY]] = {'name': node[c.LABEL], 'id': node['_id']}
         if search:
             if drop:
                 for att in drop:
@@ -402,7 +337,7 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
             mode='markers',
             hoverinfo='text',
             marker=dict(
-                color=color('search'),
+                color=c.color('search'),
                 size=12,
                 line_width=1)
         )
@@ -424,7 +359,7 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
             mode='markers',
             hoverinfo='text',
             marker=dict(
-                color=color('marked'),
+                color=c.color('marked'),
                 size=15,
                 line_width=1)
         )
