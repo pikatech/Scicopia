@@ -1,13 +1,15 @@
 import base64
+import logging
 
 from elasticsearch_dsl.query import Ids, MultiMatch
 from flask import (abort, current_app, g, jsonify, make_response, redirect,
-                   render_template, session, url_for)
+                   render_template, request, session, url_for)
 
 from ..db import add_search, analyze_input, execute_query, link
 from . import main
 from .forms import NameForm, PageButton, SortForm
 
+logger = logging.getLogger("ncbi")
 
 @main.route("/", methods=["GET", "POST"])
 def index():
@@ -26,11 +28,28 @@ def index():
     return render_template("index.html", form=form)
 
 
-@main.route("/total", methods=["GET", "POST"])
-def total():
-    prepared_search = current_app.config["SEARCH"].query(MultiMatch(query=session["query"]))
-    results = prepared_search.execute()
-    return jsonify({"total": str(results.hits.total.value)})
+@main.route("/autocomplete", methods=["POST"])
+def autocomplete():
+    """
+    Query the auto-completion index to retrieve a list of candidates
+
+    Returns
+    -------
+    List[str] wrapped in JSON
+        A list of auto-completion candidates
+    """
+    text =  name = request.form["prefix"]
+    search = current_app.config["COMPLETION"]
+    search = search.index("suggestions")
+    search = search.suggest('auto-completion', text, completion={"field" : "keywords_suggest", "size" : 10})
+    results = search.execute()
+    if results["timed_out"]:
+        logging.warning("Auto-completion request timed out: %s", text)
+        return jsonify([])
+    hits = results["suggest"]["auto-completion"][0]["options"]
+    completions = [hit["text"] for hit in hits]
+    print(completions)
+    return jsonify({"completions":completions})
 
 
 @main.route("/results", methods=["GET", "POST"])
@@ -88,7 +107,7 @@ def page(id):
         prepared_search = current_app.config["SEARCH"].query(Ids(values=id))
         results = prepared_search.execute()
         if len(results.hits) == 0:
-            abort(404) 
+            abort(404)
         hit = results.hits[0]
         if 'abstract' in hit:
             hit.abstract = link(hit.abstract)
@@ -122,7 +141,7 @@ def pdf(id):
     try:
         data = current_app.config["PDFCOLLECTION"][id]["pdf"]
     except:
-        abort(404) 
+        abort(404)
     data = base64.b64decode(data)
     response = make_response(data)
     response.headers["Content-Type"] = "application/pdf"

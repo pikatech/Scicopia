@@ -28,7 +28,6 @@ date_pattern = re.compile(r"(\d{4})-\d{2}-\d{2}", re.ASCII)
 
 def extract_text(root: ET.Element) -> str:
     """
-    
     root: ElementTree Element
     """
     text = []
@@ -44,7 +43,7 @@ def extract_text(root: ET.Element) -> str:
 def remove_refs(root: ET.Element) -> None:
     """
     Removes the backmatter and references in text.
-    
+
     root: ElementTree Element
     """
     for text in root.findall(TEITEXT):

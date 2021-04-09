@@ -1,20 +1,27 @@
-# read data from arangodb and save allowed fields in elasticsearch
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Read data from ArangoDB and save allowed fields in Elasticsearch
+"""
 import argparse
 import logging
 from datetime import datetime
 
-from elasticsearch_dsl import (Completion, Date, Document, Keyword, Short,
-                               Text, connections)
+from elasticsearch_dsl import (
+    Completion,
+    Date,
+    Document,
+    Keyword,
+    Short,
+    Text,
+    connections,
+)
 from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError
 from tqdm import tqdm
 
 from scicopia.config import read_config
 from scicopia.exceptions import ConfigError, DBError, SearchError
-
-# logging.getLogger().setLevel(logging.INFO)
-
-
 
 config = read_config()
 
@@ -125,7 +132,7 @@ def main(timestamp: int):
     else:
         aql = f"FOR x IN {collectionName} FILTER (x.elastic == null OR x.elastic < x.modified_at) RETURN x._key"
     BATCHSIZE = 100
-    TTL = BATCHSIZE * 10 # Time-to-live
+    TTL = BATCHSIZE * 10  # Time-to-live
     query = db.AQLQuery(aql, rawResults=True, batchSize=BATCHSIZE, ttl=TTL)
     unfinished = (
         query.response["extra"]["stats"]["scannedFull"]
@@ -147,7 +154,7 @@ def main(timestamp: int):
                         if arangodoc["abstract_offsets"]:
                             for start, end in arangodoc["abstract_offsets"]:
                                 abstract_elastic.append(abstract_arango[start:end])
-                                doc['abstract'] = abstract_elastic
+                                doc["abstract"] = abstract_elastic
                         else:
                             logging.warning(f"No offset for saving abstract in '{key}'.")
                 else:
@@ -162,7 +169,15 @@ def main(timestamp: int):
 
 
 if __name__ == "__main__":
-    PARSER = argparse.ArgumentParser(description="Imports documents from ArangoDB into Elasticsearch")
-    PARSER.add_argument("-t", "--recent", help="Documents that are more recent than this timestamp", default=0, type=int)
+    PARSER = argparse.ArgumentParser(
+        description="Imports documents from ArangoDB into Elasticsearch"
+    )
+    PARSER.add_argument(
+        "-t",
+        "--recent",
+        help="Documents that are more recent than this timestamp",
+        default=0,
+        type=int,
+    )
     ARGS = PARSER.parse_args()
     main(ARGS.recent)

@@ -47,6 +47,7 @@ class Config:
         raise SearchError("Connection to the Elasticsearch server failed.")
     search = Search(using=conn)
     SEARCH = search.index(config["index"])
+    COMPLETION = search.index(config["suggestions"])
     FIELDS = config["fields"]
 
     if not "username" in config:
@@ -87,8 +88,6 @@ class Config:
     PDFCOLLECTIONNAME = config["pdfcollection"]
     if DB.hasCollection(PDFCOLLECTIONNAME):
         PDFCOLLECTION = DB[PDFCOLLECTIONNAME]
-    else:
-        raise DBError(f"Collection '{PDFCOLLECTIONNAME}' not found.")
 
     if not "usercollection" in config:
         raise ConfigError("Setting missing in config file: 'usercollection'.")
@@ -134,4 +133,4 @@ config = {
     'production': ProductionConfig,
 
     'default': DevelopmentConfig
-} 
+}
