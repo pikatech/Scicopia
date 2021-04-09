@@ -13,7 +13,10 @@ class Config:
 
     if not "secret_key" in config:
         raise ConfigError("Setting missing in config file: 'secret_key'.")
-    SECRET_KEY = config["secret_key"]
+    if len(config["secret_key"]) > 0:
+        SECRET_KEY = config["secret_key"]
+    else:
+        raise ConfigError("Set the secret_key on the application to something unique and secret.")
 
     if not "mailusername" in config:
         raise ConfigError("Setting missing in config file: 'mailusername'.")
