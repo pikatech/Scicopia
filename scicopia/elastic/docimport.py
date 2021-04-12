@@ -17,13 +17,12 @@ from elasticsearch_dsl import (
     Text,
     connections,
 )
-from pyArango.connection import Connection
 from pyArango.theExceptions import DocumentNotFoundError
 from tqdm import tqdm
 
 from scicopia.config import read_config
 from scicopia.exceptions import ConfigError, DBError, ScicopiaException, SearchError
-from scicopia.utils.arangodb import connect
+from scicopia.utils.arangodb import connect, get_docs, select_db
 
 logger = logging.getLogger("scicopia")
 logger.setLevel(logging.INFO)
@@ -46,9 +45,10 @@ def setup():
     Raises
     ------
     ConfigError
-        If a needed entry is missing in the config file.
+        If a required entry is missing in the config file.
     DBError
-        If the connection to the ArangoDB server failed or the database or the collection can not be found.
+        If the connection to the ArangoDB server failed or the database
+        or the collection can not be found.
     SearchError
         If the connection to the Elasticsearch server failed.
     """
@@ -59,31 +59,19 @@ def setup():
         raise SearchError("Connection to the Elasticsearch server failed.")
     try:
         arangoconn = connect(config)
+        db = select_db(config, arangoconn)
+        docs = get_docs(config, db)
     except (ConfigError, DBError) as e:
         logger.error(e)
         raise e
-
-    if not "database" in config:
-        raise ConfigError("Setting missing in config file: 'database'.")
-    if arangoconn.hasDatabase(config["database"]):
-        db = arangoconn[config["database"]]
-    else:
-        raise DBError(f"Database '{config['database']}' not found.")
-
-    if not "documentcollection" in config:
-        raise ConfigError("Setting missing in config file: 'documentcollection'.")
-    if db.hasCollection(config["documentcollection"]):
-        coll = db[config["documentcollection"]]
-    else:
-        raise DBError(f"Collection '{config['documentcollection']}' not found.")
 
     if not "fields" in config:
         raise ConfigError("Setting missing in config file: 'fields'.")
     allowed = config["fields"]
     if not "index" in config:
         raise ConfigError("Setting missing in config file: 'index'.")
-    
-    return coll, db, config["documentcollection"], allowed
+
+    return docs, db, allowed
 
 
 # Used to declare the structure of documents and to
@@ -118,12 +106,12 @@ class Bibdoc(Document):
 
 
 def main(timestamp: int):
-    collection, db, collectionName, allowed = setup()
+    collection, db, allowed = setup()
     Bibdoc.init()
     if timestamp != 0:
-        aql = f"FOR x IN {collectionName} FILTER (x.elastic == null OR x.elastic < x.modified_at) AND x.modified_at > {timestamp} RETURN x._key"
+        aql = f"FOR x IN {collection.name} FILTER (x.elastic == null OR x.elastic < x.modified_at) AND x.modified_at > {timestamp} RETURN x._key"
     else:
-        aql = f"FOR x IN {collectionName} FILTER (x.elastic == null OR x.elastic < x.modified_at) RETURN x._key"
+        aql = f"FOR x IN {collection.name} FILTER (x.elastic == null OR x.elastic < x.modified_at) RETURN x._key"
     BATCHSIZE = 100
     TTL = BATCHSIZE * 10  # Time-to-live
     query = db.AQLQuery(aql, rawResults=True, batchSize=BATCHSIZE, ttl=TTL)
@@ -149,7 +137,9 @@ def main(timestamp: int):
                                 abstract_elastic.append(abstract_arango[start:end])
                                 doc["abstract"] = abstract_elastic
                         else:
-                            logging.warning(f"No offset for saving abstract in '{key}'.")
+                            logging.warning(
+                                f"No offset for saving abstract in '{key}'."
+                            )
                 else:
                     arango = arangodoc[field]
                     if arango:
