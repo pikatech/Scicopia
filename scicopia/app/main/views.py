@@ -48,7 +48,6 @@ def autocomplete():
         return jsonify([])
     hits = results["suggest"]["auto-completion"][0]["options"]
     completions = [hit["text"] for hit in hits]
-    print(completions)
     return jsonify({"completions":completions})
 
 

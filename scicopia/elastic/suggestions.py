@@ -67,8 +67,7 @@ def index(suggestions: Iterable) -> Iterator[Dict[str, Any]]:
             "_index": config["suggestions"],
             "_id": i
         }
-        doc["_source"] = {"keywords_suggest": suggestion[0], "weight": suggestion[1]}
-        print(doc)
+        doc["keywords_suggest"] = {"input": suggestion[0], "weight": suggestion[1]}
         yield doc
 
 if __name__ == "__main__":
