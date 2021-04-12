@@ -28,12 +28,12 @@ from pyArango.theExceptions import DocumentNotFoundError, UpdateError
 from tqdm import tqdm
 
 from scicopia.config import read_config
-from scicopia.exceptions import ConfigError, ScicopiaException
+from scicopia.exceptions import ConfigError, DBError, ScicopiaException
 from scicopia.parsers.arxiv import parse as arxiv
 from scicopia.parsers.bibtex import parse as bib
 from scicopia.parsers.grobid import parse as grobid
 from scicopia.parsers.pubmed import parse as pubmed
-from scicopia.utils.arangodb import connect
+from scicopia.utils.arangodb import connect, select_db
 from scicopia.utils.zstandard import zstd_open
 
 logger = logging.getLogger("scicopia")
@@ -75,20 +75,17 @@ def setup() -> Tuple[Collection, Collection]:
     ------
     ConfigError
         If a required entry is missing in the config file
+        DBError
+        If the connection to the ArangoDB server failed or the database
+        or the collection can not be found.
     """
     config = read_config()
     try:
         arangoconn = connect(config)
-    except ScicopiaException as e:
+        db = select_db(config, arangoconn, create=True)
+    except (ConfigError, DBError) as e:
         logger.error(e)
         raise e
-
-    if not "database" in config:
-        raise ConfigError("Setting missing in config file: 'database'.")
-    if arangoconn.hasDatabase(config["database"]):
-        db = arangoconn[config["database"]]
-    else:
-        db = arangoconn.createDatabase(name=config["database"])
 
     if not "documentcollection" in config:
         raise ConfigError("Setting missing in config file: 'documentcollection'.")
