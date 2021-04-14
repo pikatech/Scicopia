@@ -33,18 +33,21 @@ def analyze_input(input: str) -> Dict[str, Dict[str, str]]:
     walker.walk(listener, tree)
     return listener.getQueries()
 
+
 def checkFields(condition, fields):
-    for typ, cond in condition.items(): # one pass
-        for field in cond: # one pass
+    for typ, cond in condition.items():  # one pass
+        for field in cond:  # one pass
             field = field.lower()
-            if field in fields: # field is allowed
-                pass # change nothing
+            if field in fields:  # field is allowed
+                pass  # change nothing
             elif field == "query":
                 if typ != "multi_match":
-                    newcond = condition.pop(typ) # remove old condition
+                    newcond = condition.pop(typ)  # remove old condition
                     if typ == "match_phrase":
                         newcond["type"] = "phrase"
-                    condition["multi_match"] = newcond # make sure type is multi_match for query
+                    condition[
+                        "multi_match"
+                    ] = newcond  # make sure type is multi_match for query
             else:
                 found = False
                 for tag in fields:
@@ -56,7 +59,9 @@ def checkFields(condition, fields):
                 if not found:
                     flash(f"Field '{field}' not found. Field restriction removed.")
                     cond["query"] = cond.pop(field)
-                    condition["multi_match"] = condition.pop(typ) # make sure type is multi_match for query
+                    condition["multi_match"] = condition.pop(
+                        typ
+                    )  # make sure type is multi_match for query
             if "auto_tags" in cond:
                 if isinstance(cond["auto_tags"], str):
                     cond["auto_tags"] = [cond["auto_tags"]]
@@ -66,11 +71,12 @@ def checkFields(condition, fields):
         break
     return condition, False
 
+
 def newsearch():
     query = []
     for condition in session["condition"]["must"]:
-        for typ, cond in condition.items(): # one pass
-            for field, value in cond.items(): # one pass
+        for typ, cond in condition.items():  # one pass
+            for field, value in cond.items():  # one pass
                 if field == "auto_tags":
                     query.append(f"{field}: '{value[0]}'")
                 else:
@@ -78,8 +84,8 @@ def newsearch():
                 break
             break
     for condition in session["condition"]["must_not"]:
-        for typ, cond in condition.items(): # one pass
-            for field, value in cond.items(): # one pass
+        for typ, cond in condition.items():  # one pass
+            for field, value in cond.items():  # one pass
                 if field == "auto_tags":
                     query.append(f"-{field}: '{value[0]}'")
                 else:
@@ -87,6 +93,7 @@ def newsearch():
                 break
             break
     session["query"] = " ".join(query)
+
 
 def execute_query():
     conditions = []
@@ -102,9 +109,11 @@ def execute_query():
         conditions.append(Q(condition))
     for restriction in session["condition"]["must_not"]:
         restriction, autotag = checkFields(restriction, fields)
-        while True: # make sure the restriction is not in the conditions
+        while True:  # make sure the restriction is not in the conditions
             if restriction in session["condition"]["must"]:
-                flash(f"Found {restriction} in condition and restriction, removed from condition.")
+                flash(
+                    f"Found {restriction} in condition and restriction, removed from condition."
+                )
                 session["condition"]["must"].remove(restriction)
                 conditions.remove(Q(restriction))
             else:
@@ -116,10 +125,10 @@ def execute_query():
     prepared_search = prepared_search.query(Q({"bool": {"must": conditions}}))
     if restrictions:
         prepared_search = prepared_search.query(Q({"bool": {"must_not": restrictions}}))
-    prepared_search = prepared_search.highlight('abstract')
-    prepared_search = prepared_search.highlight_options(pre_tags=["<b>"],
-                                                        post_tags=["</b>"],
-                                                        number_of_fragments=0)
+    prepared_search = prepared_search.highlight("abstract")
+    prepared_search = prepared_search.highlight_options(
+        pre_tags=["<b>"], post_tags=["</b>"], number_of_fragments=0
+    )
     hits = []
     tags = []
     from_hit = session["from_hit"]
@@ -132,7 +141,11 @@ def execute_query():
             if "title" in r:
                 hit["title"] = r.title
             if "author" in r:
-                hit["author"] = " and ".join(r.author)
+                hit["author"] = (
+                    " and ".join(r.author)
+                    if len(r.author) <= 2
+                    else f"{', '.join(r.author[:-1])} and {r.author[-1]}"
+                )
             if "highlight" in r.meta and "abstract" in r.meta.highlight:
                 hit["abstract"] = link(r.meta.highlight.abstract)
             elif "abstract" in r:
