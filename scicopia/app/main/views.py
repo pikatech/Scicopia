@@ -181,6 +181,22 @@ def oldsearch(search):
     session["tags"] = []
     return redirect(url_for("main.results"))
 
+@main.route("/newgraph", methods=["GET", "POST"])
+def newgraph():
+    session.pop('graph', None)
+    return redirect(url_for("graph"))
+
+@main.route("/graphnode/<id>/<key>", methods=["GET", "POST"])
+def graphnode(id, key):
+    session["graph"] = {
+            "mode":"neighbor",
+            "marked":[f"{id}/{key}"],
+            "searchfield" : "",
+            "searchdropdown" : [],
+            "categories" : []
+            }
+    return redirect(url_for("graph"))
+
 @main.route("/help")
 def help():
     return render_template("work.html")

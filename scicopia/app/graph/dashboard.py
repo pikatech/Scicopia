@@ -8,7 +8,7 @@ import networkx as nx
 import plotly.graph_objs as go
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
-from flask import current_app, render_template
+from flask import current_app, render_template, session, g
 
 import scicopia.app.graph.customize as c
 
@@ -45,57 +45,71 @@ def create_dashboard(server):
         return dash_app.server
 
     legende = {}
-                         
+
     # Create Dash Layout
-    dash_app.layout = html.Div(
-        children=[
-            html.Div(
-                className = 'six columns',
-                children=[dcc.Graph(id='my-graph', figure=network_graph(nodedict, edges, legende, 'mark'), style={'height':'100%'})],
-            ),
-            html.Div(
-                className='two columns',
-                children=[get_checklist(legende)]
-            ),
-            html.Div(
-                className='two columns',
-                children=[get_dropdown(legende)]
-            ),
-            html.Div(
-                className='two columns',
-                
-                children=[
-                    dcc.Input(id='input', type='search', placeholder='search', style={'minWidth':'100%', 'maxWidth':'100%'}),
-                    dcc.Dropdown(
-                        id='drop',
-                        options= c.SEARCHOPTIONS,
-                        value=[],
-                        multi=True
-                    ),
-                    dcc.Checklist(
-                        id='check',
-                        options=[{'label':x,'value': x} for x in nodedict
-                        ],
-                        value=[]
-                    ),
-                    dcc.RadioItems(
-                        id='mode',
-                        options= c.MODEOPTIONS,
-                        value= c.MODEDEFAULT
-                    ),
-                ],
-            ),
-            
-            html.Div([], id='previously-selected', style={'display': 'none'}),
-            html.Div([], id='previously-selected2', style={'display': 'none'}),
-            html.Div([], id='previously-selected3', style={'display': 'none'}),
-        ]
-    )
-    
+    dash_app.layout = html.Div()
+
     init_callbacks(dash_app, nodedict, edges, legende)
     
     @server.route('/graph')
     def graph():
+        # {"mode":mode, "searchfield":searchfield,"searchdropdown":searchdropdown,"marked":marked,"categories":categories}
+        if "graph" in session:
+            mode = session["graph"]["mode"]
+            marked = session["graph"]["marked"]
+            searchfield = session["graph"]["searchfield"]
+            searchdropdown = session["graph"]["searchdropdown"]
+            categories = session["graph"]["categories"]
+        else:
+            mode = c.MODEDEFAULT
+            marked = []
+            searchfield = ""
+            searchdropdown = []
+            categories = []
+        dash_app.layout = html.Div(
+            children=[
+                html.Div(
+                    className = 'six columns',
+                    children=[dcc.Graph(id='graph', figure=network_graph(nodedict, edges, legende, 'mark'), style={'height':'100%'})],
+                ),
+                html.Div(
+                    className='two columns',
+                    children=[get_checklist(legende)]
+                ),
+                html.Div(
+                    className='two columns',
+                    children=[get_dropdown(legende, marked)]
+                ),
+                html.Div(
+                    className='two columns',
+                    
+                    children=[
+                        dcc.Input(id='searchfield', type='search', placeholder='search', style={'minWidth':'100%', 'maxWidth':'100%'},value=searchfield),
+                        dcc.Dropdown(
+                            id='searchdropdown',
+                            options= c.SEARCHOPTIONS,
+                            value=searchdropdown,
+                            multi=True
+                        ),
+                        dcc.Checklist(
+                            id='categories',
+                            options=[{'label':x,'value': x} for x in nodedict
+                            ],
+                            value=categories
+                        ),
+                        dcc.RadioItems(
+                            id='mode',
+                            options= c.MODEOPTIONS,
+                            value = mode
+                        ),
+                    ],
+                ),
+                
+                html.Div(marked, id='previously-selected', style={'display': 'none'}),
+                html.Div([], id='previously-selected2', style={'display': 'none'}),
+                html.Div([], id='previously-selected3', style={'display': 'none'}),
+            ]
+        )
         return render_template('layout.html', footer=dash_app.index())
 
     return dash_app.server
@@ -103,30 +117,30 @@ def create_dashboard(server):
 def init_callbacks(app, nodedict, edges, legende):
     # no solution to update namecheck in neighbormode
     @app.callback(
-        [Output('my-graph', 'figure'), Output('dropdown-container', 'children'), Output('previously-selected', 'children'), Output('previously-selected3', 'children')],
-        [Input('input', 'value'), Input('drop', 'value'), Input('check', 'value'), Input('namecheck', 'value'), Input('mode', 'value')],
+        [Output('graph', 'figure'), Output('dropdown-container', 'children'), Output('previously-selected', 'children'), Output('previously-selected3', 'children')],
+        [Input('searchfield', 'value'), Input('searchdropdown', 'value'), Input('categories', 'value'), Input('namecheck', 'value'), Input('mode', 'value')],
         [State('previously-selected', 'children'), State('previously-selected2', 'children'), State('previously-selected3', 'children')]
     )
-    def update_graph(input, drop, check, value, mode, prev_selected, prev_selected2, prev_selected3):
-        if mode == 'neighbor' and len(value) > 1:
-            value = [value[-1]]
-        if sorted(value) == sorted(prev_selected) and sorted(prev_selected) != sorted(prev_selected2) and (input, drop, check) == prev_selected3:
+    def update_graph(searchfield, searchdropdown, categories, marked, mode, prev_selected, prev_selected2, prev_selected3):
+        if mode == 'neighbor' and len(marked) > 1:
+            marked = [marked[-1]]
+        if sorted(marked) == sorted(prev_selected) and sorted(prev_selected) != sorted(prev_selected2) and (searchfield, searchdropdown, categories) == prev_selected3:
             raise PreventUpdate
-        return network_graph(nodedict, edges, legende, mode, search = input, drop = drop, check = check, marked = value), get_dropdown(legende, value=value), value, (input, drop, check)
+        return network_graph(nodedict, edges, legende, mode, marked = marked, searchfield = searchfield, searchdropdown = searchdropdown, categories = categories), get_dropdown(legende, marked=marked), marked, (searchfield, searchdropdown, categories)
         
     @app.callback(
         Output('namecheck', 'value'),
         [Input('namedrop', 'value')],
         [State('previously-selected', 'children'), State('previously-selected2', 'children')]
     )
-    def display_namecheck(value, prev_selected, prev_selected2):
-        if sorted(value) == sorted(prev_selected) and sorted(prev_selected) != sorted(prev_selected2):
+    def display_namecheck(marked, prev_selected, prev_selected2):
+        if sorted(marked) == sorted(prev_selected) and sorted(prev_selected) != sorted(prev_selected2):
             raise PreventUpdate
-        return value
+        return marked
 
     @app.callback(
         [Output('checklist-container', 'children'), Output('previously-selected2', 'children')],
-        [Input('my-graph', 'clickData')],
+        [Input('graph', 'clickData')],
         [State('previously-selected', 'children')]
     )
     def display_click_data(clickData, prev_selected):
@@ -139,42 +153,42 @@ def init_callbacks(app, nodedict, edges, legende):
                     prev_selected.remove(id)
                 else:
                     prev_selected.append(id)
-        return get_checklist(legende, value=prev_selected), prev_selected
+        return get_checklist(legende, marked=prev_selected), prev_selected
 
-def get_dropdown(legende, value=None):
-    value = [] if value is None else value
+def get_dropdown(legende, marked=None):
+    marked = [] if marked is None else marked
     return html.Div(
                 style={'minHeight': '50vh', 'maxHeight': 'calc(100vh - 150px)', 'overflow': 'auto'},
                 children=[
                     dcc.Dropdown(
                         id='namedrop',
                         options=[{'label': legende[i]['name'], 'value': legende[i]['id']} for i in legende],
-                        value = value,
+                        value = marked,
                         multi=True
                     )
                 ],
         id='dropdown-container'
     )
 
-def get_checklist(legende, value=None):
-    value = [] if value is None else value
+def get_checklist(legende, marked=None):
+    marked = [] if marked is None else marked
     return html.Div(
                 style={'maxHeight': 'calc(100vh - 150px)', 'overflow': 'auto'},
                 children=[
                     dcc.Checklist(
                         id='namecheck',
                         options=[{'label': legende[i]['name'], 'value': legende[i]['id']} for i in legende],
-                        value = value
+                        value = marked
                     )
                 ],
         id='checklist-container'
     )
 
-def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], marked = [], check = []):
-    # add nodes from nodedict dependent of check
+def network_graph(nodedict, alledges, legende, mode, marked = [], searchfield = '', searchdropdown = [], categories = []):
+    # add nodes from nodedict dependent of categories
     nodes = []
     for type, node in nodedict.items():
-        if not check or type in check:
+        if not categories or type in categories:
             nodes += node
 
     # add nodes to graph
@@ -193,8 +207,7 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
             try:
                 neighbors = {n for n in G.neighbors(marked[-1])}
                 for n in neighbors:
-                    nneighbors = {n for n in G.neighbors(n)}
-                    neighbors = neighbors.union(nneighbors)
+                    neighbors = neighbors.union({n for n in G.neighbors(n)})
                 neighbors.add(marked[-1]) # possibility of no neighbors
                 nodes = [(node, G.nodes[node]) for node in neighbors]
                 G.clear()
@@ -294,7 +307,7 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
     node_z = []
     node_text = []
     colors = []
-    if search:
+    if searchfield:
         search_x = []
         search_y = []
         search_z = []
@@ -307,17 +320,17 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
         node_text.append(c.info(node))
         colors.append(c.color(node[c.COLOR]))
         legende[node[c.KEY]] = {'name': node[c.LABEL], 'id': node['_id']}
-        if search:
-            if drop:
-                for att in drop:
+        if searchfield:
+            if searchdropdown:
+                for att in searchdropdown:
                     if att == '_id':
-                        search = search.replace(' ', '_')
-                    if search.lower() in node[att].lower():
+                        searchfield = searchfield.replace(' ', '_')
+                    if searchfield.lower() in node[att].lower():
                         search_x.append(x)
                         search_y.append(y)
                         search_z.append(z)
                         break
-            elif search.lower() in str(node).lower():
+            elif searchfield.lower() in str(node).lower():
                 search_x.append(x)
                 search_y.append(y)
                 search_z.append(z)
@@ -331,7 +344,7 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
             size=10,
             line_width=1))
             
-    if search:
+    if searchfield:
         search_trace = go.Scatter3d(
             x=search_x, y=search_y, z=search_z,
             mode='markers',
@@ -379,4 +392,5 @@ def network_graph(nodedict, alledges, legende, mode, search = '', drop = [], mar
                     xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
                     yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
                     )
+    session["graph"] = {"mode":mode, "searchfield":searchfield,"searchdropdown":searchdropdown,"marked":marked,"categories":categories}
     return fig
