@@ -40,6 +40,8 @@ class Config:
         raise ConfigError("Setting missing in config file: 'es_hosts'.")
     if not "index" in config:
         raise ConfigError("Setting missing in config file: 'index'.")
+    if not "suggestions" in config:
+        raise ConfigError("Setting missing in config file: 'suggestions'.")
     if not "fields" in config:
         raise ConfigError("Setting missing in config file: 'fields'.")
     conn = connections.create_connection(hosts=config["es_hosts"])
