@@ -14,10 +14,7 @@ def test_parse():
             assert "setSpec" in datadict
             assert datadict["setSpec"] == {"lor"} or datadict["setSpec"] == set()
             assert "title" in datadict
-            assert (
-                datadict["title"]
-                == "Lorem ipsum   dolor"
-            )
+            assert datadict["title"] == "Lorem ipsum   dolor"
             assert "author" in datadict
             assert datadict["author"] == ("Ipsum, Lorem",)
             assert "subject" in datadict

@@ -79,11 +79,13 @@ def test_tex2text_title():
     tex2text(bib)
     assert bib == expected
 
+
 def test_tex2text_emphasis():
     bib = {"title": r"A \emph{Strong} text"}
     expected = {"title": "A <i>Strong</i> text"}
     tex2text(bib)
     assert bib == expected
+
 
 def test_tex2text_bold():
     bib = {"title": r"A \textbf{Strong} text"}

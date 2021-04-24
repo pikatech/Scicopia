@@ -50,8 +50,7 @@ def test_extract_authors():
                     assert (
                         article["author"] == ["Lorem Ipsum", "Ipßüm Lörem"]
                         or article["author"] == ["L Ipsum", "I Lörem"]
-                        or article["author"]
-                        == ["Lorem Ipsum", "Ipßüm Lörem", "et al."]
+                        or article["author"] == ["Lorem Ipsum", "Ipßüm Lörem", "et al."]
                     )
 
 

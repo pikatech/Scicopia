@@ -2,14 +2,25 @@ import base64
 import logging
 
 from elasticsearch_dsl.query import Ids, MultiMatch
-from flask import (abort, current_app, g, jsonify, make_response, redirect,
-                   render_template, request, session, url_for)
+from flask import (
+    abort,
+    current_app,
+    g,
+    jsonify,
+    make_response,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 
 from ..db import add_search, analyze_input, execute_query, link
 from . import main
 from .forms import NameForm, PageButton, SortForm
 
 logger = logging.getLogger("ncbi")
+
 
 @main.route("/", methods=["GET", "POST"])
 def index():
@@ -38,17 +49,19 @@ def autocomplete():
     List[str] wrapped in JSON
         A list of auto-completion candidates
     """
-    text =  name = request.form["prefix"]
+    text = name = request.form["prefix"]
     search = current_app.config["COMPLETION"]
     search = search.index("suggestions")
-    search = search.suggest('auto-completion', text, completion={"field" : "keywords_suggest", "size" : 10})
+    search = search.suggest(
+        "auto-completion", text, completion={"field": "keywords_suggest", "size": 10}
+    )
     results = search.execute()
     if results["timed_out"]:
         logging.warning("Auto-completion request timed out: %s", text)
         return jsonify([])
     hits = results["suggest"]["auto-completion"][0]["options"]
     completions = [hit["text"] for hit in hits]
-    return jsonify({"completions":completions})
+    return jsonify({"completions": completions})
 
 
 @main.route("/results", methods=["GET", "POST"])
@@ -108,16 +121,27 @@ def page(id):
         if len(results.hits) == 0:
             abort(404)
         hit = results.hits[0]
-        if 'abstract' in hit:
+        if "abstract" in hit:
             hit.abstract = link(hit.abstract)
         # PDF collection is optional
-        pdfexists = id in current_app.config["PDFCOLLECTION"] if "PDFCOLLECTION" in current_app.config else False
+        pdfexists = (
+            id in current_app.config["PDFCOLLECTION"]
+            if "PDFCOLLECTION" in current_app.config
+            else False
+        )
         if session["showfulltext"]:
             fulltext = current_app.config["COLLECTION"][id]["fulltext"]
         else:
             fulltext = "fulltext" in current_app.config["COLLECTION"][id]
         return render_template(
-            "page.html", form=form, hit=hit, pdfexists=pdfexists, pdf=pdf, fulltext=fulltext, showfulltext=session["showfulltext"], ft = ft
+            "page.html",
+            form=form,
+            hit=hit,
+            pdfexists=pdfexists,
+            pdf=pdf,
+            fulltext=fulltext,
+            showfulltext=session["showfulltext"],
+            ft=ft,
         )
 
 
@@ -151,7 +175,7 @@ def pdf(id):
 @main.route("/fulltext/<id>", methods=["GET", "POST"])
 def fulltext(id):
     session["showfulltext"] = not session["showfulltext"]
-    return redirect(url_for("main.page", id = id))
+    return redirect(url_for("main.page", id=id))
 
 
 @main.route("/tags/<tag>")
@@ -160,12 +184,12 @@ def tags(tag):
         if d["name"] == tag:
             if d["mark"] == False:
                 d.update({"mark": True})
-                session["condition"]["must"].append({'terms': {'auto_tags' : [tag]}})
+                session["condition"]["must"].append({"terms": {"auto_tags": [tag]}})
                 session["from_hit"] = 0
                 session["to_hit"] = 10
             else:
                 d.update({"mark": False})
-                session["condition"]["must"].remove({'terms': {'auto_tags' : [tag]}})
+                session["condition"]["must"].remove({"terms": {"auto_tags": [tag]}})
                 session["from_hit"] = 0
                 session["to_hit"] = 10
             break
@@ -181,9 +205,11 @@ def oldsearch(search):
     session["tags"] = []
     return redirect(url_for("main.results"))
 
+
 @main.route("/help")
 def help():
     return render_template("work.html")
+
 
 @main.route("/contact")
 def contact():

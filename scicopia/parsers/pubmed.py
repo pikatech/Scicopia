@@ -22,6 +22,7 @@ def handle_markup(element):
         if tag.text:
             tag.text = "<" + tag.tag + ">" + tag.text + "<" + tag.tag + ">"
 
+
 def extract_abstract(abstract: Element) -> str:
     parts = abstract.findall("AbstractText")
     text = []
@@ -58,10 +59,10 @@ def extract_authors(authors: Element) -> List[str]:
             # Check for non-existing and also empty elements
             # e.g. <Initials/>
             names = " ".join(
-                    x.text
-                    for x in [initials, lastname, suffix]
-                    if not x is None and not x.text is None
-                )
+                x.text
+                for x in [initials, lastname, suffix]
+                if not x is None and not x.text is None
+            )
             if not names == "":
                 authorList.append(names)
         else:
@@ -142,7 +143,7 @@ def parse(source) -> Dict[str, str]:
             if pmid is None or pmid.text is None:
                 logging.warning("Article without PMID occurred. Skipped.")
                 continue
-            att=pmid.attrib
+            att = pmid.attrib
             pmid = pmid.text
             article["PMID"] = pmid
             if "Version" in att:

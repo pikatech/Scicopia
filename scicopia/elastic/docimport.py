@@ -21,7 +21,12 @@ from pyArango.theExceptions import DocumentNotFoundError
 from tqdm import tqdm
 
 from scicopia.config import read_config
-from scicopia.exceptions import ConfigError, DBError, ScicopiaException, SearchError
+from scicopia.exceptions import (
+    ConfigError,
+    DBError,
+    ScicopiaException,
+    SearchError,
+)
 from scicopia.utils.arangodb import connect, get_docs, select_db
 
 logger = logging.getLogger("scicopia")

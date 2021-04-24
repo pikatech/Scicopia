@@ -22,7 +22,7 @@ def send_email(to, subject, template, **kwargs):
 
 def send_async_email(app, msg):
     with app.app_context():
-        mail.send(msg) # flask_mailman doesn't send in testing mode
-        if app.testing: # writes only to hard disk, if in testing mode
+        mail.send(msg)  # flask_mailman doesn't send in testing mode
+        if app.testing:  # writes only to hard disk, if in testing mode
             with open("email.txt", "wt", encoding="utf-8") as out:
                 out.write(str(msg))

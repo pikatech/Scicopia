@@ -11,11 +11,11 @@ import sys
 from collections import Counter
 from pathlib import Path
 from pickle import UnpicklingError
-from typing import Any, Dict, Iterator, Iterable
+from typing import Any, Dict, Iterable, Iterator
 
 import elasticsearch
-from elasticsearch.helpers import streaming_bulk
 from elasticsearch.exceptions import ConnectionTimeout
+from elasticsearch.helpers import streaming_bulk
 from elasticsearch_dsl import Completion, Document, connections
 from tqdm import tqdm
 
@@ -43,32 +43,29 @@ def store_suggestions(phrases: Counter):
     Suggestion.init()
 
     try:
-        for ok, action in tqdm(streaming_bulk(
-            index=config["suggestions"],
-            client=conn,
-            actions=index(phrases),
-            raise_on_error=False,
-            request_timeout=60,
-            chunk_size=10_000,
-            max_chunk_bytes=10*1024**2,
-        )):
+        for ok, action in tqdm(
+            streaming_bulk(
+                index=config["suggestions"],
+                client=conn,
+                actions=index(phrases),
+                raise_on_error=False,
+                request_timeout=60,
+                chunk_size=10_000,
+                max_chunk_bytes=10 * 1024 ** 2,
+            )
+        ):
             if not ok and action["index"]["status"] != 409:
                 logger.warning(action)
     except ConnectionTimeout as e:
-        logger.warning(
-            "Timeout occurred while processing suggestions"
-        )
+        logger.warning("Timeout occurred while processing suggestions")
 
 
 def index(suggestions: Iterable) -> Iterator[Dict[str, Any]]:
     for i, suggestion in enumerate(suggestions.items(), 1):
-        doc = {
-            "_op_type": "index",
-            "_index": config["suggestions"],
-            "_id": i
-        }
+        doc = {"_op_type": "index", "_index": config["suggestions"], "_id": i}
         doc["keywords_suggest"] = {"input": suggestion[0], "weight": suggestion[1]}
         yield doc
+
 
 if __name__ == "__main__":
     PARSER = argparse.ArgumentParser(

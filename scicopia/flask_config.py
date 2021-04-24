@@ -16,7 +16,9 @@ class Config:
     if len(config["secret_key"]) > 0:
         SECRET_KEY = config["secret_key"]
     else:
-        raise ConfigError("Set the secret_key on the application to something unique and secret.")
+        raise ConfigError(
+            "Set the secret_key on the application to something unique and secret."
+        )
 
     if not "mailusername" in config:
         raise ConfigError("Setting missing in config file: 'mailusername'.")
@@ -97,9 +99,14 @@ class Config:
     else:
         USERCOLLECTION = DB.createCollection(name=config["usercollection"])
 
-    if ("nodecollections" in config and "edgecollections" in config
-        and isinstance(config["nodecollections"], list) and len(config["nodecollections"][0]) > 0
-        and isinstance(config["edgecollections"], list) and len(config["edgecollections"][0]) > 0):
+    if (
+        "nodecollections" in config
+        and "edgecollections" in config
+        and isinstance(config["nodecollections"], list)
+        and len(config["nodecollections"][0]) > 0
+        and isinstance(config["edgecollections"], list)
+        and len(config["edgecollections"][0]) > 0
+    ):
         NODECOLLECTIONS = config["nodecollections"]
         EDGECOLLECTIONS = config["edgecollections"]
         DASH = True
@@ -128,9 +135,8 @@ class ProductionConfig(Config):
 
 
 config = {
-    'development': DevelopmentConfig,
-    'testing': TestingConfig,
-    'production': ProductionConfig,
-
-    'default': DevelopmentConfig
+    "development": DevelopmentConfig,
+    "testing": TestingConfig,
+    "production": ProductionConfig,
+    "default": DevelopmentConfig,
 }

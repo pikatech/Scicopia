@@ -61,6 +61,7 @@ def connect(config: Dict) -> Connection:
     else:
         return conn
 
+
 def select_db(config: Dict, connection: Connection, create=False) -> Database:
     """
     Access a database inside an ArangoDB instance, after connecting
@@ -76,7 +77,7 @@ def select_db(config: Dict, connection: Connection, create=False) -> Database:
         A connection to the ArangoDB instance
     create : bool, optional
         Create the database if it doesn't exist, by default False
-    
+
     Returns
     -------
     Database

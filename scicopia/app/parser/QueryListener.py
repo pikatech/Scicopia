@@ -22,12 +22,12 @@ class QueryListener(ScicopiaListener):
 
     def exitQuotes(self, ctx: ScicopiaParser.QuotesContext):
         text = []
-        for i in range(1, ctx.getChildCount()-1):
+        for i in range(1, ctx.getChildCount() - 1):
             text.append(ctx.children[i].getText())
-        if ctx.getChildCount == 3: # ' token '
+        if ctx.getChildCount == 3:  # ' token '
             self.term = text[0]
         else:
-            self.phrase = ' '.join(text)
+            self.phrase = " ".join(text)
 
     def exitPrefixed(self, ctx: ScicopiaParser.PrefixedContext):
         text: str = ctx.getText()
@@ -44,7 +44,9 @@ class QueryListener(ScicopiaListener):
             self.queries["must_not"].append({"multi_match": {"query": self.term}})
             self.term = None
         elif not self.phrase is None:
-            self.queries["must_not"].append({"multi_match": {"query": self.phrase, "type": "phrase"}})
+            self.queries["must_not"].append(
+                {"multi_match": {"query": self.phrase, "type": "phrase"}}
+            )
             self.term = None
         elif not self.prefixed is None:
             self.queries["must_not"].append(self.prefixed)
@@ -54,7 +56,9 @@ class QueryListener(ScicopiaListener):
             self.queries["must"].append({"multi_match": {"query": self.term}})
             self.term = None
         elif not self.phrase is None:
-            self.queries["must"].append({"multi_match": {"query": self.phrase, "type": "phrase"}})
+            self.queries["must"].append(
+                {"multi_match": {"query": self.phrase, "type": "phrase"}}
+            )
             self.term = None
         elif not self.prefixed is None:
             self.queries["must"].append(self.prefixed)

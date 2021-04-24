@@ -1,13 +1,30 @@
-from flask import (current_app, flash, redirect, render_template, session,
-                   url_for)
+from flask import (
+    current_app,
+    flash,
+    redirect,
+    render_template,
+    session,
+    url_for,
+)
 
-from ..db import (confirm_u, generate_confirmation_token,
-                  generate_password_hash, reset_password, verify_password)
+from ..db import (
+    confirm_u,
+    generate_confirmation_token,
+    generate_password_hash,
+    reset_password,
+    verify_password,
+)
 from ..email import send_email
 from . import auth
-from .forms import (ChangeEmailForm, ChangePasswordForm, ChangeUsernameForm,
-                    LoginForm, PasswordResetForm, PasswordResetRequestForm,
-                    RegistrationForm)
+from .forms import (
+    ChangeEmailForm,
+    ChangePasswordForm,
+    ChangeUsernameForm,
+    LoginForm,
+    PasswordResetForm,
+    PasswordResetRequestForm,
+    RegistrationForm,
+)
 
 
 @auth.route("/login", methods=["GET", "POST"])
@@ -18,7 +35,9 @@ def login():
     if form.validate_on_submit():
         username = form.user.data
         aql = f"FOR x IN {current_app.config['USERCOLLECTIONNAME']} FILTER x.username == '{username}' RETURN x._key"
-        queryResult = current_app.config["DB"].AQLQuery(aql, rawResults=True, batchSize=1)
+        queryResult = current_app.config["DB"].AQLQuery(
+            aql, rawResults=True, batchSize=1
+        )
         if queryResult and verify_password(queryResult[0], form.password.data):
             session["user"] = queryResult[0]
             next = session["next"]
@@ -70,7 +89,9 @@ def profil():
         session["user"] = None
     if session["user"] is not None:
         try:
-            lastsearch = current_app.config["USERCOLLECTION"][session["user"]]["lastsearch"]
+            lastsearch = current_app.config["USERCOLLECTION"][session["user"]][
+                "lastsearch"
+            ]
             lastsearch.reverse()
         except:
             lastsearch = None
@@ -108,7 +129,9 @@ def password_reset_request():
     form = PasswordResetRequestForm()
     if form.validate_on_submit():
         aql = f"FOR x IN {current_app.config['USERCOLLECTIONNAME']} FILTER x.email == '{form.email.data.lower()}' RETURN x._key"
-        queryResult = current_app.config["DB"].AQLQuery(aql, rawResults=True, batchSize=1)
+        queryResult = current_app.config["DB"].AQLQuery(
+            aql, rawResults=True, batchSize=1
+        )
         if queryResult:
             user = queryResult[0]
             token = generate_confirmation_token(user)
@@ -185,7 +208,9 @@ def change_email_request():
                     new_email,
                     "Confirm your email address",
                     "auth/email/change_email",
-                    user=current_app.config["USERCOLLECTION"][session["user"]]["username"],
+                    user=current_app.config["USERCOLLECTION"][session["user"]][
+                        "username"
+                    ],
                     token=token,
                 )
                 flash("Your email adress has been updated.")

@@ -90,6 +90,7 @@ def extract_authors(authors: List[ET.Element], data: Dict) -> None:
     if entries:
         data["author"] = entries
 
+
 def extract_bibliographic_data(node: ET.Element) -> Optional[Dict]:
     """
     Find bibliographic data like title, authors and editors
@@ -127,7 +128,7 @@ def extract_bibliographic_data(node: ET.Element) -> Optional[Dict]:
                 data["doi"] = idno.text[4:].replace(" ", "")
                 data["id"] = data["doi"]
             elif idno.text.startswith("abs/"):
-                data["url"] = f'https://arxiv.org/{idno.text}'
+                data["url"] = f"https://arxiv.org/{idno.text}"
                 data["id"] = idno.text
             else:
                 logging.warning(f"non standard id type {idno.text}")
@@ -175,8 +176,14 @@ def parse(filename: TextIOWrapper) -> Dict[str, Union[str, List[str]]]:
         text = extract_text(root)
         if text:
             bib["fulltext"] = text
-            if re.compile("a.?b.?s.?t.?r.?a.?c.?t(.|\n)*\n\n",re.IGNORECASE).match(text):
-                text = re.sub(re.compile("a.?b.?s.?t.?r.?a.?c.?t(\\.|:| |\\n)*",re.IGNORECASE),"", text)
-                bib["abstract"] = text[:text.index("\n\n")]
+            if re.compile("a.?b.?s.?t.?r.?a.?c.?t(.|\n)*\n\n", re.IGNORECASE).match(
+                text
+            ):
+                text = re.sub(
+                    re.compile("a.?b.?s.?t.?r.?a.?c.?t(\\.|:| |\\n)*", re.IGNORECASE),
+                    "",
+                    text,
+                )
+                bib["abstract"] = text[: text.index("\n\n")]
 
         yield bib

@@ -17,13 +17,16 @@ def create_app(config_name):
     mail.init_app(app)
 
     from .main import main as main_blueprint
+
     app.register_blueprint(main_blueprint)
     from .auth import auth as auth_blueprint
-    app.register_blueprint(auth_blueprint, url_prefix='/auth')
+
+    app.register_blueprint(auth_blueprint, url_prefix="/auth")
     # create dashboard only if lists of node- and edgecollections specified
     if app.config["DASH"]:
         with app.app_context():
             from .graph.dashboard import create_dashboard
+
             app = create_dashboard(app)
-            
+
     return app

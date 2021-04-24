@@ -23,10 +23,12 @@ def create_graph(docs: Collection, database: Database):
         _fields = {"direction": Field()}
 
     class DocLinks(Graph):
-        
-        _edgeDefinitions = [EdgeDefinition(
-            "Citations", fromCollections=[docs.name], toCollections=[docs.name]
-        )]
+
+        _edgeDefinitions = [
+            EdgeDefinition(
+                "Citations", fromCollections=[docs.name], toCollections=[docs.name]
+            )
+        ]
         _orphanedCollections = []
 
     edges = database.createCollection("Citations")
@@ -49,9 +51,14 @@ def link_works(edges: Collection, docs: Collection, graph: Graph, db: Database):
         works = [link.strip() for link in doc["links"].split(",")]
         for work in works:
             if work in docs:
-                graph.createEdge(edges.name, f"{docs.name}/{doc['key']}", f"{docs.name}/{work}", edgeAttributes={'direction': 'citing'})
+                graph.createEdge(
+                    edges.name,
+                    f"{docs.name}/{doc['key']}",
+                    f"{docs.name}/{work}",
+                    edgeAttributes={"direction": "citing"},
+                )
             else:
-                logger.warning("Invalid citation in %s: %s", doc['key'], work)
+                logger.warning("Invalid citation in %s: %s", doc["key"], work)
             # The following workflow instead of graph.createEdge
             # doesn't seem to work:
             # edge = edges.createDocument()

@@ -32,10 +32,7 @@ def test_extract_title():
             if not title is None:
                 extract_title(title, data)
                 if "title" in data:
-                    assert (
-                        data["title"]
-                        == "Lorem ipsum dolor"
-                    )
+                    assert data["title"] == "Lorem ipsum dolor"
 
 
 def test_extract_authors():
@@ -57,10 +54,7 @@ def test_extract_authors():
                 if authors:
                     extract_authors(authors, data)
                     if "author" in data:
-                        assert data["author"] == [
-                            "Lorem Ipsum",
-                            "Lörem Ipßüm"
-                        ]
+                        assert data["author"] == ["Lorem Ipsum", "Lörem Ipßüm"]
 
 
 def test_extract_bibliographic_data():
@@ -87,21 +81,13 @@ def test_extract_bibliographic_data():
                 bib = extract_bibliographic_data(biblio)
 
                 if "author" in bib:
-                    assert bib["author"] == [
-                        "Lorem Ipsum",
-                        "Lörem Ipßüm"
-                    ]
+                    assert bib["author"] == ["Lorem Ipsum", "Lörem Ipßüm"]
                 if "title" in bib:
-                    assert (
-                        bib["title"]
-                        == "Lorem ipsum dolor"
-                    )
+                    assert bib["title"] == "Lorem ipsum dolor"
                 if "doi" in bib:
                     assert bib["doi"] == "121518513"
                 if "url" in bib:
-                    assert (
-                        bib["url"] == "https://arxiv.org/abs/121518513"
-                    )
+                    assert bib["url"] == "https://arxiv.org/abs/121518513"
                 assert "id" in bib
                 assert (
                     bib["id"] == "121518513"
@@ -148,22 +134,13 @@ def test_parse():
         with open(file, encoding="utf-8") as filename:
             for bib in parse(filename):
                 if "author" in bib:
-                    assert bib["author"] == [
-                        "Lorem Ipsum",
-                        "Lörem Ipßüm"
-                    ]
+                    assert bib["author"] == ["Lorem Ipsum", "Lörem Ipßüm"]
                 if "title" in bib:
-                    assert (
-                        bib["title"]
-                        == "Lorem ipsum dolor"
-                    )
+                    assert bib["title"] == "Lorem ipsum dolor"
                 if "doi" in bib:
                     assert bib["doi"] == "121518513"
                 if "id" in bib:
-                    assert (
-                        bib["id"] == "121518513"
-                        or bib["id"] == "abs/121518513"
-                    )
+                    assert bib["id"] == "121518513" or bib["id"] == "abs/121518513"
                 if "fulltext" in bib:
                     assert (
                         bib["fulltext"]

@@ -1,8 +1,14 @@
 from flask import current_app
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, StringField, SubmitField
-from wtforms.validators import (DataRequired, Email, EqualTo, Length, Regexp,
-                                ValidationError)
+from wtforms.validators import (
+    DataRequired,
+    Email,
+    EqualTo,
+    Length,
+    Regexp,
+    ValidationError,
+)
 
 
 class LoginForm(FlaskForm):
@@ -37,13 +43,17 @@ class RegistrationForm(FlaskForm):
 
     def validate_username(self, field):
         aql = f"FOR x IN {current_app.config['USERCOLLECTIONNAME']} FILTER x.username == '{field.data}' RETURN x._key"
-        queryResult = current_app.config['DB'].AQLQuery(aql, rawResults=True, batchSize=1)
+        queryResult = current_app.config["DB"].AQLQuery(
+            aql, rawResults=True, batchSize=1
+        )
         if queryResult:
             raise ValidationError("Username already in use.")
 
     def validate_email(self, field):
         aql = f"FOR x IN {current_app.config['USERCOLLECTIONNAME']} FILTER x.email == '{field.data.lower()}' RETURN x._key"
-        queryResult = current_app.config['DB'].AQLQuery(aql, rawResults=True, batchSize=1)
+        queryResult = current_app.config["DB"].AQLQuery(
+            aql, rawResults=True, batchSize=1
+        )
         if queryResult:
             raise ValidationError("Email already registered.")
 
@@ -55,7 +65,9 @@ class ChangeUsernameForm(FlaskForm):
 
     def validate_username(self, field):
         aql = f"FOR x IN {current_app.config['USERCOLLECTIONNAME']} FILTER x.username == '{field.data}' RETURN x._key"
-        queryResult = current_app.config['DB'].AQLQuery(aql, rawResults=True, batchSize=1)
+        queryResult = current_app.config["DB"].AQLQuery(
+            aql, rawResults=True, batchSize=1
+        )
         if queryResult:
             raise ValidationError("Username already in use.")
 
@@ -99,7 +111,8 @@ class ChangeEmailForm(FlaskForm):
 
     def validate_email(self, field):
         aql = f"FOR x IN {current_app.config['USERCOLLECTIONNAME']} FILTER x.email == '{field.data.lower()}' RETURN x._key"
-        queryResult = current_app.config['DB'].AQLQuery(aql, rawResults=True, batchSize=1)
+        queryResult = current_app.config["DB"].AQLQuery(
+            aql, rawResults=True, batchSize=1
+        )
         if queryResult:
             raise ValidationError("Email already registered.")
-

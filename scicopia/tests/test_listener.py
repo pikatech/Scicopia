@@ -24,8 +24,8 @@ def test_sanity():
     walker = ParseTreeWalker()
     walker.walk(listener, tree)
     queries = listener.getQueries()
-    assert 'must' in queries
-    assert queries['must'] == expected
+    assert "must" in queries
+    assert queries["must"] == expected
 
 
 def test_phrase():
@@ -39,8 +39,8 @@ def test_phrase():
     walker = ParseTreeWalker()
     walker.walk(listener, tree)
     queries = listener.getQueries()
-    assert 'must' in queries
-    assert queries['must'] == expected
+    assert "must" in queries
+    assert queries["must"] == expected
 
 
 def test_excluded_author():
@@ -54,6 +54,5 @@ def test_excluded_author():
     walker = ParseTreeWalker()
     walker.walk(listener, tree)
     queries = listener.getQueries()
-    assert 'must_not' in queries
-    assert queries['must_not'] == expected
-
+    assert "must_not" in queries
+    assert queries["must_not"] == expected
