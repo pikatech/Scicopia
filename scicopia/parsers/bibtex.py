@@ -25,11 +25,19 @@ def tex2text(bib_data: Dict):
         BibTeX fields. The dictionary is modified in place.
     """
     adjusted_db = get_default_latex_context_db()
-    cat = [MacroTextSpec("textgreater", ">"), MacroTextSpec("textless", "<")]
-    adjusted_db.add_context_category("own", cat)
+    cat = [
+        MacroTextSpec("textgreater", ">"),
+        MacroTextSpec("textless", "<"),
+        MacroTextSpec("emph", "<i>%s</i>"),
+        MacroTextSpec("textbf", "<b>%s</b>"),
+        MacroTextSpec("textit", "<i>%s</i>"),
+    ]
+    adjusted_db.add_context_category("own", cat, prepend=True)
     # If we should ever want to display equations via MathJax,
     # math_mode needs to be set to verbatim
-    l2t = LatexNodes2Text(math_mode="text", strict_latex_spaces=True, latex_context=adjusted_db)
+    l2t = LatexNodes2Text(
+        math_mode="text", strict_latex_spaces=True, latex_context=adjusted_db
+    )
     for field in ("author", "editor"):
         if field in bib_data:
             persons = []
