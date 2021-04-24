@@ -1,4 +1,10 @@
-from scicopia.parsers.bibtex import *
+from scicopia.parsers.bibtex import (
+    Parser,
+    handleField,
+    handlePerson,
+    parse,
+    tex2text,
+)
 
 
 def test_handleField():
@@ -30,10 +36,7 @@ def test_handlePerson():
         datadict = dict()
         handlePerson(items[0], datadict)
         assert "author" in datadict
-        assert datadict["author"] == [
-            "Lorem Ipsum",
-            "Lörem Ipßüm"
-        ]
+        assert datadict["author"] == ["Lorem Ipsum", "Lörem Ipßüm"]
 
 
 def test_parse():
@@ -47,13 +50,10 @@ def test_parse():
             assert "cited_by" in datadict
             assert datadict["cited_by"] == "test"
             assert "author" in datadict
-            assert datadict["author"] == [
-                "Lorem Ipsum",
-                "Lörem Ipßüm"
-            ]
+            assert datadict["author"] == ["Lorem Ipsum", "Lörem Ipßüm"]
 
 
-def test_parse_error():  # TODO: add controll of exceptions
+def test_parse_error():  # TODO: add control of exceptions
     source = "scicopia/tests/data/bibtex_error.bib"
     with open(source, encoding="utf-8") as data:
         for datadict in parse(data):
@@ -64,3 +64,17 @@ def test_parse_error():  # TODO: add controll of exceptions
     #             pass
     #     except SystemError as e:
     #         assert e.args == (1,)
+
+
+def test_tex2text_author():
+    bib = {"author": [r"{\AA} \c{C}\"o\u{g}\v{s}\'i"]}
+    expected = {"author": ["Å Çöğší"]}
+    tex2text(bib)
+    assert bib == expected
+
+
+def test_tex2text_title():
+    bib = {"title": r"\textgreater{}Test\textless"}
+    expected = {"title": ">Test<"}
+    tex2text(bib)
+    assert bib == expected
