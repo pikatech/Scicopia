@@ -24,7 +24,9 @@
     </div>
     <div id="hitstats">
       <span class="d-none d-sm-flex">Search order:</span>
-      {{ sort_form.hidden_tag() }}{{ sort_form.order(id="sortForm") }}
+      <form method="POST">
+      {{ sort_form.hidden_tag() }}{{ sort_form.order(id="sortForm", onchange="this.form.submit()") }}
+      </form>
       <span>Total hits: {{ total_hits }}</span><span class="rubber"></span>
       <span class="d-flex d-sm-none">Took: {{ time }} ms</span>
       <span class="d-none d-sm-flex">Search took: {{ time }} ms</span>

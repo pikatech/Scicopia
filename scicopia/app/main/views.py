@@ -2,18 +2,8 @@ import base64
 import logging
 
 from elasticsearch_dsl.query import Ids, MultiMatch
-from flask import (
-    abort,
-    current_app,
-    g,
-    jsonify,
-    make_response,
-    redirect,
-    render_template,
-    request,
-    session,
-    url_for,
-)
+from flask import (abort, current_app, g, jsonify, make_response, redirect,
+                   render_template, request, session, url_for)
 
 from ..db import add_search, analyze_input, execute_query, link
 from . import main
@@ -36,6 +26,7 @@ def index():
         session["to_hit"] = 10
         session["tags"] = []
         return redirect(url_for("main.results"))
+
     return render_template("index.html", form=form)
 
 
@@ -79,11 +70,13 @@ def results():
         session["to_hit"] = 10
         session["tags"] = []
         return redirect(url_for("main.results"))
-    else:
-        execute_query()
-        form.name.data = session["query"]
-        if session["user"] is not None:
-            add_search(session["query"])
+    elif sort_form.validate_on_submit():
+        if "order" in sort_form.data:
+            session["order"] = sort_form.data["order"]
+    execute_query()
+    form.name.data = session["query"]
+    if session["user"] is not None:
+        add_search(session["query"])
     return render_template(
         "results.html",
         form=form,
@@ -205,21 +198,24 @@ def oldsearch(search):
     session["tags"] = []
     return redirect(url_for("main.results"))
 
+
 @main.route("/newgraph", methods=["GET", "POST"])
 def newgraph():
-    session.pop('graph', None)
+    session.pop("graph", None)
     return redirect(url_for("graph"))
+
 
 @main.route("/graphnode/<id>/<key>", methods=["GET", "POST"])
 def graphnode(id, key):
     session["graph"] = {
-            "mode":"neighbor",
-            "marked":[f"{id}/{key}"],
-            "searchfield" : "",
-            "searchdropdown" : [],
-            "categories" : []
-            }
+        "mode": "neighbor",
+        "marked": [f"{id}/{key}"],
+        "searchfield": "",
+        "searchdropdown": [],
+        "categories": [],
+    }
     return redirect(url_for("graph"))
+
 
 @main.route("/help")
 def help():

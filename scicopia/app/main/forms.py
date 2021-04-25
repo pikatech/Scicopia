@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import SelectField, StringField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Optional
 
 
 class NameForm(FlaskForm):
@@ -14,5 +14,7 @@ class PageButton(FlaskForm):
 
 class SortForm(FlaskForm):
     order = SelectField(
-        label="Sort order", choices=[("desc", "newest first"), ("asc", "oldest first")]
+        label="Sort order",
+        choices=[("", "best match"), ("desc", "newest first"), ("asc", "oldest first")],
+        validators=[Optional()],
     )
