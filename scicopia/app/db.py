@@ -146,6 +146,8 @@ def execute_query():
                     if len(r.author) <= 2
                     else f"{', '.join(r.author[:-1])} and {r.author[-1]}"
                 )
+            if "year" in r:
+                hit["year"] = r.year
             if "highlight" in r.meta and "abstract" in r.meta.highlight:
                 hit["abstract"] = link(r.meta.highlight.abstract)
             elif "abstract" in r:
