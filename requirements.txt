@@ -1,8 +1,8 @@
 antlr4-python3-runtime==4.8
 dash==1.19.0
-dask==2021.1.1
+dask==2.30.0
 dask-jobqueue==0.7.2
-distributed==2021.1.1
+distributed==2.30.0
 elasticsearch>=7.10.1
 elasticsearch-dsl>=7.3.0,<8.0.0
 email-validator==1.1.2
