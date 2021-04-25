@@ -386,7 +386,7 @@ def parallel_main(
 
 
 if __name__ == "__main__":
-    PARSER = argparse.ArgumentParser(description="Saves the Data in an Arangodatabase")
+    PARSER = argparse.ArgumentParser(description="Saves the Data in an Arango database")
     PARSER.add_argument(
         "type", choices=["bibtex", "pubmed", "arxiv", "grobid"], help="Type of the Data"
     )
