@@ -12,40 +12,35 @@ from flask import current_app, render_template, session, g
 
 import scicopia.app.graph.customize as c
 
-
 def create_dashboard(server):
-    dash_app = dash.Dash(server=server, routes_pathname_prefix="/dash/")
+    dash_app = dash.Dash(
+        server=server,
+        routes_pathname_prefix='/dash/'
+    )
     error = False
 
     nodes = []
     nodedict = defaultdict(list)
     edges = []
     try:
-        for collection in current_app.config["NODECOLLECTIONS"]:
+        for collection in current_app.config['NODECOLLECTIONS']:
             AQL = f'FOR x in {collection} RETURN [x["{c.CATEGORY}"], [x._id, x]]'
-            nodes += current_app.config["DB"].AQLQuery(
-                AQL, rawResults=True, batchSize=1000, ttl=3600
-            )
+            nodes += current_app.config['DB'].AQLQuery(AQL, rawResults=True, batchSize=1000, ttl=3600)
             for entry in nodes:
                 nodedict[entry[0]].append(entry[1])
 
-        for collection in current_app.config["EDGECOLLECTIONS"]:
-            AQL = f"FOR x in {collection} RETURN [x._from, x._to, x]"
-            edges += current_app.config["DB"].AQLQuery(
-                AQL, rawResults=True, batchSize=1000, ttl=3600
-            )
+        for collection in current_app.config['EDGECOLLECTIONS']:
+            AQL = f'FOR x in {collection} RETURN [x._from, x._to, x]'
+            edges += current_app.config['DB'].AQLQuery(AQL, rawResults=True, batchSize=1000, ttl=3600)
     except:
         error = True
 
     if error:
-        logging.error(
-            "An Error occurred while loading the Graphdata. Maybe the defined Collections don't exist."
-        )
-        dash_app.layout = html.Div(children=html.H1(children="Graph Not Found"))
-
-        @server.route("/graph")
+        logging.error("An Error occurred while loading the Graphdata. Maybe the defined Collections don't exist.")
+        dash_app.layout = html.Div(children=html.H1(children='Graph Not Found'))
+        @server.route('/graph')
         def graph():
-            return render_template("nograph.html")
+            return render_template('nograph.html')
 
         return dash_app.server
 
@@ -55,8 +50,8 @@ def create_dashboard(server):
     dash_app.layout = html.Div()
 
     init_callbacks(dash_app, nodedict, edges, legende)
-
-    @server.route("/graph")
+    
+    @server.route('/graph')
     def graph():
         # {"mode":mode, "searchfield":searchfield,"searchdropdown":searchdropdown,"marked":marked,"categories":categories}
         if "graph" in session:
@@ -119,7 +114,6 @@ def create_dashboard(server):
 
     return dash_app.server
 
-
 def init_callbacks(app, nodedict, edges, legende):
     # no solution to update namecheck in neighbormode
     @app.callback(
@@ -135,12 +129,9 @@ def init_callbacks(app, nodedict, edges, legende):
         return network_graph(nodedict, edges, legende, mode, marked = marked, searchfield = searchfield, searchdropdown = searchdropdown, categories = categories), get_dropdown(legende, marked=marked), marked, (searchfield, searchdropdown, categories)
         
     @app.callback(
-        Output("namecheck", "value"),
-        [Input("namedrop", "value")],
-        [
-            State("previously-selected", "children"),
-            State("previously-selected2", "children"),
-        ],
+        Output('namecheck', 'value'),
+        [Input('namedrop', 'value')],
+        [State('previously-selected', 'children'), State('previously-selected2', 'children')]
     )
     def display_namecheck(marked, prev_selected, prev_selected2):
         if sorted(marked) == sorted(prev_selected) and sorted(prev_selected) != sorted(prev_selected2):
@@ -153,11 +144,11 @@ def init_callbacks(app, nodedict, edges, legende):
         [State('previously-selected', 'children')]
     )
     def display_click_data(clickData, prev_selected):
-        if clickData and "text" in clickData["points"][0]:
-            text = clickData["points"][0]["text"]
+        if clickData and 'text' in clickData['points'][0]:
+            text = clickData['points'][0]['text']
             text = c.findLabel(text)
             if text in legende:
-                id = legende[text]["id"]
+                id = legende[text]['id']
                 if id in prev_selected:
                     prev_selected.remove(id)
                 else:
@@ -176,11 +167,7 @@ def get_dropdown(legende, marked=None):
                         multi=True
                     )
                 ],
-                value=value,
-                multi=True,
-            )
-        ],
-        id="dropdown-container",
+        id='dropdown-container'
     )
 
 def get_checklist(legende, marked=None):
@@ -194,10 +181,7 @@ def get_checklist(legende, marked=None):
                         value = marked
                     )
                 ],
-                value=value,
-            )
-        ],
-        id="checklist-container",
+        id='checklist-container'
     )
 
 def network_graph(nodedict, alledges, legende, mode, marked = [], searchfield = '', searchdropdown = [], categories = []):
@@ -214,11 +198,11 @@ def network_graph(nodedict, alledges, legende, mode, marked = [], searchfield = 
     # add edges from alledges debendent of nodes in graph
     edges = [edge for edge in alledges if edge[0] in G.nodes and edge[1] in G.nodes]
 
-    # add edges to graph
+    # add edges to graph  
     G.add_edges_from(edges)
 
-    if mode == "neighbor":
-        # reduce graph to neighborhood of last entry of marked
+    if mode == 'neighbor':
+    # reduce graph to neighborhood of last entry of marked
         if len(marked) >= 1:
             try:
                 neighbors = {n for n in G.neighbors(marked[-1])}
@@ -228,11 +212,7 @@ def network_graph(nodedict, alledges, legende, mode, marked = [], searchfield = 
                 nodes = [(node, G.nodes[node]) for node in neighbors]
                 G.clear()
                 G.add_nodes_from(nodes)
-                edges = [
-                    edge
-                    for edge in alledges
-                    if edge[0] in G.nodes and edge[1] in G.nodes
-                ]
+                edges = [edge for edge in alledges if edge[0] in G.nodes and edge[1] in G.nodes]
                 G.add_edges_from(edges)
             except:
                 pass
@@ -241,13 +221,14 @@ def network_graph(nodedict, alledges, legende, mode, marked = [], searchfield = 
     # recommended to choose kamada_kawai_layout or spring_layout
     pos = nx.layout.spring_layout(G)
     for node in G.nodes:
-        G.nodes[node]["pos"] = list(pos[node])
-        G.nodes[node]["pos"].append(c.zpos(G.nodes[node][c.ZPOS]))
+        G.nodes[node]['pos'] = list(pos[node])
+        G.nodes[node]['pos'].append(c.zpos(G.nodes[node][c.ZPOS]))
+
 
     path_node_trace = go.Scatter3d(x=[], y=[], z=[])
     path_edge_trace = go.Scatter3d(x=[], y=[], z=[])
-    if mode == "path":
-        # calculate path between last 2 entrys of marked
+    if mode == 'path':
+    # calculate path between last 2 entrys of marked
         if len(marked) >= 2:
             try:
                 path = nx.shortest_path(G, source=marked[-2], target=marked[-1])
@@ -255,26 +236,25 @@ def network_graph(nodedict, alledges, legende, mode, marked = [], searchfield = 
                 path_node_y = []
                 path_node_z = []
                 for node in path:
-                    x, y, z = G.nodes[node]["pos"]
+                    x, y, z = G.nodes[node]['pos']
                     path_node_x.append(x)
                     path_node_y.append(y)
                     path_node_z.append(z)
-
+        
                 path_node_trace = go.Scatter3d(
-                    x=path_node_x,
-                    y=path_node_y,
-                    z=path_node_z,
-                    mode="markers",
-                    hoverinfo="text",
-                    marker=dict(color=c.color("path"), size=12, line_width=1),
+                    x=path_node_x, y=path_node_y, z=path_node_z,
+                    mode='markers',
+                    hoverinfo='text',
+                    marker=dict(
+                        color=c.color('path'),
+                        size=12,
+                        line_width=1)
                 )
                 path_edge_trace = go.Scatter3d(
-                    x=path_node_x,
-                    y=path_node_y,
-                    z=path_node_z,
-                    line=dict(width=1, color=c.color("path")),
-                    hoverinfo="text",
-                    mode="lines",
+                    x=path_node_x, y=path_node_y, z=path_node_z,
+                    line=dict(width=1, color=c.color('path')),
+                    hoverinfo='text',
+                    mode='lines'
                 )
             except:
                 pass
@@ -290,8 +270,8 @@ def network_graph(nodedict, alledges, legende, mode, marked = [], searchfield = 
     middle_z = []
     edge_text = []
     for edge in G.edges():
-        x0, y0, z0 = G.nodes[edge[0]]["pos"]
-        x1, y1, z1 = G.nodes[edge[1]]["pos"]
+        x0, y0, z0 = G.nodes[edge[0]]['pos']
+        x1, y1, z1 = G.nodes[edge[1]]['pos']
         edge_x.append(x0)
         edge_x.append(x1)
         edge_x.append(None)
@@ -301,27 +281,25 @@ def network_graph(nodedict, alledges, legende, mode, marked = [], searchfield = 
         edge_z.append(z0)
         edge_z.append(z1)
         edge_z.append(None)
-        middle_x.append((x0 + x1) / 2)
-        middle_y.append((y0 + y1) / 2)
-        middle_z.append((z0 + z1) / 2)
+        middle_x.append((x0+x1)/2)
+        middle_y.append((y0+y1)/2)
+        middle_z.append((z0+z1)/2)
         edge_text.append(c.info(G.edges[edge]))
 
     edge_trace = go.Scatter3d(
-        x=edge_x,
-        y=edge_y,
-        z=edge_z,
-        line=dict(width=1, color=c.color("edge")),
-        hoverinfo="text",
-        mode="lines",
-    )
+        x=edge_x, y=edge_y, z=edge_z,
+        line=dict(width=1, color=c.color('edge')),
+        hoverinfo='text',
+        mode='lines')
 
     middle_trace = go.Scatter3d(
-        x=middle_x,
-        y=middle_y,
-        z=middle_z,
-        mode="markers",
-        hoverinfo="text",
-        marker=dict(color=c.color("edge"), size=1, line_width=1),
+        x=middle_x, y=middle_y, z=middle_z,
+        mode='markers',
+        hoverinfo='text',
+        marker=dict(
+            color=c.color('edge'),
+            size=1,
+            line_width=1)
     )
 
     node_x = []
@@ -335,7 +313,7 @@ def network_graph(nodedict, alledges, legende, mode, marked = [], searchfield = 
         search_z = []
     for node in G.nodes():
         node = G.nodes[node]
-        x, y, z = node["pos"]
+        x, y, z = node['pos']
         node_x.append(x)
         node_y.append(y)
         node_z.append(z)
@@ -368,12 +346,13 @@ def network_graph(nodedict, alledges, legende, mode, marked = [], searchfield = 
             
     if searchfield:
         search_trace = go.Scatter3d(
-            x=search_x,
-            y=search_y,
-            z=search_z,
-            mode="markers",
-            hoverinfo="text",
-            marker=dict(color=c.color("search"), size=12, line_width=1),
+            x=search_x, y=search_y, z=search_z,
+            mode='markers',
+            hoverinfo='text',
+            marker=dict(
+                color=c.color('search'),
+                size=12,
+                line_width=1)
         )
     else:
         search_trace = go.Scatter3d(x=[], y=[], z=[])
@@ -384,17 +363,18 @@ def network_graph(nodedict, alledges, legende, mode, marked = [], searchfield = 
         marked_z = []
         for value in marked:
             if value in G.nodes().keys():
-                x, y, z = G.nodes[value]["pos"]
+                x, y, z = G.nodes[value]['pos']
                 marked_x.append(x)
                 marked_y.append(y)
                 marked_z.append(z)
         marked_trace = go.Scatter3d(
-            x=marked_x,
-            y=marked_y,
-            z=marked_z,
-            mode="markers",
-            hoverinfo="text",
-            marker=dict(color=c.color("marked"), size=15, line_width=1),
+            x=marked_x, y=marked_y, z=marked_z,
+            mode='markers',
+            hoverinfo='text',
+            marker=dict(
+                color=c.color('marked'),
+                size=15,
+                line_width=1)
         )
     else:
         marked_trace = go.Scatter3d(x=[], y=[], z=[])
