@@ -36,7 +36,7 @@
       {% if hit.entrytype == "inproceedings" %}
         <p>
         {% if "title" in hit %}<h6>{{ hit.title | safe }}</h6>{% endif %}
-        {% if "author" in hit %}<p>{{ hit.author|join(" and ") }}</p>{% endif %}
+        {% if "author" in hit %}<p>{{ hit.author }}</p>{% endif %}
         {% if "booktitle" in hit %}
           {{ hit.booktitle }}{% if "year" in hit %}, {{ hit.year }}{% endif %}
         {% else %}
@@ -49,7 +49,7 @@
         {% if "auto_tags" in hit %}<p><b>Auto-Tags:</b><br>{{ hit.auto_tags|join(", ") }}</p>{% endif %}
       {% else %}
         {% if "title" in hit %}<h6>{{ hit.title | safe }}</h6>{% endif %}
-        {% if "author" in hit %}<p>by {{ hit.author|join(" and ") }}</p>{% endif %}
+        {% if "author" in hit %}<p>by {{ hit.author }}</p>{% endif %}
         {% if "abstract" in hit %}<p><b>Abstract:</b> {{ hit.abstract|join(" ") | safe }}</p>{% endif %}
         {% if "date" in hit %}
           <p><b>Date:</b> {{ hit.date }}</p>
