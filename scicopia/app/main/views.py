@@ -1,5 +1,6 @@
 import base64
 import logging
+from typing import Tuple
 
 from elasticsearch_dsl.query import Ids, MultiMatch
 from flask import (
@@ -40,6 +41,42 @@ def index():
     return render_template("index.html", form=form)
 
 
+def split_prefix(string: str) -> Tuple[str, str]:
+    """
+    Helper function of the autocomplete route.
+    Splits the input, so that the auto-completion can work on a window.
+
+    Parameters
+    ----------
+    string : str
+        An input string the user has typed
+
+    Returns
+    -------
+    Tuple[str, str]
+        The first string should be ignored by the auto-completion
+        The second string is supposed to be used for auto-completion
+    """
+    if " " in string:
+        if string[-1] == " ":
+            try:
+                space = string.rindex(" ", 0, -1)
+            except ValueError:
+                return ("", string)
+            else:
+                return (string[:space+1], string[space+1:])
+        else:
+            space = string.rindex(" ")
+            try:
+                space = string.rindex(" ", 0, space)
+            except ValueError:
+                return ("", string)
+            else:
+                return (string[:space+1], string[space+1:])
+    else:
+        return ("", string)
+
+
 @main.route("/autocomplete", methods=["POST"])
 def autocomplete():
     """
@@ -50,19 +87,20 @@ def autocomplete():
     List[str] wrapped in JSON
         A list of auto-completion candidates
     """
-    text = name = request.form["prefix"]
+    text = request.form["prefix"]
+    prefix, term = split_prefix(text)
     search = current_app.config["COMPLETION"]
     search = search.index("suggestions")
     search = search.suggest(
-        "auto-completion", text, completion={"field": "keywords_suggest", "size": 10}
+        "auto-completion", term, completion={"field": "keywords_suggest", "size": 10}
     )
     results = search.execute()
     if results["timed_out"]:
-        logging.warning("Auto-completion request timed out: %s", text)
+        logging.warning("Auto-completion request timed out: %s", term)
         return jsonify([])
     hits = results["suggest"]["auto-completion"][0]["options"]
     completions = [hit["text"] for hit in hits]
-    return jsonify({"completions": completions})
+    return jsonify({"completions": completions, "prefix": prefix, "term": term})
 
 
 @main.route("/results", methods=["GET", "POST"])
