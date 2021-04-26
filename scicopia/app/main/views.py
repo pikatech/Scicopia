@@ -2,8 +2,18 @@ import base64
 import logging
 
 from elasticsearch_dsl.query import Ids, MultiMatch
-from flask import (abort, current_app, g, jsonify, make_response, redirect,
-                   render_template, request, session, url_for)
+from flask import (
+    abort,
+    current_app,
+    g,
+    jsonify,
+    make_response,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 
 from ..db import add_search, analyze_input, execute_query, link
 from . import main
@@ -116,6 +126,12 @@ def page(id):
         hit = results.hits[0]
         if "abstract" in hit:
             hit.abstract = link(hit.abstract)
+        if "author" in hit:
+            hit["author"] = (
+                " and ".join(hit.author)
+                if len(hit.author) <= 2
+                else f"{', '.join(hit.author[:-1])} and {hit.author[-1]}"
+            )
         # PDF collection is optional
         pdfexists = (
             id in current_app.config["PDFCOLLECTION"]
