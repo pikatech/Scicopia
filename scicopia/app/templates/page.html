@@ -7,6 +7,7 @@
   <link type="text/css" rel="stylesheet" href="/static/css/base.css">
   <link type="text/css" rel="stylesheet" href="/static/css/search.css">
   <link rel="stylesheet" href="/static/css/index.css">
+  <script src="/static/js/autocomplete.js"></script>
   <script>
   MathJax = {
     tex: {
@@ -21,12 +22,18 @@
   <div class="container">
    <div class="row justify-content-md-center"><div class="col-12 col-md-10 col-lg-8">
     <div class="searchArea">
-      <form method="POST" id="search">
+      <form method="POST" autocomplete="off" id="search">
         {{ form.hidden_tag() }}
         <!--{{ form.name.label }} -->
         {{ form.name(id="queryInputField", placeholder="reinforcement learning author:Schulman", autofocus=True) }}
         {{ form.submit(value="") }}
       </form>
+      <script>
+      /*initiate the autocomplete function on the "search" element
+        possible autocomplete values will be fetched via HttpXMlRequest
+        in the function*/
+        autocomplete(document.getElementById("queryInputField"));
+      </script>
       <a href="{{ url_for('main.help') }}"><img src="/static/images/help.svg" id="helpIcon" alt="Need help? Click here!"></a>
     </div>
     <div id="searchPanelDescription">
