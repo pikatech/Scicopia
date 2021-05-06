@@ -80,7 +80,6 @@ def newsearch():
                 if field == "auto_tags":
                     query.append(f"{field}: '{value[0]}'")
                 else:
-                #     query.append(f"{field}: '{value}'")
                     query.append(value)
                 break
             break
@@ -90,7 +89,6 @@ def newsearch():
                 if field == "auto_tags":
                     query.append(f"-{field}: '{value[0]}'")
                 else:
-                #     query.append(f"-{field}: '{value}'")
                     query.append(value)
                 break
             break
@@ -128,7 +126,6 @@ def execute_query():
             prepared_search = prepared_search.sort({"year": {"order": "asc"}})
         elif session["order"] == "desc":
             prepared_search = prepared_search.sort({"year": {"order": "desc"}})
-    # TODO: add possibility for asc order
     prepared_search = prepared_search.query(Q({"bool": {"must": conditions}}))
     if restrictions:
         prepared_search = prepared_search.query(Q({"bool": {"must_not": restrictions}}))
