@@ -1,9 +1,8 @@
-# Generated from Scicopia.g4 by ANTLR 4.8
+# Generated from Scicopia.g4 by ANTLR 4.9.2
 # encoding: utf-8
-import sys
-from io import StringIO
-
 from antlr4 import *
+from io import StringIO
+import sys
 
 if sys.version_info[1] > 5:
     from typing import TextIO
@@ -123,13 +122,15 @@ class ScicopiaParser(Parser):
 
     def __init__(self, input: TokenStream, output: TextIO = sys.stdout):
         super().__init__(input, output)
-        self.checkVersion("4.8")
+        self.checkVersion("4.9.2")
         self._interp = ParserATNSimulator(
             self, self.atn, self.decisionsToDFA, self.sharedContextCache
         )
         self._predicates = None
 
     class QueryContext(ParserRuleContext):
+        __slots__ = "parser"
+
         def __init__(
             self, parser, parent: ParserRuleContext = None, invokingState: int = -1
         ):
@@ -204,6 +205,8 @@ class ScicopiaParser(Parser):
         return localctx
 
     class PartContext(ParserRuleContext):
+        __slots__ = "parser"
+
         def __init__(
             self, parser, parent: ParserRuleContext = None, invokingState: int = -1
         ):
@@ -283,6 +286,8 @@ class ScicopiaParser(Parser):
         return localctx
 
     class ExcludeContext(ParserRuleContext):
+        __slots__ = "parser"
+
         def __init__(
             self, parser, parent: ParserRuleContext = None, invokingState: int = -1
         ):
@@ -364,6 +369,8 @@ class ScicopiaParser(Parser):
         return localctx
 
     class QuotesContext(ParserRuleContext):
+        __slots__ = "parser"
+
         def __init__(
             self, parser, parent: ParserRuleContext = None, invokingState: int = -1
         ):
@@ -437,6 +444,8 @@ class ScicopiaParser(Parser):
         return localctx
 
     class PrefixedContext(ParserRuleContext):
+        __slots__ = "parser"
+
         def __init__(
             self, parser, parent: ParserRuleContext = None, invokingState: int = -1
         ):
@@ -521,6 +530,8 @@ class ScicopiaParser(Parser):
         return localctx
 
     class TermContext(ParserRuleContext):
+        __slots__ = "parser"
+
         def __init__(
             self, parser, parent: ParserRuleContext = None, invokingState: int = -1
         ):
