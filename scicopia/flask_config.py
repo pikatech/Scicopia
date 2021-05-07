@@ -20,22 +20,6 @@ class Config:
             "Set the secret_key on the application to something unique and secret."
         )
 
-    if not "mailusername" in config:
-        raise ConfigError("Setting missing in config file: 'mailusername'.")
-    if not "mailpassword" in config:
-        raise ConfigError("Setting missing in config file: 'mailpassword'.")
-    if not "mailsubjectprefix" in config:
-        raise ConfigError("Setting missing in config file: 'mailsubjectprefix'.")
-    if not "mailsender" in config:
-        raise ConfigError("Setting missing in config file: 'mailsender'.")
-    MAIL_SERVER = "smtp.googlemail.com"
-    MAIL_PORT = 587
-    MAIL_USE_TLS = True
-    MAIL_USERNAME = config["mailusername"]
-    MAIL_PASSWORD = config["mailpassword"]
-    MAIL_SUBJECT_PREFIX = config["mailsubjectprefix"]
-    MAIL_SENDER = config["mailsender"]
-
     URL_MATCHER = re.compile(r"((https?|ftp)://[^\s/$.?#].[^\s]+[^\s\.])")
 
     if not "es_hosts" in config:
@@ -118,6 +102,22 @@ class Config:
         DASH = True
     else:
         DASH = False
+
+    if not "mailusername" in config:
+        raise ConfigError("Setting missing in config file: 'mailusername'.")
+    if not "mailpassword" in config:
+        raise ConfigError("Setting missing in config file: 'mailpassword'.")
+    if not "mailsubjectprefix" in config:
+        raise ConfigError("Setting missing in config file: 'mailsubjectprefix'.")
+    if not "mailsender" in config:
+        raise ConfigError("Setting missing in config file: 'mailsender'.")
+    MAIL_SERVER = "smtp.googlemail.com"
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = config["mailusername"]
+    MAIL_PASSWORD = config["mailpassword"]
+    MAIL_SUBJECT_PREFIX = config["mailsubjectprefix"]
+    MAIL_SENDER = config["mailsender"]
 
     @staticmethod
     def init_app(app):
