@@ -176,10 +176,13 @@ def page(id):
             if "PDFCOLLECTION" in current_app.config
             else False
         )
-        if session["showfulltext"]:
-            fulltext = current_app.config["COLLECTION"][id]["fulltext"]
+        if id in current_app.config["COLLECTION"]:
+            if session["showfulltext"]:
+                fulltext = current_app.config["COLLECTION"][id]["fulltext"]
+            else:
+                fulltext = "fulltext" in current_app.config["COLLECTION"][id]
         else:
-            fulltext = "fulltext" in current_app.config["COLLECTION"][id]
+            fulltext = False
         return render_template(
             "page.html",
             form=form,
