@@ -49,6 +49,10 @@ class Config:
     conn = connections.create_connection(hosts=config["es_hosts"])
     if not conn.ping():
         raise SearchError("Connection to the Elasticsearch server failed.")
+    if not conn.indices.exists(index=config["index"]):
+        raise SearchError("The given index does not exists.")
+    if not conn.indices.exists(index=config["suggestions"]):
+        raise SearchError("The given suggestions does not exists.")
     search = Search(using=conn)
     SEARCH = search.index(config["index"])
     COMPLETION = search.index(config["suggestions"])
