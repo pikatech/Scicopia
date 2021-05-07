@@ -51,7 +51,6 @@ SPECIAL: '\u2328' DIGITS '\u2328' ;
 
 fragment LETTER:   [\p{L}] [\p{M}]* ;
 fragment DIGIT:    [\p{Nd}] ;
-fragment FILEPCT:  '_' | '-' | '.' | ',' ;
 fragment PCT:      '-' | '/' | '.' | ',' ;
 
 WHITESPACE: [ \r\n\t\f]+ -> skip;
