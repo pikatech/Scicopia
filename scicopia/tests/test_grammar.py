@@ -123,3 +123,12 @@ def test_compounds():
     parser = ScicopiaParser(stream)
     tree = parser.query()
     assert Trees.toStringTree(tree, None, parser) == expected
+
+def test_string():
+    input_stream = InputStream("A* algorithm")
+    expected = "(query (part (term A*)) (part (term algorithm)))"
+    lexer = ScicopiaLexer(input_stream)
+    stream = CommonTokenStream(lexer)
+    parser = ScicopiaParser(stream)
+    tree = parser.query()
+    assert Trees.toStringTree(tree, None, parser) == expected

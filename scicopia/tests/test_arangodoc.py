@@ -1,20 +1,12 @@
 import os
 
 import scicopia.arangodoc as arangodoc
+from scicopia.utils.arangodb import connect
 
 
 def connection():
     config = arangodoc.read_config()
-    if "arango_url" in config:
-        arangoconn = arangodoc.Connection(
-            arangoURL=config["arango_url"],
-            username=config["username"],
-            password=config["password"],
-        )
-    else:
-        arangoconn = arangodoc.Connection(
-            username=config["username"], password=config["password"]
-        )
+    arangoconn = connect(config)
 
     if arangoconn.hasDatabase(config["database"]):
         db = arangoconn[config["database"]]
@@ -83,9 +75,10 @@ def test_import_file():
     open_func = arangodoc.OPEN_DICT[compression]
     parse = arangodoc.PARSE_DICT[doc_format]
     update = False
+    pdfcollection = None
     pdf = False
     arangodoc.import_file(
-        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
     for key in ["Ipsum2019a", "Ipsum2019b", "Ipsum2019c"]:
         try:
@@ -98,7 +91,7 @@ def test_import_file():
         )  # arangodb returns None if the attribut does not exist
 
     arangodoc.import_file(
-        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
     # gibt loggin.error aus, da daten bereits vorhanden, aber update false -> TODO: abfangen
 
@@ -110,7 +103,7 @@ def test_import_file():
     update = True
     pdf = True
     arangodoc.import_file(
-        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
     try:
         doc = collection["PDF"]
@@ -123,7 +116,7 @@ def test_import_file():
     update = True
     pdf = True
     arangodoc.import_file(
-        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
     try:
         doc = collection["Ipsum2019a"]
@@ -138,7 +131,7 @@ def test_import_file():
     update = True
     pdf = True
     arangodoc.import_file(
-        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
     for key in ["Ipsum2019a", "Ipsum2019b", "Ipsum2019c"]:
         try:
@@ -153,7 +146,7 @@ def test_import_file():
     update = True
     pdf = True
     arangodoc.import_file(
-        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
     for key in ["Ipsum2019a", "Ipsum2019b", "Ipsum2019c"]:
         try:
@@ -169,7 +162,7 @@ def test_import_file():
     update = True
     pdf = True
     arangodoc.import_file(
-        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
     for key in ["Ipsum2019a", "Ipsum2019b", "Ipsum2019c"]:
         try:
@@ -187,7 +180,7 @@ def test_import_file():
     update = False
     pdf = False
     arangodoc.import_file(
-        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
     try:
         doc = collection["oai:arXiv.org:121518513"]
@@ -202,7 +195,7 @@ def test_import_file():
     update = False
     pdf = False
     arangodoc.import_file(
-        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
     try:
         doc = collection["121518513"]
@@ -217,7 +210,7 @@ def test_import_file():
     update = False
     pdf = False
     arangodoc.import_file(
-        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
     try:
         doc = collection["PMID121518513"]
@@ -236,6 +229,7 @@ def test_import_file_error():
         collection = db.createCollection(name=col)
     batch_size = 2
     update = False
+    pdfcollection = None
     pdf = False
     compression = "none"
     open_func = arangodoc.OPEN_DICT[compression]
@@ -243,31 +237,31 @@ def test_import_file_error():
     # file = "tests/data/bibtex.bib"
     # doc_format = "arxiv"
     # parse = PARSE_DICT[doc_format]
-    # import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    # import_file(file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf)
 
     # doc_format = "grobid"
     # parse = PARSE_DICT[doc_format]
-    # import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    # import_file(file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf)
 
     # doc_format = "pubmed"
     # parse = PARSE_DICT[doc_format]
-    # import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    # import_file(file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf)
 
     file = "scicopia/tests/data/arxiv.xml"
     # doc_format = "bibtex"
     # parse = PARSE_DICT[doc_format]
-    # import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    # import_file(file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf)
 
     doc_format = "grobid"
     parse = arangodoc.PARSE_DICT[doc_format]
     arangodoc.import_file(
-        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
 
     doc_format = "pubmed"
     parse = arangodoc.PARSE_DICT[doc_format]
     arangodoc.import_file(
-        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
 
     file = "scicopia/tests/data/grobid.xml"
@@ -278,13 +272,13 @@ def test_import_file_error():
     doc_format = "arxiv"
     parse = arangodoc.PARSE_DICT[doc_format]
     arangodoc.import_file(
-        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
 
     doc_format = "pubmed"
     parse = arangodoc.PARSE_DICT[doc_format]
     arangodoc.import_file(
-        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
 
     file = "scicopia/tests/data/pubmed.xml"
@@ -295,13 +289,13 @@ def test_import_file_error():
     doc_format = "arxiv"
     parse = arangodoc.PARSE_DICT[doc_format]
     arangodoc.import_file(
-        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
 
     doc_format = "grobid"
     parse = arangodoc.PARSE_DICT[doc_format]
     arangodoc.import_file(
-        file, collection, batch_size, doc_format, open_func, parse, update, pdf
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
 
 

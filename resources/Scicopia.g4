@@ -17,7 +17,16 @@ quotes: '"' .*? '"'
 
 prefixed: ( ALPHA | SNAKE ) ':' ( SPECIAL | quotes | term ) ;
 
-term: CHARGED | DASH | NUM | COMPOUND | ALPHA | ABBREV | ALPHANUM | APOSTROPHE ;
+term: CHARGED
+    | DASH
+    | NUM 
+    | COMPOUND 
+    | ALPHA 
+    | ABBREV 
+    | ALPHANUM 
+    | APOSTROPHE 
+    | STRING 
+    ;
 
 // internal dashes for compound words
 DASH:  ALPHA ('-' ALPHANUM )+
@@ -43,16 +52,18 @@ DIGITS:   ( DIGIT )+ ;
 ABBREV:   ( LETTER )+ '.' ;
 CHARGED:  ( ALPHANUM )+ ( '+' | '-' ) ;
 ALPHANUM: ( LETTER | DIGIT )+ ;
+STRING :  ( LETTER | DIGIT | ASCII)+ ;
 
 LPAR: '(' ;
 RPAR: ')' ;
 
 SPECIAL: '\u2328' DIGITS '\u2328' ;
 
-fragment LETTER:   [\p{L}] [\p{M}]* ;
+fragment LETTER:   [\p{L}] [\p{M}]* ; // Letters and combining modifiers
 fragment DIGIT:    [\p{Nd}] ;
-fragment FILEPCT:  '_' | '-' | '.' | ',' ;
 fragment PCT:      '-' | '/' | '.' | ',' ;
+// ASCII punctuation without quotes or special characters of the grammar
+fragment ASCII: [!#$%&;^~_*+,./<=>?@] ;
 
 WHITESPACE: [ \r\n\t\f]+ -> skip;
 
