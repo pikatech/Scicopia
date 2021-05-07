@@ -24,13 +24,13 @@ def create_dashboard(server):
     edges = []
     try:
         for collection in current_app.config['NODECOLLECTIONS']:
-            AQL = f'FOR x in {collection} RETURN [x["{c.CATEGORY}"], [x._id, x]]'
+            AQL = f'FOR x IN {collection} RETURN [x["{c.CATEGORY}"], [x._id, x]]'
             nodes += current_app.config['DB'].AQLQuery(AQL, rawResults=True, batchSize=1000, ttl=3600)
             for entry in nodes:
                 nodedict[entry[0]].append(entry[1])
 
         for collection in current_app.config['EDGECOLLECTIONS']:
-            AQL = f'FOR x in {collection} RETURN [x._from, x._to, x]'
+            AQL = f'FOR x IN {collection} RETURN [x._from, x._to, x]'
             edges += current_app.config['DB'].AQLQuery(AQL, rawResults=True, batchSize=1000, ttl=3600)
     except:
         error = True
@@ -53,7 +53,6 @@ def create_dashboard(server):
     
     @server.route('/graph')
     def graph():
-        # {"mode":mode, "searchfield":searchfield,"searchdropdown":searchdropdown,"marked":marked,"categories":categories}
         if "graph" in session:
             mode = session["graph"]["mode"]
             marked = session["graph"]["marked"]
@@ -66,6 +65,9 @@ def create_dashboard(server):
             searchfield = ""
             searchdropdown = []
             categories = []
+        categoriesoption =[{'label':x,'value': x} for x in nodedict if x is not None]
+        if None in nodedict:
+            categoriesoption.append({'label': 'no Category', 'value': None})
         dash_app.layout = html.Div(
             children=[
                 html.Div(
@@ -93,8 +95,8 @@ def create_dashboard(server):
                         ),
                         dcc.Checklist(
                             id='categories',
-                            options=[{'label':x,'value': x} for x in nodedict
-                            ],
+                            style={'maxHeight': '50vh', 'overflow': 'auto'},
+                            options=categoriesoption,
                             value=categories
                         ),
                         dcc.RadioItems(
@@ -222,7 +224,10 @@ def network_graph(nodedict, alledges, legende, mode, marked = [], searchfield = 
     pos = nx.layout.spring_layout(G)
     for node in G.nodes:
         G.nodes[node]['pos'] = list(pos[node])
-        G.nodes[node]['pos'].append(c.zpos(G.nodes[node][c.ZPOS]))
+        if c.ZPOS in G.nodes[node]:
+            G.nodes[node]['pos'].append(c.zpos(G.nodes[node][c.ZPOS]))
+        else:
+            G.nodes[node]['pos'].append(c.zpos("default"))
 
 
     path_node_trace = go.Scatter3d(x=[], y=[], z=[])
@@ -318,14 +323,18 @@ def network_graph(nodedict, alledges, legende, mode, marked = [], searchfield = 
         node_y.append(y)
         node_z.append(z)
         node_text.append(c.info(node))
-        colors.append(c.color(node[c.COLOR]))
-        legende[node[c.KEY]] = {'name': node[c.LABEL], 'id': node['_id']}
+        if c.COLOR in node:
+            colors.append(c.color(node[c.COLOR]))
+        else:
+            colors.append(c.color("default"))
+        if c.LABEL in node:
+            legende[node[c.KEY]] = {'name': node[c.LABEL], 'id': node['_id']}
         if searchfield:
             if searchdropdown:
                 for att in searchdropdown:
                     if att == '_id':
                         searchfield = searchfield.replace(' ', '_')
-                    if searchfield.lower() in node[att].lower():
+                    if att in node and searchfield.lower() in node[att].lower():
                         search_x.append(x)
                         search_y.append(y)
                         search_z.append(z)
