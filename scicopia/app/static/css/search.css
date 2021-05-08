@@ -48,7 +48,6 @@ div#hitstats {
   margin: 0;
   padding: 0 .2em;
   border: 2px solid #768daa;
-  border-radius: .5em .5em 0 0;
 }
 
 select {
@@ -59,7 +58,6 @@ select {
 #results {
   margin-top: -2px;
   border: 2px solid #768daa;
-  border-style: solid;
 }
 
 #results a{
@@ -72,7 +70,7 @@ select {
   color: #3c7ccc;
 }
 
-dd > li:nth-child(even) {
+ol > li:nth-child(even) {
   background: #eef;
 }
 

@@ -33,7 +33,7 @@
 </div>
 <div class="row justify-content-md-center">
   <div class="col-12 col-md-10 col-lg-8">
-    <div id="hitstats">
+    <div id="hitstats" class="rounded-top rounded-lg">
       <span class="d-none d-sm-flex">Search order:</span>
       <form method="POST">
       {{ sort_form.hidden_tag() }}{{ sort_form.order(id="sortForm", class="form-control border-primary", onchange="this.form.submit()") }}
