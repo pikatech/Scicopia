@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link type="text/css" rel="stylesheet" href="/static/css/base.css">
   <link type="text/css" rel="stylesheet" href="/static/css/search.css">
-  <link rel="stylesheet" href="/static/css/index.css">
   <script src="/static/js/autocomplete.js"></script>
   <script>
   MathJax = {
@@ -21,7 +20,7 @@
 {% block page_content %}
 <div class="row justify-content-md-center">
   <div class="col-12 col-md-10 col-lg-8">
-    <div class="searchArea">
+    <div class="searchArea mt-1">
       <form method="POST" autocomplete="off" id="search">
         {{ form.hidden_tag() }}
         <!--{{ form.name.label }} -->

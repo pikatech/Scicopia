@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link type="text/css" rel="stylesheet" href="/static/css/base.css">
   <link type="text/css" rel="stylesheet" href="/static/css/search.css">
-  <link rel="stylesheet" href="/static/css/index.css">
   <script src="/static/js/autocomplete.js"></script>
 {% endblock %}
 
@@ -14,7 +13,7 @@
 {% block page_content %}
 <div class="row justify-content-md-start mb-1">
   <div class="col-12 col-md-10 col-lg-8 offset-lg-1">
-    <div class="searchArea">
+    <div class="searchArea mt-1">
       <form method="POST" autocomplete="off" id="search">
         {{ form.hidden_tag() }}
         <!--{{ form.name.label }} -->
@@ -33,10 +32,10 @@
 </div>
 <div class="row justify-content-md-center">
   <div class="col-12 col-md-10 col-lg-8">
-    <div id="hitstats" class="rounded-top rounded-lg">
-      <span class="d-none d-sm-flex">Search order:</span>
-      <form method="POST">
-      {{ sort_form.hidden_tag() }}{{ sort_form.order(id="sortForm", class="form-control border-primary", onchange="this.form.submit()") }}
+    <div id="hitstats" class="rounded-top rounded-lg pl-0">
+      <span class="d-none d-sm-flex pl-1 pr-1">Search order:</span>
+      <form method="POST" class="ml-0 pl-0">
+      {{ sort_form.hidden_tag() }}{{ sort_form.order(id="sortForm", class="form-control border-primary ml-0", onchange="this.form.submit()") }}
       </form>
       <span class="ml-2">Total hits: {{ total_hits }}</span><span class="rubber"></span>
       <span class="d-flex">In: {{ time }} ms</span>

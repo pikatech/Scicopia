@@ -33,3 +33,7 @@ footer p {
 .rubber {
   flex: 1 1 0%;
 }
+
+.btn-outline-primary, .btn-outline-primary:hover, .btn-outline-primary:active, .btn-outline-primary:visited {
+    background-color: #e3f2fd !important;
+}

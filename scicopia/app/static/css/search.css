@@ -1,3 +1,8 @@
+#searchPanelDescription {
+  font-size: .75em;
+  color: #a0a0a0;
+}
+
 .searchArea {
   display: flex;
 }
@@ -56,6 +61,8 @@ select {
 }
 
 #results {
+  font-size: .875em;
+  color: #000;
   margin-top: -2px;
   border: 2px solid #768daa;
 }
