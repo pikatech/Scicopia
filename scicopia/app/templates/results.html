@@ -39,8 +39,7 @@
       {{ sort_form.hidden_tag() }}{{ sort_form.order(id="sortForm", class="form-control border-primary", onchange="this.form.submit()") }}
       </form>
       <span class="ml-2">Total hits: {{ total_hits }}</span><span class="rubber"></span>
-      <span class="d-flex d-sm-none">Took: {{ time }} ms</span>
-      <span class="d-none d-sm-flex">Search took: {{ time }} ms</span>
+      <span class="d-flex">In: {{ time }} ms</span>
     </div>
     {% if query %}
       {% if hits %}
