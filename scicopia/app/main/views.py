@@ -103,42 +103,61 @@ def autocomplete():
     return jsonify({"completions": completions, "prefix": prefix, "term": term})
 
 
-@main.route("/results", methods=["GET", "POST"])
-def results():
-    if not "user" in session:
-        session["user"] = None
-    form = NameForm()
-    backwards = PageButton()
-    forwards = PageButton()
-    sort_form = SortForm()
-    if form.validate_on_submit():
-        session["query"] = form.name.data
-        session["condition"] = analyze_input(session["query"])
-        session["from_hit"] = 0
-        session["to_hit"] = 10
-        session["tags"] = []
-        return redirect(url_for("main.results"))
-    elif sort_form.validate_on_submit():
-        if "order" in sort_form.data:
-            session["order"] = sort_form.data["order"]
-    execute_query()
-    form.name.data = session["query"]
-    if session["user"] is not None:
-        add_search(session["query"])
-    return render_template(
-        "results.html",
-        form=form,
-        query=session.get("query"),
-        hits=g.get("hits"),
-        tags=session["tags"],
-        time=session.get("time"),
-        total_hits=session.get("total_hits"),
-        _from=session["from_hit"],
-        _to=session["to_hit"],
-        backwards=backwards,
-        forwards=forwards,
-        sort_form=sort_form,
-    )
+@main.route("/backwards", methods=["GET", "POST"])
+def backwards():
+    session["from_hit"] -= 10
+    session["to_hit"] -= 10
+    return redirect(url_for("main.results"))
+
+
+@main.route("/contact")
+def contact():
+    return render_template("work.html")
+
+
+@main.route("/forwards", methods=["GET", "POST"])
+def forwards():
+    session["from_hit"] += 10
+    session["to_hit"] += 10
+    return redirect(url_for("main.results"))
+
+
+@main.route("/fulltext/<id>", methods=["GET", "POST"])
+def fulltext(id):
+    session["showfulltext"] = not session["showfulltext"]
+    return redirect(url_for("main.page", id=id))
+
+
+@main.route("/graphnode/<id>/<key>", methods=["GET", "POST"])
+def graphnode(id, key):
+    session["graph"] = {
+        "mode": "neighbor",
+        "marked": [f"{id}/{key}"],
+        "searchfield": "",
+        "searchdropdown": [],
+        "categories": [],
+    }
+    return redirect(url_for("graph"))
+
+@main.route("/help")
+def help():
+    return render_template("work.html")
+
+
+@main.route("/newgraph", methods=["GET", "POST"])
+def newgraph():
+    session.pop("graph", None)
+    return redirect(url_for("graph"))
+
+
+@main.route("/oldsearch/<search>")
+def oldsearch(search):
+    session["query"] = search
+    session["condition"] = analyze_input(session["query"])
+    session["from_hit"] = 0
+    session["to_hit"] = 10
+    session["tags"] = []
+    return redirect(url_for("main.results"))
 
 
 @main.route("/page/<id>", methods=["GET", "POST"])
@@ -195,20 +214,6 @@ def page(id):
         )
 
 
-@main.route("/forwards", methods=["GET", "POST"])
-def forwards():
-    session["from_hit"] += 10
-    session["to_hit"] += 10
-    return redirect(url_for("main.results"))
-
-
-@main.route("/backwards", methods=["GET", "POST"])
-def backwards():
-    session["from_hit"] -= 10
-    session["to_hit"] -= 10
-    return redirect(url_for("main.results"))
-
-
 @main.route("/pdf/<id>", methods=["GET", "POST"])
 def pdf(id):
     try:
@@ -222,10 +227,42 @@ def pdf(id):
     return response
 
 
-@main.route("/fulltext/<id>", methods=["GET", "POST"])
-def fulltext(id):
-    session["showfulltext"] = not session["showfulltext"]
-    return redirect(url_for("main.page", id=id))
+@main.route("/results", methods=["GET", "POST"])
+def results():
+    if not "user" in session:
+        session["user"] = None
+    form = NameForm()
+    backwards = PageButton()
+    forwards = PageButton()
+    sort_form = SortForm()
+    if form.validate_on_submit():
+        session["query"] = form.name.data
+        session["condition"] = analyze_input(session["query"])
+        session["from_hit"] = 0
+        session["to_hit"] = 10
+        session["tags"] = []
+        return redirect(url_for("main.results"))
+    elif sort_form.validate_on_submit():
+        if "order" in sort_form.data:
+            session["order"] = sort_form.data["order"]
+    execute_query()
+    form.name.data = session["query"]
+    if session["user"] is not None:
+        add_search(session["query"])
+    return render_template(
+        "results.html",
+        form=form,
+        query=session.get("query"),
+        hits=g.get("hits"),
+        tags=session["tags"],
+        time=session.get("time"),
+        total_hits=session.get("total_hits"),
+        _from=session["from_hit"],
+        _to=session["to_hit"],
+        backwards=backwards,
+        forwards=forwards,
+        sort_form=sort_form,
+    )
 
 
 @main.route("/tags/<tag>")
@@ -244,41 +281,3 @@ def tags(tag):
                 session["to_hit"] = 10
             break
     return redirect(url_for("main.results"))
-
-
-@main.route("/oldsearch/<search>")
-def oldsearch(search):
-    session["query"] = search
-    session["condition"] = analyze_input(session["query"])
-    session["from_hit"] = 0
-    session["to_hit"] = 10
-    session["tags"] = []
-    return redirect(url_for("main.results"))
-
-
-@main.route("/newgraph", methods=["GET", "POST"])
-def newgraph():
-    session.pop("graph", None)
-    return redirect(url_for("graph"))
-
-
-@main.route("/graphnode/<id>/<key>", methods=["GET", "POST"])
-def graphnode(id, key):
-    session["graph"] = {
-        "mode": "neighbor",
-        "marked": [f"{id}/{key}"],
-        "searchfield": "",
-        "searchdropdown": [],
-        "categories": [],
-    }
-    return redirect(url_for("graph"))
-
-
-@main.route("/help")
-def help():
-    return render_template("work.html")
-
-
-@main.route("/contact")
-def contact():
-    return render_template("work.html")
