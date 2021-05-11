@@ -86,6 +86,11 @@ if __name__ == "__main__":
         print(e)
         sys.exit(-2)
     else:
+        if not isinstance(completions, Counter):
+            print(
+                f"Completions are of wrong type, expected Counter was {type(completions)}"
+            )
+            sys.exit(-3)
         try:
             store_suggestions(completions)
         except (
