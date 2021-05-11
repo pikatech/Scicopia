@@ -64,7 +64,7 @@ def split_prefix(string: str) -> Tuple[str, str]:
             except ValueError:
                 return ("", string)
             else:
-                return (string[:space+1], string[space+1:])
+                return (string[: space + 1], string[space + 1 :])
         else:
             space = string.rindex(" ")
             try:
@@ -72,7 +72,7 @@ def split_prefix(string: str) -> Tuple[str, str]:
             except ValueError:
                 return ("", string)
             else:
-                return (string[:space+1], string[space+1:])
+                return (string[: space + 1], string[space + 1 :])
     else:
         return ("", string)
 
