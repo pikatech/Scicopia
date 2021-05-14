@@ -1,17 +1,13 @@
 import os
 
 import scicopia.arangodoc as arangodoc
-from scicopia.utils.arangodb import connect
+from scicopia.utils.arangodb import connect, select_db
 
 
 def connection():
     config = arangodoc.read_config()
     arangoconn = connect(config)
-
-    if arangoconn.hasDatabase(config["database"]):
-        db = arangoconn[config["database"]]
-    else:
-        db = arangoconn.createDatabase(name=config["database"])
+    db = select_db(config, arangoconn, create=True)
     return db
 
 
@@ -59,13 +55,20 @@ def test_pdfsave():
 
 
 def test_import_file():
-    db = connection()  # use a config to a test database
+    # use a config to a test database
+    db = connection()
     col = "import_file"
     if db.hasCollection(col):
         collection = db[col]
         collection.empty()
     else:
         collection = db.createCollection(name=col)
+    pdfcol = "import_pdf"
+    if db.hasCollection(pdfcol):
+        pdfcollection = db[pdfcol]
+        pdfcollection.empty()
+    else:
+        pdfcollection = db.createCollection(name=pdfcol)
 
     batch_size = 2
 
@@ -75,7 +78,6 @@ def test_import_file():
     open_func = arangodoc.OPEN_DICT[compression]
     parse = arangodoc.PARSE_DICT[doc_format]
     update = False
-    pdfcollection = None
     pdf = False
     arangodoc.import_file(
         file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
@@ -86,9 +88,11 @@ def test_import_file():
         except arangodoc.DocumentNotFoundError:
             assert 1 == 2
         assert doc["cited_by"] == "test"
-        assert (
-            doc["pdf"] == None
-        )  # arangodb returns None if the attribut does not exist
+        try:
+            doc = pdfcollection[key]
+            assert 1 == 2
+        except arangodoc.DocumentNotFoundError:
+            pass
 
     arangodoc.import_file(
         file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
@@ -109,8 +113,11 @@ def test_import_file():
         doc = collection["PDF"]
     except arangodoc.DocumentNotFoundError:
         assert 1 == 2
-    assert doc["pdf"] != None
     assert doc["test"] == None
+    try:
+        doc = pdfcollection["PDF"]
+    except arangodoc.DocumentNotFoundError:
+        assert 1 == 2
 
     file = "scicopia/tests/data/bibtex_error.bib"
     update = True
@@ -122,8 +129,12 @@ def test_import_file():
         doc = collection["Ipsum2019a"]
     except arangodoc.DocumentNotFoundError:
         assert 1 == 2
-    assert doc["pdf"] == None
     assert doc["test"] == None
+    try:
+        doc = pdfcollection["Ipsum2019a"]
+        assert 1 == 2
+    except arangodoc.DocumentNotFoundError:
+        pass
 
     file = "scicopia/tests/data/bibtex.bib.gz"
     compression = "gzip"
@@ -138,7 +149,11 @@ def test_import_file():
             doc = collection[key]
         except arangodoc.DocumentNotFoundError:
             assert 1 == 2
-        assert doc["pdf"] == None
+        try:
+            doc = pdfcollection[key]
+            assert 1 == 2
+        except arangodoc.DocumentNotFoundError:
+            pass
 
     file = "scicopia/tests/data/bibtex.bib.bz2"
     compression = "bzip2"
@@ -154,7 +169,11 @@ def test_import_file():
         except arangodoc.DocumentNotFoundError:
             assert 1 == 2
         assert doc["cited_by"] == "test"
-        assert doc["pdf"] == None
+        try:
+            doc = pdfcollection[key]
+            assert 1 == 2
+        except arangodoc.DocumentNotFoundError:
+            pass
 
     file = "scicopia/tests/data/bibtex.bib.zst"
     compression = "zstd"
@@ -170,7 +189,11 @@ def test_import_file():
         except arangodoc.DocumentNotFoundError:
             assert 1 == 2
         assert doc["cited_by"] == "test"
-        assert doc["pdf"] == None
+        try:
+            doc = pdfcollection[key]
+            assert 1 == 2
+        except arangodoc.DocumentNotFoundError:
+            pass
 
     file = "scicopia/tests/data/arxiv.xml"
     doc_format = "arxiv"
