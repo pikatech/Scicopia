@@ -31,3 +31,4 @@ package.json
 
 config.json
 email.txt
+resources/*.zst
