@@ -23,7 +23,6 @@ from .forms import NameForm, PageButton, SortForm
 
 logger = logging.getLogger("ncbi")
 
-
 @main.route("/", methods=["GET", "POST"])
 def index():
     if not "user" in session:
@@ -142,8 +141,7 @@ def graph2sigma(graph):
     G.add_nodes_from(title.keys())
     G.add_edges_from(edges)
     # Position nodes using Fruchterman-Reingold force-directed algorithm
-    xy = nx.drawing.layout.spring_layout(G, scale=100)
-
+    xy = nx.drawing.layout.spring_layout(G, scale=100, seed=31415)
     nodes = list(
         {"id": f"n{i}", "label": k, "x": v[0], "y": v[1], "size": 1}
         for i, (k, v) in enumerate(xy.items())
