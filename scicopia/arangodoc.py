@@ -131,7 +131,7 @@ def handleBulkError(e, docs, collection, doc_format):
                 pos = error[12 : error.index(":")]
                 doc = docs[int(pos)]
                 logging.warning(
-                    f"Key '{doc._key}' already exists for PDF. Update of PDFs is not supportet yet.\n"
+                    f"Key '{doc._key}' already exists for PDF. Update of PDFs is not supported yet.\n"
                 )
     elif doc_format == "pubmed":
         logging.info(e.message)
