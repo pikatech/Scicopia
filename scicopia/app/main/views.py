@@ -2,6 +2,7 @@ import base64
 import logging
 from typing import Tuple
 
+import networkx as nx
 from elasticsearch_dsl.query import Ids, MultiMatch
 from flask import (
     abort,
@@ -110,6 +111,59 @@ def backwards():
     return redirect(url_for("main.results"))
 
 
+@main.route("/citations", methods=["POST"])
+def citation():
+    key = request.form["key"]
+    graph = list(fetch_citation_graph(key))
+    sigma_graph = graph2sigma(graph)
+    return jsonify(sigma_graph)
+
+
+def fetch_citation_graph(key: str):
+    AQL = (
+        f"FOR vertex, edges IN 0..2 OUTBOUND 'bibliography/{key}' GRAPH 'Citations' "
+        "RETURN {title: vertex.title, key: vertex._key, edges: edges}"
+    )
+    return current_app.config["DB"].AQLQuery(
+        AQL, rawResults=True, batchSize=100, ttl=60
+    )
+
+
+def graph2sigma(graph):
+    parts = list(graph)
+    title = {x["key"]: x["title"] for x in parts}
+    edges = (
+        (x["edges"]["_from"].split("/")[1], x["edges"]["_to"].split("/")[1])
+        for x in parts
+        if x["edges"] is not None
+    )
+
+    G = nx.DiGraph()
+    G.add_nodes_from(title.keys())
+    G.add_edges_from(edges)
+    # Position nodes using Fruchterman-Reingold force-directed algorithm
+    xy = nx.drawing.layout.spring_layout(G, scale=100)
+
+    nodes = list(
+        {"id": f"n{i}", "label": k, "x": v[0], "y": v[1], "size": 1}
+        for i, (k, v) in enumerate(xy.items())
+    )
+    nodes_enum = {x["label"]: x["id"] for x in nodes}
+    sigma_edges = list(
+        {"id": f"e{i}", "source": nodes_enum[src], "target": nodes_enum[dest]}
+        for i, (src, dest) in enumerate(G.edges)
+    )
+    return {"nodes": nodes, "edges": sigma_edges}
+
+@main.route("/citation/<key>", methods=["GET"])
+def citation_key(key):
+    graph = list(fetch_citation_graph(key))
+    sigma_graph = graph2sigma(graph)
+    return render_template(
+        "graph.html",
+        graph = sigma_graph
+    )
+
 @main.route("/contact")
 def contact():
     return render_template("work.html")
@@ -128,26 +182,9 @@ def fulltext(id):
     return redirect(url_for("main.page", id=id))
 
 
-@main.route("/graphnode/<id>/<key>", methods=["GET", "POST"])
-def graphnode(id, key):
-    session["graph"] = {
-        "mode": "neighbor",
-        "marked": [f"{id}/{key}"],
-        "searchfield": "",
-        "searchdropdown": [],
-        "categories": [],
-    }
-    return redirect(url_for("graph"))
-
 @main.route("/help")
 def help():
     return render_template("work.html")
-
-
-@main.route("/newgraph", methods=["GET", "POST"])
-def newgraph():
-    session.pop("graph", None)
-    return redirect(url_for("graph"))
 
 
 @main.route("/oldsearch/<search>")

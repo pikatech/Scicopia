@@ -23,16 +23,6 @@
         <a class="nav-link" href="{{ url_for('main.index') }}">Home <span class="sr-only">(current)</span></a>
       </li>
     </ul>
-    <ul class="navbar-nav mr-auto">
-      {% if config['DASH'] %}
-        <li class="nav-item active">
-          <a class="nav-link" href="{{ url_for('graph') }}">load Graphview <span class="sr-only">(current)</span></a></li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('main.newgraph')}}">new Graphview <span class="sr-only">(current)</span></a></li>
-        <li class="nav-item">
-          <a class="nav-link" href="/graphnode/worldVertices/world">Graphnodetest <span class="sr-only">(current)</span></a></li>
-      {% endif %}
-    </ul>
     <ul class="navbar-nav navbar-right">
       {% if session['user'] != None %}
       <li class="nav-item dropdown">
