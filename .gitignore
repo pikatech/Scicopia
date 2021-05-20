@@ -8,6 +8,7 @@ dask-worker-space
 *.interp
 *.tokens
 *.jar
+.antlr/
 
 # Coverage report
 .coverage
