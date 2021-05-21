@@ -7,6 +7,9 @@ from pyArango.connection import Connection
 from scicopia.config import read_config
 from scicopia.exceptions import ConfigError, DBError, SearchError
 
+logger = logging.getLogger("scicopia")
+logger.setLevel(logging.INFO)
+
 
 class Config:
     config = read_config()
@@ -26,8 +29,7 @@ class Config:
         raise ConfigError("Setting missing in config file: 'es_hosts'.")
     if not "index" in config:
         raise ConfigError("Setting missing in config file: 'index'.")
-    if not "suggestions" in config:
-        raise ConfigError("Setting missing in config file: 'suggestions'.")
+
     if not "fields" in config:
         raise ConfigError("Setting missing in config file: 'fields'.")
     conn = connections.create_connection(hosts=config["es_hosts"])
@@ -35,10 +37,12 @@ class Config:
         raise SearchError("Connection to the Elasticsearch server failed.")
     if not conn.indices.exists(index=config["index"]):
         raise SearchError("The given index does not exists.")
-    if not conn.indices.exists(index=config["suggestions"]):
-        raise SearchError("The given suggestions does not exists.")
     search = Search(using=conn)
     SEARCH = search.index(config["index"])
+    if not "suggestions" in config:
+        raise ConfigError("Setting missing in config file: 'suggestions'.")
+    if not conn.indices.exists(index=config["suggestions"]):
+        raise SearchError("The given suggestions does not exists.")
     COMPLETION = search.index(config["suggestions"])
     FIELDS = config["fields"]
 
