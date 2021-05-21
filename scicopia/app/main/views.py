@@ -143,7 +143,7 @@ def graph2sigma(graph):
     # Position nodes using Fruchterman-Reingold force-directed algorithm
     xy = nx.drawing.layout.spring_layout(G, scale=100, seed=31415)
     nodes = list(
-        {"id": f"n{i}", "label": k, "x": v[0], "y": v[1], "size": 1}
+        {"id": f"n{i}", "label": k, "x": v[0], "y": v[1], "size": 1, "title": title[k]}
         for i, (k, v) in enumerate(xy.items())
     )
     nodes_enum = {x["label"]: x["id"] for x in nodes}
