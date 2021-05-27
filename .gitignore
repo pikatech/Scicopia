@@ -9,6 +9,8 @@ dask-worker-space
 *.tokens
 *.jar
 .antlr/
+resources/*.java
+resources/*.class
 
 # Coverage report
 .coverage
