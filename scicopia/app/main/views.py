@@ -255,7 +255,7 @@ def pdf(id):
         data = current_app.config["PDFCOLLECTION"][id]["pdf"]
     except:
         abort(404)
-    data = base64.b64decode(data)
+    data = base64.b85decode(data)
     response = make_response(data)
     response.headers["Content-Type"] = "application/pdf"
     response.headers["Content-Disposition"] = f"inline; filename={id}.pdf"

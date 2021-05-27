@@ -114,7 +114,7 @@ def pdfsave(file: str) -> str:
     file = f'{file[:file.rindex(".")]}.pdf'  # muss ich noch verbessern
     try:
         with open(file, "rb") as f:
-            data = base64.b64encode(f.read())
+            data = base64.b85encode(f.read())
             data = data.decode()
     except FileNotFoundError:
         data = ""
