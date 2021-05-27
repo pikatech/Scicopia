@@ -133,7 +133,14 @@ def main(timestamp: int):
         arangodoc = collection[key]
         try:
             for field in allowed:
-                if field == "abstract":
+                if field == "year":
+                    year = arangodoc[field]
+                    try:
+                        doc["year"] = int(year)
+                    except ValueError:
+                        logging.warning("Can't parse year %s in document %s", year, key)
+                        continue
+                elif field == "abstract":
                     abstract_arango = arangodoc[field]
                     abstract_elastic = []
                     if abstract_arango:
