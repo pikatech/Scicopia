@@ -53,7 +53,7 @@
     s.bind('clickNode', function(e) {
         citations(e.data.node.label, s);
     });
-    s.bind('doubleClickNode', function(e) {
+    s.bind('rightClickNode', function(e) {
         location.href = "/page/" + e.data.node.label
     });
     s.bind('overNode', function(e) {
