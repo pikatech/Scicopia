@@ -5,7 +5,9 @@ Created on Mon Jun  8 11:39:17 2020
 
 @author: tech
 """
+from collections import Counter
 
+from scicopia.app.parser.segmenter import QuerySplitter
 from antlr4 import CommonTokenStream, InputStream, ParseTreeWalker
 
 from scicopia.app.parser.QueryListener import QueryListener
@@ -24,7 +26,13 @@ def test_sanity():
     walker = ParseTreeWalker()
     walker.walk(listener, tree)
     queries = listener.getQueries()
+    print(queries)
     assert "must" in queries
+    splitter = QuerySplitter(Counter())
+    segments = splitter.process_terms(queries["terms"])
+    print(segments)
+    for segment in segments:
+        queries["must"].append(segment)
     assert queries["must"] == expected
 
 
