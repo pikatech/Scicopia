@@ -33,5 +33,6 @@ package-lock.json
 package.json
 
 config.json
-email.txt
+*.txt
+*.log
 resources/*.zst
