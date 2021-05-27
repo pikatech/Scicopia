@@ -92,7 +92,7 @@ class Bibdoc(Document):
     booktitle = Text()
     abstract = Text()
     keywords = Keyword()
-    auto_tags = Keyword()
+    tags = Keyword()
     year = Short()
     date = Keyword()
     pages = Keyword()

@@ -23,6 +23,7 @@ from .forms import NameForm, PageButton, SortForm
 
 logger = logging.getLogger("ncbi")
 
+
 @main.route("/", methods=["GET", "POST"])
 def index():
     if not "user" in session:
@@ -153,14 +154,13 @@ def graph2sigma(graph):
     )
     return {"nodes": nodes, "edges": sigma_edges}
 
+
 @main.route("/citation/<key>", methods=["GET"])
 def citation_key(key):
     graph = list(fetch_citation_graph(key))
     sigma_graph = graph2sigma(graph)
-    return render_template(
-        "graph.html",
-        graph = sigma_graph
-    )
+    return render_template("graph.html", graph=sigma_graph)
+
 
 @main.route("/contact")
 def contact():
@@ -304,14 +304,24 @@ def results():
 def tags(tag):
     for d in session["tags"]:
         if d["name"] == tag:
+            subquery = f"tags:{tag}" if not " " in tag else f'tags:"{tag}"'
             if d["mark"] == False:
                 d.update({"mark": True})
-                session["condition"]["must"].append({"terms": {"auto_tags": [tag]}})
+                session["condition"]["must"].append({"terms": {"tags": [tag]}})
                 session["from_hit"] = 0
                 session["to_hit"] = 10
+                session["query"] = f"{session['query']} {subquery}"
             else:
                 d.update({"mark": False})
-                session["condition"]["must"].remove({"terms": {"auto_tags": [tag]}})
+                query = session["query"].replace(subquery, "")
+                # Removing the tag should have left a gap of at least
+                # two spaces, clean it up
+                query, subs = current_app.config["WHITESPACE"].subn(" ", query)
+                if not subs:
+                    # The tag was at the beginning or end of the query
+                    query = query.strip()
+                session["query"] = query
+                session["condition"]["must"].remove({"terms": {"tags": [tag]}})
                 session["from_hit"] = 0
                 session["to_hit"] = 10
             break

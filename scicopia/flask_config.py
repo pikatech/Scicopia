@@ -28,6 +28,7 @@ class Config:
         )
 
     URL_MATCHER = re.compile(r"((https?|ftp)://[^\s/$.?#].[^\s]+[^\s\.])")
+    WHITESPACE = re.compile(r"\s{2,}")
 
     if not "es_hosts" in config:
         raise ConfigError("Setting missing in config file: 'es_hosts'.")
