@@ -3,19 +3,18 @@ grammar Scicopia;
 query: part+
      ;
 
-part: exclude | quotes | term | prefixed | SPECIAL ;
+part: exclude | quotes | term | prefixed ;
 
 exclude: NOT quotes
        | NOT prefixed
        | NOT term
-       | NOT SPECIAL
        ;
 
 quotes: '"' .*? '"'
       |  '\'' .*? '\''
       ;
 
-prefixed: ( ALPHA | SNAKE ) ':' ( SPECIAL | quotes | term ) ;
+prefixed: ( ALPHA | SNAKE ) ':' ( quotes | term ) ;
 
 term: CHARGED
     | DASH
@@ -56,8 +55,6 @@ STRING :  ( LETTER | DIGIT | ASCII)+ ;
 
 LPAR: '(' ;
 RPAR: ')' ;
-
-SPECIAL: '\u2328' DIGITS '\u2328' ;
 
 fragment LETTER:   [\p{L}] [\p{M}]* ; // Letters and combining modifiers
 fragment DIGIT:    [\p{Nd}] ;
