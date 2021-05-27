@@ -1,11 +1,15 @@
 import logging
 import re
+from collections import Counter
+from pickle import UnpicklingError
 
 from elasticsearch_dsl import Search, connections
 from pyArango.connection import Connection
 
+from scicopia.app.parser.segmenter import QuerySplitter
 from scicopia.config import read_config
 from scicopia.exceptions import ConfigError, DBError, SearchError
+from scicopia.utils.zstandard import zstd_unpickle
 
 logger = logging.getLogger("scicopia")
 logger.setLevel(logging.INFO)
@@ -92,6 +96,20 @@ class Config:
         USERCOLLECTION = DB[USERCOLLECTIONNAME]
     else:
         USERCOLLECTION = DB.createCollection(name=config["usercollection"])
+    
+    if "query_ngrams" in config:
+        try:
+            completions = zstd_unpickle(config["query_ngrams"])
+        except FileNotFoundError:
+            raise ConfigError(f"File {config['query_ngrams']} does not exist.")
+        except UnpicklingError as e:
+            raise ConfigError(e)
+        else:
+            if not isinstance(completions, Counter):
+                raise ConfigError(
+                    f"Completions are of wrong type, expected Counter was {type(completions)}"
+                )
+        SEGMENTATION = QuerySplitter(completions)
 
     if (
         "nodecollections" in config
