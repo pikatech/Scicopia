@@ -33,7 +33,7 @@ def create_graph(docs: Collection, database: Database):
 
     if database.hasCollection("DocLinks"):
         logger.warning("Collection DocLinks already existed, dropping it.")
-        edges = database.collection["DocLinks"]
+        edges = database["DocLinks"]
         edges.delete()
     edges = database.createCollection("DocLinks")
     if database.hasGraph("Citations"):
