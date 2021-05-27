@@ -31,7 +31,17 @@ def analyze_input(input: str) -> Dict[str, Dict[str, str]]:
     tree = parser.query()
     walker = ParseTreeWalker()
     walker.walk(listener, tree)
-    return listener.getQueries()
+    queries = listener.getQueries()
+    if not "SEGMENTATION" in current_app.config:
+        for term in queries["terms"]:
+            queries["must"].append({"multi_match": {"query": term[1]}})
+    else:
+        splitter = current_app.config["SEGMENTATION"]
+        segments = splitter.process_terms(queries["terms"])
+        for segment in segments:
+            queries["must"].append(segment)
+    del queries["terms"]
+    return queries
 
 
 def checkFields(condition, fields):
@@ -92,7 +102,8 @@ def newsearch():
                     query.append(value)
                 break
             break
-    session["query"] = " ".join(query)
+    #    session["query"] = " ".join(query)
+    session["query"] = session["query"]
 
 
 def execute_query():
