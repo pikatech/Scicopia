@@ -1,0 +1,31 @@
+\section{Configuration}
+The Configuration is stored in the config.json located in the main directory of the project. It defines the used databaseconnections and collections, loggin informations and some other parameters. The format of the config is a dictionary. An empty dummyconfig.json to fill and rename is included.\\
+\\
+-- Flask --\\
+``secret\_key'': str, secret key for Flaskapp\\
+ \\
+-- Elasticsearch --\\
+ ``es\_hosts'': list, hosts to connect to\\
+ ``index'' : str, name of database\\
+ ``suggestions'' : str, name of database for autocompletion\\
+ ``fields'': list, fields to load into Elasticsearch, can be used for fieldspecific search, recomendet fields: ``title'', ``author'', ``abstract'', ``auto\_tags''\\
+ \\
+-- ArangoDB --\\
+ ``arango\_url'': str, optional, url to connect to\\
+ ``username'': str, ArandoDB username\\
+ ``password'': str, ArangoDB password\\
+ ``database'': str, database with all used collections\\
+ ``documentcollection'': str, collection with documents\\
+ ``pdfcollection'': str, collection with pdfs of documents\\
+ ``usercollection'':  str, collection with users\\
+ ``nodecollections'': list, optional, collections with graphnodes\\
+ ``edgecollections'': list, optional, collections with graphedges\\
+ \\
+-- Mail --\\
+% ``mailserver'': str, Email server\\
+% ``mailport'': int, Email port\\
+% ``mailusetls'': bool, use TLS\\
+ ``mailusername'': str, Email username\\
+ ``mailpassword'': str, Email passwort\\
+ ``mailsubjectprefix'': str, Email subject prefix\\
+ ``mailsender'': str, Email sendername\\

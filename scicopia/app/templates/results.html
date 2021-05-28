@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block head %}
+  {{ super() }}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link type="text/css" rel="stylesheet" href="/static/css/base.css">
+  <link type="text/css" rel="stylesheet" href="/static/css/search.css">
+  <script src="/static/js/autocomplete.min.js"></script>
+{% endblock %}
+
+<!-- auto-container -->
+{% block page_content %}
+<div class="row justify-content-md-start mb-1">
+  <div class="col-12 col-md-10 col-lg-8 offset-lg-1">
+    <div class="searchArea mt-1">
+      <form method="POST" autocomplete="off" id="search">
+        {{ form.hidden_tag() }}
+        <!--{{ form.name.label }} -->
+        {{ form.name(id="queryInputField", placeholder="reinforcement learning author:Schulman", autofocus=True) }}
+        {{ form.submit(value="") }}
+      </form>
+      <script>
+      /*initiate the autocomplete function on the "search" element
+        possible autocomplete values will be fetched via HttpXMlRequest
+        in the function*/
+        autocomplete(document.getElementById("queryInputField"));
+      </script>
+      <a href="{{ url_for('main.help') }}"><img src="/static/images/help.svg" id="helpIcon" alt="Need help? Click here!"></a>
+    </div>
+  </div>
+</div>
+<div class="row justify-content-md-center">
+  <div class="col-12 col-md-10 col-lg-8">
+    <div id="hitstats" class="rounded-top rounded-lg pl-0">
+      <span class="d-none d-sm-flex pl-1 pr-1">Search order:</span>
+      <form method="POST" class="ml-0 pl-0">
+      {{ sort_form.hidden_tag() }}{{ sort_form.order(id="sortForm", class="form-control border-primary ml-0", onchange="this.form.submit()") }}
+      </form>
+      <span class="ml-2">Total hits: {{ total_hits }}</span><span class="rubber"></span>
+      <span class="d-flex">In: {{ time }} ms</span>
+    </div>
+    {% if query %}
+      {% if hits %}
+      <ol id="results" class="list-group mb-0" start="{{ _from + 1 }}">
+      {% for hit in hits %}
+        <li class="hit list-group-item border-0"><a href="/page/{{ hit.id }}"><h6>{{ hit.title | safe }} {% if 'year' in hit %}({{ hit.year }}){% endif %}</h6></a>
+        {% if 'author' in hit %}<p>by {{ hit.author }}</p>{% endif %}
+          {% if 'abstract' in hit %}<ul>{% for part in hit.abstract %}<li>{{ part | safe }}</li>{% endfor %}</ul>{% endif %}
+        </li>
+        {% endfor %}
+      </ol>
+      {% else %}
+        <p>Search returned no results.</p>
+      {% endif %}
+    {% endif %}
+    {% if hits %}
+    <nav id="nav" aria-label="Page navigation">
+      <form action="/backwards" method="post">
+        {{ backwards.hidden_tag() }}
+        {% if _from == 0 %}
+          {{ backwards.button(value="<", class="btn btn-primary", id="backwards", disabled=True) }}
+        {% else %}
+          {{ backwards.button(value="<", class="btn btn-primary", id="backwards") }}
+        {% endif %}
+      </form>
+      <p class="rubber"></p>
+      <p>{{ _from + 1}} - {% if _to >= total_hits %}{{ total_hits }}{% else %}{{ _to }}{% endif %}</p>
+      <p class="rubber"></p>
+      <form action="/forwards" method="post">
+        {{ forwards.hidden_tag() }}
+        {% if _to >= total_hits %}
+          {{ forwards.button(value=">", class="btn btn-primary", id="forwards", disabled=True) }}
+        {% else %}
+          {{ forwards.button(value=">", class="btn btn-primary", id="forwards") }}
+        {% endif %}
+      </form>
+    </nav>
+    {% endif %}
+  </div>
+  <div id="tags" class="col-2 col-md-2 col-lg-2 col-sm-4">
+  {% for tag in tags %}
+    <a class="col-12 btn btn-outline-primary" href="/tags/{{ tag.name|urlencode }}" style='color: {% if tag.mark %}red{% else %}black{% endif %}'> {{ tag.name }} ({{ tag.nr }})</a>
+  {% endfor %}
+  </div>
+</div>
+{% endblock %}

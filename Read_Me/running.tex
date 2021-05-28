@@ -1,0 +1,17 @@
+\section{Running}
+To run Scicopia it is necessary to run the ArangoDB and Elastcsearch Servers first.
+To run Scicopia on a Developeserver use from the main directory
+\begin{verbatim}
+set FLASK_APP=scicopia/flask_main
+flask run
+\end{verbatim}
+For production it is possible to use a WSGI server with:
+\begin{verbatim}
+waitress-serve --host=localhost --call scicopia.flask_main:wsgi
+\end{verbatim}
+The optional parameters are shown with
+\begin{verbatim}
+waitress-serve --help
+\end{verbatim}
+and will not explained here.\\
+The addresse to connect with the browser will be shown in the console after running the server.

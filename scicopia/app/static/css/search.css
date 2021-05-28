@@ -1,0 +1,120 @@
+#searchPanelDescription {
+  font-size: .75em;
+  color: #a0a0a0;
+}
+
+.searchArea {
+  display: flex;
+}
+
+form#search {
+  display: inherit;
+  overflow: hidden;
+  width: 100%;
+}
+
+#helpIcon {
+  height: calc(2em + 1px);
+  margin-left: .1em;
+}
+
+input[type="text"] {
+  height: calc(2em + 1px);
+  flex: 1 0 0%;
+  margin: 0;
+  font: inherit;
+  border: thin solid #768daa;
+  border-radius: .5em 0 0 .5em;
+  vertical-align: bottom;
+  padding-left: .2em;
+}
+
+#submit {
+  -webkit-appearance: none;
+  appearance: none;
+  width: calc(2rem + 1px);
+  height: calc(2rem + 1px);
+  border: 0px none;
+  cursor: pointer;
+  margin: 0;
+  background-color: #768daa;
+  background-image: url(../images/search.svg);
+  background-size: 1.5em 1.5em;
+  background-repeat: no-repeat;
+  background-position: center;
+  vertical-align: bottom;
+}
+
+div#hitstats {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 2.5rem;
+  margin: 0;
+  padding: 0 .2em;
+  border: 2px solid #768daa;
+}
+
+select {
+  height: 2.5em;
+  margin: 0 .2em;
+}
+
+#results {
+  font-size: .875em;
+  color: #000;
+  margin-top: -2px;
+  border: 2px solid #768daa;
+}
+
+#results a{
+  text-decoration: none;
+  color: #000;
+}
+
+#results a:hover{
+  text-decoration: underline;
+  color: #3c7ccc;
+}
+
+ol > li:nth-child(even) {
+  background: #eef;
+}
+
+#nav {
+  display: flex;
+}
+
+#nav form{
+  display: inherit;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 15px;
+  right: 15px;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff; 
+  border-bottom: 1px solid #d4d4d4; 
+}
+
+/*when hovering an item:*/
+.autocomplete-items div:hover {
+  background-color: #e9e9e9; 
+}
+
+/*when navigating through the items using the arrow keys:*/
+.autocomplete-active {
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
+}

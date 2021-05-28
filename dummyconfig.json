@@ -1,0 +1,22 @@
+ {
+"secret_key": "",
+ 
+ "es_hosts": [""],
+ "index" : "",
+ "fields": [""],
+ 
+ "arango_url": "",
+ "username": "",
+ "password": "",
+ "database": "",
+ "documentcollection": "",
+ "pdfcollection": "",
+ "usercollection":  "",
+ "nodecollections": [""],
+ "edgecollections": [""],
+ 
+ "mailusername": "",
+ "mailpassword": "",
+ "mailsubjectprefix": "",
+ "mailsender": ""
+ }

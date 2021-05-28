@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /home/kampe/Documents/AquaDiva/Retreat/grobid-0.5.5/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.5" ident="GROBID" when="2019-06-05T14:15+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Lorem ipsum dolor</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<date when="2020-02-02"></date>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Lorem</forename><surname>Ipsum</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Institute of Lorem Ipsum</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Lörem</forename><surname>Ipßüm</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Institute of Lorem Ipsum</orgName>
+								<orgName type="institution">Lorem Ipsum University of Dolor</orgName>
+								<address>
+									<country key="DO">Dolory</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff2">
+								<orgName type="institution">University of Lorem Ipsum</orgName>
+								<address>
+									<country key="DO">Dolory</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Lorem ipsum dolor</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="DOI">121518514</idno>
+					<idno>doi:121518513</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Lorem ipsum</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ABSTRACT</head><p>Lorem ipsum dolor sit amet<ref>Lorem</ref>,<ref>Lorem</ref><ref>Lorem</ref> <ref>Lorem</ref> consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">INTRODUCTION</head><p>Lorem ipsum.</p></div>
+
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="10">.121518513</note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Duis autem vel</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Ipsum</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Lorem</title>
+		<imprint>
+			<date type="published" when="2015" />
+			<biblScope unit="page" from="245" to="258" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

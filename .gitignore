@@ -1,1 +1,38 @@
 __pycache__
+# Mypy
+.pytype
+# Dask
+dask-worker-space
+
+# ANTLR4 files
+*.interp
+*.tokens
+*.jar
+.antlr/
+resources/*.java
+resources/*.class
+
+# Coverage report
+.coverage
+htmlcov
+
+# Build environment (tox & pyenv)
+.python-version
+.tox/
+scicopia.egg-info/
+
+# KDE (Dolphin)
+.directory
+# Microsoft Visual Studio Code
+.vscode
+
+# Javascript development files
+.eslintrc.json
+node_modules/
+package-lock.json
+package.json
+
+config.json
+*.txt
+*.log
+resources/*.zst

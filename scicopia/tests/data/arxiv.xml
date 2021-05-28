@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+<responseDate>2019-05-03T09:17:31Z</responseDate>
+<request verb="ListRecords" until="2007-12-31" metadataPrefix="oai_dc">url</request>
+<ListRecords>
+<record>
+<header>
+ <identifier>oai:arXiv.org:121518513</identifier>
+ <datestamp>2007-05-23</datestamp>
+ <setSpec>lor</setSpec>
+</header>
+<metadata>
+ <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+ <dc:title>Lorem ipsum
+  dolor</dc:title>
+ <dc:creator>Ipsum, Lorem</dc:creator>
+ <dc:subject>Lorem - Ipsum</dc:subject>
+ <dc:subject>12O18</dc:subject>
+ <dc:description>  Lorem ipsum dolor sit amet,
+consetetur sadipscing elitr.
+</dc:description>
+ <dc:description>Comment: 11 pages</dc:description>
+ <dc:date>2007-03-30</dc:date>
+ <dc:type>text</dc:type>
+ <dc:identifier>http://arxiv.org/abs/121518513</dc:identifier>
+ </oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+ <identifier>oai:arXiv.org:121518513</identifier>
+ <datestamp>05/23/2007</datestamp>
+</header>
+<metadata>
+ <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+ <dc:title>Lorem ipsum
+  dolor</dc:title>
+ <dc:creator>Ipsum, Lorem</dc:creator>
+ <dc:subject>Lorem - Ipsum</dc:subject>
+ <dc:subject>12O18</dc:subject>
+ <dc:description>  Lorem ipsum dolor sit amet,
+consetetur sadipscing elitr.
+</dc:description>
+ <dc:description>Comment: 11 pages</dc:description>
+ <dc:date>2007-03-30</dc:date>
+ <dc:type>text</dc:type>
+ </oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+ <identifier>oai:arXiv.org:121518513</identifier>
+ <datestamp>2007-05-23</datestamp>
+ <setSpec></setSpec>
+</header>
+<metadata>
+ <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+ <dc:title>Lorem ipsum
+  dolor</dc:title>
+ <dc:creator>Ipsum, Lorem</dc:creator>
+ <dc:subject>Lorem - Ipsum</dc:subject>
+ <dc:subject>12O18</dc:subject>
+ <dc:description>  Lorem ipsum dolor sit amet,
+consetetur sadipscing elitr.
+</dc:description>
+ <dc:description>Comment: 11 pages</dc:description>
+ <dc:date>2007-03-30</dc:date>
+ <dc:type>text</dc:type>
+ <dc:identifier></dc:identifier>
+ </oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+ <datestamp>2007-05-23</datestamp>
+ <setSpec>lor</setSpec>
+</header>
+<metadata>
+ <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+ <dc:title>Lorem ipsum
+  dolor</dc:title>
+ <dc:creator>Ipsum, Lorem</dc:creator>
+ <dc:subject>Lorem - Ipsum</dc:subject>
+ <dc:subject>12O18</dc:subject>
+ <dc:description>  Lorem ipsum dolor sit amet,
+consetetur sadipscing elitr.
+</dc:description>
+ <dc:description>Comment: 11 pages</dc:description>
+ <dc:date>2007-03-30</dc:date>
+ <dc:type>text</dc:type>
+ <dc:identifier>http://arxiv.org/abs/121518513</dc:identifier>
+ </oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+ <identifier></identifier>
+ <datestamp>2007-05-23</datestamp>
+ <setSpec>lor</setSpec>
+</header>
+<metadata>
+ <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+ <dc:title>Lorem ipsum
+  dolor</dc:title>
+ <dc:creator>Ipsum, Lorem</dc:creator>
+ <dc:subject>Lorem - Ipsum</dc:subject>
+ <dc:subject>12O18</dc:subject>
+ <dc:description>  Lorem ipsum dolor sit amet,
+consetetur sadipscing elitr.
+</dc:description>
+ <dc:description>Comment: 11 pages</dc:description>
+ <dc:date>2007-03-30</dc:date>
+ <dc:type>text</dc:type>
+ <dc:identifier>http://arxiv.org/abs/121518513</dc:identifier>
+ </oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header status = "deleted">
+ <identifier>oai:arXiv.org:121518513</identifier>
+ <datestamp>2007-05-23</datestamp>
+ <setSpec>lor</setSpec>
+</header>
+<metadata>
+ <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+ <dc:title>Lorem ipsum
+  dolor</dc:title>
+ <dc:creator>Ipsum, Lorem</dc:creator>
+ <dc:subject>Lorem - Ipsum</dc:subject>
+ <dc:subject>12O18</dc:subject>
+ <dc:description>  Lorem ipsum dolor sit amet,
+consetetur sadipscing elitr.
+</dc:description>
+ <dc:description>Comment: 11 pages</dc:description>
+ <dc:date>2007-03-30</dc:date>
+ <dc:type>text</dc:type>
+ <dc:identifier>http://arxiv.org/abs/121518513</dc:identifier>
+ </oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+ <identifier>oai:arXiv.org:121518513</identifier>
+ <setSpec>lor</setSpec>
+</header>
+<metadata>
+ <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+ <dc:title>Lorem ipsum
+  dolor</dc:title>
+ <dc:creator>Ipsum, Lorem</dc:creator>
+ <dc:subject>Lorem - Ipsum</dc:subject>
+ <dc:subject>12O18</dc:subject>
+ <dc:description>  Lorem ipsum dolor sit amet,
+consetetur sadipscing elitr.
+</dc:description>
+ <dc:description>Comment: 11 pages</dc:description>
+ <dc:date>2007-03-30</dc:date>
+ <dc:type>text</dc:type>
+ <dc:identifier>http://arxiv.org/abs/121518513</dc:identifier>
+ </oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+ <identifier>oai:arXiv.org:121518513</identifier>
+ <datestamp></datestamp>
+ <setSpec>lor</setSpec>
+</header>
+<metadata>
+ <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+ <dc:title>Lorem ipsum
+  dolor</dc:title>
+ <dc:creator>Ipsum, Lorem</dc:creator>
+ <dc:subject>Lorem - Ipsum</dc:subject>
+ <dc:subject>12O18</dc:subject>
+ <dc:description>  Lorem ipsum dolor sit amet,
+consetetur sadipscing elitr.
+</dc:description>
+ <dc:description>Comment: 11 pages</dc:description>
+ <dc:date>2007-03-30</dc:date>
+ <dc:type>text</dc:type>
+ <dc:identifier>http://arxiv.org/abs/121518513</dc:identifier>
+ </oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+ <identifier>oai:arXiv.org:121518513</identifier>
+ <datestamp>2007-05-23</datestamp>
+ <setSpec>lor</setSpec>
+</header>
+<metadata>
+ <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+ <dc:creator>Ipsum, Lorem</dc:creator>
+ <dc:subject>Lorem - Ipsum</dc:subject>
+ <dc:subject>12O18</dc:subject>
+ <dc:description>  Lorem ipsum dolor sit amet,
+consetetur sadipscing elitr.
+</dc:description>
+ <dc:description>Comment: 11 pages</dc:description>
+ <dc:date>2007-03-30</dc:date>
+ <dc:type>text</dc:type>
+ <dc:identifier>http://arxiv.org/abs/121518513</dc:identifier>
+ </oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+ <identifier>oai:arXiv.org:121518513</identifier>
+ <datestamp>2007-05-23</datestamp>
+ <setSpec>lor</setSpec>
+</header>
+<metadata>
+ <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+ <dc:title></dc:title>
+ <dc:creator>Ipsum, Lorem</dc:creator>
+ <dc:subject>Lorem - Ipsum</dc:subject>
+ <dc:subject>12O18</dc:subject>
+ <dc:description>  Lorem ipsum dolor sit amet,
+consetetur sadipscing elitr.
+</dc:description>
+ <dc:description>Comment: 11 pages</dc:description>
+ <dc:date>2007-03-30</dc:date>
+ <dc:type>text</dc:type>
+ <dc:identifier>http://arxiv.org/abs/121518513</dc:identifier>
+ </oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+ <identifier>oai:arXiv.org:121518513</identifier>
+ <datestamp>2007-05-23</datestamp>
+ <setSpec>lor</setSpec>
+</header>
+<metadata>
+ <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+ <dc:title>Lorem ipsum
+  dolor</dc:title>
+ <dc:subject>Lorem - Ipsum</dc:subject>
+ <dc:subject>12O18</dc:subject>
+ <dc:description>  Lorem ipsum dolor sit amet,
+consetetur sadipscing elitr.
+</dc:description>
+ <dc:description>Comment: 11 pages</dc:description>
+ <dc:date>2007-03-30</dc:date>
+ <dc:type>text</dc:type>
+ <dc:identifier>http://arxiv.org/abs/121518513</dc:identifier>
+ </oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+ <identifier>oai:arXiv.org:121518513</identifier>
+ <datestamp>2007-05-23</datestamp>
+ <setSpec>lor</setSpec>
+</header>
+<metadata>
+ <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+ <dc:title>Lorem ipsum
+  dolor</dc:title>
+ <dc:creator></dc:creator>
+ <dc:subject>Lorem - Ipsum</dc:subject>
+ <dc:subject>12O18</dc:subject>
+ <dc:description>  Lorem ipsum dolor sit amet,
+consetetur sadipscing elitr.
+</dc:description>
+ <dc:description>Comment: 11 pages</dc:description>
+ <dc:date>2007-03-30</dc:date>
+ <dc:type>text</dc:type>
+ <dc:identifier>http://arxiv.org/abs/121518513</dc:identifier>
+ </oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+ <identifier>oai:arXiv.org:121518513</identifier>
+ <datestamp>2007-05-23</datestamp>
+ <setSpec>lor</setSpec>
+</header>
+<metadata>
+ <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+ <dc:title>Lorem ipsum
+  dolor</dc:title>
+ <dc:creator>Ipsum, Lorem</dc:creator>
+ <dc:description>  Lorem ipsum dolor sit amet,
+consetetur sadipscing elitr.
+</dc:description>
+ <dc:description>Comment: 11 pages</dc:description>
+ <dc:date>2007-03-30</dc:date>
+ <dc:type>text</dc:type>
+ <dc:identifier>http://arxiv.org/abs/121518513</dc:identifier>
+ </oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+ <identifier>oai:arXiv.org:121518513</identifier>
+ <datestamp>2007-05-23</datestamp>
+ <setSpec>lor</setSpec>
+</header>
+<metadata>
+ <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+ <dc:title>Lorem ipsum
+  dolor</dc:title>
+ <dc:creator>Ipsum, Lorem</dc:creator>
+ <dc:subject></dc:subject>
+ <dc:subject></dc:subject>
+ <dc:description>  Lorem ipsum dolor sit amet,
+consetetur sadipscing elitr.
+</dc:description>
+ <dc:description>Comment: 11 pages</dc:description>
+ <dc:date>2007-03-30</dc:date>
+ <dc:type>text</dc:type>
+ <dc:identifier>http://arxiv.org/abs/121518513</dc:identifier>
+ </oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+ <identifier>oai:arXiv.org:121518513</identifier>
+ <datestamp>2007-05-23</datestamp>
+ <setSpec>lor</setSpec>
+</header>
+<metadata>
+ <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+ <dc:title>Lorem ipsum
+  dolor</dc:title>
+ <dc:creator>Ipsum, Lorem</dc:creator>
+ <dc:subject>Lorem - Ipsum</dc:subject>
+ <dc:subject>12O18</dc:subject>
+ <dc:date>2007-03-30</dc:date>
+ <dc:type>text</dc:type>
+ <dc:identifier>http://arxiv.org/abs/121518513</dc:identifier>
+ </oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+ <identifier>oai:arXiv.org:121518513</identifier>
+ <datestamp>2007-05-23</datestamp>
+ <setSpec>lor</setSpec>
+</header>
+<metadata>
+ <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+ <dc:title>Lorem ipsum
+  dolor</dc:title>
+ <dc:creator>Ipsum, Lorem</dc:creator>
+ <dc:subject>Lorem - Ipsum</dc:subject>
+ <dc:subject>12O18</dc:subject>
+ <dc:description></dc:description>
+ <dc:description></dc:description>
+ <dc:date>2007-03-30</dc:date>
+ <dc:type>text</dc:type>
+ <dc:identifier>http://arxiv.org/abs/121518513</dc:identifier>
+ </oai_dc:dc>
+</metadata>
+</record>
+</ListRecords>
+</OAI-PMH>

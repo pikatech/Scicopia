@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block head %}
+  {{ super() }}
+  <link type="text/css" rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/index.css">
+  <script src="/static/js/queries.js" type="text/javascript" defer></script>
+{% endblock %}
+
+{% block page_content %}
+<div class="last-search">
+    <p><b>Last Search:</b><br>
+      {% if lastsearch %}
+    {% for entry in lastsearch %}
+    <li><a href="/oldsearch/{{ entry }}">{{ entry }}</a></li></p>
+    {% endfor %}
+      {% else %}
+      <p>No Search recorded</p>
+      {% endif %}
+</div>
+<div class="settings">
+    <p><b>Settings:</b><br>
+    <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
+    <li><a href="{{ url_for('auth.change_username_request') }}">Change Username</a></li>
+    <li><a href="{{ url_for('auth.change_email_request') }}">Change Email</a></li></p>
+</div>
+{% endblock %}

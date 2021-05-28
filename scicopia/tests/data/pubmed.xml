@@ -1,0 +1,1528 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE PubmedArticleSet PUBLIC "-//NLM//DTD PubMedArticle, 1st January 2019//EN" "http://dtd.nlm.nih.gov/ncbi/pubmed/out/pubmed_190101.dtd">
+<PubmedArticleSet>
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID Version="1">121518513</PMID>
+      <DateCompleted>
+        <Year>2019</Year>
+        <Month>02</Month>
+        <Day>07</Day>
+      </DateCompleted>
+      <DateRevised>
+        <Year>2019</Year>
+        <Month>12</Month>
+        <Day>10</Day>
+      </DateRevised>
+      <Article PubModel="Print">
+        <Journal>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
+          <JournalIssue CitedMedium="Internet">
+            <Volume>25</Volume>
+            <Issue>13</Issue>
+            <PubDate>
+              <Year>2018</Year>
+              <Month>March</Month>
+            </PubDate>
+          </JournalIssue>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
+        </Journal>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
+        <Pagination>
+          <MedlinePgn>1215-18513</MedlinePgn>
+        </Pagination>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
+        <Abstract>
+          <AbstractText>Lorem ipsum</AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
+        </Abstract>
+        <AuthorList CompleteYN="Y">
+          <Author ValidYN="Y">
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum.</Affiliation>
+            </AffiliationInfo>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
+            <Initials>I</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+        </AuthorList>
+        <Language>eng</Language>
+        <PublicationTypeList>
+          <PublicationType UI="D016428">Journal Article</PublicationType>
+          <PublicationType UI="D016454">Review</PublicationType>
+        </PublicationTypeList>
+      </Article>
+      <MedlineJournalInfo>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
+      </MedlineJournalInfo>
+      <ChemicalList>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
+        </Chemical>
+      </ChemicalList>
+      <CitationSubset>IM</CitationSubset>
+      <MeshHeadingList>
+        <MeshHeading>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
+          <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
+        </MeshHeading>
+      </MeshHeadingList>
+      <KeywordList Owner="NOTNLM">
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
+      </KeywordList>
+    </MedlineCitation>
+    <PubmedData>
+      <History>
+        <PubMedPubDate PubStatus="received">
+          <Year>2016</Year>
+          <Month>07</Month>
+          <Day>05</Day>
+        </PubMedPubDate>
+      </History>
+      <PublicationStatus>ppublish</PublicationStatus>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+  
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <DateCompleted>
+        <Year>2019</Year>
+        <Month>02</Month>
+        <Day>07</Day>
+      </DateCompleted>
+      <DateRevised>
+        <Year>2019</Year>
+        <Month>12</Month>
+        <Day>10</Day>
+      </DateRevised>
+      <Article PubModel="Print">
+        <Journal>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
+          <JournalIssue CitedMedium="Internet">
+            <Volume>25</Volume>
+            <Issue>13</Issue>
+            <PubDate>
+              <Year>2018</Year>
+            </PubDate>
+          </JournalIssue>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
+        </Journal>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
+        <Pagination>
+          <MedlinePgn>1215-18513</MedlinePgn>
+        </Pagination>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
+        <Abstract>
+          <AbstractText>Lorem ipsum</AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
+        </Abstract>
+        <AuthorList CompleteYN="Y">
+          <Author ValidYN="Y">
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum.</Affiliation>
+            </AffiliationInfo>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
+            <Initials>I</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+        </AuthorList>
+        <Language>eng</Language>
+        <PublicationTypeList>
+          <PublicationType UI="D016428">Journal Article</PublicationType>
+          <PublicationType UI="D016454">Review</PublicationType>
+        </PublicationTypeList>
+      </Article>
+      <MedlineJournalInfo>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
+      </MedlineJournalInfo>
+      <ChemicalList>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
+        </Chemical>
+      </ChemicalList>
+      <CitationSubset>IM</CitationSubset>
+      <MeshHeadingList>
+        <MeshHeading>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
+          <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
+        </MeshHeading>
+      </MeshHeadingList>
+      <KeywordList Owner="NOTNLM">
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
+      </KeywordList>
+    </MedlineCitation>
+    <PubmedData>
+      <History>
+        <PubMedPubDate PubStatus="received">
+          <Year>2016</Year>
+          <Month>07</Month>
+          <Day>05</Day>
+        </PubMedPubDate>
+      </History>
+      <PublicationStatus>ppublish</PublicationStatus>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+  
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID></PMID>
+      <DateCompleted>
+        <Year>2019</Year>
+        <Month>02</Month>
+        <Day>07</Day>
+      </DateCompleted>
+      <DateRevised>
+        <Year>2019</Year>
+        <Month>12</Month>
+        <Day>10</Day>
+      </DateRevised>
+      <Article PubModel="Print">
+        <Journal>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
+          <JournalIssue CitedMedium="Internet">
+            <Volume>25</Volume>
+            <Issue>13</Issue>
+            <PubDate>
+              <Year>2018</Year>
+            </PubDate>
+          </JournalIssue>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
+        </Journal>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
+        <Pagination>
+          <MedlinePgn>1215-18513</MedlinePgn>
+        </Pagination>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
+        <Abstract>
+          <AbstractText>Lorem ipsum</AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
+        </Abstract>
+        <AuthorList CompleteYN="Y">
+          <Author ValidYN="Y">
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum.</Affiliation>
+            </AffiliationInfo>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
+            <Initials>I</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+        </AuthorList>
+        <Language>eng</Language>
+        <PublicationTypeList>
+          <PublicationType UI="D016428">Journal Article</PublicationType>
+          <PublicationType UI="D016454">Review</PublicationType>
+        </PublicationTypeList>
+      </Article>
+      <MedlineJournalInfo>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
+      </MedlineJournalInfo>
+      <ChemicalList>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
+        </Chemical>
+      </ChemicalList>
+      <CitationSubset>IM</CitationSubset>
+      <MeshHeadingList>
+        <MeshHeading>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
+          <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
+        </MeshHeading>
+      </MeshHeadingList>
+      <KeywordList Owner="NOTNLM">
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
+      </KeywordList>
+    </MedlineCitation>
+    <PubmedData>
+      <History>
+        <PubMedPubDate PubStatus="received">
+          <Year>2016</Year>
+          <Month>07</Month>
+          <Day>05</Day>
+        </PubMedPubDate>
+      </History>
+      <PublicationStatus>ppublish</PublicationStatus>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+  
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID>121518513</PMID>
+      <DateCompleted>
+        <Year>2019</Year>
+        <Month>02</Month>
+        <Day>07</Day>
+      </DateCompleted>
+      <DateRevised>
+        <Year>2019</Year>
+        <Month>12</Month>
+        <Day>10</Day>
+      </DateRevised>
+      <Article PubModel="Print">
+        <Journal>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
+          <JournalIssue CitedMedium="Internet">
+            <Volume>25</Volume>
+            <Issue>13</Issue>
+            <PubDate>
+              <Year>2018</Year>
+            </PubDate>
+          </JournalIssue>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
+        </Journal>
+        <Pagination>
+          <MedlinePgn>1215-18513</MedlinePgn>
+        </Pagination>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
+        <Abstract>
+          <AbstractText>Lorem ipsum</AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
+        </Abstract>
+        <AuthorList CompleteYN="Y">
+          <Author ValidYN="Y">
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum.</Affiliation>
+            </AffiliationInfo>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
+            <Initials>I</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+        </AuthorList>
+        <Language>eng</Language>
+        <PublicationTypeList>
+          <PublicationType UI="D016428">Journal Article</PublicationType>
+          <PublicationType UI="D016454">Review</PublicationType>
+        </PublicationTypeList>
+      </Article>
+      <MedlineJournalInfo>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
+      </MedlineJournalInfo>
+      <ChemicalList>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
+        </Chemical>
+      </ChemicalList>
+      <CitationSubset>IM</CitationSubset>
+      <MeshHeadingList>
+        <MeshHeading>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
+          <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
+        </MeshHeading>
+      </MeshHeadingList>
+      <KeywordList Owner="NOTNLM">
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
+      </KeywordList>
+    </MedlineCitation>
+    <PubmedData>
+      <History>
+        <PubMedPubDate PubStatus="received">
+          <Year>2016</Year>
+          <Month>07</Month>
+          <Day>05</Day>
+        </PubMedPubDate>
+      </History>
+      <PublicationStatus>ppublish</PublicationStatus>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+  
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID>121518513</PMID>
+      <DateCompleted>
+        <Year>2019</Year>
+        <Month>02</Month>
+        <Day>07</Day>
+      </DateCompleted>
+      <DateRevised>
+        <Year>2019</Year>
+        <Month>12</Month>
+        <Day>10</Day>
+      </DateRevised>
+      <Article PubModel="Print">
+        <Journal>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
+          <JournalIssue CitedMedium="Internet">
+            <Volume>25</Volume>
+            <Issue>13</Issue>
+            <PubDate>
+              <Year>2018</Year>
+            </PubDate>
+          </JournalIssue>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
+        </Journal>
+        <ArticleTitle></ArticleTitle>
+        <Pagination>
+          <MedlinePgn>1215-18513</MedlinePgn>
+        </Pagination>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
+        <Abstract>
+          <AbstractText>Lorem ipsum</AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
+        </Abstract>
+        <AuthorList CompleteYN="Y">
+          <Author ValidYN="Y">
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum.</Affiliation>
+            </AffiliationInfo>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
+            <Initials>I</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+        </AuthorList>
+        <Language>eng</Language>
+        <PublicationTypeList>
+          <PublicationType UI="D016428">Journal Article</PublicationType>
+          <PublicationType UI="D016454">Review</PublicationType>
+        </PublicationTypeList>
+      </Article>
+      <MedlineJournalInfo>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
+      </MedlineJournalInfo>
+      <ChemicalList>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
+        </Chemical>
+      </ChemicalList>
+      <CitationSubset>IM</CitationSubset>
+      <MeshHeadingList>
+        <MeshHeading>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
+          <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
+        </MeshHeading>
+      </MeshHeadingList>
+      <KeywordList Owner="NOTNLM">
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
+      </KeywordList>
+    </MedlineCitation>
+    <PubmedData>
+      <History>
+        <PubMedPubDate PubStatus="received">
+          <Year>2016</Year>
+          <Month>07</Month>
+          <Day>05</Day>
+        </PubMedPubDate>
+      </History>
+      <PublicationStatus>ppublish</PublicationStatus>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+  
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID>121518513</PMID>
+      <DateCompleted>
+        <Year>2019</Year>
+        <Month>02</Month>
+        <Day>07</Day>
+      </DateCompleted>
+      <DateRevised>
+        <Year>2019</Year>
+        <Month>12</Month>
+        <Day>10</Day>
+      </DateRevised>
+      <Article PubModel="Print">
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
+        <Pagination>
+          <MedlinePgn>1215-18513</MedlinePgn>
+        </Pagination>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
+        <Abstract>
+          <AbstractText>Lorem ipsum</AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
+        </Abstract>
+        <AuthorList CompleteYN="Y">
+          <Author ValidYN="Y">
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum.</Affiliation>
+            </AffiliationInfo>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
+            <Initials>I</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+        </AuthorList>
+        <Language>eng</Language>
+        <PublicationTypeList>
+          <PublicationType UI="D016428">Journal Article</PublicationType>
+          <PublicationType UI="D016454">Review</PublicationType>
+        </PublicationTypeList>
+      </Article>
+      <MedlineJournalInfo>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
+      </MedlineJournalInfo>
+      <ChemicalList>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
+        </Chemical>
+      </ChemicalList>
+      <CitationSubset>IM</CitationSubset>
+      <MeshHeadingList>
+        <MeshHeading>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
+          <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
+        </MeshHeading>
+      </MeshHeadingList>
+      <KeywordList Owner="NOTNLM">
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
+      </KeywordList>
+    </MedlineCitation>
+    <PubmedData>
+      <History>
+        <PubMedPubDate PubStatus="received">
+          <Year>2016</Year>
+          <Month>07</Month>
+          <Day>05</Day>
+        </PubMedPubDate>
+      </History>
+      <PublicationStatus>ppublish</PublicationStatus>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+  
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID>121518513</PMID>
+      <DateCompleted>
+        <Year>2019</Year>
+        <Month>02</Month>
+        <Day>07</Day>
+      </DateCompleted>
+      <DateRevised>
+        <Year>2019</Year>
+        <Month>12</Month>
+        <Day>10</Day>
+      </DateRevised>
+      <Article PubModel="Print">
+        <Journal></Journal>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
+        <Pagination>
+          <MedlinePgn>1215-18513</MedlinePgn>
+        </Pagination>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
+        <Abstract>
+          <AbstractText>Lorem ipsum</AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
+        </Abstract>
+        <AuthorList CompleteYN="Y">
+          <Author ValidYN="Y">
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum.</Affiliation>
+            </AffiliationInfo>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
+            <Initials>I</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+        </AuthorList>
+        <Language>eng</Language>
+        <PublicationTypeList>
+          <PublicationType UI="D016428">Journal Article</PublicationType>
+          <PublicationType UI="D016454">Review</PublicationType>
+        </PublicationTypeList>
+      </Article>
+      <MedlineJournalInfo>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
+      </MedlineJournalInfo>
+      <ChemicalList>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
+        </Chemical>
+      </ChemicalList>
+      <CitationSubset>IM</CitationSubset>
+      <MeshHeadingList>
+        <MeshHeading>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
+          <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
+        </MeshHeading>
+      </MeshHeadingList>
+      <KeywordList Owner="NOTNLM">
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
+      </KeywordList>
+    </MedlineCitation>
+    <PubmedData>
+      <History>
+        <PubMedPubDate PubStatus="received">
+          <Year>2016</Year>
+          <Month>07</Month>
+          <Day>05</Day>
+        </PubMedPubDate>
+      </History>
+      <PublicationStatus>ppublish</PublicationStatus>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+  
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID>121518513</PMID>
+      <DateCompleted>
+        <Year>2019</Year>
+        <Month>02</Month>
+        <Day>07</Day>
+      </DateCompleted>
+      <DateRevised>
+        <Year>2019</Year>
+        <Month>12</Month>
+        <Day>10</Day>
+      </DateRevised>
+      <Article PubModel="Print">
+        <Journal>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
+          <JournalIssue CitedMedium="Internet">
+          </JournalIssue>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
+        </Journal>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
+        <Pagination>
+          <MedlinePgn>1215-18513</MedlinePgn>
+        </Pagination>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
+        <Language>eng</Language>
+        <PublicationTypeList>
+          <PublicationType UI="D016428">Journal Article</PublicationType>
+          <PublicationType UI="D016454">Review</PublicationType>
+        </PublicationTypeList>
+      </Article>
+      <MedlineJournalInfo>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
+      </MedlineJournalInfo>
+      <ChemicalList>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
+        </Chemical>
+      </ChemicalList>
+      <CitationSubset>IM</CitationSubset>
+      <KeywordList Owner="NOTNLM">
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
+      </KeywordList>
+    </MedlineCitation>
+    <PubmedData>
+      <History>
+        <PubMedPubDate PubStatus="received">
+          <Year>2016</Year>
+          <Month>07</Month>
+          <Day>05</Day>
+        </PubMedPubDate>
+      </History>
+      <PublicationStatus>ppublish</PublicationStatus>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+  
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID>121518513</PMID>
+      <DateCompleted>
+        <Year>2019</Year>
+        <Month>02</Month>
+        <Day>07</Day>
+      </DateCompleted>
+      <DateRevised>
+        <Year>2019</Year>
+        <Month>12</Month>
+        <Day>10</Day>
+      </DateRevised>
+      <Article PubModel="Print">
+        <Journal>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
+          <JournalIssue CitedMedium="Internet">
+            <Volume></Volume>
+            <Issue></Issue>
+            <PubDate></PubDate>
+          </JournalIssue>
+          <Title></Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
+        </Journal>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
+        <Pagination>
+          <MedlinePgn>1215-18513</MedlinePgn>
+        </Pagination>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
+        <Abstract></Abstract>
+        <AuthorList CompleteYN="Y"></AuthorList>
+        <Language>eng</Language>
+        <PublicationTypeList>
+          <PublicationType UI="D016428">Journal Article</PublicationType>
+          <PublicationType UI="D016454">Review</PublicationType>
+        </PublicationTypeList>
+      </Article>
+      <MedlineJournalInfo>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
+      </MedlineJournalInfo>
+      <ChemicalList>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
+        </Chemical>
+      </ChemicalList>
+      <CitationSubset>IM</CitationSubset>
+      <MeshHeadingList></MeshHeadingList>
+      <KeywordList Owner="NOTNLM">
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
+      </KeywordList>
+    </MedlineCitation>
+    <PubmedData>
+      <History>
+        <PubMedPubDate PubStatus="received">
+          <Year>2016</Year>
+          <Month>07</Month>
+          <Day>05</Day>
+        </PubMedPubDate>
+      </History>
+      <PublicationStatus>ppublish</PublicationStatus>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+  
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID>121518513</PMID>
+      <DateCompleted>
+        <Year>2019</Year>
+        <Month>02</Month>
+        <Day>07</Day>
+      </DateCompleted>
+      <DateRevised>
+        <Year>2019</Year>
+        <Month>12</Month>
+        <Day>10</Day>
+      </DateRevised>
+      <Article PubModel="Print">
+        <Journal>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
+          <JournalIssue CitedMedium="Internet">
+            <Volume>25</Volume>
+            <Issue>13</Issue>
+            <PubDate>
+              <Year></Year>
+              <Month></Month>
+            </PubDate>
+          </JournalIssue>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
+        </Journal>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
+        <Pagination>
+          <MedlinePgn>1215-18513</MedlinePgn>
+        </Pagination>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
+        <Abstract>
+          <AbstractText></AbstractText>
+          <AbstractText Label="Title"></AbstractText>
+        </Abstract>
+        <AuthorList CompleteYN="Y">
+          <Author ValidYN="Y"></Author>
+        </AuthorList>
+        <Language>eng</Language>
+        <PublicationTypeList>
+          <PublicationType UI="D016428">Journal Article</PublicationType>
+          <PublicationType UI="D016454">Review</PublicationType>
+        </PublicationTypeList>
+      </Article>
+      <MedlineJournalInfo>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
+      </MedlineJournalInfo>
+      <ChemicalList>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
+        </Chemical>
+      </ChemicalList>
+      <CitationSubset>IM</CitationSubset>
+      <MeshHeadingList>
+        <MeshHeading></MeshHeading>
+      </MeshHeadingList>
+      <KeywordList Owner="NOTNLM">
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
+      </KeywordList>
+    </MedlineCitation>
+    <PubmedData>
+      <History>
+        <PubMedPubDate PubStatus="received">
+          <Year>2016</Year>
+          <Month>07</Month>
+          <Day>05</Day>
+        </PubMedPubDate>
+      </History>
+      <PublicationStatus>ppublish</PublicationStatus>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+  
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID>121518513</PMID>
+      <DateCompleted>
+        <Year>2019</Year>
+        <Month>02</Month>
+        <Day>07</Day>
+      </DateCompleted>
+      <DateRevised>
+        <Year>2019</Year>
+        <Month>12</Month>
+        <Day>10</Day>
+      </DateRevised>
+      <Article PubModel="Print">
+        <Journal>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
+          <JournalIssue CitedMedium="Internet">
+            <Volume>25</Volume>
+            <Issue>13</Issue>
+            <PubDate>
+              <Year>2018</Year>
+            </PubDate>
+          </JournalIssue>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
+        </Journal>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
+        <Pagination>
+          <MedlinePgn>1215-18513</MedlinePgn>
+        </Pagination>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
+        <Abstract>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
+        </Abstract>
+        <AuthorList CompleteYN="Y">
+          <Author ValidYN="Y">
+            <LastName>Ipsum</LastName>
+            <ForeName></ForeName>
+            <Initials>L</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum.</Affiliation>
+            </AffiliationInfo>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName>Lörem</LastName>
+            <Initials>I</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+        </AuthorList>
+        <Language>eng</Language>
+        <PublicationTypeList>
+          <PublicationType UI="D016428">Journal Article</PublicationType>
+          <PublicationType UI="D016454">Review</PublicationType>
+        </PublicationTypeList>
+      </Article>
+      <MedlineJournalInfo>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
+      </MedlineJournalInfo>
+      <ChemicalList>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
+        </Chemical>
+      </ChemicalList>
+      <CitationSubset>IM</CitationSubset>
+      <MeshHeadingList>
+        <MeshHeading>
+          <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D061067" MajorTopicYN="N"></DescriptorName>
+        </MeshHeading>
+      </MeshHeadingList>
+      <KeywordList Owner="NOTNLM">
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
+      </KeywordList>
+    </MedlineCitation>
+    <PubmedData>
+      <History>
+        <PubMedPubDate PubStatus="received">
+          <Year>2016</Year>
+          <Month>07</Month>
+          <Day>05</Day>
+        </PubMedPubDate>
+      </History>
+      <PublicationStatus>ppublish</PublicationStatus>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+  
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID>121518513</PMID>
+      <DateCompleted>
+        <Year>2019</Year>
+        <Month>02</Month>
+        <Day>07</Day>
+      </DateCompleted>
+      <DateRevised>
+        <Year>2019</Year>
+        <Month>12</Month>
+        <Day>10</Day>
+      </DateRevised>
+      <Article PubModel="Print">
+        <Journal>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
+          <JournalIssue CitedMedium="Internet">
+            <Volume>25</Volume>
+            <Issue>13</Issue>
+            <PubDate>
+              <Year>2018</Year>
+            </PubDate>
+          </JournalIssue>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
+        </Journal>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
+        <Pagination>
+          <MedlinePgn>1215-18513</MedlinePgn>
+        </Pagination>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
+        <Abstract>
+          <AbstractText>Lorem</AbstractText>
+          <AbstractText>ipsum</AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
+        </Abstract>
+        <AuthorList CompleteYN="Y">
+          <Author ValidYN="Y">
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum.</Affiliation>
+            </AffiliationInfo>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName></LastName>
+            <ForeName></ForeName>
+            <Initials></Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+        </AuthorList>
+        <Language>eng</Language>
+        <PublicationTypeList>
+          <PublicationType UI="D016428">Journal Article</PublicationType>
+          <PublicationType UI="D016454">Review</PublicationType>
+        </PublicationTypeList>
+      </Article>
+      <MedlineJournalInfo>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
+      </MedlineJournalInfo>
+      <ChemicalList>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
+        </Chemical>
+      </ChemicalList>
+      <CitationSubset>IM</CitationSubset>
+      <MeshHeadingList>
+        <MeshHeading>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
+          <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
+        </MeshHeading>
+      </MeshHeadingList>
+      <KeywordList Owner="NOTNLM">
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
+      </KeywordList>
+    </MedlineCitation>
+    <PubmedData>
+      <History>
+        <PubMedPubDate PubStatus="received">
+          <Year>2016</Year>
+          <Month>07</Month>
+          <Day>05</Day>
+        </PubMedPubDate>
+      </History>
+      <PublicationStatus>ppublish</PublicationStatus>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+  
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID Version="1">121518513</PMID>
+      <DateCompleted>
+        <Year>2019</Year>
+        <Month>02</Month>
+        <Day>07</Day>
+      </DateCompleted>
+      <DateRevised>
+        <Year>2019</Year>
+        <Month>12</Month>
+        <Day>10</Day>
+      </DateRevised>
+      <Article PubModel="Print">
+        <Journal>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
+          <JournalIssue CitedMedium="Internet">
+            <Volume>25</Volume>
+            <Issue>13</Issue>
+            <PubDate>
+              <MedlineDate>03/03/2018</MedlineDate>
+            </PubDate>
+          </JournalIssue>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
+        </Journal>
+        <ArticleTitle>Lorem ipsum <b>dolor</b> sit amet, consetetur sadipscing elitr.</ArticleTitle>
+        <Pagination>
+          <MedlinePgn>1215-18513</MedlinePgn>
+        </Pagination>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
+        <Abstract>
+          <AbstractText>Lorem <b>ipsum</b></AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
+        </Abstract>
+        <AuthorList>
+          <Author>
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum.</Affiliation>
+            </AffiliationInfo>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+          <Author>
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
+            <Initials>I</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+        </AuthorList>
+        <Language>eng</Language>
+        <PublicationTypeList>
+          <PublicationType UI="D016428">Journal Article</PublicationType>
+          <PublicationType UI="D016454">Review</PublicationType>
+        </PublicationTypeList>
+      </Article>
+      <MedlineJournalInfo>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
+      </MedlineJournalInfo>
+      <ChemicalList>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
+        </Chemical>
+      </ChemicalList>
+      <CitationSubset>IM</CitationSubset>
+      <MeshHeadingList>
+        <MeshHeading>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
+          <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
+        </MeshHeading>
+      </MeshHeadingList>
+      <KeywordList Owner="NOTNLM">
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
+      </KeywordList>
+    </MedlineCitation>
+    <PubmedData>
+      <History>
+        <PubMedPubDate PubStatus="received">
+          <Year>2016</Year>
+          <Month>07</Month>
+          <Day>05</Day>
+        </PubMedPubDate>
+      </History>
+      <PublicationStatus>ppublish</PublicationStatus>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+  
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID Version="1">121518513</PMID>
+      <DateCompleted>
+        <Year>2019</Year>
+        <Month>02</Month>
+        <Day>07</Day>
+      </DateCompleted>
+      <DateRevised>
+        <Year>2019</Year>
+        <Month>12</Month>
+        <Day>10</Day>
+      </DateRevised>
+      <Article PubModel="Print">
+        <Journal>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
+          <JournalIssue CitedMedium="Internet">
+            <Volume>25</Volume>
+            <Issue>13</Issue>
+            <PubDate>
+              <MedlineDate></MedlineDate>
+            </PubDate>
+          </JournalIssue>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
+        </Journal>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
+        <Pagination>
+          <MedlinePgn>1215-18513</MedlinePgn>
+        </Pagination>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
+        <Abstract>
+          <AbstractText Label = "Title">Lorem ipsum</AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
+        </Abstract>
+        <AuthorList CompleteYN="Y">
+          <Author ValidYN="N">
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum.</Affiliation>
+            </AffiliationInfo>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+          <Author ValidYN="N">
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
+            <Initials>I</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+        </AuthorList>
+        <Language>eng</Language>
+        <PublicationTypeList>
+          <PublicationType UI="D016428">Journal Article</PublicationType>
+          <PublicationType UI="D016454">Review</PublicationType>
+        </PublicationTypeList>
+      </Article>
+      <MedlineJournalInfo>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
+      </MedlineJournalInfo>
+      <ChemicalList>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
+        </Chemical>
+      </ChemicalList>
+      <CitationSubset>IM</CitationSubset>
+      <MeshHeadingList>
+        <MeshHeading>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
+          <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
+        </MeshHeading>
+      </MeshHeadingList>
+      <KeywordList Owner="NOTNLM">
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
+      </KeywordList>
+    </MedlineCitation>
+    <PubmedData>
+      <History>
+        <PubMedPubDate PubStatus="received">
+          <Year>2016</Year>
+          <Month>07</Month>
+          <Day>05</Day>
+        </PubMedPubDate>
+      </History>
+      <PublicationStatus>ppublish</PublicationStatus>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+  
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID Version="1">121518513</PMID>
+      <DateCompleted>
+        <Year>2019</Year>
+        <Month>02</Month>
+        <Day>07</Day>
+      </DateCompleted>
+      <DateRevised>
+        <Year>2019</Year>
+        <Month>12</Month>
+        <Day>10</Day>
+      </DateRevised>
+      <Article PubModel="Print">
+        <Journal>
+          <ISSN IssnType="Electronic">1215-185M</ISSN>
+          <JournalIssue CitedMedium="Internet">
+            <Volume>25</Volume>
+            <Issue>13</Issue>
+            <PubDate>
+              <Year>2018</Year>
+            </PubDate>
+          </JournalIssue>
+          <Title>Lorem ipsum dolor</Title>
+          <ISOAbbreviation>Lorem. Ipsum. Dolor.</ISOAbbreviation>
+        </Journal>
+        <ArticleTitle>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</ArticleTitle>
+        <Pagination>
+          <MedlinePgn>1215-18513</MedlinePgn>
+        </Pagination>
+        <ELocationID EIdType="doi" ValidYN="Y">121518513</ELocationID>
+        <Abstract>
+          <AbstractText Label="Title">Lorem <b>ipsum</b></AbstractText>
+          <CopyrightInformation>Copyright© Lorem ipsum.</CopyrightInformation>
+        </Abstract>
+        <AuthorList CompleteYN="N">
+          <Author ValidYN="Y">
+            <LastName>Ipsum</LastName>
+            <ForeName>Lorem</ForeName>
+            <Initials>L</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum.</Affiliation>
+            </AffiliationInfo>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName>Lörem</LastName>
+            <ForeName>Ipßüm</ForeName>
+            <Initials>I</Initials>
+            <AffiliationInfo>
+              <Affiliation>Lorem ipsum dolor.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+        </AuthorList>
+        <Language>eng</Language>
+        <PublicationTypeList>
+          <PublicationType UI="D016428">Journal Article</PublicationType>
+          <PublicationType UI="D016454">Review</PublicationType>
+        </PublicationTypeList>
+      </Article>
+      <MedlineJournalInfo>
+        <Country>Dolory</Country>
+        <MedlineTA>Lorem Ipsum Dolor</MedlineTA>
+        <NlmUniqueID>121518513</NlmUniqueID>
+        <ISSNLinking>1215-18513</ISSNLinking>
+      </MedlineJournalInfo>
+      <ChemicalList>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000911">Lorem, Ipsum</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D061067">Lorem, Ipsum, Dolor</NameOfSubstance>
+        </Chemical>
+      </ChemicalList>
+      <CitationSubset>IM</CitationSubset>
+      <MeshHeadingList>
+        <MeshHeading>
+          <DescriptorName UI="D000911" MajorTopicYN="N">Lorem, Ipsum</DescriptorName>
+          <QualifierName UI="Q000627" MajorTopicYN="Y">therapeutic use</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D061067" MajorTopicYN="N">Lorem, Ipsum, Dolor</DescriptorName>
+        </MeshHeading>
+      </MeshHeadingList>
+      <KeywordList Owner="NOTNLM">
+        <Keyword MajorTopicYN="N">Lorem</Keyword>
+        <Keyword MajorTopicYN="N">Lorem ipsum.</Keyword>
+      </KeywordList>
+    </MedlineCitation>
+    <PubmedData>
+      <History>
+        <PubMedPubDate PubStatus="received">
+          <Year>2016</Year>
+          <Month>07</Month>
+          <Day>05</Day>
+        </PubMedPubDate>
+      </History>
+      <PublicationStatus>ppublish</PublicationStatus>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">121518513</ArticleId>
+        <ArticleId IdType="pii">121-518-513</ArticleId>
+        <ArticleId IdType="doi">121518513</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+</PubmedArticleSet>
