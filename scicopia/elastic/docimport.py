@@ -142,12 +142,12 @@ def main(timestamp: int):
                         continue
                 elif field == "abstract":
                     abstract_arango = arangodoc[field]
-                    abstract_elastic = []
                     if abstract_arango:
                         if arangodoc["abstract_offsets"]:
-                            for start, end in arangodoc["abstract_offsets"]:
-                                abstract_elastic.append(abstract_arango[start:end])
-                                doc["abstract"] = abstract_elastic
+                            doc["abstract"] = [
+                                abstract_arango[start:end]
+                                for start, end in arangodoc["abstract_offsets"]
+                            ]
                         else:
                             logging.warning(
                                 f"No offset for saving abstract in '{key}'."
