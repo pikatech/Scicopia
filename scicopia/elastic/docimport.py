@@ -9,6 +9,7 @@ import sys
 from datetime import datetime
 
 from elasticsearch_dsl import (
+    Boolean,
     Completion,
     Date,
     Document,
@@ -99,6 +100,7 @@ class Bibdoc(Document):
     journal = Text()
     volume = Keyword()
     number = Keyword()
+    graph = Boolean()
     doi = Keyword()
     created_at = Date()
 
@@ -132,6 +134,8 @@ def main(timestamp: int):
         doc = Bibdoc(meta={"id": key})
         arangodoc = collection[key]
         try:
+            if "cited_by" in arangodoc or "citing" in arangodoc:
+                doc["graph"] = True
             for field in allowed:
                 if field == "year":
                     year = arangodoc[field]
