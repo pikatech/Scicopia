@@ -161,6 +161,12 @@ def execute_query():
                     if len(r.author) <= 2
                     else f"{', '.join(r.author[:-1])} and {r.author[-1]}"
                 )
+            if "editor" in r:
+                hit["editor"] = (
+                    " and ".join(r.editor)
+                    if len(r.editor) <= 2
+                    else f"{', '.join(r.editor[:-1])} and {r.editor[-1]}"
+                )
             if "year" in r:
                 hit["year"] = r.year
             if "highlight" in r.meta and "abstract" in r.meta.highlight:

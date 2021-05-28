@@ -224,6 +224,12 @@ def page(id):
                 if len(hit.author) <= 2
                 else f"{', '.join(hit.author[:-1])} and {hit.author[-1]}"
             )
+        if "editor" in hit:
+            hit["editor"] = (
+                " and ".join(hit.editor)
+                if len(hit.editor) <= 2
+                else f"{', '.join(hit.editor[:-1])} and {hit.editor[-1]}"
+            )
         # PDF collection is optional
         pdfexists = (
             id in current_app.config["PDFCOLLECTION"]
