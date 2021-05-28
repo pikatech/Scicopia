@@ -8,6 +8,9 @@ dask-worker-space
 *.interp
 *.tokens
 *.jar
+.antlr/
+resources/*.java
+resources/*.class
 
 # Coverage report
 .coverage
@@ -30,4 +33,6 @@ package-lock.json
 package.json
 
 config.json
-email.txt
+*.txt
+*.log
+resources/*.zst

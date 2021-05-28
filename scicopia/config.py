@@ -13,5 +13,4 @@ def read_config() -> Dict[str, Any]:
     else:
         print("Could not find configuration file {0}.".format(CONFIG))
         sys.exit(1)
-
     return conf

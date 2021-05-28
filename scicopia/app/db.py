@@ -31,7 +31,17 @@ def analyze_input(input: str) -> Dict[str, Dict[str, str]]:
     tree = parser.query()
     walker = ParseTreeWalker()
     walker.walk(listener, tree)
-    return listener.getQueries()
+    queries = listener.getQueries()
+    if not "SEGMENTATION" in current_app.config:
+        for term in queries["terms"]:
+            queries["must"].append({"multi_match": {"query": term[1]}})
+    else:
+        splitter = current_app.config["SEGMENTATION"]
+        segments = splitter.process_terms(queries["terms"])
+        for segment in segments:
+            queries["must"].append(segment)
+    del queries["terms"]
+    return queries
 
 
 def checkFields(condition, fields):
@@ -62,11 +72,11 @@ def checkFields(condition, fields):
                     condition["multi_match"] = condition.pop(
                         typ
                     )  # make sure type is multi_match for query
-            if "auto_tags" in cond:
-                if isinstance(cond["auto_tags"], str):
-                    cond["auto_tags"] = [cond["auto_tags"]]
+            if "tags" in cond:
+                if isinstance(cond["tags"], str):
+                    cond["tags"] = [cond["tags"]]
                 condition["terms"] = condition.pop(typ)
-                return condition, cond["auto_tags"][0]
+                return condition, cond["tags"][0]
             break
         break
     return condition, False
@@ -77,7 +87,7 @@ def newsearch():
     for condition in session["condition"]["must"]:
         for _, cond in condition.items():  # one pass
             for field, value in cond.items():  # one pass
-                if field == "auto_tags":
+                if field == "tags":
                     query.append(f"{field}: '{value[0]}'")
                 else:
                     query.append(value)
@@ -86,13 +96,14 @@ def newsearch():
     for condition in session["condition"]["must_not"]:
         for _, cond in condition.items():  # one pass
             for field, value in cond.items():  # one pass
-                if field == "auto_tags":
+                if field == "tags":
                     query.append(f"-{field}: '{value[0]}'")
                 else:
                     query.append(value)
                 break
             break
-    session["query"] = " ".join(query)
+    #    session["query"] = " ".join(query)
+    session["query"] = session["query"]
 
 
 def execute_query():
@@ -137,7 +148,7 @@ def execute_query():
     tags = []
     from_hit = session["from_hit"]
     to_hit = session["to_hit"]
-    prepared_search.aggs.bucket("by_tag", "terms", field="auto_tags")
+    prepared_search.aggs.bucket("by_tag", "terms", field="tags")
     response = prepared_search[from_hit:to_hit].execute()
     if response.hits.total.value != 0:
         for r in response:

@@ -1,11 +1,18 @@
 import logging
 import re
+from collections import Counter
+from pickle import UnpicklingError
 
 from elasticsearch_dsl import Search, connections
 from pyArango.connection import Connection
 
+from scicopia.app.parser.segmenter import QuerySplitter
 from scicopia.config import read_config
 from scicopia.exceptions import ConfigError, DBError, SearchError
+from scicopia.utils.zstandard import zstd_unpickle
+
+logger = logging.getLogger("scicopia")
+logger.setLevel(logging.INFO)
 
 
 class Config:
@@ -21,13 +28,13 @@ class Config:
         )
 
     URL_MATCHER = re.compile(r"((https?|ftp)://[^\s/$.?#].[^\s]+[^\s\.])")
+    WHITESPACE = re.compile(r"\s{2,}")
 
     if not "es_hosts" in config:
         raise ConfigError("Setting missing in config file: 'es_hosts'.")
     if not "index" in config:
         raise ConfigError("Setting missing in config file: 'index'.")
-    if not "suggestions" in config:
-        raise ConfigError("Setting missing in config file: 'suggestions'.")
+
     if not "fields" in config:
         raise ConfigError("Setting missing in config file: 'fields'.")
     conn = connections.create_connection(hosts=config["es_hosts"])
@@ -35,10 +42,12 @@ class Config:
         raise SearchError("Connection to the Elasticsearch server failed.")
     if not conn.indices.exists(index=config["index"]):
         raise SearchError("The given index does not exists.")
-    if not conn.indices.exists(index=config["suggestions"]):
-        raise SearchError("The given suggestions does not exists.")
     search = Search(using=conn)
     SEARCH = search.index(config["index"])
+    if not "suggestions" in config:
+        raise ConfigError("Setting missing in config file: 'suggestions'.")
+    if not conn.indices.exists(index=config["suggestions"]):
+        raise SearchError("The given suggestions does not exists.")
     COMPLETION = search.index(config["suggestions"])
     FIELDS = config["fields"]
 
@@ -88,6 +97,20 @@ class Config:
         USERCOLLECTION = DB[USERCOLLECTIONNAME]
     else:
         USERCOLLECTION = DB.createCollection(name=config["usercollection"])
+    
+    if "query_ngrams" in config:
+        try:
+            completions = zstd_unpickle(config["query_ngrams"])
+        except FileNotFoundError:
+            raise ConfigError(f"File {config['query_ngrams']} does not exist.")
+        except UnpicklingError as e:
+            raise ConfigError(e)
+        else:
+            if not isinstance(completions, Counter):
+                raise ConfigError(
+                    f"Completions are of wrong type, expected Counter was {type(completions)}"
+                )
+        SEGMENTATION = QuerySplitter(completions)
 
     if (
         "nodecollections" in config

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link type="text/css" rel="stylesheet" href="/static/css/base.css">
   <link type="text/css" rel="stylesheet" href="/static/css/search.css">
-  <script src="/static/js/autocomplete.js"></script>
+  <script src="/static/js/autocomplete.min.js"></script>
   <script>
   MathJax = {
     tex: {
@@ -43,9 +43,9 @@
       <a href="{{ url_for('main.help') }}">Need help? Click here!</a>
     </div>
     <div id="ausgabe">
+      {% if "title" in hit %}<h6>{{ hit.title | safe }}{% if "graph" in hit %}{% if hit.graph %} <a href="/citation/{{ hit.meta.id }}">&#x1F517;</a>{% endif %}{% endif %}</h6>{% endif %}
     {% if hit.entrytype == "inproceedings" %}
       <p>
-      {% if "title" in hit %}<h6>{{ hit.title | safe }}</h6>{% endif %}
       {% if "author" in hit %}<p>{{ hit.author }}</p>{% endif %}
       {% if "booktitle" in hit %}
         {{ hit.booktitle }}{% if "year" in hit %}, {{ hit.year }}{% endif %}
@@ -56,7 +56,6 @@
       {% if "abstract" in hit %}<p><b>Abstract:</b><br>{{ hit.abstract|join("\n") | safe }}</p><br>{% endif %}
       {% if "auto_tags" in hit %}<p><b>Auto-Tags:</b><br>{{ hit.auto_tags|join(", ") }}</p>{% endif %}
     {% else %}
-      {% if "title" in hit %}<h6>{{ hit.title | safe }}</h6>{% endif %}
       {% if "author" in hit %}<p>by {{ hit.author }}</p>{% endif %}
       {% if "abstract" in hit %}<p><b>Abstract:</b> {{ hit.abstract|join(" ") | safe }}</p>{% endif %}
       {% if "date" in hit %}

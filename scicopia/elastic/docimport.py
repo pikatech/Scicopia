@@ -9,6 +9,7 @@ import sys
 from datetime import datetime
 
 from elasticsearch_dsl import (
+    Boolean,
     Completion,
     Date,
     Document,
@@ -92,13 +93,14 @@ class Bibdoc(Document):
     booktitle = Text()
     abstract = Text()
     keywords = Keyword()
-    auto_tags = Keyword()
+    tags = Keyword()
     year = Short()
     date = Keyword()
     pages = Keyword()
     journal = Text()
     volume = Keyword()
     number = Keyword()
+    graph = Boolean()
     doi = Keyword()
     created_at = Date()
 
@@ -132,15 +134,24 @@ def main(timestamp: int):
         doc = Bibdoc(meta={"id": key})
         arangodoc = collection[key]
         try:
+            if "cited_by" in arangodoc or "citing" in arangodoc:
+                doc["graph"] = True
             for field in allowed:
-                if field == "abstract":
+                if field == "year" and "year" in arangodoc:
+                    year = arangodoc[field]
+                    try:
+                        doc["year"] = int(year)
+                    except ValueError:
+                        logging.warning("Can't parse year %s in document %s", year, key)
+                        continue
+                elif field == "abstract":
                     abstract_arango = arangodoc[field]
-                    abstract_elastic = []
                     if abstract_arango:
                         if arangodoc["abstract_offsets"]:
-                            for start, end in arangodoc["abstract_offsets"]:
-                                abstract_elastic.append(abstract_arango[start:end])
-                                doc["abstract"] = abstract_elastic
+                            doc["abstract"] = [
+                                abstract_arango[start:end]
+                                for start, end in arangodoc["abstract_offsets"]
+                            ]
                         else:
                             logging.warning(
                                 f"No offset for saving abstract in '{key}'."

@@ -52,9 +52,9 @@ def test_excluded_author():
     assert Trees.toStringTree(tree, None, parser) == expected
 
 
-def test_auto_tags():
-    input_stream = InputStream("auto_tags:'Compound Noun'")
-    expected = "(query (part (prefixed auto_tags : (quotes ' Compound Noun '))))"
+def test_tags():
+    input_stream = InputStream("tags:'Compound Noun'")
+    expected = "(query (part (prefixed tags : (quotes ' Compound Noun '))))"
     lexer = ScicopiaLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = ScicopiaParser(stream)
