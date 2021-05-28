@@ -14,7 +14,7 @@ quotes: '"' .*? '"'
       |  '\'' .*? '\''
       ;
 
-prefixed: ( ALPHA | SNAKE ) ':' ( quotes | term ) ;
+prefixed: ALPHA ':' ( quotes | term ) ;
 
 term: CHARGED
     | DASH
@@ -47,7 +47,6 @@ APOSTROPHE: ALPHA ('\'' ALPHA)+ ;
 NOT: '-' ;
 
 ALPHA:    ( LETTER )+ ;
-SNAKE:    ( LETTER | '_' )+ ;
 DIGITS:   ( DIGIT )+ ;
 ABBREV:   ( LETTER )+ '.' ;
 CHARGED:  ( ALPHANUM )+ ( '+' | '-' ) ;
