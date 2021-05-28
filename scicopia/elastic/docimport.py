@@ -137,7 +137,7 @@ def main(timestamp: int):
             if "cited_by" in arangodoc or "citing" in arangodoc:
                 doc["graph"] = True
             for field in allowed:
-                if field == "year":
+                if field == "year" and "year" in arangodoc:
                     year = arangodoc[field]
                     try:
                         doc["year"] = int(year)
