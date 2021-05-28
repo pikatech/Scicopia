@@ -9,6 +9,7 @@ dask-worker-space
 *.tokens
 *.jar
 .antlr/
+resources/*.py
 resources/*.java
 resources/*.class
 
