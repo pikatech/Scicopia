@@ -23,7 +23,8 @@ term: CHARGED
     | ALPHA 
     | ABBREV 
     | ALPHANUM 
-    | APOSTROPHE 
+    | APOSTROPHE
+    | DIGITS
     | STRING 
     ;
 

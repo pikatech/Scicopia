@@ -17,18 +17,18 @@ def serializedATN():
         buf.write("\3\4\3\4\3\4\3\4\3\4\5\4 \n\4\3\5\3\5\7\5$\n\5\f\5\16")
         buf.write("\5\'\13\5\3\5\3\5\3\5\7\5,\n\5\f\5\16\5/\13\5\3\5\5\5")
         buf.write("\62\n\5\3\6\3\6\3\6\3\6\5\68\n\6\3\7\3\7\3\7\4%-\2\b\2")
-        buf.write("\4\6\b\n\f\2\4\3\2\13\f\5\2\6\t\13\13\16\21\2?\2\17\3")
-        buf.write("\2\2\2\4\27\3\2\2\2\6\37\3\2\2\2\b\61\3\2\2\2\n\63\3\2")
-        buf.write("\2\2\f9\3\2\2\2\16\20\5\4\3\2\17\16\3\2\2\2\20\21\3\2")
-        buf.write("\2\2\21\17\3\2\2\2\21\22\3\2\2\2\22\3\3\2\2\2\23\30\5")
-        buf.write("\6\4\2\24\30\5\b\5\2\25\30\5\f\7\2\26\30\5\n\6\2\27\23")
-        buf.write("\3\2\2\2\27\24\3\2\2\2\27\25\3\2\2\2\27\26\3\2\2\2\30")
-        buf.write("\5\3\2\2\2\31\32\7\n\2\2\32 \5\b\5\2\33\34\7\n\2\2\34")
-        buf.write(" \5\n\6\2\35\36\7\n\2\2\36 \5\f\7\2\37\31\3\2\2\2\37\33")
-        buf.write("\3\2\2\2\37\35\3\2\2\2 \7\3\2\2\2!%\7\3\2\2\"$\13\2\2")
-        buf.write("\2#\"\3\2\2\2$\'\3\2\2\2%&\3\2\2\2%#\3\2\2\2&(\3\2\2\2")
-        buf.write("\'%\3\2\2\2(\62\7\3\2\2)-\7\4\2\2*,\13\2\2\2+*\3\2\2\2")
-        buf.write(",/\3\2\2\2-.\3\2\2\2-+\3\2\2\2.\60\3\2\2\2/-\3\2\2\2\60")
+        buf.write("\4\6\b\n\f\2\4\3\2\13\f\5\2\6\t\13\13\r\21\2?\2\17\3\2")
+        buf.write("\2\2\4\27\3\2\2\2\6\37\3\2\2\2\b\61\3\2\2\2\n\63\3\2\2")
+        buf.write("\2\f9\3\2\2\2\16\20\5\4\3\2\17\16\3\2\2\2\20\21\3\2\2")
+        buf.write("\2\21\17\3\2\2\2\21\22\3\2\2\2\22\3\3\2\2\2\23\30\5\6")
+        buf.write("\4\2\24\30\5\b\5\2\25\30\5\f\7\2\26\30\5\n\6\2\27\23\3")
+        buf.write("\2\2\2\27\24\3\2\2\2\27\25\3\2\2\2\27\26\3\2\2\2\30\5")
+        buf.write("\3\2\2\2\31\32\7\n\2\2\32 \5\b\5\2\33\34\7\n\2\2\34 \5")
+        buf.write("\n\6\2\35\36\7\n\2\2\36 \5\f\7\2\37\31\3\2\2\2\37\33\3")
+        buf.write("\2\2\2\37\35\3\2\2\2 \7\3\2\2\2!%\7\3\2\2\"$\13\2\2\2")
+        buf.write("#\"\3\2\2\2$\'\3\2\2\2%&\3\2\2\2%#\3\2\2\2&(\3\2\2\2\'")
+        buf.write("%\3\2\2\2(\62\7\3\2\2)-\7\4\2\2*,\13\2\2\2+*\3\2\2\2,")
+        buf.write("/\3\2\2\2-.\3\2\2\2-+\3\2\2\2.\60\3\2\2\2/-\3\2\2\2\60")
         buf.write("\62\7\4\2\2\61!\3\2\2\2\61)\3\2\2\2\62\t\3\2\2\2\63\64")
         buf.write("\t\2\2\2\64\67\7\5\2\2\658\5\b\5\2\668\5\f\7\2\67\65\3")
         buf.write("\2\2\2\67\66\3\2\2\28\13\3\2\2\29:\t\3\2\2:\r\3\2\2\2")
@@ -138,7 +138,7 @@ class ScicopiaParser ( Parser ):
                 self.state = 15 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << ScicopiaParser.T__0) | (1 << ScicopiaParser.T__1) | (1 << ScicopiaParser.DASH) | (1 << ScicopiaParser.NUM) | (1 << ScicopiaParser.COMPOUND) | (1 << ScicopiaParser.APOSTROPHE) | (1 << ScicopiaParser.NOT) | (1 << ScicopiaParser.ALPHA) | (1 << ScicopiaParser.SNAKE) | (1 << ScicopiaParser.ABBREV) | (1 << ScicopiaParser.CHARGED) | (1 << ScicopiaParser.ALPHANUM) | (1 << ScicopiaParser.STRING))) != 0)):
+                if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << ScicopiaParser.T__0) | (1 << ScicopiaParser.T__1) | (1 << ScicopiaParser.DASH) | (1 << ScicopiaParser.NUM) | (1 << ScicopiaParser.COMPOUND) | (1 << ScicopiaParser.APOSTROPHE) | (1 << ScicopiaParser.NOT) | (1 << ScicopiaParser.ALPHA) | (1 << ScicopiaParser.SNAKE) | (1 << ScicopiaParser.DIGITS) | (1 << ScicopiaParser.ABBREV) | (1 << ScicopiaParser.CHARGED) | (1 << ScicopiaParser.ALPHANUM) | (1 << ScicopiaParser.STRING))) != 0)):
                     break
 
         except RecognitionException as re:
@@ -443,7 +443,7 @@ class ScicopiaParser ( Parser ):
                 self.state = 51
                 self.quotes()
                 pass
-            elif token in [ScicopiaParser.DASH, ScicopiaParser.NUM, ScicopiaParser.COMPOUND, ScicopiaParser.APOSTROPHE, ScicopiaParser.ALPHA, ScicopiaParser.ABBREV, ScicopiaParser.CHARGED, ScicopiaParser.ALPHANUM, ScicopiaParser.STRING]:
+            elif token in [ScicopiaParser.DASH, ScicopiaParser.NUM, ScicopiaParser.COMPOUND, ScicopiaParser.APOSTROPHE, ScicopiaParser.ALPHA, ScicopiaParser.DIGITS, ScicopiaParser.ABBREV, ScicopiaParser.CHARGED, ScicopiaParser.ALPHANUM, ScicopiaParser.STRING]:
                 self.state = 52
                 self.term()
                 pass
@@ -490,6 +490,9 @@ class ScicopiaParser ( Parser ):
         def APOSTROPHE(self):
             return self.getToken(ScicopiaParser.APOSTROPHE, 0)
 
+        def DIGITS(self):
+            return self.getToken(ScicopiaParser.DIGITS, 0)
+
         def STRING(self):
             return self.getToken(ScicopiaParser.STRING, 0)
 
@@ -516,7 +519,7 @@ class ScicopiaParser ( Parser ):
             self.enterOuterAlt(localctx, 1)
             self.state = 55
             _la = self._input.LA(1)
-            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << ScicopiaParser.DASH) | (1 << ScicopiaParser.NUM) | (1 << ScicopiaParser.COMPOUND) | (1 << ScicopiaParser.APOSTROPHE) | (1 << ScicopiaParser.ALPHA) | (1 << ScicopiaParser.ABBREV) | (1 << ScicopiaParser.CHARGED) | (1 << ScicopiaParser.ALPHANUM) | (1 << ScicopiaParser.STRING))) != 0)):
+            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << ScicopiaParser.DASH) | (1 << ScicopiaParser.NUM) | (1 << ScicopiaParser.COMPOUND) | (1 << ScicopiaParser.APOSTROPHE) | (1 << ScicopiaParser.ALPHA) | (1 << ScicopiaParser.DIGITS) | (1 << ScicopiaParser.ABBREV) | (1 << ScicopiaParser.CHARGED) | (1 << ScicopiaParser.ALPHANUM) | (1 << ScicopiaParser.STRING))) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
