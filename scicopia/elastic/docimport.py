@@ -131,40 +131,40 @@ def main(timestamp: int):
         return
     logging.info(f"{unfinished} documents in found.")
     for key in tqdm(query):
-        doc = Bibdoc(meta={"id": key})
-        arangodoc = collection[key]
+        elastic_doc = Bibdoc(meta={"id": key})
+        arango_doc = collection[key]
         try:
-            if "cited_by" in arangodoc or "citing" in arangodoc:
-                doc["graph"] = True
+            if "cited_by" in arango_doc or "citing" in arango_doc:
+                elastic_doc["graph"] = True
             for field in allowed:
-                if field == "year" and "year" in arangodoc:
-                    year = arangodoc[field]
+                if field == "year" and "year" in arango_doc:
+                    year = arango_doc[field]
                     try:
-                        doc["year"] = int(year)
+                        elastic_doc["year"] = int(year)
                     except ValueError:
                         logging.warning("Can't parse year %s in document %s", year, key)
                         continue
                 elif field == "abstract":
-                    abstract_arango = arangodoc[field]
+                    abstract_arango = arango_doc[field]
                     if abstract_arango:
-                        if arangodoc["abstract_offsets"]:
-                            doc["abstract"] = [
+                        if arango_doc["abstract_offsets"]:
+                            elastic_doc["abstract"] = [
                                 abstract_arango[start:end]
-                                for start, end in arangodoc["abstract_offsets"]
+                                for start, end in arango_doc["abstract_offsets"]
                             ]
                         else:
                             logging.warning(
                                 f"No offset for saving abstract in '{key}'."
                             )
                 else:
-                    arango = arangodoc[field]
+                    arango = arango_doc[field]
                     if arango:
-                        doc[field] = arango
-            arangodoc["elastic"] = round(datetime.now().timestamp())
-            arangodoc.save()
+                        elastic_doc[field] = arango
+            arango_doc["elastic"] = round(datetime.now().timestamp())
+            arango_doc.save()
         except DocumentNotFoundError:
             pass
-        doc.save()
+        elastic_doc.save()
 
 
 if __name__ == "__main__":
