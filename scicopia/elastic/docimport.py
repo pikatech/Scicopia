@@ -18,6 +18,8 @@ from elasticsearch_dsl import (
     Text,
     connections,
 )
+from elasticsearch.exceptions import ConnectionTimeout
+from elasticsearch.helpers import streaming_bulk
 from pyArango.theExceptions import DocumentNotFoundError
 from tqdm import tqdm
 
@@ -77,7 +79,7 @@ def setup():
     if not "index" in config:
         raise ConfigError("Setting missing in config file: 'index'.")
 
-    return docs, db, allowed
+    return docs, db, allowed, conn, config["index"]
 
 
 # Used to declare the structure of documents and to
@@ -112,8 +114,49 @@ class Bibdoc(Document):
         return super().save(**kwargs)
 
 
+def index(query, collection, allowed, es_index):
+    for key in query:
+        elastic_doc = Bibdoc(meta={"id": key})
+        arango_doc = collection[key]
+        if "cited_by" in arango_doc or "citing" in arango_doc:
+            elastic_doc["graph"] = True
+        for field in allowed:
+            if field == "year" and "year" in arango_doc:
+                year = arango_doc[field]
+                try:
+                    elastic_doc["year"] = int(year)
+                except ValueError:
+                    logging.warning("Can't parse year %s in document %s", year, key)
+                    continue
+            elif field == "abstract":
+                abstract_arango = arango_doc[field]
+                if abstract_arango:
+                    if arango_doc["abstract_offsets"]:
+                        elastic_doc["abstract"] = [
+                            abstract_arango[start:end]
+                            for start, end in arango_doc["abstract_offsets"]
+                        ]
+                    else:
+                        logging.warning(
+                            f"No offset for saving abstract in '{key}'."
+                        )
+            else:
+                arango = arango_doc[field]
+                if arango:
+                    elastic_doc[field] = arango
+        arango_doc["elastic"] = round(datetime.now().timestamp())
+        arango_doc.save()
+        doc = {
+            "_op_type": "index",
+            "_index": es_index,
+            "_id": key
+        }
+        doc["_source"] = elastic_doc
+        yield doc
+
+
 def main(timestamp: int):
-    collection, db, allowed = setup()
+    collection, db, allowed, conn, es_index = setup()
     Bibdoc.init()
     if timestamp != 0:
         aql = f"FOR x IN {collection.name} FILTER (x.elastic == null OR x.elastic < x.modified_at) AND x.modified_at > {timestamp} RETURN x._key"
@@ -130,41 +173,23 @@ def main(timestamp: int):
         logging.info("Elasticsearch is up to date")
         return
     logging.info(f"{unfinished} documents in found.")
-    for key in tqdm(query):
-        elastic_doc = Bibdoc(meta={"id": key})
-        arango_doc = collection[key]
-        try:
-            if "cited_by" in arango_doc or "citing" in arango_doc:
-                elastic_doc["graph"] = True
-            for field in allowed:
-                if field == "year" and "year" in arango_doc:
-                    year = arango_doc[field]
-                    try:
-                        elastic_doc["year"] = int(year)
-                    except ValueError:
-                        logging.warning("Can't parse year %s in document %s", year, key)
-                        continue
-                elif field == "abstract":
-                    abstract_arango = arango_doc[field]
-                    if abstract_arango:
-                        if arango_doc["abstract_offsets"]:
-                            elastic_doc["abstract"] = [
-                                abstract_arango[start:end]
-                                for start, end in arango_doc["abstract_offsets"]
-                            ]
-                        else:
-                            logging.warning(
-                                f"No offset for saving abstract in '{key}'."
-                            )
-                else:
-                    arango = arango_doc[field]
-                    if arango:
-                        elastic_doc[field] = arango
-            arango_doc["elastic"] = round(datetime.now().timestamp())
-            arango_doc.save()
-        except DocumentNotFoundError:
-            pass
-        elastic_doc.save()
+    try:
+        for ok, action in tqdm(streaming_bulk(
+                index=es_index,
+                client=conn,
+                actions=index(query, collection, allowed, es_index),
+                raise_on_error=False,
+                request_timeout=60,
+            )):
+                if not ok and action["index"]["status"] != 409:
+                    logger.warning(action)
+    except ConnectionTimeout as e:
+        logger.warning(
+            "Timeout occurred while indexing"
+        )
+        logger.warning(e)
+    except DocumentNotFoundError:
+        pass
 
 
 if __name__ == "__main__":
