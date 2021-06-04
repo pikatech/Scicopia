@@ -22,5 +22,5 @@
  "mailsender": "",
  "mailserver": "",
  "mailport": 0,
- "mailusetls": 0
+ "mailusetls": false
  }

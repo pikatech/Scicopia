@@ -136,10 +136,7 @@ class Config:
         raise ConfigError("Setting missing in config file: 'mailsender'.")
     MAIL_SERVER = config["mailserver"]
     MAIL_PORT = config["mailport"]
-    if config["mailusetls"]:
-        MAIL_USE_TLS = True
-    else:
-        MAIL_USE_TLS = False
+    MAIL_USE_TLS = config["mailusetls"]
     MAIL_USERNAME = config["mailusername"]
     MAIL_PASSWORD = config["mailpassword"]
     MAIL_SUBJECT_PREFIX = config["mailsubjectprefix"]
