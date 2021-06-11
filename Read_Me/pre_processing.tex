@@ -53,8 +53,6 @@ Run from main directory with
 python -m scicopia_tools.compile.ngrams [parameter]
 \end{verbatim}
 The must parameter is for name of the outputfile.\\
-% At the moment only .zst is usable
-% it is posible to define a file with path
 The other parameters are optional:\\
 $-n$, default=2-3: str, the order of the n-grams. use single number x or range x-y\\
 $--threshold$, $-t$, default=0: int, a threshold for n-gram frequencies to be kept\\
@@ -79,6 +77,5 @@ The Citationgraph is a graph created by
 \begin{verbatim}
 python -m scicopia.graph.citations
 \end{verbatim}
-It uses the documents form documentcollection in arangoDB to create a graph using the citing %and cited_by
+It uses the documents form documentcollection in arangoDB to create a graph using the citing 
 attribute. The graph can be imported with the documentcollection as nodecollection and ``Citations'' as edgecollection.
-% TODO: posibility to change names and have only used nodes in graph

@@ -109,9 +109,6 @@ def newsearch():
 def execute_query():
     conditions = []
     restrictions = []
-    # TODO: flash nur kurz (noch keine möglichkeit gefunden)
-    # TODO: was soll passieren, wenn es keine suche gibt? (in dem fall durch entfernen des autotags als einzige suche)
-    # TODO: restriction werden auch den conditions hinzugefügt -> fehler finden und beheben (entferne bisher nur symptom)
     fields = current_app.config["FIELDS"]
     for condition in session["condition"]["must"]:
         condition, autotag = checkFields(condition, fields)
