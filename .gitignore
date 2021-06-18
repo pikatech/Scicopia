@@ -37,3 +37,8 @@ config.json
 *.txt
 *.log
 resources/*.zst
+
+# LaTeX auxiliary files
+*.aux
+*.out
+*.synctex.gz
