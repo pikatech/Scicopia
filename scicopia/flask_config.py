@@ -134,9 +134,9 @@ class Config:
         raise ConfigError("Setting missing in config file: 'mailsubjectprefix'.")
     if not "mailsender" in config:
         raise ConfigError("Setting missing in config file: 'mailsender'.")
-    MAIL_SERVER = "smtp.googlemail.com"
-    MAIL_PORT = 587
-    MAIL_USE_TLS = True
+    MAIL_SERVER = config["mailserver"]
+    MAIL_PORT = config["mailport"]
+    MAIL_USE_TLS = config["mailusetls"]
     MAIL_USERNAME = config["mailusername"]
     MAIL_PASSWORD = config["mailpassword"]
     MAIL_SUBJECT_PREFIX = config["mailsubjectprefix"]

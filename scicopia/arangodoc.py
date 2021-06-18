@@ -145,7 +145,7 @@ def handleBulkError(e, docs, collection, doc_format):
                 pos = error[12 : error.index(":")]
                 errordocs.append(docs[int(pos)])
         # remove double in same batch
-        # searching for better solution
+        # TODO: searching for better solution
         i = 0
         while i < len(errordocs) - 1:
             j = i + 1
@@ -231,9 +231,6 @@ def import_file(
                 try:
                     doc = collection[doc_id]
                     doc.delete()
-                    # delete associated pdf?
-                    # pdfdoc = pdfcollection[doc_id]
-                    # pdfdoc.delete()
                 except DocumentNotFoundError:
                     pass
             doc = collection.createDocument()

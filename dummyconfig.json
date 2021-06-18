@@ -3,6 +3,7 @@
  
  "es_hosts": [""],
  "index" : "",
+ "suggestions": "",
  "fields": [""],
  
  "arango_url": "",
@@ -18,5 +19,8 @@
  "mailusername": "",
  "mailpassword": "",
  "mailsubjectprefix": "",
- "mailsender": ""
+ "mailsender": "",
+ "mailserver": "",
+ "mailport": 0,
+ "mailusetls": false
  }
