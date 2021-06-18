@@ -5,5 +5,4 @@ git clone https://github.com/pikatech/Scicopia
 cd Scicopia
 pip install -r requirements.txt
 \end{verbatim}
-Scicopia uses two databasesystems to store the data needed. Firstly ArangoDB\footnote{\url{https://www.arangodb.com/}} to store bibliographic data and meta data of the documents, user data and data for the graph. Secondly Elasticsearch\footnote{\url{https://www.elastic.co/}} for the search funktion. Accordingly it is necessary to install and set up these databases, load data into them (more in \nameref{prepros}) and run them before running Scicopia.\\
-It is possible to use a different database instead of ArangoDB but it would need many changes in the code to adjust to the new database. It is not recommendet to replace Elasticsearch but it could also be possible.
+Scicopia uses two database systems to store the data needed. Firstly ArangoDB\footnote{\url{https://www.arangodb.com/}} to store bibliographic data and metadata of the documents, user data and link data for the graph. Secondly Elasticsearch\footnote{\url{https://www.elastic.co/}} for the search function. Accordingly it is necessary to install and set up these databases, load data into them (more in \nameref{prepros}) and run them before running Scicopia.

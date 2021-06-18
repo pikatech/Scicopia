@@ -1,81 +1,78 @@
 \section{Pre Processing}\label{prepros}
-Before running Scicopia it is needed to load some data to search on into the databases. To do so it is nessesary to follow an strict order.
+Before running Scicopia it is needed to load some data to search on into the databases. To do so it is necessary to follow a strict order.
 
 \subsection{Load the documents into ArangoDB}
-For this step use the arangodoc.py locatet in the scicopia directory. It will store the data from the documents in the documentcollection. The database and collection will be createt if not existing.\\
-Run from main directory with 
+For this step use the arangodoc.py located in the scicopia directory. It will import the documents in their various formats into the document collection. The database itself and the collection therein will be created, if they do not exist already.\\
+Execute 
 \begin{verbatim}
 python -m scicopia.arangodoc [parameters]
 \end{verbatim}
-The only must parameter is for the type of the input data\\
-There are parsers for bibtex, pubmed, arxiv and grobid data included in the project, but it is possible to add more.\\\\
+from the root directory.
+The only mandatory parameter is the type of the input data.\\
+There are parsers for BibTeX, PubMed XML, ArXiv OAI-MPH format and GROBID TEI included in the project. More can be added by supplying a module with a parse() function as shown in the scicopia/parsers directory. LaTeX commands and formatting will be automatically translated into proper Unicode.\\
 The other parameters are optional:\\
-some need other arguments:\\
-$--path$, default=``'': str, path to the document directory\\
-$-c$, $--compression$, default=``none'': str, type of compression, supported: gzip, zstd, bzip2\\
---batch, default=1000: int, Batch size of bulk import\\
-$-p$, $--parallel$: int, distribute the computation on multiple cores\\
-$--cluster$: str, distribute the computation onto a cluster\\
+Some take arguments:\\
+\texttt{--path}, default=``'': str, path to the document directory\\
+\texttt{-c}, \texttt{--compression}, default=``none'': str, type of compression, supported: gzip, zstd, bzip2\\
+\texttt{--batch}, default=1000: int, Batch size of bulk import\\
+\texttt{-p}, \texttt{--parallel}: int, distribute the computation on multiple cores\\
+\texttt{--cluster}: str, distribute the computation onto a cluster\\
 \\
-some stay alone:\\
-$--pdf$: pdfs with same name in same directory as the documents will be stored in the pdfcollection\\
-$-r$, $--recursive$: subdirectories will be parsed\\
-$--update$: to update already stored documents (PDFs not included)\\
+Others act as flags:\\
+\texttt{--pdf}: PDFs with same name in same directory as the documents will be imported in the \texttt{pdfcollection} (encoded as Base85)\\
+\texttt{-r}, \texttt{--recursive}: Recurse into subdirectories\\
+\texttt{--update}: to update already stored documents (not including PDFs)\\
 
 \subsection{Use Scicopia-tools}
-There are a few functions to edit the stored documents in the separate Sicopia-tools project \url{https://github.com/pikatech/Scicopia-tools}. It is recommended to use the same config.json.
+There are a few functions to edit the stored documents in the separate Scicopia-tools project \url{https://github.com/pikatech/Scicopia-tools}. It is recommended to use the same \texttt{config.json}.
 \begin{verbatim}
 python -m scicopia_tools.arangofetch [parameters]
 \end{verbatim}
-You must choose the used feature and could use the parallel option like in arangodoc.py.\\
-The implemented features are ``clean'', ``auto\_tag'' and ``split''\\
+You must choose which feature to use and can run the computations in parallel like in \texttt{arangodoc.py}.\\
+The implemented features are ``auto\_tag'' and ``split''\\
 \\
-``clean'': removes artefacts like Latexcode, works on the ``abstract'', ``title'', ``author'' and ``fulltext'' attributes. It is recomended to use it first because it changes the abstract where the other features are working on.\\
-``auto\_tag'': works on the ``abstract'' to creates a keywordslist\\
-``split'': works on the ``abstract'' to creates a list with beginn and end index of sentences. Without this list abstracts will NOT be loaded to Elasticsearch.
+\texttt{auto\_tag}: works on the ``abstract'' to create a list of key phrases that can be used as index terms\\
+\texttt{split}: works on the ``abstract'' to create a list of begin and end indices of the sentences. Without this list, abstracts will \emph{not} be loaded to Elasticsearch. The splits are used to restrict the returned context of Elasticsearch fragments to one sentence each.
 
 \subsection{Load Arango data into Elasticsearch}
-In this step the fields defined in the config.json will be copied from ArangoDB to Elasticsearch by using docimport.py from main directory. The database will be created if not existing.
+In this step the fields defined in the \texttt{config.json} will be copied from ArangoDB to Elasticsearch by using \texttt{docimport.py} from the root directory. The search index will be created, if it doesn't exist already.
 \begin{verbatim}
 python -m scicopia.elastic.docimport [parameter]
 \end{verbatim}
 There is an optional parameter:\\
-$-t$, $--recent$, default=0: int, only documents that are more recent than this timestamp will be copied\\
-\\
+\texttt{-t}, \texttt{--recent}, default=0: int, only documents that are more recent than this timestamp will be copied\\
 \\
 There are a few other features in Scicopia that also need collections in ArangoDB.
-
 \subsection{Autocompletion}
-The Autocompletion suggests words to search based on the input of the searchfield and the data used to create the autocompletiondata.\\
-To create the autocompltiondata use the ngrams.py from the Scicopia-tools Project, it will use the abstracts of the documents saved in arangoDB.\\
-Run from main directory with
+The autocompletion feature suggests words in real-time based on last two words/tokens of the search form and the data used to create the Suggestion Completion index.\\
+To extract the autocompletion terms use the \texttt{ngrams.py} from the Scicopia-tools project. It will use the abstracts of the documents saved in arangoDB for this.\\
+Call it from main directory with
 \begin{verbatim}
 python -m scicopia_tools.compile.ngrams [parameter]
 \end{verbatim}
-The must parameter is for name of the outputfile.\\
+The mandatory parameter is the name of the output, a Zstandard-compressed archive.\\
 The other parameters are optional:\\
-$-n$, default=2-3: str, the order of the n-grams. use single number x or range x-y\\
-$--threshold$, $-t$, default=0: int, a threshold for n-gram frequencies to be kept\\
-$--patterns$: use a spaCy matcher to extract bigrams. Can only be used for n $\leq$ 5\\
-$--weighting$: re-weight the frequencies by their n-gram lengths\\
+\texttt{-n}, default=2-3: str, the order of the n-grams. use single number x or range x-y\\
+\texttt{--threshold}, \texttt{-t}, default=0: int, a threshold for n-gram frequencies to be kept\\
+\texttt{--patterns}: use a spaCy matcher to extract bigrams. Can only be used for 1 $\leq$ n $\leq$ 5\\
+\texttt{--weighting}: re-weight the frequencies by their n-gram lengths\\
 \\
-To import the data run the suggestions.py from the Scicopia main directory via
+To import the data, run \texttt{suggestions.py} from the Scicopia main directory via
 \begin{verbatim}
 python -m scicopia.elastic.suggestions [parameter]
 \end{verbatim}
-The only parameter is for the name of the created file.\\
-It will be imported to the Elasticsearch index defined in config.py as ``suggestions''.
+The only parameter is the name of the archive containing the n-grams.\\
+It will be imported to the Elasticsearch index defined in \texttt{config.py} as ``suggestions''.
 
-\subsection{Useradministration}
-The Userdata is saved in the Usercollection. If it doesn't exists, an empty one will be created while starting the flask server.
+\subsection{User administration}
+The user information is saved in the \texttt{usercollection}. If it doesn't exists, an empty one will be created, when the flask server is started.
 
-\subsection{Graphfeatures}
-For the Graphfeatures it is necessary to create collections with the nodes and edges from the graph and change the code in scicopia/app/graph/customize.py to work with the new attributes, especially color and zpos. Pay attention to the comments. The examples in scicopia/app/graph/customize\_dummy.py use the ``World Graph'' example created by ArangoDB. If the Graphcollections are not defined the features are disabled. If there is a problem to load the graphdata from ArangoDB e.g. because the defined collections don't exist, an errorpage will be shown instead.
+\subsection{Graph features}
+For the graph features it is necessary to create collections with the nodes and edges of the graph and change the code in \texttt{scicopia/app/graph/customize.py} to work with the new attributes, especially color and zpos. Pay attention to the comments. The examples in \texttt{scicopia/app/graph/customize\_dummy.py} use the ``World Graph'' example created by ArangoDB. If the graph collections are not defined, the features are disabled. If there is a problem to load the graph data from ArangoDB, e.g. because the defined collections don't exist, an error page will be shown instead.
 
-\subsection{Citationgraph}
-The Citationgraph is a graph created by 
+\subsection{Citation graph}
+The citation graph is a graph created by 
 \begin{verbatim}
 python -m scicopia.graph.citations
 \end{verbatim}
-It uses the documents form documentcollection in arangoDB to create a graph using the citing 
-attribute. The graph can be imported with the documentcollection as nodecollection and ``Citations'' as edgecollection.
+It uses the documents from \texttt{documentcollection} in arangoDB to create a graph of all the documents containing the \texttt{citing} attribute. The graph can be imported with the \texttt{documentcollection} as \texttt{nodecollection} and ``Citations'' as \texttt{edgecollection}.
