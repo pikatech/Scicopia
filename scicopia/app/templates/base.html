@@ -47,12 +47,14 @@
 
 {% block content %}
 <div class="container">
-    {% for message in get_flashed_messages() %}
-    <div class="alert alert-warning">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        {{ message }}
+    <div class="message fixed-top" style="height: calc(100vh - 163px); overflow: auto">
+      {% for message in get_flashed_messages() %}
+      <div class="alert alert-warning">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          {{ message }}
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
     {% block page_content %}{% endblock %}
     <footer>
       <div> <a href="{{ url_for('main.contact') }}">Contact</a>

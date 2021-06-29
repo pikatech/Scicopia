@@ -44,3 +44,10 @@ footer p {
 .btn-outline-primary, .btn-outline-primary:hover, .btn-outline-primary:active, .btn-outline-primary:visited {
     background-color: #e3f2fd !important;
 }
+
+.message {
+	position: absolute;
+	top: 100px;
+	left: 75vw;
+	width: 25vw;
+}
