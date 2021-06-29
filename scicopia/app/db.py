@@ -89,21 +89,25 @@ def newsearch():
             for field, value in cond.items():  # one pass
                 if field == "tags":
                     query.append(f"{field}: '{value[0]}'")
+                elif field == "query":
+                    query.append(f"'{value}'")
                 else:
-                    query.append(value)
+                    query.append(f"{field}: '{value}'")
                 break
             break
     for condition in session["condition"]["must_not"]:
         for _, cond in condition.items():  # one pass
+            print(cond)
             for field, value in cond.items():  # one pass
                 if field == "tags":
                     query.append(f"-{field}: '{value[0]}'")
+                elif field == "query":
+                    query.append(f"-'{value}'")
                 else:
-                    query.append(value)
+                    query.append(f"-{field}: '{value}'")
                 break
             break
-    #    session["query"] = " ".join(query)
-    session["query"] = session["query"]
+    session["query"] = " ".join(query)
 
 
 def execute_query():
