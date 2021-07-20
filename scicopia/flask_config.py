@@ -37,16 +37,16 @@ class Config:
 
     if not "fields" in config:
         raise ConfigError("Setting missing in config file: 'fields'.")
-    conn = connections.create_connection(hosts=config["es_hosts"])
-    if not conn.ping():
+    CONN = connections.create_connection(hosts=config["es_hosts"])
+    if not CONN.ping():
         raise SearchError("Connection to the Elasticsearch server failed.")
-    if not conn.indices.exists(index=config["index"]):
+    if not CONN.indices.exists(index=config["index"]):
         raise SearchError("The given index does not exists.")
-    search = Search(using=conn)
+    search = Search(using=CONN)
     SEARCH = search.index(config["index"])
     if not "suggestions" in config:
         raise ConfigError("Setting missing in config file: 'suggestions'.")
-    if not conn.indices.exists(index=config["suggestions"]):
+    if not CONN.indices.exists(index=config["suggestions"]):
         raise SearchError("The given suggestions does not exists.")
     COMPLETION = search.index(config["suggestions"])
     FIELDS = config["fields"]
