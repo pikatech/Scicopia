@@ -4,11 +4,26 @@ import scicopia.arangodoc as arangodoc
 from scicopia.utils.arangodb import connect, select_db
 
 
-def connection():
+
+def connection(col):
+    # use a config to a test database
     config = arangodoc.read_config()
     arangoconn = connect(config)
     db = select_db(config, arangoconn, create=True)
-    return db
+    if db.hasCollection(col):
+        collection = db[col]
+        collection.empty()
+    else:
+        collection = db.createCollection(name=col)
+    pdfcol = "import_pdf"
+    if db.hasCollection(pdfcol):
+        pdfcollection = db[pdfcol]
+        pdfcollection.empty()
+    else:
+        pdfcollection = db.createCollection(name=pdfcol)
+
+    batch_size = 2
+    return collection, pdfcollection, batch_size
 
 
 def test_create_id():
@@ -29,19 +44,25 @@ def test_zstd_open():
 
 
 def test_pdfsave():
-    file = "scicopia/tests/data/bibtex.bib"
-    data = arangodoc.pdfsave(file)
-    assert data == ""
-    file = "scicopia/tests/data/bibtex_error2.bib"
-    data = arangodoc.pdfsave(file)
-    assert data == ""
-    file = "scicopia/tests/data/bibtex_error.bib"
-    data = arangodoc.pdfsave(file)
-    assert data[:10] == "TG9yZW0gaX"
     # no guarantee that the file can open
     file = "scicopia/tests/data/bibtex_pdf.bib"
     data = arangodoc.pdfsave(file)
-    assert data[:10] == "JVBERi0xLj"
+    assert data[:10] == "B~V00Eio=N"
+
+def test_pdfsave_noPDF():
+    file = "scicopia/tests/data/bibtex.bib"
+    data = arangodoc.pdfsave(file)
+    assert data == ""
+
+def test_pdfsave_damagedPDF():
+    file = "scicopia/tests/data/bibtex_error.bib"
+    data = arangodoc.pdfsave(file)
+    assert data[:10] == "OmA{!Z6IlI"
+
+def test_pdfsave_emptyPDF():
+    file = "scicopia/tests/data/bibtex_error2.bib"
+    data = arangodoc.pdfsave(file)
+    assert data == ""
 
 
 # def test_handleBulkError():
@@ -53,25 +74,8 @@ def test_pdfsave():
 # def test_parallel_import():
 #     parallel_import(batch, batch_size, doc_format, open_func, parse, update, pdf)
 
-
-def test_import_file():
-    # use a config to a test database
-    db = connection()
-    col = "import_file"
-    if db.hasCollection(col):
-        collection = db[col]
-        collection.empty()
-    else:
-        collection = db.createCollection(name=col)
-    pdfcol = "import_pdf"
-    if db.hasCollection(pdfcol):
-        pdfcollection = db[pdfcol]
-        pdfcollection.empty()
-    else:
-        pdfcollection = db.createCollection(name=pdfcol)
-
-    batch_size = 2
-
+def test_import_file_bibtex():
+    collection, pdfcollection, batch_size = connection("import_file")
     file = "scicopia/tests/data/bibtex.bib"
     doc_format = "bibtex"
     compression = "none"
@@ -83,60 +87,118 @@ def test_import_file():
         file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
     for key in ["Ipsum2019a", "Ipsum2019b", "Ipsum2019c"]:
-        try:
-            doc = collection[key]
-        except arangodoc.DocumentNotFoundError:
-            assert 1 == 2
-        assert doc["cited_by"] == "test"
-        try:
-            doc = pdfcollection[key]
-            assert 1 == 2
-        except arangodoc.DocumentNotFoundError:
-            pass
+        assert key in collection
+        assert collection[key]["cited_by"] == "test"
+        assert not key in pdfcollection
 
+def test_import_file_arxiv():
+    collection, pdfcollection, batch_size = connection("import_file")
+    file = "scicopia/tests/data/arxiv.xml"
+    doc_format = "arxiv"
+    compression = "none"
+    open_func = arangodoc.OPEN_DICT[compression]
+    parse = arangodoc.PARSE_DICT[doc_format]
+    update = False
+    pdf = False
     arangodoc.import_file(
         file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
-    # gibt loggin.error aus, da daten bereits vorhanden, aber update false -> TODO: abfangen
+    assert "oai:arXiv.org:121518513" in collection
 
+def test_import_file_grobid():
+    collection, pdfcollection, batch_size = connection("import_file")
+    file = "scicopia/tests/data/grobid.xml"
+    doc_format = "grobid"
+    compression = "none"
+    open_func = arangodoc.OPEN_DICT[compression]
+    parse = arangodoc.PARSE_DICT[doc_format]
+    update = False
+    pdf = False
+    arangodoc.import_file(
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
+    )
+    assert "121518513" in collection
+
+def test_import_file_pubmed():
+    collection, pdfcollection, batch_size = connection("import_file")
+    file = "scicopia/tests/data/pubmed.xml"
+    doc_format = "pubmed"
+    compression = "none"
+    open_func = arangodoc.OPEN_DICT[compression]
+    parse = arangodoc.PARSE_DICT[doc_format]
+    update = False
+    pdf = False
+    arangodoc.import_file(
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
+    )
+    assert "PMID121518513" in collection
+
+def test_import_file_update_pdf():
+    collection, pdfcollection, batch_size = connection("import_file")
     doc = collection.createDocument()
     doc._key = "PDF"
     doc["test"] = "test"
     doc.save()
     file = "scicopia/tests/data/bibtex_pdf.bib"
+    doc_format = "bibtex"
+    compression = "none"
+    open_func = arangodoc.OPEN_DICT[compression]
+    parse = arangodoc.PARSE_DICT[doc_format]
     update = True
     pdf = True
     arangodoc.import_file(
         file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
-    try:
-        doc = collection["PDF"]
-    except arangodoc.DocumentNotFoundError:
-        assert 1 == 2
-    assert doc["test"] == None
-    try:
-        doc = pdfcollection["PDF"]
-    except arangodoc.DocumentNotFoundError:
-        assert 1 == 2
+    arangodoc.import_file(
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
+    )
+    assert "PDF" in collection
+    assert collection["PDF"]["test"] is None
+    assert "PDF" in pdfcollection
+    # TODO: chatch and assert loggin.error
 
-    file = "scicopia/tests/data/bibtex_error.bib"
+def test_import_file_update_noPDF():
+    collection, pdfcollection, batch_size = connection("import_file")
+    file = "scicopia/tests/data/bibtex.bib"
+    doc_format = "bibtex"
+    compression = "none"
+    open_func = arangodoc.OPEN_DICT[compression]
+    parse = arangodoc.PARSE_DICT[doc_format]
     update = True
     pdf = True
     arangodoc.import_file(
         file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
-    try:
-        doc = collection["Ipsum2019a"]
-    except arangodoc.DocumentNotFoundError:
-        assert 1 == 2
-    assert doc["test"] == None
-    try:
-        doc = pdfcollection["Ipsum2019a"]
-        assert 1 == 2
-    except arangodoc.DocumentNotFoundError:
-        pass
+    arangodoc.import_file(
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
+    )
+    assert "Ipsum2019a" in collection
+    assert collection["Ipsum2019a"]["test"] == None
+    assert not "Ipsum2019a" in pdfcollection
+    # TODO: chatch and assert loggin.error
+    
+def test_import_file_update_error():
+    collection, pdfcollection, batch_size = connection("import_file")
+    file = "scicopia/tests/data/bibtex.bib"
+    doc_format = "bibtex"
+    compression = "none"
+    open_func = arangodoc.OPEN_DICT[compression]
+    parse = arangodoc.PARSE_DICT[doc_format]
+    update = False
+    pdf = False
+    arangodoc.import_file(
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
+    )    
+    arangodoc.import_file(
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
+    )
+    # TODO: chatch and assert loggin.error
 
+def test_import_file_gz():
+    collection, pdfcollection, batch_size = connection("import_file")
     file = "scicopia/tests/data/bibtex.bib.gz"
+    doc_format = "bibtex"
+    parse = arangodoc.PARSE_DICT[doc_format]
     compression = "gzip"
     open_func = arangodoc.OPEN_DICT[compression]
     update = True
@@ -148,14 +210,18 @@ def test_import_file():
         try:
             doc = collection[key]
         except arangodoc.DocumentNotFoundError:
-            assert 1 == 2
+            assert False
         try:
             doc = pdfcollection[key]
-            assert 1 == 2
+            assert False
         except arangodoc.DocumentNotFoundError:
             pass
 
+def test_import_file_bz2():
+    collection, pdfcollection, batch_size = connection("import_file")
     file = "scicopia/tests/data/bibtex.bib.bz2"
+    doc_format = "bibtex"
+    parse = arangodoc.PARSE_DICT[doc_format]
     compression = "bzip2"
     open_func = arangodoc.OPEN_DICT[compression]
     update = True
@@ -167,15 +233,19 @@ def test_import_file():
         try:
             doc = collection[key]
         except arangodoc.DocumentNotFoundError:
-            assert 1 == 2
+            assert False
         assert doc["cited_by"] == "test"
         try:
             doc = pdfcollection[key]
-            assert 1 == 2
+            assert False
         except arangodoc.DocumentNotFoundError:
             pass
 
+def test_import_file_zst():
+    collection, pdfcollection, batch_size = connection("import_file")
     file = "scicopia/tests/data/bibtex.bib.zst"
+    doc_format = "bibtex"
+    parse = arangodoc.PARSE_DICT[doc_format]
     compression = "zstd"
     open_func = arangodoc.OPEN_DICT[compression]
     update = True
@@ -187,136 +257,180 @@ def test_import_file():
         try:
             doc = collection[key]
         except arangodoc.DocumentNotFoundError:
-            assert 1 == 2
+            assert False
         assert doc["cited_by"] == "test"
         try:
             doc = pdfcollection[key]
-            assert 1 == 2
+            assert False
         except arangodoc.DocumentNotFoundError:
             pass
 
-    file = "scicopia/tests/data/arxiv.xml"
-    doc_format = "arxiv"
-    compression = "none"
-    open_func = arangodoc.OPEN_DICT[compression]
-    parse = arangodoc.PARSE_DICT[doc_format]
-    update = False
-    pdf = False
-    arangodoc.import_file(
-        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
-    )
-    try:
-        doc = collection["oai:arXiv.org:121518513"]
-    except arangodoc.DocumentNotFoundError:
-        assert 1 == 2
 
-    file = "scicopia/tests/data/grobid.xml"
-    doc_format = "grobid"
-    compression = "none"
-    open_func = arangodoc.OPEN_DICT[compression]
-    parse = arangodoc.PARSE_DICT[doc_format]
-    update = False
-    pdf = False
-    arangodoc.import_file(
-        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
-    )
-    try:
-        doc = collection["121518513"]
-    except arangodoc.DocumentNotFoundError:
-        assert 1 == 2
-
-    file = "scicopia/tests/data/pubmed.xml"
-    doc_format = "pubmed"
-    compression = "none"
-    open_func = arangodoc.OPEN_DICT[compression]
-    parse = arangodoc.PARSE_DICT[doc_format]
-    update = False
-    pdf = False
-    arangodoc.import_file(
-        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
-    )
-    try:
-        doc = collection["PMID121518513"]
-    except arangodoc.DocumentNotFoundError:
-        assert 1 == 2
-
-
-def test_import_file_error():
-    # tests what happens if the modul is called with wrong combinations
-    db = connection()  # use a config to a test database
-    col = "import_file_error"
-    if db.hasCollection(col):
-        collection = db[col]
-        collection.empty()
-    else:
-        collection = db.createCollection(name=col)
-    batch_size = 2
-    update = False
+# tests what happens if the modul is called with wrong combinations
+def test_import_file_error_bibtex_arxiv():
+    collection, pdfcollection, batch_size = connection("import_file_error")
     pdfcollection = None
-    pdf = False
+    file = "scicopia/tests/data/bibtex.bib"
+    doc_format = "arxiv"
+    parse = arangodoc.PARSE_DICT[doc_format]
     compression = "none"
     open_func = arangodoc.OPEN_DICT[compression]
+    update = False
+    pdf = False
+    arangodoc.import_file(
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
+    )
 
-    # file = "tests/data/bibtex.bib"
-    # doc_format = "arxiv"
-    # parse = PARSE_DICT[doc_format]
-    # import_file(file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf)
+def test_import_file_error_bibtex_grobid():
+    collection, pdfcollection, batch_size = connection("import_file_error")
+    pdfcollection = None
+    file = "scicopia/tests/data/bibtex.bib"
+    doc_format = "grobid"
+    parse = arangodoc.PARSE_DICT[doc_format]
+    compression = "none"
+    open_func = arangodoc.OPEN_DICT[compression]
+    update = False
+    pdf = False
+    arangodoc.import_file(
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
+    )
 
-    # doc_format = "grobid"
-    # parse = PARSE_DICT[doc_format]
-    # import_file(file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf)
+def test_import_file_error_bibtex_pubmed():
+    collection, pdfcollection, batch_size = connection("import_file_error")
+    pdfcollection = None
+    file = "scicopia/tests/data/bibtex.bib"
+    doc_format = "pubmed"
+    parse = arangodoc.PARSE_DICT[doc_format]
+    compression = "none"
+    open_func = arangodoc.OPEN_DICT[compression]
+    update = False
+    pdf = False
+    arangodoc.import_file(
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
+    )
 
-    # doc_format = "pubmed"
-    # parse = PARSE_DICT[doc_format]
-    # import_file(file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf)
-
+def test_import_file_error_arxiv_bibtex():
+    collection, pdfcollection, batch_size = connection("import_file_error")
+    pdfcollection = None
     file = "scicopia/tests/data/arxiv.xml"
-    # doc_format = "bibtex"
-    # parse = PARSE_DICT[doc_format]
-    # import_file(file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf)
+    doc_format = "bibtex"
+    parse = arangodoc.PARSE_DICT[doc_format]
+    compression = "none"
+    open_func = arangodoc.OPEN_DICT[compression]
+    update = False
+    pdf = False
+    arangodoc.import_file(
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
+    )
 
+def test_import_file_error_arxiv_grobid():
+    collection, pdfcollection, batch_size = connection("import_file_error")
+    pdfcollection = None
+    file = "scicopia/tests/data/arxiv.xml"
     doc_format = "grobid"
     parse = arangodoc.PARSE_DICT[doc_format]
+    compression = "none"
+    open_func = arangodoc.OPEN_DICT[compression]
+    update = False
+    pdf = False
     arangodoc.import_file(
         file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
 
+def test_import_file_error_arxiv_pubmed():
+    collection, pdfcollection, batch_size = connection("import_file_error")
+    pdfcollection = None
+    file = "scicopia/tests/data/arxiv.xml"
     doc_format = "pubmed"
     parse = arangodoc.PARSE_DICT[doc_format]
+    compression = "none"
+    open_func = arangodoc.OPEN_DICT[compression]
+    update = False
+    pdf = False
     arangodoc.import_file(
         file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
 
+def test_import_file_error_grobid_bibtex():
+    collection, pdfcollection, batch_size = connection("import_file_error")
+    pdfcollection = None
     file = "scicopia/tests/data/grobid.xml"
-    # doc_format = "bibtex"
-    # parse = PARSE_DICT[doc_format]
-    # import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
-
-    doc_format = "arxiv"
+    doc_format = "bibtex"
     parse = arangodoc.PARSE_DICT[doc_format]
+    compression = "none"
+    open_func = arangodoc.OPEN_DICT[compression]
+    update = False
+    pdf = False
     arangodoc.import_file(
         file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
 
+def test_import_file_error_grobid_arxiv():
+    collection, pdfcollection, batch_size = connection("import_file_error")
+    pdfcollection = None
+    file = "scicopia/tests/data/grobid.xml"
+    doc_format = "arxiv"
+    parse = arangodoc.PARSE_DICT[doc_format]
+    compression = "none"
+    open_func = arangodoc.OPEN_DICT[compression]
+    update = False
+    pdf = False
+    arangodoc.import_file(
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
+    )
+
+def test_import_file_error_grobid_pubmed():
+    collection, pdfcollection, batch_size = connection("import_file_error")
+    pdfcollection = None
+    file = "scicopia/tests/data/grobid.xml"
     doc_format = "pubmed"
     parse = arangodoc.PARSE_DICT[doc_format]
+    compression = "none"
+    open_func = arangodoc.OPEN_DICT[compression]
+    update = False
+    pdf = False
     arangodoc.import_file(
         file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
 
+def test_import_file_error_pubmed_bibtex():
+    collection, pdfcollection, batch_size = connection("import_file_error")
+    pdfcollection = None
     file = "scicopia/tests/data/pubmed.xml"
-    # doc_format = "bibtex"
-    # parse = PARSE_DICT[doc_format]
-    # import_file(file, collection, batch_size, doc_format, open_func, parse, update, pdf)
+    doc_format = "bibtex"
+    parse = arangodoc.PARSE_DICT[doc_format]
+    compression = "none"
+    open_func = arangodoc.OPEN_DICT[compression]
+    update = False
+    pdf = False
+    arangodoc.import_file(
+        file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
+    )
 
+def test_import_file_error_pubmed_arxiv():
+    collection, pdfcollection, batch_size = connection("import_file_error")
+    pdfcollection = None
+    file = "scicopia/tests/data/pubmed.xml"
     doc_format = "arxiv"
     parse = arangodoc.PARSE_DICT[doc_format]
+    compression = "none"
+    open_func = arangodoc.OPEN_DICT[compression]
+    update = False
+    pdf = False
     arangodoc.import_file(
         file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
 
+def test_import_file_error_pubmed_grobid():
+    collection, pdfcollection, batch_size = connection("import_file_error")
+    pdfcollection = None
+    file = "scicopia/tests/data/pubmed.xml"
     doc_format = "grobid"
     parse = arangodoc.PARSE_DICT[doc_format]
+    compression = "none"
+    open_func = arangodoc.OPEN_DICT[compression]
+    update = False
+    pdf = False
     arangodoc.import_file(
         file, collection, pdfcollection, batch_size, doc_format, open_func, parse, update, pdf
     )
