@@ -143,7 +143,6 @@ def newsearch():
             break
     for condition in session["condition"]["must_not"]:
         for _, cond in condition.items():  # one pass
-            print(cond)
             for field, value in cond.items():  # one pass
                 if field == "tags":
                     query.append(f"-{field}: '{value[0]}'")
@@ -292,7 +291,7 @@ def add_search(data):
     try:
         search = current_app.config["USERCOLLECTION"][session["user"]]["lastsearch"]
     except:
-        flash(f"User key {session['user']} not found, remove user from session")
+        flash(f"User key '{session['user']}' not found, remove user from session")
         session["user"] = None
         return
     if data in search:
@@ -321,42 +320,12 @@ def verify_password(user, password):
     bool
         true if password is same as password of user
     """    
-    return check_password_hash(
-        current_app.config["USERCOLLECTION"][user]["password_hash"], password
-    )
-
-
-def reset_password(token, new_password):
-    """
-    Saves a new password for the user encoded in token
-
-    Parameters
-    ----------
-    token : str
-        encoded data with user
-    new_password : str
-        new password to save
-
-    Returns
-    -------
-    bool
-        success of reset
-    """    
-    s = Serializer(current_app.config["SECRET_KEY"])
     try:
-        data = s.loads(token.encode("utf-8"))
+        return check_password_hash(
+            current_app.config["USERCOLLECTION"][user]["password_hash"], password
+        )
     except:
         return False
-    try:
-        doc = current_app.config["USERCOLLECTION"][data.get("confirm")]
-        userexists = True
-    except DocumentNotFoundError:
-        userexists = False
-    if not userexists:
-        return False
-    doc["password_hash"] = generate_password_hash(new_password)
-    doc.save()
-    return True
 
 
 def generate_confirmation_token(user, expiration=3600):
@@ -398,11 +367,38 @@ def confirm_u(user, token):
     s = Serializer(current_app.config["SECRET_KEY"])
     try:
         data = s.loads(token.encode("utf-8"))
+        if data.get("confirm") != user:
+            return False
+        doc = current_app.config["USERCOLLECTION"][user]
+        doc["confirmed"] = True
+        doc.save()
+        return True
     except:
         return False
-    if data.get("confirm") != user:
+
+
+def reset_password(token, new_password):
+    """
+    Saves a new password for the user encoded in token
+
+    Parameters
+    ----------
+    token : str
+        encoded data with user
+    new_password : str
+        new password to save
+
+    Returns
+    -------
+    bool
+        success of reset
+    """    
+    s = Serializer(current_app.config["SECRET_KEY"])
+    try:
+        data = s.loads(token.encode("utf-8"))
+        doc = current_app.config["USERCOLLECTION"][data.get("confirm")]
+        doc["password_hash"] = generate_password_hash(new_password)
+        doc.save()
+        return True
+    except:
         return False
-    doc = current_app.config["USERCOLLECTION"][user]
-    doc["confirmed"] = True
-    doc.save()
-    return True

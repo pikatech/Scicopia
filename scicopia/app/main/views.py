@@ -106,9 +106,12 @@ def autocomplete():
 
 @main.route("/backwards", methods=["GET", "POST"])
 def backwards():
-    session["from_hit"] -= 10
-    session["to_hit"] -= 10
-    return redirect(url_for("main.results"))
+    try:
+        session["from_hit"] -= 10
+        session["to_hit"] -= 10
+        return redirect(url_for("main.results"))
+    except:
+        return redirect(url_for("main.index"))
 
 
 @main.route("/citations", methods=["POST"])
@@ -162,30 +165,37 @@ def citation_key(key):
     return render_template("graph.html", graph=sigma_graph)
 
 
-@main.route("/contact")
+@main.route("/contact", methods=["GET", "POST"])
 def contact():
     return render_template("work.html")
 
 
 @main.route("/forwards", methods=["GET", "POST"])
 def forwards():
-    session["from_hit"] += 10
-    session["to_hit"] += 10
-    return redirect(url_for("main.results"))
+    try:
+        session["from_hit"] += 10
+        session["to_hit"] += 10
+        return redirect(url_for("main.results"))
+    except:
+        return redirect(url_for("main.index"))
 
 
 @main.route("/fulltext/<id>", methods=["GET", "POST"])
 def fulltext(id):
-    session["showfulltext"] = not session["showfulltext"]
+    try:
+        session["showfulltext"] = not session["showfulltext"]
+    except:
+        session["lastpage"] = id
+        session["showfulltext"] = True
     return redirect(url_for("main.page", id=id))
 
 
-@main.route("/help")
+@main.route("/help", methods=["GET", "POST"])
 def help():
     return render_template("work.html")
 
 
-@main.route("/oldsearch/<search>")
+@main.route("/oldsearch/<search>", methods=["GET", "POST"])
 def oldsearch(search):
     session["query"] = search
     session["condition"] = analyze_input(session["query"])
@@ -272,6 +282,12 @@ def pdf(id):
 def results():
     if not "user" in session:
         session["user"] = None
+    if not "query" in session:
+        session["query"] = "'-no search-'"
+        session["condition"] = analyze_input(session["query"])
+        session["from_hit"] = 0
+        session["to_hit"] = 10
+        session["tags"] = []
     form = NameForm()
     backwards = PageButton()
     forwards = PageButton()
@@ -306,29 +322,32 @@ def results():
     )
 
 
-@main.route("/tags/<tag>")
+@main.route("/tags/<tag>", methods=["GET", "POST"])
 def tags(tag):
-    for d in session["tags"]:
-        if d["name"] == tag:
-            subquery = f"tags:{tag}" if not " " in tag else f'tags:"{tag}"'
-            if d["mark"] == False:
-                d.update({"mark": True})
-                session["condition"]["must"].append({"terms": {"tags": [tag]}})
-                session["from_hit"] = 0
-                session["to_hit"] = 10
-                session["query"] = f"{session['query']} {subquery}"
-            else:
-                d.update({"mark": False})
-                query = session["query"].replace(subquery, "")
-                # Removing the tag should have left a gap of at least
-                # two spaces, clean it up
-                query, subs = current_app.config["WHITESPACE"].subn(" ", query)
-                if not subs:
-                    # The tag was at the beginning or end of the query
-                    query = query.strip()
-                session["query"] = query
-                session["condition"]["must"].remove({"terms": {"tags": [tag]}})
-                session["from_hit"] = 0
-                session["to_hit"] = 10
-            break
-    return redirect(url_for("main.results"))
+    try:
+        for d in session["tags"]:
+            if d["name"] == tag:
+                subquery = f"tags:{tag}" if not " " in tag else f'tags:"{tag}"'
+                if d["mark"] == False:
+                    d.update({"mark": True})
+                    session["condition"]["must"].append({"terms": {"tags": [tag]}})
+                    session["from_hit"] = 0
+                    session["to_hit"] = 10
+                    session["query"] = f"{session['query']} {subquery}"
+                else:
+                    d.update({"mark": False})
+                    query = session["query"].replace(subquery, "")
+                    # Removing the tag should have left a gap of at least
+                    # two spaces, clean it up
+                    query, subs = current_app.config["WHITESPACE"].subn(" ", query)
+                    if not subs:
+                        # The tag was at the beginning or end of the query
+                        query = query.strip()
+                    session["query"] = query
+                    session["condition"]["must"].remove({"terms": {"tags": [tag]}})
+                    session["from_hit"] = 0
+                    session["to_hit"] = 10
+                break
+        return redirect(url_for("main.results"))
+    except:
+        return redirect(url_for("main.index"))

@@ -87,37 +87,38 @@ def logout():
 def profil():
     if not "user" in session:
         session["user"] = None
-    if session["user"] is not None:
-        try:
-            lastsearch = current_app.config["USERCOLLECTION"][session["user"]][
-                "lastsearch"
-            ]
-            lastsearch.reverse()
-        except:
-            lastsearch = None
-        return render_template("auth/profil.html", lastsearch=lastsearch)
-    session["next"] = url_for("auth.profil")
-    return redirect(url_for("auth.login"))
+    try:
+        lastsearch = current_app.config["USERCOLLECTION"][session["user"]][
+            "lastsearch"
+        ]
+        lastsearch.reverse()
+    except:
+        session["user"] = None
+        session["next"] = url_for("auth.profil")
+        return redirect(url_for("auth.login"))
+    return render_template("auth/profil.html", lastsearch=lastsearch)
 
 
 @auth.route("/change-password", methods=["GET", "POST"])
 def change_password_request():
     if not "user" in session:
         session["user"] = None
-    if session["user"] is not None:
-        form = ChangePasswordForm()
-        if form.validate_on_submit():
-            if verify_password(session["user"], form.old_password.data):
-                doc = current_app.config["USERCOLLECTION"][session["user"]]
-                doc["password_hash"] = generate_password_hash(form.password.data)
-                doc.save()
-                flash("Your password has been updated.")
-                return redirect(url_for("main.index"))
-            else:
-                flash("Invalid password.")
-        return render_template("auth/change_password.html", form=form)
-    session["next"] = url_for("auth.change_password_request")
-    return redirect(url_for("auth.login"))
+    try:
+        doc = current_app.config["USERCOLLECTION"][session["user"]]
+    except:
+        session["user"] = None
+        session["next"] = url_for("auth.change_password_request")
+        return redirect(url_for("auth.login"))
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        if verify_password(session["user"], form.old_password.data):
+            doc["password_hash"] = generate_password_hash(form.password.data)
+            doc.save()
+            flash("Your password has been updated.")
+            return redirect(url_for("main.index"))
+        else:
+            flash("Invalid password.")
+    return render_template("auth/change_password.html", form=form)
 
 
 @auth.route("/reset", methods=["GET", "POST"])
@@ -146,11 +147,11 @@ def password_reset_request():
                 "An email with instructions to reset your password has been "
                 "sent to you."
             )
+            return redirect(url_for("auth.login"))
         else:
             flash(
                 "No data found, please contact the serveradmin to reset your password."
             )
-        return redirect(url_for("auth.login"))
     return render_template("auth/reset_password.html", form=form)
 
 
@@ -166,6 +167,7 @@ def password_reset(token):
             flash("Your password has been updated.")
             return redirect(url_for("auth.login"))
         else:
+            flash("The confirmation link is invalid or has expired.")
             return redirect(url_for("main.index"))
     return render_template("auth/reset_password.html", form=form)
 
@@ -174,118 +176,135 @@ def password_reset(token):
 def change_username_request():
     if not "user" in session:
         session["user"] = None
-    if session["user"] is not None:
-        form = ChangeUsernameForm()
-        if form.validate_on_submit():
-            if verify_password(session["user"], form.password.data):
-                doc = current_app.config["USERCOLLECTION"][session["user"]]
-                doc["username"] = form.username.data
-                doc.save()
-                flash("Your username has been updated.")
-                return redirect(url_for("main.index"))
-            else:
-                flash("Invalid password.")
-        return render_template("auth/change_username.html", form=form)
-    session["next"] = url_for("auth.change_username_request")
-    return redirect(url_for("auth.login"))
+    try:
+        doc = current_app.config["USERCOLLECTION"][session["user"]]
+    except:
+        session["user"] = None
+        session["next"] = url_for("auth.change_username_request")
+        return redirect(url_for("auth.login"))
+    form = ChangeUsernameForm()
+    if form.validate_on_submit():
+        if verify_password(session["user"], form.password.data):
+            doc["username"] = form.username.data
+            doc.save()
+            flash("Your username has been updated.")
+            return redirect(url_for("main.index"))
+        else:
+            flash("Invalid password.")
+    return render_template("auth/change_username.html", form=form)
 
 
 @auth.route("/change_email", methods=["GET", "POST"])
 def change_email_request():
     if not "user" in session:
         session["user"] = None
-    if session["user"] is not None:
-        form = ChangeEmailForm()
-        if form.validate_on_submit():
-            if verify_password(session["user"], form.password.data):
-                new_email = form.email.data.lower()
-                doc = current_app.config["USERCOLLECTION"][session["user"]]
-                doc["email"] = new_email
-                doc["confirmed"] = False
-                doc.save()
-                token = generate_confirmation_token(session["user"])
-                send_email(
-                    new_email,
-                    "Confirm your email address",
-                    "auth/email/change_email",
-                    user=current_app.config["USERCOLLECTION"][session["user"]][
-                        "username"
-                    ],
-                    token=token,
-                )
-                flash("Your email adress has been updated.")
-                flash(
-                    "An email with instructions to confirm your new email "
-                    "address has been sent to you."
-                )
-                return redirect(url_for("main.index"))
-            else:
-                flash("Invalid email or password.")
-        return render_template("auth/change_email.html", form=form)
-    session["next"] = url_for("auth.change_email_request")
-    return redirect(url_for("auth.login"))
+    try:
+        doc = current_app.config["USERCOLLECTION"][session["user"]]
+    except:
+        session["user"] = None
+        session["next"] = url_for("auth.change_email_request")
+        return redirect(url_for("auth.login"))
+    form = ChangeEmailForm()
+    if form.validate_on_submit():
+        if verify_password(session["user"], form.password.data):
+            new_email = form.email.data.lower()
+            doc = current_app.config["USERCOLLECTION"][session["user"]]
+            doc["email"] = new_email
+            doc["confirmed"] = False
+            doc.save()
+            token = generate_confirmation_token(session["user"])
+            send_email(
+                new_email,
+                "Confirm your email address",
+                "auth/email/change_email",
+                user=current_app.config["USERCOLLECTION"][session["user"]][
+                    "username"
+                ],
+                token=token,
+            )
+            flash("Your email adress has been updated.")
+            flash(
+                "An email with instructions to confirm your new email "
+                "address has been sent to you."
+            )
+            return redirect(url_for("main.index"))
+        else:
+            flash("Invalid password.")
+    return render_template("auth/change_email.html", form=form)
 
 
-@auth.route("/change_email/<token>")
+@auth.route("/change_email/<token>", methods=["GET", "POST"])
 def change_email(token):
     if not "user" in session:
         session["user"] = None
-    if session["user"] is not None:
-        if current_app.config["USERCOLLECTION"][session["user"]]["confirmed"]:
-            return redirect(url_for("main.index"))
-        if confirm_u(session["user"], token):
-            flash("Your new email address has been confirmed.")
-        else:
-            flash("Invalid request.")
+    try:
+        doc = current_app.config["USERCOLLECTION"][session["user"]]
+    except:
+        session["user"] = None
+        session["next"] = f"/auth/change_email/{token}"
+        return redirect(url_for("auth.login"))
+    if doc["confirmed"]:
         return redirect(url_for("main.index"))
-    session["next"] = f"/auth/change_email/{token}"
-    return redirect(url_for("auth.login"))
+    if confirm_u(session["user"], token):
+        flash("Your new email address has been confirmed.")
+    else:
+        flash("The confirmation link is invalid or has expired.")
+    return redirect(url_for("main.index"))
 
 
-@auth.route("/unconfirmed")
+@auth.route("/unconfirmed", methods=["GET", "POST"])
 def unconfirmed():
     if not "user" in session:
         session["user"] = None
-    if session["user"] is not None:
-        if current_app.config["USERCOLLECTION"][session["user"]]["confirmed"]:
-            return redirect(url_for("main.index"))
-        return render_template(
-            "auth/unconfirmed.html",
-            user=current_app.config["USERCOLLECTION"][session["user"]]["username"],
-        )
-    return redirect(url_for("auth.login"))
+    try:
+        doc = current_app.config["USERCOLLECTION"][session["user"]]
+    except:
+        session["user"] = None
+        return redirect(url_for("auth.login"))
+    if doc["confirmed"]:
+        return redirect(url_for("main.index"))
+    return render_template(
+        "auth/unconfirmed.html",
+        user=doc["username"],
+    )
 
 
-@auth.route("/confirm")
+@auth.route("/confirm", methods=["GET", "POST"])
 def resend_confirmation():
     if not "user" in session:
         session["user"] = None
-    if session["user"] is not None:
-        token = generate_confirmation_token(session["user"])
-        send_email(
-            current_app.config["USERCOLLECTION"][session["user"]]["email"],
-            "Confirm Your Account",
-            "auth/email/confirm",
-            user=current_app.config["USERCOLLECTION"][session["user"]]["username"],
-            token=token,
-        )
-        flash("A new confirmation email has been sent to you by email.")
-        return redirect(url_for("main.index"))
-    session["next"] = url_for("auth.resend_confirmation")
-    return redirect(url_for("auth.login"))
+    try:
+        doc = current_app.config["USERCOLLECTION"][session["user"]]
+    except:
+        session["user"] = None
+        session["next"] = url_for("auth.resend_confirmation")
+        return redirect(url_for("auth.login"))
+    token = generate_confirmation_token(session["user"])
+    send_email(
+        doc["email"],
+        "Confirm Your Account",
+        "auth/email/confirm",
+        user=doc["username"],
+        token=token,
+    )
+    flash("A new confirmation email has been sent to you by email.")
+    return redirect(url_for("main.index"))
 
 
-@auth.route("/confirm/<token>")
+@auth.route("/confirm/<token>", methods=["GET", "POST"])
 def confirm(token):
     if not "user" in session:
         session["user"] = None
-    if session["user"] is not None:
-        if current_app.config["USERCOLLECTION"][session["user"]]["confirmed"]:
-            return redirect(url_for("main.index"))
-        if confirm_u(session["user"], token):
-            flash("You have confirmed your account. Thanks!")
-        else:
-            flash("The confirmation link is invalid or has expired.")
+    try:
+        doc = current_app.config["USERCOLLECTION"][session["user"]]
+    except:
+        session["user"] = None
+        session["next"] = f"/auth/confirm/{token}"
+        return redirect(url_for("auth.login"))
+    if doc["confirmed"]:
         return redirect(url_for("main.index"))
-    session["next"] = f"/auth/confirm/{token}"
-    return redirect(url_for("auth.login"))
+    if confirm_u(session["user"], token):
+        flash("You have confirmed your account. Thanks!")
+    else:
+        flash("The confirmation link is invalid or has expired.")
+    return redirect(url_for("main.index"))
