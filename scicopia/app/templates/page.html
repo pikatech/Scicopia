@@ -54,7 +54,7 @@
       {% endif %}
       </p>
       {% if "abstract" in hit %}<p><b>Abstract:</b><br>{{ hit.abstract|join("\n") | safe }}</p><br>{% endif %}
-      {% if "auto_tags" in hit %}<p><b>Auto-Tags:</b><br>{{ hit.auto_tags|join(", ") }}</p>{% endif %}
+      {% if "tags" in hit %}<p><b>Tags:</b><br>{{ hit.tags|join(", ") }}</p>{% endif %}
     {% else %}
       {% if "abstract" in hit %}<p><b>Abstract:</b> {{ hit.abstract|join(" ") | safe }}</p>{% endif %}
       {% if "date" in hit %}
@@ -62,7 +62,7 @@
       {% else %}
         {% if "year" in hit %}<p><b>Year:</b> {{ hit.year }}</p>{% endif %}
       {% endif %}
-      {% if "auto_tags" in hit %}<p><b>Auto-Tags:</b><br>{{ hit.auto_tags|join(", ") }}</p>{% endif %}
+      {% if "tags" in hit %}<p><b>Tags:</b><br>{{ hit.tags|join(", ") }}</p>{% endif %}
     {% endif %}
     {% if pdfexists %}
       <form action="/pdf/{{ hit.meta.id }}" method="post" target="_blank">
