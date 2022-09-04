@@ -310,7 +310,10 @@ def main(
         collection, pdfcollection = setup()
     except ScicopiaException:
         return
-    files = locate_files(path, doc_format, recursive, compression)
+    if os.path.isfile(path): # Just a single file
+        files = [path]
+    else:
+        files = locate_files(path, doc_format, recursive, compression)
     if not files:
         logging.error(f"No files could be found in '{path}'.")
         return
@@ -363,7 +366,10 @@ def parallel_main(
             setup()
         except ScicopiaException:
             return
-        files = locate_files(path, doc_format, recursive, compression)
+        if os.path.isfile(path): # Just a single file
+            files = [path]
+        else:
+            files = locate_files(path, doc_format, recursive, compression)
         if not files:
             logging.error(f"No files could be found in '{path}'.")
             return
