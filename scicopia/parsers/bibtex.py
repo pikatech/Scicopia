@@ -13,17 +13,16 @@ from pylatexenc.latex2text import (
     get_default_latex_context_db,
 )
 
-
-def tex2text(bib_data: Dict):
+def init_converter() -> LatexNodes2Text:
     """
-    Resolve LaTeX special macros like accents and
-    other character combinations.
+    Initialize context for LatexNodes2Text.
 
-    Parameters
-    ----------
-    bib_data : Dict
-        BibTeX fields. The dictionary is modified in place.
+    Returns
+    -------
+    LatexNodes2Text
+        An adjusted LaTeX to HTML converter.
     """
+    # TODO: Refactor into a class
     adjusted_db = get_default_latex_context_db()
     cat = [
         MacroTextSpec("textgreater", ">"),
@@ -38,6 +37,21 @@ def tex2text(bib_data: Dict):
     l2t = LatexNodes2Text(
         math_mode="text", strict_latex_spaces=True, latex_context=adjusted_db
     )
+    return l2t
+
+def tex2text(bib_data: Dict, l2t: LatexNodes2Text):
+    """
+    Resolve LaTeX special macros like accents and
+    other character combinations.
+
+    Parameters
+    ----------
+    bib_data : Dict
+        BibTeX fields. The dictionary is modified in place.
+         l2t : LatexNodes2Text
+        An adjusted LaTeX to HTML converter.
+    """
+
     for field in ("author", "editor"):
         if field in bib_data:
             persons = []
@@ -75,6 +89,7 @@ def handlePerson(item: Tuple, datadict: Dict):
 def parse(
     source: TextIOWrapper,
 ) -> Generator[Dict[str, Union[str, List[str]]], Any, None]:
+    l2t = init_converter()
     try:
         parser = Parser()
         bib_data = parser.parse_stream(source)
@@ -86,7 +101,7 @@ def parse(
                 handleField(field, data)
             for item in entry.persons.items():
                 handlePerson(item, data)
-            tex2text(data)
+            tex2text(data, l2t)
             yield data
     except PybtexError as p:
         logging.error(
