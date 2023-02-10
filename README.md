@@ -4,7 +4,7 @@
 
 A search engine designed to handle a variety of *scientific* document formats - it can import [PubMed](https://pubmed.ncbi.nlm.nih.gov/)/MEDLINE archives, [ArXiv](https://arxiv.org/) OAI-MPH files, BibTeX references and also the output of [GROBID](https://github.com/kermitt2/grobid) to enable searching through the body text of PDFs.
 
-For the setup of Scicopia, please have a look at the Read_Me folder of the project and make sure to also download [Scicopia-tools](https://github.com/pikatech/Scicopia-tools), the document processing pipeline which complements the search engine.
+For the setup of Scicopia, please have a look at the doc folder of the project and make sure to also download [Scicopia-tools](https://github.com/pikatech/Scicopia-tools), the document processing pipeline which complements the search engine.
 
 This work has been funded by the German Research Foundation (DFG) as part of the project D01 in the Collaborative Research Center (CRC) 1076 “[AquaDiva](https://www.aquadiva.uni-jena.de)”.
 
